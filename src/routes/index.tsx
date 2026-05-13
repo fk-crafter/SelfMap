@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { HeroSection } from '../components/home/HeroSection'
+import { HeroSection } from '@/components/home/HeroSection'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
