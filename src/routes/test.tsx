@@ -1,29 +1,83 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
+import { QuestionCard } from '@/components/profile/QuestionCard'
+import { useState } from 'react'
+
+interface ApiQuestion {
+  id: number
+  question: string
+  answers: string[]
+}
 
 export const Route = createFileRoute('/test')({
   component: TestPage,
   head: () => ({
-    meta: [
-      { title: 'SelfMap | Ton Test' },
-      {
-        name: 'description',
-        content:
-          'Passe ton test de personnalité pour initialiser ton coach IA.',
-      },
-    ],
+    meta: [{ title: 'SelfMap | Ton Test' }],
   }),
+  loader: async () => {
+    return {
+      questions: [
+        {
+          id: 1,
+          question: 'Tu préfères sortir ou rester chez toi ?',
+          answers: ['Sortir', 'Rester'],
+        },
+        {
+          id: 2,
+          question: 'Es-tu plutôt logique ou émotionnel ?',
+          answers: ['Logique', 'Émotionnel'],
+        },
+        {
+          id: 3,
+          question: 'Aimes-tu planifier ?',
+          answers: ['Oui, tout', "Non, j'improvise"],
+        },
+      ] as ApiQuestion[],
+    }
+  },
 })
 
 function TestPage() {
+  const { questions } = Route.useLoaderData()
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({})
+  const [isFinished, setIsFinished] = useState(false)
+
+  const handleAnswer = (answer: string) => {
+    const currentQuestion = questions[currentIndex]
+
+    setUserAnswers((prev) => ({
+      ...prev,
+      [currentQuestion.id]: answer,
+    }))
+
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex((prev) => prev + 1)
+    } else {
+      setIsFinished(true)
+    }
+  }
+
+  if (isFinished) {
+    return (
+      <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
+        <div className="w-full max-w-2xl text-center">
+          <h1 className="text-3xl font-bold mb-4">Test terminé !</h1>
+          <p className="text-muted-foreground mb-8">
+            Nous analysons tes résultats pour configurer ton coach IA.
+          </p>
+          <Button asChild>
+            <Link to="/">Retour à l'accueil</Link>
+          </Button>
+        </div>
+      </main>
+    )
+  }
+
+  const currentQuestion = questions[currentIndex]
+
   return (
     <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-2xl flex flex-col gap-6">
@@ -42,37 +96,11 @@ function TestPage() {
           </p>
         </div>
 
-        <Card className="border-primary/10 shadow-md">
-          <CardHeader>
-            <CardTitle>Question 1</CardTitle>
-            <CardDescription>Mise en situation</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-6 text-lg font-medium text-foreground">
-              Dans un groupe d'inconnus, comment te comportes-tu généralement ?
-            </p>
-            <div className="flex flex-col gap-3">
-              <Button
-                variant="outline"
-                className="h-auto justify-start whitespace-normal py-4 text-left"
-              >
-                Je prends les devants et j'engage la conversation.
-              </Button>
-              <Button
-                variant="outline"
-                className="h-auto justify-start whitespace-normal py-4 text-left"
-              >
-                J'attends que quelqu'un vienne me parler.
-              </Button>
-              <Button
-                variant="outline"
-                className="h-auto justify-start whitespace-normal py-4 text-left"
-              >
-                J'observe d'abord la dynamique avant d'interagir.
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <QuestionCard
+          question={currentQuestion}
+          totalQuestions={questions.length}
+          onAnswer={handleAnswer}
+        />
       </div>
     </main>
   )
