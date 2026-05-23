@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -33,7 +34,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         </CardHeader>
         <CardContent className="grid gap-4">
           <Button size="lg" className="w-full text-lg h-12">
-            Commencer mon test
+            <Link to="/test">Commencer mon test</Link>
           </Button>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 text-sm text-muted-foreground">
