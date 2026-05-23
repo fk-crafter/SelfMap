@@ -64,7 +64,7 @@ function TestPage() {
       console.log('Données prêtes pour OpenAI:', newAnswers)
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      navigate({ to: '/' })
+      navigate({ to: '/dashboard' })
     }
   }
 
