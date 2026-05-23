@@ -30,7 +30,7 @@ export function QuestionCard({
           {question.question}
         </p>
         <div className="flex flex-col gap-3">
-          {question.answers?.map((answer, index) => (
+          {question.answers.map((answer, index) => (
             <Button
               key={index}
               variant="outline"

@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import { QuestionCard } from '@/components/profile/QuestionCard'
 import { useState } from 'react'
 
@@ -40,44 +40,45 @@ export const Route = createFileRoute('/test')({
 
 function TestPage() {
   const { questions } = Route.useLoaderData()
+  const navigate = useNavigate({ from: '/test' })
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({})
   const [isFinished, setIsFinished] = useState(false)
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = async (answer: string) => {
     const currentQuestion = questions[currentIndex]
 
-    setUserAnswers((prev) => ({
-      ...prev,
+    const newAnswers = {
+      ...userAnswers,
       [currentQuestion.id]: answer,
-    }))
+    }
+
+    setUserAnswers(newAnswers)
 
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1)
     } else {
       setIsFinished(true)
+
+      console.log('Données prêtes pour OpenAI:', newAnswers)
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      navigate({ to: '/' })
     }
   }
 
   if (isFinished) {
     return (
       <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-2xl text-center">
-          <h1 className="text-3xl font-bold mb-4">Test terminé !</h1>
-          <p className="text-muted-foreground mb-8">
-            Nous analysons tes résultats pour configurer ton coach IA.
-          </p>
-
-          <div className="bg-muted p-4 rounded-md text-left mb-8 overflow-auto">
-            <pre className="text-sm font-mono">
-              {JSON.stringify(userAnswers, null, 2)}
-            </pre>
+        <div className="w-full max-w-2xl flex flex-col items-center text-center gap-6">
+          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Analyse en cours...</h1>
+            <p className="text-muted-foreground">
+              Nous configurons ton coach IA en fonction de tes réponses.
+            </p>
           </div>
-
-          <Button asChild>
-            <Link to="/">Retour à l'accueil</Link>
-          </Button>
         </div>
       </main>
     )
