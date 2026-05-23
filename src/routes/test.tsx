@@ -68,6 +68,13 @@ function TestPage() {
           <p className="text-muted-foreground mb-8">
             Nous analysons tes résultats pour configurer ton coach IA.
           </p>
+
+          <div className="bg-muted p-4 rounded-md text-left mb-8 overflow-auto">
+            <pre className="text-sm font-mono">
+              {JSON.stringify(userAnswers, null, 2)}
+            </pre>
+          </div>
+
           <Button asChild>
             <Link to="/">Retour à l'accueil</Link>
           </Button>
