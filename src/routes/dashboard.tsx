@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
@@ -58,14 +58,19 @@ function DashboardPage() {
         <div className="relative mt-8 flex flex-col items-center">
           <div className="h-64 w-64 rounded-full bg-white shadow-inner flex items-center justify-center overflow-hidden border-8 border-white">
             <img
-              src="https://api.dicebear.com/7.x/adventurer/svg?seed=Alex&backgroundColor=b6e3f4"
+              src="./avatar-coach.png"
               alt="Avatar Coach"
               className="h-full w-full object-cover"
             />
           </div>
-          <Button className="absolute -bottom-4 flex gap-2 rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90">
-            <MessageSquare className="h-5 w-5" />
-            Discuter avec ma personnalité
+          <Button
+            asChild
+            className="absolute -bottom-4 flex gap-2 rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
+          >
+            <Link to="/chat">
+              <MessageSquare className="h-5 w-5" />
+              Discuter avec ma personnalité
+            </Link>
           </Button>
         </div>
 
