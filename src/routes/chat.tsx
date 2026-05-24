@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ArrowLeft, Send } from 'lucide-react'
+import { ArrowLeft, ArrowUp } from 'lucide-react'
 import { ChatBubble } from '@/components/chat/ChatBubble'
 
 export const Route = createFileRoute('/chat')({
@@ -72,15 +72,13 @@ function ChatPage() {
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm bg-[#b6e3f4]">
               <img
-                src="https://api.dicebear.com/7.x/adventurer/svg?seed=Alex&backgroundColor=transparent"
+                src="./avatar-coach.png"
                 alt="Avatar Coach"
                 className="h-full w-full object-cover"
               />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-foreground">
-                Ton Coach IA
-              </h2>
+              <h2 className="text-sm font-bold text-black">Ton Coach IA</h2>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="h-2 w-2 rounded-full bg-green-500"></span>
                 <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
@@ -124,14 +122,14 @@ function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Écris à ton coach..."
-              className="flex-1 rounded-full bg-[#F9F7FA] border-none px-6 h-12 shadow-inner focus-visible:ring-1 focus-visible:ring-primary/20"
+              className="flex-1 rounded-full bg-[#F9F7FA] border-none px-6 h-12 shadow-inner text-[#1A1A1A] placeholder:text-gray-400 focus-visible:ring-1 focus-visible:ring-primary/20"
             />
             <Button
               type="submit"
               size="icon"
-              className="h-12 w-12 rounded-full bg-[#1D1B4B] hover:bg-[#1D1B4B]/90 shadow-md transition-transform active:scale-95"
+              className="h-12 w-12 rounded-full bg-[#1D1B4B] hover:bg-[#1D1B4B]/90 shadow-md transition-transform active:scale-95 flex items-center justify-center"
             >
-              <Send className="h-5 w-5 ml-0.5" />
+              <ArrowUp className="h-6 w-6 text-white" />
             </Button>
           </form>
         </div>

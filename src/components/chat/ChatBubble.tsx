@@ -20,7 +20,7 @@ export function ChatBubble({ role, content }: ChatBubbleProps) {
           'max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm',
           isUser
             ? 'bg-[#1D1B4B] text-white rounded-br-sm'
-            : 'bg-white text-foreground rounded-bl-sm border border-primary/5',
+            : 'bg-white text-[#1A1A1A] rounded-bl-sm border border-primary/5',
         )}
       >
         {content}
