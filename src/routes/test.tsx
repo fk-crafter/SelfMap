@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { QuestionCard } from '@/components/profile/QuestionCard'
 import { useState } from 'react'
+import { useUserStore } from '@/store/userStore'
 
 interface ApiQuestion {
   id: number
@@ -41,6 +42,7 @@ export const Route = createFileRoute('/test')({
 function TestPage() {
   const { questions } = Route.useLoaderData()
   const navigate = useNavigate({ from: '/test' })
+  const setProfile = useUserStore((state) => state.setProfile)
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({})
@@ -61,7 +63,19 @@ function TestPage() {
     } else {
       setIsFinished(true)
 
-      console.log('Données prêtes pour OpenAI:', newAnswers)
+      const isExtravert = newAnswers[1] === 'Sortir'
+      const isThinking = newAnswers[2] === 'Logique'
+      const isJudging = newAnswers[3] === 'Oui, tout'
+
+      const computedType = `${isExtravert ? 'E' : 'I'}N${isThinking ? 'T' : 'F'}${isJudging ? 'J' : 'P'}`
+
+      setProfile({
+        name: 'Alex',
+        type: computedType,
+        insight: `En tant que ${computedType}, ton approche unique est ta force. Concentre-toi sur tes objectifs aujourd'hui.`,
+        avatarSeed: computedType,
+      })
+
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       navigate({ to: '/dashboard' })
