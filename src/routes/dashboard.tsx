@@ -11,36 +11,44 @@ import {
   Search,
   User,
 } from 'lucide-react'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
-  loader: async () => {
-    return {
-      user: {
-        name: 'Alex',
-        type: 'INTJ',
-        insight:
-          "Embrassez la spontanéité aujourd'hui. Parfois, les meilleurs plans sont ceux que l'on n'a pas faits.",
-      },
-    }
-  },
 })
 
 function DashboardPage() {
-  const { user } = Route.useLoaderData()
+  const profile = useUserStore((state) => state.profile)
+
+  if (!profile) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
+        <h1 className="mb-4 text-2xl font-bold">Oups, profil introuvable !</h1>
+        <p className="mb-8 text-muted-foreground">
+          Tu dois passer le test psychologique pour configurer ton coach IA.
+        </p>
+        <Button
+          asChild
+          className="rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
+        >
+          <Link to="/test">Passer le test</Link>
+        </Button>
+      </div>
+    )
+  }
 
   return (
     <div className="flex h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
       <header className="flex items-center justify-between px-6 pt-8">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20">
             <Wind className="h-5 w-5 text-primary" />
           </div>
           <span className="font-semibold text-muted-foreground">
             SoulGuided
           </span>
         </div>
-        <div className="h-10 w-10 rounded-full border-2 border-white shadow-sm overflow-hidden">
+        <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm">
           <img src="https://github.com/shadcn.png" alt="Profile" />
         </div>
       </header>
@@ -48,7 +56,7 @@ function DashboardPage() {
       <main className="flex-1 overflow-y-auto px-6 pb-24">
         <div className="mt-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight">
-            Bonjour, {user.name}
+            Bonjour, {profile.name}
           </h1>
           <p className="mt-2 text-muted-foreground">
             Votre coach MBTI est prêt à vous guider.
@@ -56,7 +64,7 @@ function DashboardPage() {
         </div>
 
         <div className="relative mt-8 flex flex-col items-center">
-          <div className="h-64 w-64 rounded-full bg-white shadow-inner flex items-center justify-center overflow-hidden border-8 border-white">
+          <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-8 border-white bg-white shadow-inner">
             <img
               src="./avatar-coach.png"
               alt="Avatar Coach"
@@ -77,14 +85,14 @@ function DashboardPage() {
         <Card className="mt-12 border-none bg-[#FEF9C3]/50 p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="rounded-full bg-[#FEF9C3] px-3 py-1 text-xs font-bold text-[#854D0E]">
-              {user.type} INSIGHT
+              {profile.type} INSIGHT
             </span>
             <PenLine className="h-4 w-4 text-[#854D0E]" />
           </div>
           <h3 className="mt-4 font-semibold text-[#854D0E]">
             Croissance personnelle
           </h3>
-          <p className="mt-2 italic text-[#854D0E]/80">"{user.insight}"</p>
+          <p className="mt-2 italic text-[#854D0E]/80">"{profile.insight}"</p>
         </Card>
 
         <div className="mt-6 grid grid-cols-2 gap-4">
@@ -125,7 +133,7 @@ function DashboardPage() {
         </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 border-t bg-white px-6 py-4 flex justify-between items-center shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+      <nav className="fixed bottom-0 left-0 right-0 flex items-center justify-between border-t bg-white px-6 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
         <div className="flex flex-col items-center gap-1 text-primary">
           <Home className="h-6 w-6" />
           <span className="text-[10px] font-bold">Home</span>
