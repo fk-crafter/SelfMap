@@ -39,16 +39,24 @@ function TestPage() {
     } else {
       setIsFinished(true)
 
-      const isExtravert = newAnswers[1] === "D'accord"
-      const isThinking = newAnswers[2] === 'En désaccord'
-      const isJudging = newAnswers[3] === "D'accord"
+      const scores = { E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0 }
 
-      const computedType = `${isExtravert ? 'E' : 'I'}N${isThinking ? 'T' : 'F'}${isJudging ? 'J' : 'P'}`
+      Object.entries(newAnswers).forEach(([idStr, answer]) => {
+        const id = parseInt(idStr)
+        const isAgree = answer === "D'accord"
+
+        if (id <= 4) isAgree ? scores.E++ : scores.I++
+        else if (id <= 8) isAgree ? scores.N++ : scores.S++
+        else if (id <= 12) isAgree ? scores.F++ : scores.T++
+        else if (id <= 16) isAgree ? scores.J++ : scores.P++
+      })
+
+      const computedType = `${scores.E >= scores.I ? 'E' : 'I'}${scores.N >= scores.S ? 'N' : 'S'}${scores.T >= scores.F ? 'T' : 'F'}${scores.J >= scores.P ? 'J' : 'P'}`
 
       setProfile({
-        name: 'Alex',
+        name: 'Explorateur',
         type: computedType,
-        insight: `En tant que ${computedType}, ton approche unique est ta force. Concentre-toi sur tes objectifs aujourd'hui.`,
+        insight: `Ton profil ${computedType} se dessine. Ton coach affinera cette analyse au fil de vos échanges.`,
         avatarSeed: computedType,
       })
 
@@ -93,10 +101,8 @@ function TestPage() {
         </p>
       </header>
 
-      {/* On centre verticalement le contenu avec flex-1 et justify-center */}
       <main className="flex flex-1 flex-col items-center justify-center p-6">
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
-          {/* LA CORRECTION EST ICI : min-h-[160px] et justify-center */}
           <div className="flex min-h-[160px] w-full flex-col items-center justify-center gap-4 text-center">
             <p className="text-xs font-bold tracking-widest text-[#1A1A1A]/50 uppercase">
               Dimension {currentQuestion.dimension}

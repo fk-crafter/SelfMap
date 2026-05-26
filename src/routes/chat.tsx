@@ -4,43 +4,35 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowLeft, ArrowUp } from 'lucide-react'
 import { ChatBubble } from '@/components/chat/ChatBubble'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/chat')({
   component: ChatPage,
-  loader: async () => {
-    return {
-      user: {
-        name: 'Alex',
-        type: 'INTJ',
-      },
-    }
-  },
 })
 
 const MOCK_RESPONSES = [
-  "C'est un excellent objectif. Ton esprit analytique est parfait pour ça. Quelle est la toute première petite étape que tu pourrais accomplir dès aujourd'hui pour avancer dans cette direction ?",
-  'Très bonne initiative ! Je te conseille de bloquer 45 minutes dans ton agenda demain matin spécifiquement pour ça. Est-ce que tu as tendance à procrastiner sur ce genre de tâche ?',
-  "C'est tout à fait normal. Pour contrer ça, applique la règle des 2 minutes : si ça prend moins de 2 minutes, fais-le immédiatement sans réfléchir. Qu'est-ce qui te fait le plus peur ou te bloque dans ce projet ?",
-  "Je comprends. La peur de l'imperfection paralyse souvent les esprits très stratégiques. Autorise-toi à faire un 'brouillon' imparfait. Comment te sens-tu physiquement quand tu penses à cette charge de travail ?",
-  "N'oublie pas que ton corps et ton esprit sont liés. Prends 5 minutes pour respirer profondément avant de t'y mettre. Pour maximiser ton focus, préfères-tu travailler en musique ou dans le silence absolu ?",
-  "C'est noté. Le silence est souvent idéal pour ta concentration profonde. N'oublie pas de faire des pauses régulières avec la méthode Pomodoro (25min de travail, 5min de pause). As-tu déjà défini tes critères de réussite précis ?",
-  "Parfait. Un conseil pratique : écris ces critères sur un post-it et colle-le sur ton écran. Ça gardera ton cerveau focalisé sur la ligne d'arrivée et évitera de te disperser. Veux-tu qu'on revoie ton plan d'action ensemble ?",
-  'Super. Étape 1 : Planification. Étape 2 : Exécution de la première tâche. Étape 3 : Évaluation. Pense à célébrer chaque petite victoire. Que pourrais-tu faire pour te récompenser ce soir après cette journée de travail ?',
-  "C'est une excellente récompense, tu l'auras bien méritée. Repose-toi bien. N'hésite pas à m'écrire demain matin pour me faire ton rapport d'avancement. Tu as tout ce qu'il faut pour réussir.",
-  "Je serai là pour t'accompagner à chaque étape. N'oublie pas : la régularité bat toujours l'intensité. À très vite !",
+  "C'est un excellent point de départ. D'ailleurs, pour que j'affine mon accompagnement : face à un imprévu majeur dans ce genre de projet, est-ce que tu as tendance à stresser, ou au contraire, l'adrénaline te stimule ?",
+  "C'est noté, ça me permet d'ajuster mon approche. Je remarque que tu as une forte tendance à l'intuition. Quel serait le tout premier pas concret que tu pourrais faire aujourd'hui ?",
+  'Parfait. Si tu le souhaites, je peux te programmer un rappel demain matin pour vérifier où tu en es. On fait ça ?',
+  "Super. Au fait, pendant tes sessions de travail, tu préfères le silence absolu ou tu as besoin d'un léger fond sonore pour te concentrer ?",
+  "Intéressant, ça confirme le trait 'Introverti' de notre test de départ. Je te laisse avancer sur ton objectif, n'hésite pas si tu as un blocage !",
 ]
 
 function ChatPage() {
-  const { user } = Route.useLoaderData()
+  const profile = useUserStore((state) => state.profile)
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const stepRef = useRef(0)
 
+  const initialMessage = profile
+    ? `Salut ! C'est ton coach. Ton test indique une tendance ${profile.type}, ce qui signifie que tu as des capacités uniques. Quel est ton objectif principal pour les 30 prochains jours ?`
+    : "Salut ! C'est ton coach. Quel est ton objectif principal pour les 30 prochains jours ?"
+
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: `Salut ${user.name} ! C'est ton coach. Ton profil ${user.type} indique que tu es particulièrement doué pour la réflexion stratégique, mais que l'action immédiate peut parfois te frustrer. Pour bien démarrer notre accompagnement : quel est ton objectif principal pour les 30 prochains jours ?`,
+      content: initialMessage,
     },
   ])
 
@@ -67,7 +59,7 @@ function ChatPage() {
 
       const nextResponse =
         MOCK_RESPONSES[stepRef.current] ||
-        "Je n'ai plus d'autres conseils pour le moment, mais on continue demain !"
+        "Je continue d'analyser ton profil en arrière-plan. Continue comme ça !"
 
       setMessages((prev) => [
         ...prev,
@@ -150,7 +142,7 @@ function ChatPage() {
             <Button
               type="submit"
               size="icon"
-              className="h-12 w-12 rounded-full bg-[#1D1B4B] hover:bg-[#1D1B4B]/90 shadow-md transition-transform active:scale-95 flex items-center justify-center"
+              className="h-12 w-12 shrink-0 rounded-full bg-[#1D1B4B] hover:bg-[#1D1B4B]/90 shadow-md transition-transform active:scale-95 flex items-center justify-center"
             >
               <ArrowUp className="h-6 w-6 text-white" />
             </Button>
