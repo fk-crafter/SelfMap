@@ -93,13 +93,15 @@ function TestPage() {
         </p>
       </header>
 
-      <main className="flex flex-1 flex-col items-center overflow-y-auto p-6">
-        <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-12 pt-8 pb-32">
-          <div className="flex flex-col items-center gap-4 text-center">
+      {/* On centre verticalement le contenu avec flex-1 et justify-center */}
+      <main className="flex flex-1 flex-col items-center justify-center p-6">
+        <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
+          {/* LA CORRECTION EST ICI : min-h-[160px] et justify-center */}
+          <div className="flex min-h-[160px] w-full flex-col items-center justify-center gap-4 text-center">
             <p className="text-xs font-bold tracking-widest text-[#1A1A1A]/50 uppercase">
               Dimension {currentQuestion.dimension}
             </p>
-            <h2 className="max-w-3xl text-3xl font-bold leading-tight text-[#1D1B4B] md:text-4xl">
+            <h2 className="max-w-3xl text-2xl font-bold leading-tight text-[#1D1B4B] sm:text-3xl md:text-4xl">
               {currentQuestion.question}
             </h2>
           </div>
@@ -108,7 +110,7 @@ function TestPage() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#F9F7FA] via-[#F9F7FA] to-transparent px-6 py-8 text-center">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#F9F7FA] via-[#F9F7FA] to-transparent px-6 py-6 text-center">
         <p className="max-w-md text-sm font-light italic text-[#1A1A1A]/50">
           Répondez avec votre première intuition. Il n'y a pas de mauvaise
           réponse, seulement votre vérité.
