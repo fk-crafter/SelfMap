@@ -25,14 +25,14 @@ export const Route = createFileRoute('/')({
     ],
   }),
   pendingComponent: () => (
-    <main className="flex min-h-[80vh] items-center justify-center p-6">
-      <div className="text-sm text-muted-foreground animate-pulse">
+    <main className="flex min-h-screen items-center justify-center bg-[#F9F7FA] p-6">
+      <div className="animate-pulse text-sm text-[#1D1B4B]/70">
         Chargement de ton espace personnalisé...
       </div>
     </main>
   ),
   errorComponent: ({ error }) => (
-    <main className="flex min-h-[80vh] items-center justify-center text-center p-6">
+    <main className="flex min-h-screen items-center justify-center bg-[#F9F7FA] p-6 text-center">
       <Card className="border-red-200 bg-red-50">
         <CardHeader>
           <CardTitle className="text-red-600">Oups !</CardTitle>
@@ -52,7 +52,7 @@ function HomePage() {
   const { usersHelped } = Route.useLoaderData()
 
   return (
-    <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-[#1A1A1A] md:p-10">
       <HeroSection usersHelped={usersHelped} />
     </main>
   )

@@ -84,12 +84,14 @@ function TestPage() {
 
   if (isFinished) {
     return (
-      <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-2xl flex flex-col items-center text-center gap-6">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-[#1A1A1A] md:p-10">
+        <div className="flex w-full max-w-2xl flex-col items-center gap-6 text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-[#1D1B4B]" />
           <div>
-            <h1 className="text-3xl font-bold mb-2">Analyse en cours...</h1>
-            <p className="text-muted-foreground">
+            <h1 className="mb-2 text-3xl font-bold text-[#1D1B4B]">
+              Analyse en cours...
+            </h1>
+            <p className="text-[#1A1A1A]/70">
               Nous configurons ton coach IA en fonction de tes réponses.
             </p>
           </div>
@@ -101,19 +103,23 @@ function TestPage() {
   const currentQuestion = questions[currentIndex]
 
   return (
-    <main className="flex min-h-[85vh] flex-col items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-2xl flex flex-col gap-6">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-[#1A1A1A] md:p-10">
+      <div className="flex w-full max-w-2xl flex-col gap-6">
         <div>
-          <Button variant="ghost" asChild className="-ml-4 mb-4">
+          <Button
+            variant="ghost"
+            asChild
+            className="-ml-4 mb-4 text-[#1A1A1A]/70 hover:text-[#1D1B4B]"
+          >
             <Link to="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Retour à l'accueil
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1D1B4B]">
             Ton Profil Psychologique
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="mt-2 text-[#1A1A1A]/70">
             Réponds spontanément à ces questions pour calibrer ton coach IA.
           </p>
         </div>

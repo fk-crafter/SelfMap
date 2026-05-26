@@ -19,14 +19,14 @@ export function QuestionCard({
   onAnswer,
 }: QuestionCardProps) {
   return (
-    <Card className="border-primary/10 shadow-md">
+    <Card className="border-none bg-white shadow-xl shadow-[#1D1B4B]/5">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-sm font-semibold uppercase tracking-wider text-[#1A1A1A]/50">
           Question {question.id} sur {totalQuestions}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="mb-6 text-lg font-medium text-foreground">
+        <p className="mb-8 text-2xl font-bold text-[#1D1B4B]">
           {question.question}
         </p>
         <div className="flex flex-col gap-3">
@@ -34,7 +34,7 @@ export function QuestionCard({
             <Button
               key={index}
               variant="outline"
-              className="h-auto justify-start whitespace-normal py-4 text-left"
+              className="h-auto justify-start whitespace-normal border-[#1D1B4B]/10 py-5 text-left text-lg text-[#1A1A1A] hover:bg-[#1D1B4B]/5 hover:text-[#1D1B4B]"
               onClick={() => onAnswer(answer)}
             >
               {answer}
