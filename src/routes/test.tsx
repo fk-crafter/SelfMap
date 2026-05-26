@@ -85,10 +85,18 @@ function TestPage() {
   }
 
   const currentQuestion = questions[currentIndex]
+  const progressPercentage = ((currentIndex + 1) / questions.length) * 100
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <header className="z-10 flex shrink-0 flex-row items-center justify-between px-6 py-6">
+      <div className="fixed top-0 left-0 right-0 z-50 h-1.5 w-full bg-[#1D1B4B]/10">
+        <div
+          className="h-full bg-[#1D1B4B] transition-all duration-300 ease-out"
+          style={{ width: `${progressPercentage}%` }}
+        />
+      </div>
+
+      <header className="z-10 flex shrink-0 flex-row items-center justify-between px-6 pt-8 pb-6">
         <Link
           to="/"
           className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-semibold text-[#1D1B4B] transition-all hover:opacity-70 active:scale-95"
