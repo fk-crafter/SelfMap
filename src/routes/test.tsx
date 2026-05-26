@@ -3,16 +3,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useUserStore } from '@/store/userStore'
 import { QuestionCard } from '@/components/profile/QuestionCard'
-
-interface ApiQuestion {
-  id: number
-  dimension: string
-  question: string
-  answers: {
-    title: string
-    description: string
-  }[]
-}
+import { questions as quizQuestions } from '../data/questions'
 
 export const Route = createFileRoute('/test')({
   component: TestPage,
@@ -20,56 +11,7 @@ export const Route = createFileRoute('/test')({
     meta: [{ title: 'SelfMap | Ton Test' }],
   }),
   loader: async () => {
-    return {
-      questions: [
-        {
-          id: 1,
-          dimension: 'I/E',
-          question: 'Tu préfères sortir ou rester chez toi ?',
-          answers: [
-            {
-              title: 'Sortir',
-              description: "L'interaction et l'action m'animent.",
-            },
-            {
-              title: 'Rester',
-              description:
-                "Le calme et l'introspection sont mes sources d'énergie.",
-            },
-          ],
-        },
-        {
-          id: 2,
-          dimension: 'T/F',
-          question: 'Es-tu plutôt logique ou émotionnel ?',
-          answers: [
-            {
-              title: 'Logique',
-              description: 'La raison guide mes choix et mes analyses.',
-            },
-            {
-              title: 'Émotionnel',
-              description: 'Je me fie à mon ressenti et à mon intuition.',
-            },
-          ],
-        },
-        {
-          id: 3,
-          dimension: 'J/P',
-          question: 'Aimes-tu planifier ?',
-          answers: [
-            {
-              title: 'Oui, tout',
-              description: "L'organisation et la structure me rassurent.",
-            },
-            {
-              title: "Non, j'improvise",
-              description: "La spontanéité et l'adaptation sont mes forces.",
-            },
-          ],
-        },
-      ] as ApiQuestion[],
-    }
+    return { questions: quizQuestions }
   },
 })
 
@@ -97,9 +39,9 @@ function TestPage() {
     } else {
       setIsFinished(true)
 
-      const isExtravert = newAnswers[1] === 'Sortir'
-      const isThinking = newAnswers[2] === 'Logique'
-      const isJudging = newAnswers[3] === 'Oui, tout'
+      const isExtravert = newAnswers[1] === "D'accord"
+      const isThinking = newAnswers[2] === 'En désaccord'
+      const isJudging = newAnswers[3] === "D'accord"
 
       const computedType = `${isExtravert ? 'E' : 'I'}N${isThinking ? 'T' : 'F'}${isJudging ? 'J' : 'P'}`
 
