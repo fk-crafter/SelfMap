@@ -1,47 +1,42 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 interface ApiQuestion {
   id: number
+  dimension: string
   question: string
-  answers: string[]
+  answers: {
+    title: string
+    description: string
+  }[]
 }
 
 interface QuestionCardProps {
   question: ApiQuestion
-  totalQuestions: number
-  onAnswer: (answer: string) => void
+  onAnswer: (answerTitle: string) => void
 }
 
-export function QuestionCard({
-  question,
-  totalQuestions,
-  onAnswer,
-}: QuestionCardProps) {
+export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
   return (
-    <Card className="border-none bg-white shadow-xl shadow-[#1D1B4B]/5">
-      <CardHeader>
-        <CardTitle className="text-sm font-semibold uppercase tracking-wider text-[#1A1A1A]/50">
-          Question {question.id} sur {totalQuestions}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="mb-8 text-2xl font-bold text-[#1D1B4B]">
-          {question.question}
-        </p>
-        <div className="flex flex-col gap-3">
-          {question.answers.map((answer, index) => (
-            <Button
-              key={index}
-              variant="outline"
-              className="h-auto justify-start whitespace-normal border-[#1D1B4B]/10 py-5 text-left text-lg text-[#1A1A1A] hover:bg-[#1D1B4B]/5 hover:text-[#1D1B4B]"
-              onClick={() => onAnswer(answer)}
-            >
-              {answer}
-            </Button>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex w-full flex-col items-center gap-6">
+      {question.answers.map((answer, index) => (
+        <button
+          key={index}
+          onClick={() => onAnswer(answer.title)}
+          className={cn(
+            'group flex w-full max-w-2xl flex-row items-center gap-6 rounded-3xl bg-white p-6 text-left shadow-sm transition-all hover:bg-neutral-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1D1B4B]/20 border border-transparent hover:border-[#1D1B4B]/10 active:scale-[0.98]',
+          )}
+        >
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-neutral-100 bg-[#F9F7FA] p-4 shadow-inner transition-transform group-hover:scale-105">
+            <div className="h-full w-full rounded-full bg-linear-to-br from-[#1D1B4B]/40 to-[#1D1B4B]/80" />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <h4 className="text-xl font-bold text-[#1D1B4B]">{answer.title}</h4>
+            <p className="text-sm font-medium leading-relaxed text-[#1A1A1A]/60">
+              {answer.description}
+            </p>
+          </div>
+        </button>
+      ))}
+    </div>
   )
 }
