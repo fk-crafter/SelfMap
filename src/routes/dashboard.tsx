@@ -23,8 +23,10 @@ function DashboardPage() {
   if (!profile) {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
-        <h1 className="mb-4 text-2xl font-bold">Oups, profil introuvable !</h1>
-        <p className="mb-8 text-muted-foreground">
+        <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
+          Oups, profil introuvable !
+        </h1>
+        <p className="mb-8 text-[#1A1A1A]/70">
           Tu dois passer le test psychologique pour configurer ton coach IA.
         </p>
         <Button
@@ -41,30 +43,35 @@ function DashboardPage() {
     <div className="flex h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
       <header className="flex items-center justify-between px-6 pt-8">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20">
-            <Wind className="h-5 w-5 text-primary" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1B4B]/5">
+            <Wind className="h-5 w-5 text-[#1D1B4B]" />
           </div>
-          <span className="font-semibold text-muted-foreground">
-            SoulGuided
-          </span>
+          <span className="font-semibold text-[#1D1B4B]/60">SoulGuided</span>
         </div>
-        <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm">
-          <img src="https://github.com/shadcn.png" alt="Profile" />
-        </div>
+        <Link
+          to="/profile"
+          className="block h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm transition-transform active:scale-95 hover:scale-105"
+        >
+          <img
+            src="https://github.com/shadcn.png"
+            alt="Profile"
+            className="h-full w-full object-cover"
+          />
+        </Link>
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 pb-24">
         <div className="mt-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight">
+          <h1 className="text-4xl font-bold tracking-tight text-[#1D1B4B]">
             Bonjour, {profile.name}
           </h1>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mt-2 text-[#1A1A1A]/70">
             Votre coach MBTI est prêt à vous guider.
           </p>
         </div>
 
         <div className="relative mt-8 flex flex-col items-center">
-          <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-8 border-white bg-white shadow-inner">
+          <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-8 border-white bg-[#b6e3f4] shadow-inner">
             <img
               src="./avatar-coach.png"
               alt="Avatar Coach"
@@ -73,7 +80,7 @@ function DashboardPage() {
           </div>
           <Button
             asChild
-            className="absolute -bottom-4 flex gap-2 rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
+            className="absolute -bottom-4 flex gap-2 rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90 transition-transform active:scale-95"
           >
             <Link to="/chat">
               <MessageSquare className="h-5 w-5" />
@@ -82,17 +89,19 @@ function DashboardPage() {
           </Button>
         </div>
 
-        <Card className="mt-12 border-none bg-[#FEF9C3]/50 p-6 shadow-sm">
+        <Card className="mt-12 border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
           <div className="flex items-center justify-between">
-            <span className="rounded-full bg-[#FEF9C3] px-3 py-1 text-xs font-bold text-[#854D0E]">
+            <span className="rounded-full bg-[#1D1B4B]/5 px-3 py-1 text-xs font-bold text-[#1D1B4B]">
               {profile.type} INSIGHT
             </span>
-            <PenLine className="h-4 w-4 text-[#854D0E]" />
+            <PenLine className="h-4 w-4 text-[#1D1B4B]/40" />
           </div>
-          <h3 className="mt-4 font-semibold text-[#854D0E]">
+          <h3 className="mt-4 font-semibold text-[#1D1B4B]">
             Croissance personnelle
           </h3>
-          <p className="mt-2 italic text-[#854D0E]/80">"{profile.insight}"</p>
+          <p className="mt-2 text-sm leading-relaxed text-[#1A1A1A]/70 italic">
+            "{profile.insight}"
+          </p>
         </Card>
 
         <div className="mt-6 grid grid-cols-2 gap-4">
@@ -120,12 +129,12 @@ function DashboardPage() {
           ].map((item) => (
             <Card
               key={item.label}
-              className="flex flex-col items-center justify-center gap-3 border-none p-6 shadow-sm"
+              className="flex flex-col items-center justify-center gap-3 border-none bg-white p-6 shadow-md shadow-[#1D1B4B]/5 rounded-3xl transition-transform active:scale-95"
             >
               <div className={`rounded-2xl p-3 ${item.color}`}>
                 <item.icon className="h-6 w-6" />
               </div>
-              <span className="text-sm font-medium text-muted-foreground">
+              <span className="text-sm font-medium text-[#1D1B4B]/70">
                 {item.label}
               </span>
             </Card>
@@ -134,22 +143,28 @@ function DashboardPage() {
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 flex items-center justify-between border-t bg-white px-6 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
-        <div className="flex flex-col items-center gap-1 text-primary">
+        <div className="flex flex-col items-center gap-1 text-[#1D1B4B]">
           <Home className="h-6 w-6" />
           <span className="text-[10px] font-bold">Home</span>
         </div>
-        <div className="flex flex-col items-center gap-1 text-muted-foreground">
+        <Link
+          to="/chat"
+          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+        >
           <MessageSquare className="h-6 w-6" />
-          <span className="text-[10px]">Chat</span>
-        </div>
-        <div className="flex flex-col items-center gap-1 text-muted-foreground">
+          <span className="text-[10px] font-medium">Chat</span>
+        </Link>
+        <div className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors cursor-not-allowed">
           <Search className="h-6 w-6" />
-          <span className="text-[10px]">Discover</span>
+          <span className="text-[10px] font-medium">Discover</span>
         </div>
-        <div className="flex flex-col items-center gap-1 text-muted-foreground">
+        <Link
+          to="/profile"
+          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+        >
           <User className="h-6 w-6" />
-          <span className="text-[10px]">Profile</span>
-        </div>
+          <span className="text-[10px] font-medium">Profile</span>
+        </Link>
       </nav>
     </div>
   )
