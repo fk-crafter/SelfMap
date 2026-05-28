@@ -39,25 +39,37 @@ function TestPage() {
     } else {
       setIsFinished(true)
 
-      const scores = { E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0 }
+      const rawScores = { E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0 }
 
       Object.entries(newAnswers).forEach(([idStr, answer]) => {
         const id = parseInt(idStr)
         const isAgree = answer === "D'accord"
 
-        if (id <= 4) isAgree ? scores.E++ : scores.I++
-        else if (id <= 8) isAgree ? scores.N++ : scores.S++
-        else if (id <= 12) isAgree ? scores.F++ : scores.T++
-        else if (id <= 16) isAgree ? scores.J++ : scores.P++
+        if (id <= 4) isAgree ? rawScores.E++ : rawScores.I++
+        else if (id <= 8) isAgree ? rawScores.N++ : rawScores.S++
+        else if (id <= 12) isAgree ? rawScores.F++ : rawScores.T++
+        else if (id <= 16) isAgree ? rawScores.J++ : rawScores.P++
       })
 
-      const computedType = `${scores.E >= scores.I ? 'E' : 'I'}${scores.N >= scores.S ? 'N' : 'S'}${scores.T >= scores.F ? 'T' : 'F'}${scores.J >= scores.P ? 'J' : 'P'}`
+      const finalScores = {
+        E: (rawScores.E / 4) * 100,
+        I: (rawScores.I / 4) * 100,
+        N: (rawScores.N / 4) * 100,
+        S: (rawScores.S / 4) * 100,
+        T: (rawScores.T / 4) * 100,
+        F: (rawScores.F / 4) * 100,
+        J: (rawScores.J / 4) * 100,
+        P: (rawScores.P / 4) * 100,
+      }
+
+      const computedType = `${rawScores.E >= rawScores.I ? 'E' : 'I'}${rawScores.N >= rawScores.S ? 'N' : 'S'}${rawScores.T >= rawScores.F ? 'T' : 'F'}${rawScores.J >= rawScores.P ? 'J' : 'P'}`
 
       setProfile({
         name: 'Explorateur',
         type: computedType,
         insight: `Ton profil ${computedType} se dessine. Ton coach affinera cette analyse au fil de vos échanges.`,
         avatarSeed: computedType,
+        scores: finalScores,
       })
 
       await new Promise((resolve) => setTimeout(resolve, 2000))

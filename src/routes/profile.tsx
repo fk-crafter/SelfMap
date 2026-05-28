@@ -9,34 +9,6 @@ export const Route = createFileRoute('/profile')({
   component: ProfilePage,
 })
 
-function generateMockScores(type: string) {
-  if (!type || type.length !== 4) {
-    return {
-      E: 50,
-      I: 50,
-      S: 50,
-      N: 50,
-      T: 50,
-      F: 50,
-      J: 50,
-      P: 50,
-    }
-  }
-
-  const scores = {
-    E: type[0] === 'E' ? 72 : 28,
-    I: type[0] === 'I' ? 72 : 28,
-    S: type[1] === 'S' ? 64 : 36,
-    N: type[1] === 'N' ? 64 : 36,
-    T: type[2] === 'T' ? 81 : 19,
-    F: type[2] === 'F' ? 81 : 19,
-    J: type[3] === 'J' ? 58 : 42,
-    P: type[3] === 'P' ? 58 : 42,
-  }
-
-  return scores
-}
-
 function ProfilePage() {
   const profile = useUserStore((state) => state.profile)
 
@@ -59,7 +31,7 @@ function ProfilePage() {
     )
   }
 
-  const scores = generateMockScores(profile.type)
+  const { scores } = profile
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
