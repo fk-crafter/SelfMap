@@ -11,11 +11,11 @@ export const Route = createFileRoute('/chat')({
 })
 
 const MOCK_RESPONSES = [
-  "C'est un excellent point de départ. D'ailleurs, pour que j'affine mon accompagnement : face à un imprévu majeur dans ce genre de projet, est-ce que tu as tendance à stresser, ou au contraire, l'adrénaline te stimule ?",
-  "C'est noté, ça me permet d'ajuster mon approche. Je remarque que tu as une forte tendance à l'intuition. Quel serait le tout premier pas concret que tu pourrais faire aujourd'hui ?",
-  'Parfait. Si tu le souhaites, je peux te programmer un rappel demain matin pour vérifier où tu en es. On fait ça ?',
-  "Super. Au fait, pendant tes sessions de travail, tu préfères le silence absolu ou tu as besoin d'un léger fond sonore pour te concentrer ?",
-  "Intéressant, ça confirme le trait 'Introverti' de notre test de départ. Je te laisse avancer sur ton objectif, n'hésite pas si tu as un blocage !",
+  "That's an excellent starting point. By the way, to refine my approach: when facing a major unexpected event in this kind of project, do you tend to stress out, or does the adrenaline stimulate you?",
+  'Noted, that helps me adjust my guidance. I notice you have a strong intuitive tendency. What would be the very first concrete step you could take today?',
+  "Perfect. If you'd like, I can schedule a reminder for tomorrow morning to check on your progress. Shall we do that?",
+  'Awesome. By the way, during your work sessions, do you prefer absolute silence, or do you need some light background noise to concentrate?',
+  "Interesting, that confirms the 'Introverted' trait from our initial test. I'll let you move forward with your goal. Don't hesitate to reach out if you feel stuck!",
 ]
 
 function ChatPage() {
@@ -26,8 +26,8 @@ function ChatPage() {
   const stepRef = useRef(0)
 
   const initialMessage = profile
-    ? `Salut ! C'est ton coach. Ton test indique une tendance ${profile.type}, ce qui signifie que tu as des capacités uniques. Quel est ton objectif principal pour les 30 prochains jours ?`
-    : "Salut ! C'est ton coach. Quel est ton objectif principal pour les 30 prochains jours ?"
+    ? `Hi! I'm your coach. Your test indicates an ${profile.type} tendency, which means you have unique capabilities. What is your main goal for the next 30 days?`
+    : "Hi! I'm your coach. What is your main goal for the next 30 days?"
 
   const [messages, setMessages] = useState([
     {
@@ -59,7 +59,7 @@ function ChatPage() {
 
       const nextResponse =
         MOCK_RESPONSES[stepRef.current] ||
-        "Je continue d'analyser ton profil en arrière-plan. Continue comme ça !"
+        "I'm continuing to analyze your profile in the background. Keep up the good work!"
 
       setMessages((prev) => [
         ...prev,
@@ -88,16 +88,16 @@ function ChatPage() {
             <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm bg-[#b6e3f4]">
               <img
                 src="./avatar-coach.png"
-                alt="Avatar Coach"
+                alt="Coach Avatar"
                 className="h-full w-full object-cover"
               />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-black">Ton Coach IA</h2>
+              <h2 className="text-sm font-bold text-black">Your AI Coach</h2>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="h-2 w-2 rounded-full bg-green-500"></span>
                 <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
-                  En ligne
+                  Online
                 </p>
               </div>
             </div>
@@ -136,7 +136,7 @@ function ChatPage() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Écris à ton coach..."
+              placeholder="Message your coach..."
               className="flex-1 rounded-full bg-[#F9F7FA] border-none px-6 h-12 shadow-inner text-[#1A1A1A] placeholder:text-gray-400 focus-visible:ring-1 focus-visible:ring-primary/20"
             />
             <Button

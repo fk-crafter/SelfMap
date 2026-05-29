@@ -8,7 +8,7 @@ import { questions as quizQuestions } from '../data/questions'
 export const Route = createFileRoute('/test')({
   component: TestPage,
   head: () => ({
-    meta: [{ title: 'SelfMap | Ton Test' }],
+    meta: [{ title: 'SelfMap | Your Test' }],
   }),
   loader: async () => {
     return { questions: quizQuestions }
@@ -43,7 +43,7 @@ function TestPage() {
 
       Object.entries(newAnswers).forEach(([idStr, answer]) => {
         const id = parseInt(idStr)
-        const isAgree = answer === "D'accord"
+        const isAgree = answer === 'Agree'
 
         if (id <= 4) isAgree ? rawScores.E++ : rawScores.I++
         else if (id <= 8) isAgree ? rawScores.N++ : rawScores.S++
@@ -65,9 +65,9 @@ function TestPage() {
       const computedType = `${rawScores.E >= rawScores.I ? 'E' : 'I'}${rawScores.N >= rawScores.S ? 'N' : 'S'}${rawScores.T >= rawScores.F ? 'T' : 'F'}${rawScores.J >= rawScores.P ? 'J' : 'P'}`
 
       setProfile({
-        name: 'Explorateur',
+        name: 'Explorer',
         type: computedType,
-        insight: `Ton profil ${computedType} se dessine. Ton coach affinera cette analyse au fil de vos échanges.`,
+        insight: `Your ${computedType} profile is taking shape. Your coach will refine this analysis over time.`,
         avatarSeed: computedType,
         scores: finalScores,
       })
@@ -85,10 +85,10 @@ function TestPage() {
           <Loader2 className="h-12 w-12 animate-spin text-[#1D1B4B]" />
           <div>
             <h1 className="mb-2 text-3xl font-bold text-[#1D1B4B]">
-              Analyse en cours...
+              Analyzing...
             </h1>
             <p className="text-[#1A1A1A]/70">
-              Nous configurons ton coach IA en fonction de tes réponses.
+              We are configuring your AI coach based on your answers.
             </p>
           </div>
         </div>
@@ -114,7 +114,7 @@ function TestPage() {
           className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-semibold text-[#1D1B4B] transition-all hover:opacity-70 active:scale-95"
         >
           <ArrowLeft className="h-5 w-5" />
-          Retour
+          Back
         </Link>
         <p className="text-xs font-semibold tracking-widest text-[#1A1A1A]/40 uppercase">
           {currentIndex + 1} / {questions.length}
@@ -138,8 +138,8 @@ function TestPage() {
 
       <footer className="fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#F9F7FA] via-[#F9F7FA] to-transparent px-6 py-6 text-center">
         <p className="max-w-md text-sm font-light italic text-[#1A1A1A]/50">
-          Répondez avec votre première intuition. Il n'y a pas de mauvaise
-          réponse, seulement votre vérité.
+          Answer with your first intuition. There are no right or wrong answers,
+          only your truth.
         </p>
       </footer>
     </div>

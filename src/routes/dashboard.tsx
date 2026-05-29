@@ -24,16 +24,16 @@ function DashboardPage() {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
         <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
-          Oups, profil introuvable !
+          Oops, profile not found!
         </h1>
         <p className="mb-8 text-[#1A1A1A]/70">
-          Tu dois passer le test psychologique pour configurer ton coach IA.
+          You need to take the psychological test to configure your AI coach.
         </p>
         <Button
           asChild
           className="rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
         >
-          <Link to="/test">Passer le test</Link>
+          <Link to="/test">Take the test</Link>
         </Button>
       </div>
     )
@@ -63,10 +63,10 @@ function DashboardPage() {
       <main className="flex-1 overflow-y-auto px-6 pb-24">
         <div className="mt-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-[#1D1B4B]">
-            Bonjour, {profile.name}
+            Hello, {profile.name}
           </h1>
           <p className="mt-2 text-[#1A1A1A]/70">
-            Votre coach MBTI est prêt à vous guider.
+            Your MBTI coach is ready to guide you.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ function DashboardPage() {
           <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-8 border-white bg-[#b6e3f4] shadow-inner">
             <img
               src="./avatar-coach.png"
-              alt="Avatar Coach"
+              alt="Coach Avatar"
               className="h-full w-full object-cover"
             />
           </div>
@@ -84,7 +84,7 @@ function DashboardPage() {
           >
             <Link to="/chat">
               <MessageSquare className="h-5 w-5" />
-              Discuter avec ma personnalité
+              Chat with my personality
             </Link>
           </Button>
         </div>
@@ -96,9 +96,7 @@ function DashboardPage() {
             </span>
             <PenLine className="h-4 w-4 text-[#1D1B4B]/40" />
           </div>
-          <h3 className="mt-4 font-semibold text-[#1D1B4B]">
-            Croissance personnelle
-          </h3>
+          <h3 className="mt-4 font-semibold text-[#1D1B4B]">Personal Growth</h3>
           <p className="mt-2 text-sm leading-relaxed text-[#1A1A1A]/70 italic">
             "{profile.insight}"
           </p>

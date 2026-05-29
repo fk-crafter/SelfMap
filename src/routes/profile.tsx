@@ -16,16 +16,16 @@ function ProfilePage() {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
         <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
-          Profil introuvable
+          Profile not found
         </h1>
         <p className="mb-8 text-[#1A1A1A]/70">
-          Passe le test pour découvrir tes résultats.
+          Take the test to discover your results.
         </p>
         <Button
           asChild
           className="rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
         >
-          <Link to="/test">Passer le test</Link>
+          <Link to="/test">Take the test</Link>
         </Button>
       </div>
     )
@@ -36,7 +36,7 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
       <header className="flex items-center justify-between px-6 pt-8">
-        <h1 className="text-2xl font-bold text-[#1D1B4B]">Mon Profil</h1>
+        <h1 className="text-2xl font-bold text-[#1D1B4B]">My Profile</h1>
         <Button variant="ghost" size="icon" className="text-[#1A1A1A]/60">
           <Settings className="h-6 w-6" />
         </Button>
@@ -47,7 +47,7 @@ function ProfilePage() {
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#b6e3f4] shadow-md">
             <img
               src="./avatar-coach.png"
-              alt="Avatar Utilisateur"
+              alt="User Avatar"
               className="h-full w-full object-cover"
             />
           </div>
@@ -61,33 +61,33 @@ function ProfilePage() {
 
         <Card className="mt-8 border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
           <h3 className="mb-6 text-lg font-bold text-[#1D1B4B]">
-            Cartographie Cognitive
+            Cognitive Mapping
           </h3>
           <div className="flex flex-col gap-6">
             <DimensionBar
-              leftLabel="Extraverti"
-              rightLabel="Introverti"
+              leftLabel="Extraverted"
+              rightLabel="Introverted"
               leftValue={scores.E}
               rightValue={scores.I}
               colorClass="bg-blue-400"
             />
             <DimensionBar
-              leftLabel="Sensation"
+              leftLabel="Sensing"
               rightLabel="Intuition"
               leftValue={scores.S}
               rightValue={scores.N}
               colorClass="bg-emerald-400"
             />
             <DimensionBar
-              leftLabel="Pensée"
-              rightLabel="Sentiment"
+              leftLabel="Thinking"
+              rightLabel="Feeling"
               leftValue={scores.T}
               rightValue={scores.F}
               colorClass="bg-purple-400"
             />
             <DimensionBar
-              leftLabel="Jugement"
-              rightLabel="Perception"
+              leftLabel="Judging"
+              rightLabel="Perceiving"
               leftValue={scores.J}
               rightValue={scores.P}
               colorClass="bg-orange-400"
@@ -96,7 +96,7 @@ function ProfilePage() {
         </Card>
 
         <Card className="mt-6 border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
-          <h3 className="mb-3 text-lg font-bold text-[#1D1B4B]">Analyse IA</h3>
+          <h3 className="mb-3 text-lg font-bold text-[#1D1B4B]">AI Analysis</h3>
           <p className="text-sm leading-relaxed text-[#1A1A1A]/70">
             {profile.insight}
           </p>

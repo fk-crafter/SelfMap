@@ -22,19 +22,19 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
           SoulGuided
         </h1>
         <p className="mx-auto max-w-2xl text-xl leading-normal text-[#1A1A1A]/70">
-          Découvre ton profil psychologique et échange au quotidien avec ton{' '}
-          <span className="font-semibold text-[#1D1B4B]">coach de vie IA</span>{' '}
-          ultra-personnalisé pour atteindre tes objectifs.
+          Discover your psychological profile and chat daily with your{' '}
+          <span className="font-semibold text-[#1D1B4B]">AI life coach</span>{' '}
+          tailored to help you reach your goals.
         </p>
       </div>
 
       <Card className="w-full max-w-md overflow-hidden border-none bg-white shadow-xl shadow-[#1D1B4B]/5">
         <CardHeader className="bg-white">
           <CardTitle className="text-2xl text-[#1D1B4B]">
-            Prêt à te comprendre ?
+            Ready to understand yourself?
           </CardTitle>
           <CardDescription className="text-[#1A1A1A]/60">
-            Passe un test de 5 minutes pour cartographier ta personnalité.
+            Take a 5-minute test to map your personality.
           </CardDescription>
         </CardHeader>
         <CardContent className="bg-white grid gap-4">
@@ -43,7 +43,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
             className="h-14 w-full rounded-full bg-[#1D1B4B] text-lg text-white hover:bg-[#1D1B4B]/90"
             asChild
           >
-            <Link to="/test">Commencer mon test</Link>
+            <Link to="/test">Start my test</Link>
           </Button>
         </CardContent>
         <CardFooter className="bg-white flex flex-col gap-3 text-sm text-[#1A1A1A]/60 pb-6">
@@ -51,11 +51,11 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
           <div className="flex items-center gap-2 pt-1">
             <Users className="h-4 w-4 text-[#1D1B4B]" />
             <p>
-              Déjà{' '}
+              Already{' '}
               <span className="font-medium text-[#1D1B4B]">
-                {usersHelped} personnes
+                {usersHelped} people
               </span>{' '}
-              accompagnées vers leur meilleure version.
+              guided towards their best selves.
             </p>
           </div>
         </CardFooter>

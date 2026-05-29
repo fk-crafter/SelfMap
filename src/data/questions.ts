@@ -12,60 +12,54 @@ export const questions: ApiQuestion[] = [
   {
     id: 1,
     dimension: 'I/E',
-    question: 'Vous vous faites fréquemment de nouveaux amis.',
+    question: 'You regularly make new friends.',
     answers: [
       {
-        title: "D'accord",
-        description: 'Aller vers les autres est naturel pour moi.',
+        title: 'Agree',
+        description: 'Reaching out to others comes naturally to me.',
       },
       {
-        title: 'En désaccord',
-        description: "Je préfère mon cercle d'amis restreint.",
+        title: 'Disagree',
+        description: 'I prefer my small, tight-knit circle of friends.',
       },
     ],
   },
   {
     id: 2,
     dimension: 'I/E',
-    question: "Vous trouvez l'idée de réseauter très intimidante.",
+    question: 'You find the idea of networking highly intimidating.',
     answers: [
       {
-        title: "D'accord",
-        description: "Me mettre en avant me met mal à l'aise.",
+        title: 'Agree',
+        description: 'Putting myself out there makes me uncomfortable.',
       },
       {
-        title: 'En désaccord',
-        description: "C'est un exercice qui me stimule.",
+        title: 'Disagree',
+        description: "It's an exercise that stimulates me.",
       },
     ],
   },
   {
     id: 3,
     dimension: 'I/E',
-    question: 'Vous appréciez participer à des activités en équipe.',
+    question: 'You enjoy participating in team-based activities.',
     answers: [
+      { title: 'Agree', description: 'Collective intelligence energizes me.' },
       {
-        title: "D'accord",
-        description: "L'intelligence collective me stimule.",
-      },
-      {
-        title: 'En désaccord',
-        description: 'Je suis plus efficace et concentré en solitaire.',
+        title: 'Disagree',
+        description: 'I am more efficient and focused when working alone.',
       },
     ],
   },
   {
     id: 4,
     dimension: 'I/E',
-    question: "Vous appréciez davantage les activités solitaires qu'en groupe.",
+    question: 'You prefer solitary hobbies or activities over group ones.',
     answers: [
+      { title: 'Agree', description: 'My alone time is my best resource.' },
       {
-        title: "D'accord",
-        description: 'Mes moments seuls sont mes meilleures ressources.',
-      },
-      {
-        title: 'En désaccord',
-        description: 'Partager mes loisirs décuple mon plaisir.',
+        title: 'Disagree',
+        description: 'Sharing my hobbies multiplies my enjoyment.',
       },
     ],
   },
@@ -73,15 +67,12 @@ export const questions: ApiQuestion[] = [
     id: 5,
     dimension: 'S/N',
     question:
-      'Les idées complexes et novatrices vous enthousiasment plus que les idées simples et directes.',
+      'Complex and innovative ideas excite you more than simple and straightforward ones.',
     answers: [
+      { title: 'Agree', description: 'I love exploring abstract concepts.' },
       {
-        title: "D'accord",
-        description: "J'aime explorer des concepts abstraits.",
-      },
-      {
-        title: 'En désaccord',
-        description: 'Je préfère ce qui est concret et applicable.',
+        title: 'Disagree',
+        description: 'I prefer what is concrete and applicable.',
       },
     ],
   },
@@ -89,30 +80,27 @@ export const questions: ApiQuestion[] = [
     id: 6,
     dimension: 'S/N',
     question:
-      "Vous n'aimez pas particulièrement les discussions portant sur les interprétations des œuvres créatives.",
+      'You do not particularly enjoy discussions about various interpretations of creative works.',
     answers: [
       {
-        title: "D'accord",
-        description: 'Je préfère les faits clairs aux débats sans fin.',
+        title: 'Agree',
+        description: 'I prefer clear facts over endless debates.',
       },
       {
-        title: 'En désaccord',
-        description: "J'adore débattre des sens cachés et des théories.",
+        title: 'Disagree',
+        description: 'I love debating hidden meanings and theories.',
       },
     ],
   },
   {
     id: 7,
     dimension: 'S/N',
-    question: 'Vous aimez expérimenter des approches nouvelles et non testées.',
+    question: 'You like experimenting with new and untested approaches.',
     answers: [
+      { title: 'Agree', description: 'Innovation and risk attract me.' },
       {
-        title: "D'accord",
-        description: "L'innovation et le risque m'attirent.",
-      },
-      {
-        title: 'En désaccord',
-        description: 'Je préfère les méthodes qui ont déjà fait leurs preuves.',
+        title: 'Disagree',
+        description: 'I prefer methods that have already proven themselves.',
       },
     ],
   },
@@ -120,12 +108,12 @@ export const questions: ApiQuestion[] = [
     id: 8,
     dimension: 'S/N',
     question:
-      'Vous êtes en quête permanente de nouveaux domaines de connaissances à explorer.',
+      'You are constantly looking for new fields of knowledge to explore.',
     answers: [
-      { title: "D'accord", description: "Ma curiosité n'a pas de limites." },
+      { title: 'Agree', description: 'My curiosity has no limits.' },
       {
-        title: 'En désaccord',
-        description: 'Je préfère approfondir ce que je connais déjà.',
+        title: 'Disagree',
+        description: 'I prefer to deepen what I already know.',
       },
     ],
   },
@@ -133,15 +121,15 @@ export const questions: ApiQuestion[] = [
     id: 9,
     dimension: 'T/F',
     question:
-      'Vous vous laissez facilement convaincre par des émotions qui vous touchent que par des arguments factuels.',
+      'You are more easily swayed by emotional appeals than by factual arguments.',
     answers: [
       {
-        title: "D'accord",
-        description: "L'humain et l'empathie priment dans mes choix.",
+        title: 'Agree',
+        description: 'Empathy and human connection guide my choices.',
       },
       {
-        title: 'En désaccord',
-        description: 'La logique et les faits dictent mes décisions.',
+        title: 'Disagree',
+        description: 'Logic and facts dictate my decisions.',
       },
     ],
   },
@@ -149,15 +137,15 @@ export const questions: ApiQuestion[] = [
     id: 10,
     dimension: 'T/F',
     question:
-      'Les récits et les émotions des gens vous parlent plus fort que les chiffres.',
+      "People's stories and emotions speak louder to you than numbers or data.",
     answers: [
       {
-        title: "D'accord",
-        description: "L'experience humaine a plus de valeur à mes yeux.",
+        title: 'Agree',
+        description: 'The human experience holds more value to me.',
       },
       {
-        title: 'En désaccord',
-        description: 'Les statistiques sont la seule vérité objective.',
+        title: 'Disagree',
+        description: 'Statistics are the only objective truth.',
       },
     ],
   },
@@ -165,78 +153,73 @@ export const questions: ApiQuestion[] = [
     id: 11,
     dimension: 'T/F',
     question:
-      "Vous accordez la priorité aux faits plutôt qu'aux sentiments lors d'une prise de décision.",
+      "You prioritize facts over people's feelings when determining a course of action.",
     answers: [
       {
-        title: "D'accord",
-        description: "L'efficacité passe avant les susceptibilités.",
+        title: 'Agree',
+        description: 'Efficiency comes before personal sensitivities.',
       },
       {
-        title: 'En désaccord',
-        description: "L'impact humain est ma priorité absolue.",
+        title: 'Disagree',
+        description: 'The human impact is my absolute priority.',
       },
     ],
   },
   {
     id: 12,
     dimension: 'T/F',
-    question:
-      "Vous privilégiez une attitude sensible plutôt qu'une honnêteté totale.",
+    question: 'You favor a sensitive approach over absolute honesty.',
     answers: [
       {
-        title: "D'accord",
-        description: "Toute vérité n'est pas bonne à dire si elle blesse.",
+        title: 'Agree',
+        description: 'Not all truths are good to say if they hurt.',
       },
       {
-        title: 'En désaccord',
-        description: 'La franchise est plus importante que le réconfort.',
+        title: 'Disagree',
+        description: 'Honesty is more important than comfort.',
       },
     ],
   },
   {
     id: 13,
     dimension: 'J/P',
-    question: 'Vos espaces de vie et de travail sont propres et organisés.',
+    question: 'Your living and working spaces are clean and highly organized.',
     answers: [
+      { title: 'Agree', description: 'Order helps me keep a clear mind.' },
       {
-        title: "D'accord",
-        description: "L'ordre m'aide à avoir l'esprit clair.",
-      },
-      {
-        title: 'En désaccord',
-        description: "Mon environnement peut être chaotique, je m'y retrouve.",
+        title: 'Disagree',
+        description: 'My environment can be chaotic, but I know my way around.',
       },
     ],
   },
   {
     id: 14,
     dimension: 'J/P',
-    question: 'Vous priorisez et planifiez les tâches de manière efficace.',
+    question:
+      'You prioritize and plan tasks effectively, often completing them well before the deadline.',
     answers: [
       {
-        title: "D'accord",
-        description: "J'anticipe toujours pour ne pas être pris de court.",
+        title: 'Agree',
+        description: 'I always anticipate so I am never caught off guard.',
       },
       {
-        title: 'En désaccord',
-        description:
-          "Je travaille souvent dans l'urgence à la dernière minute.",
+        title: 'Disagree',
+        description: 'I often work best under pressure at the last minute.',
       },
     ],
   },
   {
     id: 15,
     dimension: 'J/P',
-    question:
-      'Vous laissez souvent la journée se dérouler sans aucun programme.',
+    question: 'You often let the day unfold without any schedule.',
     answers: [
       {
-        title: "D'accord",
-        description: "J'aime vivre l'instant présent sans contrainte.",
+        title: 'Agree',
+        description: 'I like living in the present moment without constraints.',
       },
       {
-        title: 'En désaccord',
-        description: "J'ai besoin de savoir comment ma journée va s'organiser.",
+        title: 'Disagree',
+        description: 'I need to know how my day is going to be structured.',
       },
     ],
   },
@@ -244,71 +227,62 @@ export const questions: ApiQuestion[] = [
     id: 16,
     dimension: 'J/P',
     question:
-      'Vous préférez vous acquitter de vos tâches avant de vous laisser aller à la détente.',
+      'You prefer to finish your chores before allowing yourself to relax.',
     answers: [
-      { title: "D'accord", description: 'Le devoir avant le plaisir.' },
+      { title: 'Agree', description: 'Duty before pleasure.' },
       {
-        title: 'En désaccord',
-        description: 'Je mixe travail et détente selon mon inspiration.',
+        title: 'Disagree',
+        description: 'I mix work and relaxation depending on my inspiration.',
       },
     ],
   },
   {
     id: 17,
     dimension: 'A/T',
-    question: 'Vous restez généralement calme, même sous une forte pression.',
+    question: 'You generally remain calm, even under high pressure.',
     answers: [
-      { title: "D'accord", description: "Le stress a peu d'emprise sur moi." },
-      {
-        title: 'En désaccord',
-        description: 'Je peux vite me sentir submergé.',
-      },
+      { title: 'Agree', description: 'Stress has little hold on me.' },
+      { title: 'Disagree', description: 'I can easily feel overwhelmed.' },
     ],
   },
   {
     id: 18,
     dimension: 'A/T',
-    question: 'Même une petite erreur peut vous faire douter de vos capacités.',
+    question:
+      'Even a small mistake can cause you to doubt your overall abilities.',
     answers: [
-      {
-        title: "D'accord",
-        description: 'Je suis très exigeant envers moi-même.',
-      },
-      {
-        title: 'En désaccord',
-        description: "L'erreur est humaine, je passe vite à autre chose.",
-      },
+      { title: 'Agree', description: 'I am very demanding of myself.' },
+      { title: 'Disagree', description: 'To err is human, I quickly move on.' },
     ],
   },
   {
     id: 19,
     dimension: 'A/T',
     question:
-      'Vous vous souciez rarement de faire bonne impression auprès des gens que vous rencontrez.',
+      'You rarely worry about making a good impression on people you meet.',
     answers: [
       {
-        title: "D'accord",
-        description: "Je reste moi-même, peu importe ce qu'on pense.",
+        title: 'Agree',
+        description: 'I stay true to myself, no matter what others think.',
       },
       {
-        title: 'En désaccord',
-        description: "L'image que je renvoie est importante pour moi.",
+        title: 'Disagree',
+        description: 'The image I project is important to me.',
       },
     ],
   },
   {
     id: 20,
     dimension: 'A/T',
-    question:
-      'Vous avez tendance à vous inquiéter que les choses aillent de mal en pis.',
+    question: 'You tend to worry that things will go from bad to worse.',
     answers: [
       {
-        title: "D'accord",
-        description: "J'envisage souvent le pire scénario.",
+        title: 'Agree',
+        description: 'I often envision the worst-case scenario.',
       },
       {
-        title: 'En désaccord',
-        description: "Je suis d'un naturel confiant et optimiste.",
+        title: 'Disagree',
+        description: 'I am naturally confident and optimistic.',
       },
     ],
   },
