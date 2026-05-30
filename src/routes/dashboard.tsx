@@ -11,9 +11,10 @@ import {
   Search,
   User,
   Loader2,
+  LogOut,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -30,12 +31,23 @@ type ExtendedUser = {
 function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
     }
   }, [data, isPending, navigate])
+
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          navigate({ to: '/login' })
+        },
+      },
+    })
+  }
 
   if (isPending) {
     return (
@@ -77,16 +89,46 @@ function DashboardPage() {
           </div>
           <span className="font-semibold text-[#1D1B4B]/60">SoulGuided</span>
         </div>
-        <Link
-          to="/profile"
-          className="block h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm transition-transform active:scale-95 hover:scale-105"
-        >
-          <img
-            src="https://github.com/shadcn.png"
-            alt="Profile"
-            className="h-full w-full object-cover"
-          />
-        </Link>
+
+        <div className="relative">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="block h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm transition-transform active:scale-95 hover:scale-105 cursor-pointer"
+          >
+            <img
+              src="https://github.com/shadcn.png"
+              alt="Profile"
+              className="h-full w-full object-cover"
+            />
+          </button>
+
+          {isMenuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setIsMenuOpen(false)}
+              />
+              <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl bg-white shadow-xl border border-[#1D1B4B]/5">
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#1A1A1A] hover:bg-[#F9F7FA] transition-colors"
+                >
+                  <User className="h-4 w-4 text-[#1D1B4B]/60" />
+                  My Profile
+                </Link>
+                <div className="h-[1px] w-full bg-[#1D1B4B]/5" />
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors text-left w-full"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 pb-24">
