@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
@@ -10,33 +10,44 @@ import {
   Home,
   Search,
   User,
+  Loader2,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/dashboard')({
-  beforeLoad: async () => {
-    const { data } = await authClient.getSession()
-
-    if (!data?.session) {
-      throw redirect({
-        to: '/login',
-      })
-    }
-
-    type ExtendedUser = typeof data.user & {
-      type?: string | null
-      insight?: string | null
-      avatarSeed?: string | null
-      scores?: string | null
-    }
-
-    return { user: data.user as ExtendedUser }
-  },
   component: DashboardPage,
 })
 
+type ExtendedUser = {
+  name: string
+  type?: string | null
+  insight?: string | null
+  avatarSeed?: string | null
+  scores?: string | null
+}
+
 function DashboardPage() {
-  const { user } = Route.useRouteContext()
+  const navigate = useNavigate()
+  const { data, isPending } = authClient.useSession()
+
+  useEffect(() => {
+    if (!isPending && !data?.session) {
+      navigate({ to: '/login' })
+    }
+  }, [data, isPending, navigate])
+
+  if (isPending) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#F9F7FA]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#1D1B4B]" />
+      </div>
+    )
+  }
+
+  const user = data?.user as ExtendedUser | undefined
+
+  if (!user) return null
 
   if (!user.type) {
     return (
