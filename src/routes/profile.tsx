@@ -1,18 +1,52 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Home, MessageSquare, Search, User, Settings } from 'lucide-react'
-import { useUserStore } from '@/store/userStore'
+import {
+  Home,
+  MessageSquare,
+  Search,
+  User,
+  Settings,
+  Loader2,
+} from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
+import { authClient } from '@/lib/auth-client'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
 })
 
-function ProfilePage() {
-  const profile = useUserStore((state) => state.profile)
+type ExtendedUser = {
+  name: string
+  type?: string | null
+  insight?: string | null
+  avatarSeed?: string | null
+  scores?: string | null
+}
 
-  if (!profile) {
+function ProfilePage() {
+  const navigate = useNavigate()
+  // On remplace le store par la vérification de session du backend
+  const { data, isPending } = authClient.useSession()
+
+  useEffect(() => {
+    if (!isPending && !data?.session) {
+      navigate({ to: '/login' })
+    }
+  }, [data, isPending, navigate])
+
+  if (isPending) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#F9F7FA]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#1D1B4B]" />
+      </div>
+    )
+  }
+
+  const profile = data?.user as ExtendedUser | undefined
+
+  if (!profile || !profile.type) {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
         <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
@@ -31,7 +65,15 @@ function ProfilePage() {
     )
   }
 
-  const { scores } = profile
+  // On transforme la chaîne JSON de la base de données en objet exploitable
+  let scores = { E: 50, I: 50, S: 50, N: 50, T: 50, F: 50, J: 50, P: 50 }
+  if (profile.scores) {
+    try {
+      scores = JSON.parse(profile.scores)
+    } catch (e) {
+      console.error('Error parsing scores')
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">

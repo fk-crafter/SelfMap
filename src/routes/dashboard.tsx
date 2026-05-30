@@ -117,7 +117,7 @@ function DashboardPage() {
                   <User className="h-4 w-4 text-[#1D1B4B]/60" />
                   My Profile
                 </Link>
-                <div className="h-[1px] w-full bg-[#1D1B4B]/5" />
+                <div className="h-px w-full bg-[#1D1B4B]/5" />
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors text-left w-full"
