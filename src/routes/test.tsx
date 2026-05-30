@@ -74,7 +74,7 @@ function TestPage() {
 
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      navigate({ to: '/dashboard' })
+      navigate({ to: '/register' })
     }
   }
 

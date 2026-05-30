@@ -12,6 +12,7 @@ import {
   Flower2,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,
@@ -27,11 +28,13 @@ function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const profile = useUserStore((state) => state.profile)
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!acceptedTerms) {
-      setError('You must agree to the Terms of Service.')
+      setError('You must agree to the Terms of Service to continue.')
       return
     }
 
@@ -43,15 +46,21 @@ function RegisterPage() {
         email,
         password,
         name,
-      })
+        type: profile?.type,
+        insight: profile?.insight,
+        avatarSeed: profile?.avatarSeed,
+        scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+      } as any)
 
       if (signUpError) {
-        setError(signUpError.message || 'An error occurred.')
+        setError(
+          signUpError.message || 'An error occurred during registration.',
+        )
         setIsLoading(false)
         return
       }
 
-      navigate({ to: '/login' })
+      navigate({ to: '/dashboard' })
     } catch (err) {
       setError('An unexpected error occurred.')
       setIsLoading(false)
