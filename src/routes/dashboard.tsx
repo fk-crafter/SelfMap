@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
@@ -11,16 +11,34 @@ import {
   Search,
   User,
 } from 'lucide-react'
-import { useUserStore } from '@/store/userStore'
+import { authClient } from '@/lib/auth-client'
 
 export const Route = createFileRoute('/dashboard')({
+  beforeLoad: async () => {
+    const { data } = await authClient.getSession()
+
+    if (!data?.session) {
+      throw redirect({
+        to: '/login',
+      })
+    }
+
+    type ExtendedUser = typeof data.user & {
+      type?: string | null
+      insight?: string | null
+      avatarSeed?: string | null
+      scores?: string | null
+    }
+
+    return { user: data.user as ExtendedUser }
+  },
   component: DashboardPage,
 })
 
 function DashboardPage() {
-  const profile = useUserStore((state) => state.profile)
+  const { user } = Route.useRouteContext()
 
-  if (!profile) {
+  if (!user.type) {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
         <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
@@ -63,7 +81,7 @@ function DashboardPage() {
       <main className="flex-1 overflow-y-auto px-6 pb-24">
         <div className="mt-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-[#1D1B4B]">
-            Hello, {profile.name}
+            Hello, {user.name}
           </h1>
           <p className="mt-2 text-[#1A1A1A]/70">
             Your MBTI coach is ready to guide you.
@@ -92,13 +110,13 @@ function DashboardPage() {
         <Card className="mt-12 border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
           <div className="flex items-center justify-between">
             <span className="rounded-full bg-[#1D1B4B]/5 px-3 py-1 text-xs font-bold text-[#1D1B4B]">
-              {profile.type} INSIGHT
+              {user.type} INSIGHT
             </span>
             <PenLine className="h-4 w-4 text-[#1D1B4B]/40" />
           </div>
           <h3 className="mt-4 font-semibold text-[#1D1B4B]">Personal Growth</h3>
           <p className="mt-2 text-sm leading-relaxed text-[#1A1A1A]/70 italic">
-            "{profile.insight}"
+            "{user.insight}"
           </p>
         </Card>
 

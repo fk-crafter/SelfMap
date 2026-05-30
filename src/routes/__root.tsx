@@ -6,6 +6,9 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { useEffect } from 'react' // AJOUTÉ
+import { authClient } from '@/lib/auth-client' // AJOUTÉ
+import { useUserStore } from '@/store/userStore' // AJOUTÉ
 
 import appCss from '../styles.css?url'
 
@@ -58,6 +61,20 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // AJOUT DE LA VÉRIFICATION DE SESSION
+  const setUser = useUserStore((state) => state.setUser)
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data } = await authClient.getSession()
+      if (data?.user) {
+        setUser(data.user)
+      }
+    }
+
+    fetchSession()
+  }, [setUser])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
