@@ -27,7 +27,6 @@ type ExtendedUser = {
 
 function ProfilePage() {
   const navigate = useNavigate()
-  // On remplace le store par la vérification de session du backend
   const { data, isPending } = authClient.useSession()
 
   useEffect(() => {
@@ -65,7 +64,6 @@ function ProfilePage() {
     )
   }
 
-  // On transforme la chaîne JSON de la base de données en objet exploitable
   let scores = { E: 50, I: 50, S: 50, N: 50, T: 50, F: 50, J: 50, P: 50 }
   if (profile.scores) {
     try {
