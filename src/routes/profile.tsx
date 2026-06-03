@@ -77,8 +77,15 @@ function ProfilePage() {
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
       <header className="flex items-center justify-between px-6 pt-8">
         <h1 className="text-2xl font-bold text-[#1D1B4B]">My Profile</h1>
-        <Button variant="ghost" size="icon" className="text-[#1A1A1A]/60">
-          <Settings className="h-6 w-6" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-[#1A1A1A]/60"
+          asChild
+        >
+          <Link to="/settings">
+            <Settings className="h-6 w-6" />
+          </Link>
         </Button>
       </header>
 
