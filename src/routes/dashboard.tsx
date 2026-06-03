@@ -188,11 +188,13 @@ function DashboardPage() {
               label: 'My MBTI',
               icon: LayoutGrid,
               color: 'bg-blue-50 text-blue-600',
+              href: '/profile',
             },
             {
               label: 'Journal',
               icon: PenLine,
               color: 'bg-green-50 text-green-600',
+              href: '/journal',
             },
             {
               label: 'Meditation',
@@ -204,19 +206,28 @@ function DashboardPage() {
               icon: Users,
               color: 'bg-purple-50 text-purple-600',
             },
-          ].map((item) => (
-            <Card
-              key={item.label}
-              className="flex flex-col items-center justify-center gap-3 border-none bg-white p-6 shadow-md shadow-[#1D1B4B]/5 rounded-3xl transition-transform active:scale-95"
-            >
-              <div className={`rounded-2xl p-3 ${item.color}`}>
-                <item.icon className="h-6 w-6" />
-              </div>
-              <span className="text-sm font-medium text-[#1D1B4B]/70">
-                {item.label}
-              </span>
-            </Card>
-          ))}
+          ].map((item) => {
+            const CardContent = (
+              <Card className="flex flex-col items-center justify-center gap-3 border-none bg-white p-6 shadow-md shadow-[#1D1B4B]/5 rounded-3xl transition-transform active:scale-95 h-full">
+                <div className={`rounded-2xl p-3 ${item.color}`}>
+                  <item.icon className="h-6 w-6" />
+                </div>
+                <span className="text-sm font-medium text-[#1D1B4B]/70">
+                  {item.label}
+                </span>
+              </Card>
+            )
+
+            if (item.href) {
+              return (
+                <Link key={item.label} to={item.href} className="block">
+                  {CardContent}
+                </Link>
+              )
+            }
+
+            return <div key={item.label}>{CardContent}</div>
+          })}
         </div>
       </main>
 
