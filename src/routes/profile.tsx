@@ -1,14 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import {
-  Home,
-  MessageSquare,
-  Search,
-  User,
-  Settings,
-  Loader2,
-} from 'lucide-react'
+import { Home, MessageSquare, Search, User, Loader2 } from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
 import { authClient } from '@/lib/auth-client'
 import { useEffect } from 'react'
@@ -75,18 +68,8 @@ function ProfilePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <header className="flex items-center justify-between px-6 pt-8">
+      <header className="flex items-center justify-center px-6 pt-8">
         <h1 className="text-2xl font-bold text-[#1D1B4B]">My Profile</h1>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-[#1A1A1A]/60"
-          asChild
-        >
-          <Link to="/settings">
-            <Settings className="h-6 w-6" />
-          </Link>
-        </Button>
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 pb-28">
