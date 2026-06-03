@@ -18,4 +18,13 @@ export class JournalService {
       },
     });
   }
+  async deleteEntry(id: string, userId: string) {
+    const entry = await prisma.journalEntry.findUnique({ where: { id } });
+    if (!entry || entry.userId !== userId) {
+      throw new Error('Not allowed to delete this entry');
+    }
+    return prisma.journalEntry.delete({
+      where: { id },
+    });
+  }
 }

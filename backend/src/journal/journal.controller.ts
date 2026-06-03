@@ -2,6 +2,8 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
+  Param,
   Body,
   Headers,
   UnauthorizedException,
@@ -25,5 +27,14 @@ export class JournalController {
   ) {
     if (!userId) throw new UnauthorizedException('User not identified');
     return this.journalService.createEntry(userId, content);
+  }
+
+  @Delete(':id')
+  async deleteEntry(
+    @Headers('x-user-id') userId: string,
+    @Param('id') id: string,
+  ) {
+    if (!userId) throw new UnauthorizedException('User not identified');
+    return this.journalService.deleteEntry(id, userId);
   }
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Loader2, BookOpen, Send } from 'lucide-react'
+import { ArrowLeft, Loader2, BookOpen, Send, Trash2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 
 export const Route = createFileRoute('/journal')({
@@ -71,6 +71,22 @@ function JournalPage() {
       console.error('Failed to save entry', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!data?.user.id) return
+    try {
+      const res = await fetch(`/api/journal/${id}`, {
+        method: 'DELETE',
+        headers: { 'x-user-id': data.user.id },
+      })
+
+      if (res.ok) {
+        setEntries((prev) => prev.filter((entry) => entry.id !== id))
+      }
+    } catch (error) {
+      console.error('Failed to delete entry', error)
     }
   }
 
@@ -144,15 +160,24 @@ function JournalPage() {
             entries.map((entry) => (
               <Card
                 key={entry.id}
-                className="border-none bg-white p-5 shadow-sm rounded-2xl"
+                className="group border-none bg-white p-5 shadow-sm rounded-2xl relative"
               >
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-[#1A1A1A]/40">
-                  {new Date(entry.createdAt).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#1A1A1A]/40">
+                    {new Date(entry.createdAt).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </p>
+                  <button
+                    onClick={() => handleDelete(entry.id)}
+                    className="text-[#1A1A1A]/20 hover:text-red-500 transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                    aria-label="Delete entry"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
                 <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#1A1A1A]/80">
                   {entry.content}
                 </p>
