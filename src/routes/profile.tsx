@@ -148,10 +148,13 @@ function ProfilePage() {
           <MessageSquare className="h-6 w-6" />
           <span className="text-[10px] font-medium">Chat</span>
         </Link>
-        <div className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors cursor-not-allowed">
+        <Link
+          to="/discover"
+          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+        >
           <Search className="h-6 w-6" />
           <span className="text-[10px] font-medium">Discover</span>
-        </div>
+        </Link>
         <div className="flex flex-col items-center gap-1 text-[#1D1B4B]">
           <User className="h-6 w-6" />
           <span className="text-[10px] font-bold">Profile</span>
