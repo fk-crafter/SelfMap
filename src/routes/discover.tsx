@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
 import { Home, MessageSquare, Search, User } from 'lucide-react'
 
 export const Route = createFileRoute('/discover')({
@@ -11,120 +11,170 @@ export const Route = createFileRoute('/discover')({
 const PERSONALITIES = [
   {
     type: 'INTJ',
-    name: 'Architect',
+    name: 'The Architect',
     category: 'Analysts',
-    desc: 'Imaginative and strategic thinkers, with a plan for everything.',
-    color: 'bg-purple-100 text-purple-700',
+    desc: 'Strategic & Imaginative',
+    image:
+      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80',
+    badgeColor: 'text-[#e9c349]',
+    dotColor: 'bg-[#e9c349] shadow-[0_0_15px_#e9c349]',
   },
   {
     type: 'INTP',
-    name: 'Logician',
+    name: 'The Logician',
     category: 'Analysts',
-    desc: 'Innovative inventors with an unquenchable thirst for knowledge.',
-    color: 'bg-purple-100 text-purple-700',
+    desc: 'Innovative Inventors',
+    image:
+      'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=500&q=80',
+    badgeColor: 'text-[#e9c349]',
+    dotColor: 'bg-[#e9c349] shadow-[0_0_15px_#e9c349]',
   },
   {
     type: 'ENTJ',
-    name: 'Commander',
+    name: 'The Commander',
     category: 'Analysts',
-    desc: 'Bold, imaginative and strong-willed leaders, always finding a way.',
-    color: 'bg-purple-100 text-purple-700',
+    desc: 'Bold & Decisive',
+    image:
+      'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=500&q=80',
+    badgeColor: 'text-[#e9c349]',
+    dotColor: 'bg-[#e9c349] shadow-[0_0_15px_#e9c349]',
   },
   {
     type: 'ENTP',
-    name: 'Debater',
+    name: 'The Debater',
     category: 'Analysts',
-    desc: 'Smart and curious thinkers who cannot resist an intellectual challenge.',
-    color: 'bg-purple-100 text-purple-700',
+    desc: 'Smart & Curious',
+    image:
+      'https://images.unsplash.com/photo-1604871000636-074fa5117945?w=500&q=80',
+    badgeColor: 'text-[#e9c349]',
+    dotColor: 'bg-[#e9c349] shadow-[0_0_15px_#e9c349]',
   },
 
   {
     type: 'INFJ',
-    name: 'Advocate',
+    name: 'The Advocate',
     category: 'Diplomats',
-    desc: 'Quiet and mystical, yet very inspiring and tireless idealists.',
-    color: 'bg-emerald-100 text-emerald-700',
+    desc: 'Quiet & Visionary',
+    image:
+      'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=500&q=80',
+    badgeColor: 'text-[#c5c0fe]',
+    dotColor: 'bg-[#c5c0fe] shadow-[0_0_15px_#c5c0fe]',
   },
   {
     type: 'INFP',
-    name: 'Mediator',
+    name: 'The Mediator',
     category: 'Diplomats',
-    desc: 'Poetic, kind and altruistic people, always eager to help a good cause.',
-    color: 'bg-emerald-100 text-emerald-700',
+    desc: 'Poetic & Altruistic',
+    image:
+      'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&q=80',
+    badgeColor: 'text-[#c5c0fe]',
+    dotColor: 'bg-[#c5c0fe] shadow-[0_0_15px_#c5c0fe]',
   },
   {
     type: 'ENFJ',
-    name: 'Protagonist',
+    name: 'The Protagonist',
     category: 'Diplomats',
-    desc: 'Charismatic and inspiring leaders, able to mesmerize their listeners.',
-    color: 'bg-emerald-100 text-emerald-700',
+    desc: 'Charismatic & Inspiring',
+    image:
+      'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=500&q=80',
+    badgeColor: 'text-[#c5c0fe]',
+    dotColor: 'bg-[#c5c0fe] shadow-[0_0_15px_#c5c0fe]',
   },
   {
     type: 'ENFP',
-    name: 'Campaigner',
+    name: 'The Campaigner',
     category: 'Diplomats',
-    desc: 'Enthusiastic, creative and sociable free spirits.',
-    color: 'bg-emerald-100 text-emerald-700',
+    desc: 'Free Spirit & Creative',
+    image:
+      'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500&q=80',
+    badgeColor: 'text-[#c5c0fe]',
+    dotColor: 'bg-[#c5c0fe] shadow-[0_0_15px_#c5c0fe]',
   },
 
   {
     type: 'ISTJ',
-    name: 'Logistician',
+    name: 'The Logistician',
     category: 'Sentinels',
-    desc: 'Practical and fact-minded individuals, whose reliability cannot be doubted.',
-    color: 'bg-blue-100 text-blue-700',
+    desc: 'Practical & Fact-minded',
+    image:
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&q=80',
+    badgeColor: 'text-[#c9ebd0]',
+    dotColor: 'bg-[#c9ebd0] shadow-[0_0_15px_#c9ebd0]',
   },
   {
     type: 'ISFJ',
-    name: 'Defender',
+    name: 'The Defender',
     category: 'Sentinels',
-    desc: 'Very dedicated and warm protectors, always ready to defend their loved ones.',
-    color: 'bg-blue-100 text-blue-700',
+    desc: 'Dedicated & Warm',
+    image:
+      'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=500&q=80',
+    badgeColor: 'text-[#c9ebd0]',
+    dotColor: 'bg-[#c9ebd0] shadow-[0_0_15px_#c9ebd0]',
   },
   {
     type: 'ESTJ',
-    name: 'Executive',
+    name: 'The Executive',
     category: 'Sentinels',
-    desc: 'Excellent administrators, unsurpassed at managing things - or people.',
-    color: 'bg-blue-100 text-blue-700',
+    desc: 'Excellent Managers',
+    image:
+      'https://images.unsplash.com/photo-1618005198143-e5283b519a7f?w=500&q=80',
+    badgeColor: 'text-[#c9ebd0]',
+    dotColor: 'bg-[#c9ebd0] shadow-[0_0_15px_#c9ebd0]',
   },
   {
     type: 'ESFJ',
-    name: 'Consul',
+    name: 'The Consul',
     category: 'Sentinels',
-    desc: 'Extraordinarily caring, social and popular people, always eager to help.',
-    color: 'bg-blue-100 text-blue-700',
+    desc: 'Helpful & Social',
+    image:
+      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&q=80',
+    badgeColor: 'text-[#c9ebd0]',
+    dotColor: 'bg-[#c9ebd0] shadow-[0_0_15px_#c9ebd0]',
   },
 
   {
     type: 'ISTP',
-    name: 'Virtuoso',
+    name: 'The Virtuoso',
     category: 'Explorers',
-    desc: 'Bold and practical experimenters, masters of all kinds of tools.',
-    color: 'bg-orange-100 text-orange-700',
+    desc: 'Bold & Practical',
+    image:
+      'https://images.unsplash.com/photo-1500964757637-c85e8a162699?w=500&q=80',
+    badgeColor: 'text-[#ffb4ab]',
+    dotColor: 'bg-[#ffb4ab] shadow-[0_0_15px_#ffb4ab]',
   },
   {
     type: 'ISFP',
-    name: 'Adventurer',
+    name: 'The Adventurer',
     category: 'Explorers',
-    desc: 'Flexible and charming artists, always ready to explore and experience something new.',
-    color: 'bg-orange-100 text-orange-700',
+    desc: 'Flexible & Charming',
+    image:
+      'https://images.unsplash.com/photo-15Autonomous-1558591710-4b4a1ae0f04d?w=500&q=80',
+    badgeColor: 'text-[#ffb4ab]',
+    dotColor: 'bg-[#ffb4ab] shadow-[0_0_15px_#ffb4ab]',
   },
   {
     type: 'ESTP',
-    name: 'Entrepreneur',
+    name: 'The Entrepreneur',
     category: 'Explorers',
-    desc: 'Smart, energetic and very perceptive people, who truly enjoy living on the edge.',
-    color: 'bg-orange-100 text-orange-700',
+    desc: 'Smart & Energetic',
+    image:
+      'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&q=80',
+    badgeColor: 'text-[#ffb4ab]',
+    dotColor: 'bg-[#ffb4ab] shadow-[0_0_15px_#ffb4ab]',
   },
   {
     type: 'ESFP',
-    name: 'Entertainer',
+    name: 'The Performer',
     category: 'Explorers',
-    desc: 'Spontaneous, energetic and enthusiastic people - life is never boring around them.',
-    color: 'bg-orange-100 text-orange-700',
+    desc: 'Enthusiastic & Spontaneous',
+    image:
+      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&q=80',
+    badgeColor: 'text-[#ffb4ab]',
+    dotColor: 'bg-[#ffb4ab] shadow-[0_0_15px_#ffb4ab]',
   },
 ]
+
+const CATEGORIES = ['Analysts', 'Diplomats', 'Sentinels', 'Explorers']
 
 function DiscoverPage() {
   const [search, setSearch] = useState('')
@@ -137,83 +187,127 @@ function DiscoverPage() {
   )
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <header className="px-6 pt-10 pb-4 sticky top-0 bg-[#F9F7FA] z-10">
-        <h1 className="text-3xl font-black text-[#1D1B4B]">Discover</h1>
-        <p className="text-sm font-medium text-[#1A1A1A]/60 mt-1 mb-6">
-          Explore the 16 personality types.
-        </p>
+    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
+      <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#e9c349] opacity-15 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-[600px] h-[600px] bottom-0 -right-40 rounded-full bg-[#c5c0fe] opacity-15 blur-[80px] pointer-events-none z-0" />
 
-        <div className="relative">
-          <Input
-            type="text"
-            placeholder="Search by type, name or category..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-12 w-full rounded-2xl border-transparent bg-white pl-12 pr-4 text-sm text-[#1A1A1A] shadow-sm focus-visible:ring-2 focus-visible:ring-[#1D1B4B]/20"
+      <header className="sticky top-0 z-30 bg-[#001809]/80 backdrop-blur-xl border-b border-[#c9ebd0]/10 px-8 py-5 flex items-center justify-between">
+        <h1 className="font-serif text-2xl text-[#e9c349] tracking-tight font-normal">
+          SoulType
+        </h1>
+        <div className="w-8 h-8 rounded-full overflow-hidden border border-[#e9c349]/20">
+          <img
+            alt="Profile avatar"
+            className="w-full h-full object-cover"
+            src="https://github.com/shadcn.png"
           />
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#1A1A1A]/30" />
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-6 pb-28 pt-2">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {filteredPersonalities.map((item) => (
-            <Card
-              key={item.type}
-              className="group border-none bg-white p-5 shadow-sm shadow-[#1D1B4B]/5 rounded-3xl transition-all hover:shadow-md active:scale-95 cursor-pointer"
-            >
-              <div className="flex items-center justify-between mb-3">
+      <main className="flex-1 overflow-y-auto px-8 pt-10 pb-32 max-w-[1200px] mx-auto w-full z-10 relative">
+        <section className="mb-14 text-center md:text-left">
+          <h2 className="font-serif text-4xl font-normal text-[#c9ebd0] mb-4 tracking-tight leading-tight">
+            Discover Your Essence
+          </h2>
+          <p className="text-base text-[#c8c5d0] max-w-xl font-normal leading-relaxed">
+            Traverse the landscape of personality. Each archetype holds a unique
+            key to understanding the tapestry of human existence.
+          </p>
+
+          <div className="relative mt-8 max-w-md mx-auto md:mx-0">
+            <Input
+              type="text"
+              placeholder="Search profile..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-12 w-full rounded-2xl border border-white/10 bg-[rgba(197,192,254,0.05)] backdrop-blur-xl pl-12 pr-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+            />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#c9ebd0]/30" />
+          </div>
+        </section>
+
+        {CATEGORIES.map((cat) => {
+          const catItems = filteredPersonalities.filter(
+            (p) => p.category === cat,
+          )
+          if (catItems.length === 0) return null
+
+          const currentConfig = PERSONALITIES.find((p) => p.category === cat)
+
+          return (
+            <div key={cat} className="mb-14">
+              <div className="flex items-center gap-3 mb-8">
                 <span
-                  className={`px-3 py-1 text-xs font-bold rounded-full ${item.color}`}
+                  className={`w-2 h-2 rounded-full ${currentConfig?.dotColor}`}
+                />
+                <h3
+                  className={`font-serif text-xl font-normal ${currentConfig?.badgeColor}`}
                 >
-                  {item.category}
-                </span>
-                <span className="text-lg font-black text-[#1D1B4B] tracking-tight">
-                  {item.type}
-                </span>
+                  {cat}
+                </h3>
               </div>
-              <h3 className="text-xl font-bold text-[#1D1B4B] mb-1">
-                {item.name}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#1A1A1A]/70">
-                {item.desc}
-              </p>
-            </Card>
-          ))}
-          {filteredPersonalities.length === 0 && (
-            <div className="col-span-full py-10 text-center text-[#1A1A1A]/50">
-              No personality found for "{search}".
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {catItems.map((item) => (
+                  <Card
+                    key={item.type}
+                    className="group border border-white/10 bg-[rgba(197,192,254,0.03)] backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:bg-[rgba(197,192,254,0.08)] hover:border-[#e9c349]/20 hover:-translate-y-1 cursor-pointer"
+                  >
+                    <div className="w-full aspect-square rounded-xl mb-4 overflow-hidden relative">
+                      <img
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9] group-hover:brightness-110"
+                        src={item.image}
+                        alt={item.name}
+                      />
+                    </div>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#e9c349] mb-1">
+                      {item.type}
+                    </span>
+                    <h4 className="text-base font-bold text-[#c9ebd0] tracking-tight">
+                      {item.name}
+                    </h4>
+                    <p className="text-xs text-[#c8c5d0]/60 mt-1 font-medium">
+                      {item.desc}
+                    </p>
+                  </Card>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
+          )
+        })}
+
+        {filteredPersonalities.length === 0 && (
+          <div className="py-20 text-center text-[#c8c5d0]/40 font-medium">
+            No archetype matching your search.
+          </div>
+        )}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 flex items-center justify-between border-t bg-white px-6 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.02)] z-20">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#001206]/90 backdrop-blur-2xl border-t border-white/5 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] flex justify-around items-center h-20 pb-4 px-4">
         <Link
           to="/dashboard"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center text-[#c8c5d0]/50 hover:text-[#e9c349] transition-colors gap-1"
         >
-          <Home className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Home</span>
+          <Home className="h-5 w-5" />
+          <span className="text-xs font-medium">Home</span>
         </Link>
         <Link
           to="/chat"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center text-[#c8c5d0]/50 hover:text-[#e9c349] transition-colors gap-1"
         >
-          <MessageSquare className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Chat</span>
+          <MessageSquare className="h-5 w-5" />
+          <span className="text-xs font-medium">Chat</span>
         </Link>
-        <div className="flex flex-col items-center gap-1 text-[#1D1B4B]">
-          <Search className="h-6 w-6" />
-          <span className="text-[10px] font-bold">Discover</span>
+        <div className="flex flex-col items-center justify-center text-[#e9c349] gap-1">
+          <Search className="h-5 w-5" />
+          <span className="text-xs font-bold">Discover</span>
         </div>
         <Link
           to="/profile"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center text-[#c8c5d0]/50 hover:text-[#e9c349] transition-colors gap-1"
         >
-          <User className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Profile</span>
+          <User className="h-5 w-5" />
+          <span className="text-xs font-medium">Profile</span>
         </Link>
       </nav>
     </div>
