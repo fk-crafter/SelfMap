@@ -11,16 +11,25 @@ export function ChatBubble({ role, content }: ChatBubbleProps) {
   return (
     <div
       className={cn(
-        'flex w-full mb-4',
-        isUser ? 'justify-end' : 'justify-start',
+        'mb-6 flex w-full',
+        isUser ? 'justify-end' : 'justify-start gap-3',
       )}
     >
+      {!isUser && (
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/5 bg-[#c8c5d0]/10">
+          <img
+            src="./avatar-coach.png"
+            alt="AI"
+            className="h-full w-full object-cover opacity-80 mix-blend-luminosity"
+          />
+        </div>
+      )}
       <div
         className={cn(
-          'max-w-[85%] sm:max-w-[75%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm',
+          'max-w-[85%] sm:max-w-[75%] rounded-[1.5rem] px-5 py-4 text-sm leading-relaxed shadow-lg',
           isUser
-            ? 'bg-[#1D1B4B] text-white rounded-br-sm'
-            : 'bg-white text-[#1A1A1A] rounded-bl-sm border border-primary/5',
+            ? 'rounded-br-sm bg-[#2e2a5e] text-[#e3dfff]'
+            : 'rounded-bl-sm border border-white/5 bg-[#12301e] font-serif text-[#c9ebd0]',
         )}
       >
         {content}
