@@ -22,22 +22,22 @@ export function DimensionBar({
       <div className="flex items-center justify-between px-1">
         <span
           className={cn(
-            'text-sm font-bold',
-            isLeftDominant ? 'text-[#1D1B4B]' : 'text-[#1A1A1A]/40',
+            'text-xs font-bold tracking-widest uppercase transition-colors',
+            isLeftDominant ? 'text-[#e9c349]' : 'text-[#c8c5d0]/40',
           )}
         >
           {leftLabel} {leftValue}%
         </span>
         <span
           className={cn(
-            'text-sm font-bold',
-            !isLeftDominant ? 'text-[#1D1B4B]' : 'text-[#1A1A1A]/40',
+            'text-xs font-bold tracking-widest uppercase transition-colors',
+            !isLeftDominant ? 'text-[#e9c349]' : 'text-[#c8c5d0]/40',
           )}
         >
           {rightValue}% {rightLabel}
         </span>
       </div>
-      <div className="relative h-3 w-full overflow-hidden rounded-full bg-[#1D1B4B]/5 shadow-inner">
+      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/5 shadow-inner">
         <div
           className={cn(
             'absolute bottom-0 left-0 top-0 rounded-full transition-all duration-1000',
