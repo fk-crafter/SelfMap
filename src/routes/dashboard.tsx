@@ -3,16 +3,18 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
   MessageSquare,
-  LayoutGrid,
-  PenLine,
-  Wind,
-  Users,
   Home,
   Search,
   User,
   Loader2,
   LogOut,
   Settings,
+  Menu,
+  ArrowRight,
+  Sparkles,
+  ArrowUpRight,
+  Star,
+  PenLine,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
@@ -52,8 +54,8 @@ function DashboardPage() {
 
   if (isPending) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#F9F7FA]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#1D1B4B]" />
+      <div className="flex h-screen items-center justify-center bg-[#001809]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
       </div>
     )
   }
@@ -64,16 +66,16 @@ function DashboardPage() {
 
   if (!user.type) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-center">
-        <h1 className="mb-4 text-2xl font-bold text-[#1D1B4B]">
-          Oops, profile not found!
+      <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
+        <h1 className="mb-4 font-serif text-3xl font-normal text-[#e9c349]">
+          Profile incomplete
         </h1>
-        <p className="mb-8 text-[#1A1A1A]/70">
-          You need to take the psychological test to configure your AI coach.
+        <p className="mb-8 text-[#c8c5d0]/70">
+          You need to take the psychological test to configure your Soul Coach.
         </p>
         <Button
           asChild
-          className="rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90"
+          className="rounded-full bg-[#e9c349] px-8 py-6 font-bold text-[#001809] hover:bg-[#e9c349]/90"
         >
           <Link to="/test">Take the test</Link>
         </Button>
@@ -82,19 +84,21 @@ function DashboardPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <header className="flex items-center justify-between px-6 pt-8">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1B4B]/5">
-            <Wind className="h-5 w-5 text-[#1D1B4B]" />
-          </div>
-          <span className="font-semibold text-[#1D1B4B]/60">SoulGuided</span>
+    <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-[#c9ebd0]/5">
+        <div className="flex items-center gap-4">
+          <button className="text-[#c9ebd0] hover:text-[#e9c349] transition-colors">
+            <Menu className="h-6 w-6" />
+          </button>
+          <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
+            SoulType
+          </h1>
         </div>
 
         <div className="relative">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="block h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm transition-transform active:scale-95 hover:scale-105 cursor-pointer"
+            className="block h-9 w-9 overflow-hidden rounded-full border border-[#e9c349]/20 shadow-sm transition-transform active:scale-95 hover:scale-105 cursor-pointer"
           >
             <img
               src="https://github.com/shadcn.png"
@@ -109,27 +113,27 @@ function DashboardPage() {
                 className="fixed inset-0 z-40"
                 onClick={() => setIsMenuOpen(false)}
               />
-              <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl bg-white shadow-xl border border-[#1D1B4B]/5">
+              <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl bg-[#032110] shadow-2xl border border-white/10 backdrop-blur-xl">
                 <Link
                   to="/profile"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#1A1A1A] hover:bg-[#F9F7FA] transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] hover:bg-white/5 transition-colors"
                 >
-                  <User className="h-4 w-4 text-[#1D1B4B]/60" />
+                  <User className="h-4 w-4 text-[#e9c349]/70" />
                   My Profile
                 </Link>
                 <Link
                   to="/settings"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#1A1A1A] hover:bg-[#F9F7FA] transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] hover:bg-white/5 transition-colors"
                 >
-                  <Settings className="h-4 w-4 text-[#1D1B4B]/60" />
+                  <Settings className="h-4 w-4 text-[#e9c349]/70" />
                   Settings
                 </Link>
-                <div className="h-px w-full bg-[#1D1B4B]/5" />
+                <div className="h-px w-full bg-white/10" />
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors text-left w-full"
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#ffb4ab] hover:bg-white/5 transition-colors text-left w-full"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out
@@ -140,122 +144,171 @@ function DashboardPage() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-6 pb-24">
-        <div className="mt-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-[#1D1B4B]">
-            Hello, {user.name}
+      <main className="flex-1 overflow-y-auto px-6 pb-32">
+        <div className="mt-8 mb-8">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-2">
+            Inner Sanctuary
+          </h2>
+          <h1 className="font-serif text-5xl font-normal leading-tight text-[#c9ebd0]">
+            Good Morning,
+            <br />
+            {user.name}
           </h1>
-          <p className="mt-2 text-[#1A1A1A]/70">
-            Your MBTI coach is ready to guide you.
-          </p>
+          <div className="w-12 h-px bg-[#e9c349]/50 mt-6" />
         </div>
 
-        <div className="relative mt-8 flex flex-col items-center">
-          <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-8 border-white bg-[#b6e3f4] shadow-inner">
-            <img
-              src="./avatar-coach.png"
-              alt="Coach Avatar"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <Button
-            asChild
-            className="absolute -bottom-4 flex gap-2 rounded-full bg-[#1D1B4B] px-8 py-6 text-white hover:bg-[#1D1B4B]/90 transition-transform active:scale-95"
-          >
-            <Link to="/chat">
-              <MessageSquare className="h-5 w-5" />
-              Chat with my personality
+        <div className="space-y-6">
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#c5c0fe] shadow-[0_0_8px_#c5c0fe]" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#c5c0fe]">
+                Live Guidance
+              </span>
+            </div>
+
+            <h3 className="font-serif text-2xl text-[#c9ebd0] mb-4 leading-snug">
+              Your Soul Coach is ready to explore today's patterns.
+            </h3>
+
+            <p className="text-sm text-[#c8c5d0] leading-relaxed mb-6">
+              We've noticed a shift in your cognitive functions. Shall we
+              reflect on your recent decision-making process?
+            </p>
+
+            <Button
+              asChild
+              className="w-full sm:w-auto mb-6 rounded-full bg-[#e9c349] text-[#001809] font-bold text-xs tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 h-12 px-6 flex items-center justify-center gap-2"
+            >
+              <Link to="/chat">
+                CONTINUE REFLECTION <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+
+            <div className="w-full aspect-square max-w-[240px] mx-auto bg-[#c8c5d0]/10 rounded-2xl overflow-hidden flex items-center justify-center">
+              <img
+                src="./avatar-coach.png"
+                alt="Coach Avatar"
+                className="w-full h-full object-cover opacity-80 mix-blend-luminosity"
+              />
+            </div>
+          </Card>
+
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[10px] font-bold tracking-widest text-[#c8c5d0]">
+                {user.type || 'MBTI'}
+              </span>
+            </div>
+
+            <h3 className="font-serif text-xl text-[#c9ebd0] mb-3">
+              Daily Insight
+            </h3>
+            <p className="text-sm text-[#c8c5d0] leading-relaxed italic mb-6">
+              "
+              {user.insight ||
+                'Efficiency is highly overrated if it bypasses the intuitive soul. Today, allow your mind to breathe without an immediate roadmap.'}
+              "
+            </p>
+
+            <Link
+              to="/profile"
+              className="inline-flex items-center gap-2 text-xs font-bold text-[#e9c349] hover:text-[#e9c349]/80 transition-colors"
+            >
+              Read Full Analysis <ArrowUpRight className="h-3 w-3" />
             </Link>
-          </Button>
-        </div>
+          </Card>
 
-        <Card className="mt-12 border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
-          <div className="flex items-center justify-between">
-            <span className="rounded-full bg-[#1D1B4B]/5 px-3 py-1 text-xs font-bold text-[#1D1B4B]">
-              {user.type} INSIGHT
-            </span>
-            <PenLine className="h-4 w-4 text-[#1D1B4B]/40" />
-          </div>
-          <h3 className="mt-4 font-semibold text-[#1D1B4B]">Personal Growth</h3>
-          <p className="mt-2 text-sm leading-relaxed text-[#1A1A1A]/70 italic">
-            "{user.insight}"
-          </p>
-        </Card>
+          <Card className="relative overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="absolute -right-8 -bottom-8 opacity-5 pointer-events-none">
+              <User className="w-48 h-48" />
+            </div>
+            <div className="relative z-10">
+              <h3 className="font-serif text-xl text-[#c9ebd0] mb-3">
+                My Journey
+              </h3>
+              <p className="text-sm text-[#c8c5d0] mb-6">
+                84% complete toward your self-actualization milestone.
+              </p>
 
-        <div className="mt-6 grid grid-cols-2 gap-4">
-          {[
-            {
-              label: 'My MBTI',
-              icon: LayoutGrid,
-              color: 'bg-blue-50 text-blue-600',
-              href: '/profile',
-            },
-            {
-              label: 'Journal',
-              icon: PenLine,
-              color: 'bg-green-50 text-green-600',
-              href: '/journal',
-            },
-            {
-              label: 'Meditation',
-              icon: Wind,
-              color: 'bg-orange-50 text-orange-600',
-            },
-            {
-              label: 'Community',
-              icon: Users,
-              color: 'bg-purple-50 text-purple-600',
-            },
-          ].map((item) => {
-            const CardContent = (
-              <Card className="flex flex-col items-center justify-center gap-3 border-none bg-white p-6 shadow-md shadow-[#1D1B4B]/5 rounded-3xl transition-transform active:scale-95 h-full">
-                <div className={`rounded-2xl p-3 ${item.color}`}>
-                  <item.icon className="h-6 w-6" />
+              <div className="w-full h-1.5 bg-white/10 rounded-full mb-6 overflow-hidden">
+                <div className="h-full bg-[#e9c349] w-[84%] rounded-full shadow-[0_0_10px_#e9c349]" />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-[#5c588f] border border-[#001809] flex items-center justify-center text-[8px] font-bold text-white">
+                    12
+                  </div>
+                  <div className="w-6 h-6 rounded-full bg-[#af8d11] border border-[#001809] flex items-center justify-center text-[8px] font-bold text-white">
+                    24
+                  </div>
                 </div>
-                <span className="text-sm font-medium text-[#1D1B4B]/70">
-                  {item.label}
+                <span className="text-xs text-[#c8c5d0]/70">
+                  15 badges earned
                 </span>
-              </Card>
-            )
+              </div>
+            </div>
+          </Card>
 
-            if (item.href) {
-              return (
-                <Link key={item.label} to={item.href} className="block">
-                  {CardContent}
-                </Link>
-              )
-            }
+          <Card className="relative overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="flex items-center gap-3 mb-3">
+              <h3 className="font-serif text-xl text-[#c9ebd0]">Type Theory</h3>
+              <Star className="h-4 w-4 text-[#e9c349] fill-[#e9c349]" />
+            </div>
+            <p className="text-sm text-[#c8c5d0] leading-relaxed mb-6">
+              Deep dive into Cognitive Functions: Introverted Intuition vs
+              Extroverted Thinking.
+            </p>
 
-            return <div key={item.label}>{CardContent}</div>
-          })}
+            <div className="flex flex-wrap gap-2">
+              {['Cognitive Stacks', 'Archetypes', 'Shadow Work'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-medium text-[#c9ebd0]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </Card>
         </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 flex items-center justify-between border-t bg-white px-6 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
-        <div className="flex flex-col items-center gap-1 text-[#1D1B4B]">
-          <Home className="h-6 w-6" />
-          <span className="text-[10px] font-bold">Home</span>
+      <Link
+        to="/journal"
+        className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#e9c349] text-[#001809] shadow-[0_4px_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 active:scale-95"
+      >
+        <PenLine className="h-6 w-6" />
+      </Link>
+
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/90 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">
+        <div className="flex flex-col items-center justify-center gap-1 text-[#e9c349]">
+          <Home className="h-5 w-5" />
+          <span className="text-xs font-bold">Home</span>
         </div>
         <Link
           to="/chat"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
         >
-          <MessageSquare className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Chat</span>
+          <MessageSquare className="h-5 w-5" />
+          <span className="text-xs font-medium">Chat</span>
         </Link>
         <Link
           to="/discover"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
         >
-          <Search className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Discover</span>
+          <Search className="h-5 w-5" />
+          <span className="text-xs font-medium">Discover</span>
         </Link>
         <Link
           to="/profile"
-          className="flex flex-col items-center gap-1 text-[#1A1A1A]/40 hover:text-[#1D1B4B] transition-colors"
+          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
         >
-          <User className="h-6 w-6" />
-          <span className="text-[10px] font-medium">Profile</span>
+          <User className="h-5 w-5" />
+          <span className="text-xs font-medium">Profile</span>
         </Link>
       </nav>
     </div>
