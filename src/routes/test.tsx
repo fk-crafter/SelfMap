@@ -8,7 +8,7 @@ import { questions as quizQuestions } from '../data/questions'
 export const Route = createFileRoute('/test')({
   component: TestPage,
   head: () => ({
-    meta: [{ title: 'SelfMap | Your Test' }],
+    meta: [{ title: 'SoulType | Discover Your Essence' }],
   }),
   loader: async () => {
     return { questions: quizQuestions }
@@ -80,15 +80,17 @@ function TestPage() {
 
   if (isFinished) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#F9F7FA] p-6 text-[#1A1A1A] md:p-10">
-        <div className="flex w-full max-w-2xl flex-col items-center gap-6 text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-[#1D1B4B]" />
+      <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#001809] p-6 text-[#c9ebd0] md:p-10 overflow-hidden">
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-[#e9c349] opacity-10 blur-[80px] pointer-events-none" />
+
+        <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-6 text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-[#e9c349]" />
           <div>
-            <h1 className="mb-2 text-3xl font-bold text-[#1D1B4B]">
-              Analyzing...
+            <h1 className="mb-3 font-serif text-4xl font-normal text-[#e9c349]">
+              Analyzing your essence...
             </h1>
-            <p className="text-[#1A1A1A]/70">
-              We are configuring your AI coach based on your answers.
+            <p className="text-[#c8c5d0] text-lg">
+              We are configuring your Soul Coach based on your answers.
             </p>
           </div>
         </div>
@@ -100,34 +102,37 @@ function TestPage() {
   const progressPercentage = ((currentIndex + 1) / questions.length) * 100
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <div className="fixed top-0 left-0 right-0 z-50 h-1.5 w-full bg-[#1D1B4B]/10">
+    <div className="relative flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans overflow-hidden">
+      <div className="absolute w-[600px] h-[600px] -top-40 -left-40 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute w-[600px] h-[600px] -bottom-40 -right-40 rounded-full bg-[#e9c349] opacity-5 blur-[100px] pointer-events-none z-0" />
+
+      <div className="fixed top-0 left-0 right-0 z-50 h-1.5 w-full bg-white/5">
         <div
-          className="h-full bg-[#1D1B4B] transition-all duration-300 ease-out"
+          className="h-full bg-[#e9c349] shadow-[0_0_10px_#e9c349] transition-all duration-500 ease-out"
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
 
-      <header className="z-10 flex shrink-0 flex-row items-center justify-between px-6 pt-8 pb-6">
+      <header className="relative z-10 flex shrink-0 flex-row items-center justify-between px-6 pt-8 pb-6">
         <Link
           to="/"
-          className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-semibold text-[#1D1B4B] transition-all hover:opacity-70 active:scale-95"
+          className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-bold text-[#c9ebd0] transition-colors hover:text-[#e9c349] active:scale-95"
         >
           <ArrowLeft className="h-5 w-5" />
           Back
         </Link>
-        <p className="text-xs font-semibold tracking-widest text-[#1A1A1A]/40 uppercase">
+        <p className="text-[10px] font-bold tracking-[0.2em] text-[#e9c349] uppercase">
           {currentIndex + 1} / {questions.length}
         </p>
       </header>
 
-      <main className="flex flex-1 flex-col items-center justify-center p-6">
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-center p-6">
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
           <div className="flex min-h-[160px] w-full flex-col items-center justify-center gap-4 text-center">
-            <p className="text-xs font-bold tracking-widest text-[#1A1A1A]/50 uppercase">
+            <p className="text-[10px] font-bold tracking-[0.2em] text-[#e9c349] uppercase">
               Dimension {currentQuestion.dimension}
             </p>
-            <h2 className="max-w-3xl text-2xl font-bold leading-tight text-[#1D1B4B] sm:text-3xl md:text-4xl">
+            <h2 className="max-w-3xl font-serif text-3xl font-normal leading-tight text-[#c9ebd0] sm:text-4xl md:text-5xl">
               {currentQuestion.question}
             </h2>
           </div>
@@ -136,8 +141,8 @@ function TestPage() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#F9F7FA] via-[#F9F7FA] to-transparent px-6 py-6 text-center">
-        <p className="max-w-md text-sm font-light italic text-[#1A1A1A]/50">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#001809] via-[#001809] to-transparent px-6 py-8 text-center pointer-events-none">
+        <p className="max-w-md text-sm font-light italic text-[#c8c5d0]/60">
           Answer with your first intuition. There are no right or wrong answers,
           only your truth.
         </p>
