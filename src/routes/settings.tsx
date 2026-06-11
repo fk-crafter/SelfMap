@@ -89,33 +89,37 @@ function SettingsPage() {
 
   if (isPending) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#F9F7FA]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#1D1B4B]" />
+      <div className="flex h-screen items-center justify-center bg-[#001809]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F9F7FA] text-[#1A1A1A]">
-      <header className="flex items-center gap-4 px-6 pt-8 pb-4">
+    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+      <div className="absolute w-[500px] h-[500px] -top-20 -right-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+
+      <header className="sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
         <Link
           to="/dashboard"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1D1B4B]/5 bg-white text-[#1D1B4B] shadow-sm transition-transform active:scale-95"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
-        <h1 className="text-xl font-bold text-[#1D1B4B]">Settings</h1>
+        <h1 className="font-serif text-2xl font-normal text-[#e9c349] tracking-tight">
+          Settings
+        </h1>
       </header>
 
-      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-12">
-        <Card className="border-none bg-white p-6 shadow-xl shadow-[#1D1B4B]/5 rounded-3xl">
-          <h2 className="mb-4 text-lg font-bold text-[#1D1B4B]">
+      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-12 relative z-10">
+        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+          <h2 className="mb-6 font-serif text-xl text-[#c9ebd0]">
             Edit Profile
           </h2>
 
-          <form onSubmit={handleUpdateName} className="space-y-4">
+          <form onSubmit={handleUpdateName} className="space-y-5">
             <div className="space-y-2">
-              <label className="pl-1 text-xs font-bold tracking-widest text-[#1A1A1A]/40 uppercase">
+              <label className="pl-1 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/50 uppercase">
                 First Name
               </label>
               <div className="relative">
@@ -124,18 +128,18 @@ function SettingsPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-transparent bg-[#F9F7FA] pl-4 pr-10 text-sm text-[#1A1A1A] shadow-inner focus-visible:ring-2 focus-visible:ring-[#1D1B4B]/20"
+                  className="h-12 rounded-xl border border-white/10 bg-[#032110] pl-4 pr-10 text-sm text-[#c9ebd0] shadow-inner focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
                 />
-                <User className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1A1A1A]/30" />
+                <User className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#c8c5d0]/40" />
               </div>
             </div>
 
             {error && (
-              <p className="pl-1 text-xs font-medium text-red-500">{error}</p>
+              <p className="pl-1 text-xs font-medium text-[#ffb4ab]">{error}</p>
             )}
 
             {success && (
-              <p className="pl-1 text-xs font-medium text-green-600">
+              <p className="pl-1 text-xs font-medium text-[#c9ebd0]">
                 Name updated successfully!
               </p>
             )}
@@ -143,7 +147,7 @@ function SettingsPage() {
             <Button
               type="submit"
               disabled={isLoading || name.trim() === data?.user.name}
-              className="flex h-12 w-full items-center justify-center rounded-full bg-[#1D1B4B] text-sm font-semibold text-white shadow-md transition-all hover:bg-[#1D1B4B]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -154,25 +158,25 @@ function SettingsPage() {
           </form>
         </Card>
 
-        <Card className="mt-8 border-none bg-red-50 p-6 shadow-xl shadow-red-500/5 rounded-3xl">
-          <div className="mb-2 flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-red-600" />
-            <h2 className="text-lg font-bold text-red-600">Danger Zone</h2>
+        <Card className="mt-8 border border-[#93000a]/30 bg-[#93000a]/10 backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+          <div className="mb-3 flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-[#ffb4ab]" />
+            <h2 className="font-serif text-xl text-[#ffb4ab]">Danger Zone</h2>
           </div>
-          <p className="mb-6 text-sm text-red-600/70 leading-relaxed">
+          <p className="mb-6 text-sm text-[#ffb4ab]/80 leading-relaxed">
             Once you delete your account, there is no going back. All your data,
             test results, and chat history will be permanently erased.
           </p>
 
           {deleteError && (
-            <p className="mb-4 pl-1 text-xs font-medium text-red-500">
+            <p className="mb-4 pl-1 text-xs font-medium text-[#ffb4ab]">
               {deleteError}
             </p>
           )}
 
           {showDeleteConfirm ? (
-            <div className="space-y-4 rounded-2xl bg-white p-4 shadow-sm border border-red-100">
-              <p className="text-center text-sm font-bold text-[#1A1A1A]">
+            <div className="space-y-4 rounded-2xl bg-[#001206] p-5 border border-[#93000a]/30">
+              <p className="text-center text-sm font-bold text-[#ffb4ab]">
                 Are you absolutely sure?
               </p>
               <div className="flex gap-3">
@@ -180,14 +184,14 @@ function SettingsPage() {
                   onClick={() => setShowDeleteConfirm(false)}
                   variant="outline"
                   disabled={isDeleting}
-                  className="flex-1 rounded-full border-transparent bg-gray-100 text-[#1A1A1A] hover:bg-gray-200"
+                  className="flex-1 rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] hover:bg-white/10 hover:text-white"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleDeleteAccount}
                   disabled={isDeleting}
-                  className="flex-1 rounded-full bg-red-600 text-white hover:bg-red-700"
+                  className="flex-1 rounded-full bg-[#93000a] text-[#ffdad6] hover:bg-[#690005]"
                 >
                   {isDeleting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -200,7 +204,7 @@ function SettingsPage() {
           ) : (
             <Button
               onClick={() => setShowDeleteConfirm(true)}
-              className="flex h-12 w-full items-center justify-center rounded-full bg-white text-sm font-semibold text-red-600 shadow-sm transition-all hover:bg-red-100 border border-red-200 active:scale-[0.98]"
+              className="flex h-12 w-full items-center justify-center rounded-full bg-[#93000a]/20 text-sm font-bold text-[#ffb4ab] border border-[#93000a]/50 transition-all hover:bg-[#93000a]/40 active:scale-[0.98]"
             >
               Delete Account
             </Button>
