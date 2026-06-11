@@ -13,7 +13,6 @@ import {
   ArrowRight,
   Sparkles,
   ArrowUpRight,
-  Star,
   PenLine,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
@@ -220,63 +219,10 @@ function DashboardPage() {
               Read Full Analysis <ArrowUpRight className="h-3 w-3" />
             </Link>
           </Card>
-
-          <Card className="relative overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-            <div className="absolute -right-8 -bottom-8 opacity-5 pointer-events-none">
-              <User className="w-48 h-48" />
-            </div>
-            <div className="relative z-10">
-              <h3 className="font-serif text-xl text-[#c9ebd0] mb-3">
-                My Journey
-              </h3>
-              <p className="text-sm text-[#c8c5d0] mb-6">
-                84% complete toward your self-actualization milestone.
-              </p>
-
-              <div className="w-full h-1.5 bg-white/10 rounded-full mb-6 overflow-hidden">
-                <div className="h-full bg-[#e9c349] w-[84%] rounded-full shadow-[0_0_10px_#e9c349]" />
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-[#5c588f] border border-[#001809] flex items-center justify-center text-[8px] font-bold text-white">
-                    12
-                  </div>
-                  <div className="w-6 h-6 rounded-full bg-[#af8d11] border border-[#001809] flex items-center justify-center text-[8px] font-bold text-white">
-                    24
-                  </div>
-                </div>
-                <span className="text-xs text-[#c8c5d0]/70">
-                  15 badges earned
-                </span>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="relative overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-            <div className="flex items-center gap-3 mb-3">
-              <h3 className="font-serif text-xl text-[#c9ebd0]">Type Theory</h3>
-              <Star className="h-4 w-4 text-[#e9c349] fill-[#e9c349]" />
-            </div>
-            <p className="text-sm text-[#c8c5d0] leading-relaxed mb-6">
-              Deep dive into Cognitive Functions: Introverted Intuition vs
-              Extroverted Thinking.
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {['Cognitive Stacks', 'Archetypes', 'Shadow Work'].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-medium text-[#c9ebd0]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </Card>
         </div>
       </main>
 
+      {/* Raccourci Journal Intime */}
       <Link
         to="/journal"
         className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#e9c349] text-[#001809] shadow-[0_4px_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 active:scale-95"
