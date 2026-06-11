@@ -222,7 +222,6 @@ function DashboardPage() {
         </div>
       </main>
 
-      {/* Raccourci Journal Intime */}
       <Link
         to="/journal"
         className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#e9c349] text-[#001809] shadow-[0_4px_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 active:scale-95"
