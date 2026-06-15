@@ -21,15 +21,15 @@ function TestPage() {
   const setProfile = useUserStore((state) => state.setProfile)
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({})
+  const [userAnswers, setUserAnswers] = useState<Record<number, number>>({})
   const [isFinished, setIsFinished] = useState(false)
 
-  const handleAnswer = async (answerTitle: string) => {
+  const handleAnswer = async (score: number) => {
     const currentQuestion = questions[currentIndex]
 
     const newAnswers = {
       ...userAnswers,
-      [currentQuestion.id]: answerTitle,
+      [currentQuestion.id]: score,
     }
 
     setUserAnswers(newAnswers)
@@ -39,30 +39,45 @@ function TestPage() {
     } else {
       setIsFinished(true)
 
-      const rawScores = { E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0 }
+      const axisSums = { E: 0, N: 0, T: 0, J: 0 }
+      const axisCounts = { E: 0, N: 0, T: 0, J: 0 }
 
-      Object.entries(newAnswers).forEach(([idStr, answer]) => {
-        const id = parseInt(idStr)
-        const isAgree = answer === 'Agree'
+      questions.forEach((q) => {
+        if (q.dimension === 'A') return
 
-        if (id <= 4) isAgree ? rawScores.E++ : rawScores.I++
-        else if (id <= 8) isAgree ? rawScores.N++ : rawScores.S++
-        else if (id <= 12) isAgree ? rawScores.F++ : rawScores.T++
-        else if (id <= 16) isAgree ? rawScores.J++ : rawScores.P++
+        const answerScore = newAnswers[q.id] ?? 0
+
+        const calculatedScore =
+          q.direction === 'positive' ? answerScore : -answerScore
+
+        axisSums[q.dimension] += calculatedScore
+        axisCounts[q.dimension]++
       })
 
-      const finalScores = {
-        E: (rawScores.E / 4) * 100,
-        I: (rawScores.I / 4) * 100,
-        N: (rawScores.N / 4) * 100,
-        S: (rawScores.S / 4) * 100,
-        T: (rawScores.T / 4) * 100,
-        F: (rawScores.F / 4) * 100,
-        J: (rawScores.J / 4) * 100,
-        P: (rawScores.P / 4) * 100,
+      const getPercentageForAxis = (sum: number, count: number) => {
+        const maxPossibleScore = count * 2
+        const rawPercentage =
+          ((sum + maxPossibleScore) / (maxPossibleScore * 2)) * 100
+        return Math.round(rawPercentage)
       }
 
-      const computedType = `${rawScores.E >= rawScores.I ? 'E' : 'I'}${rawScores.N >= rawScores.S ? 'N' : 'S'}${rawScores.T >= rawScores.F ? 'T' : 'F'}${rawScores.J >= rawScores.P ? 'J' : 'P'}`
+      const pE = getPercentageForAxis(axisSums.E, axisCounts.E)
+      const pN = getPercentageForAxis(axisSums.N, axisCounts.N)
+      const pT = getPercentageForAxis(axisSums.T, axisCounts.T)
+      const pJ = getPercentageForAxis(axisSums.J, axisCounts.J)
+
+      const finalScores = {
+        E: pE,
+        I: 100 - pE,
+        N: pN,
+        S: 100 - pN,
+        T: pT,
+        F: 100 - pT,
+        J: pJ,
+        P: 100 - pJ,
+      }
+
+      const computedType = `${finalScores.E >= finalScores.I ? 'E' : 'I'}${finalScores.N >= finalScores.S ? 'N' : 'S'}${finalScores.T >= finalScores.F ? 'T' : 'F'}${finalScores.J >= finalScores.P ? 'J' : 'P'}`
 
       setProfile({
         name: 'Explorer',
