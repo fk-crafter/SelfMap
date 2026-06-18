@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { ArrowLeft, Loader2, User, AlertTriangle } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
@@ -15,12 +16,9 @@ function SettingsPage() {
   const { data, isPending } = authClient.useSession()
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [deleteError, setDeleteError] = useState('')
 
   useEffect(() => {
     if (!isPending && !data?.session) {
@@ -39,8 +37,6 @@ function SettingsPage() {
     if (!name.trim()) return
 
     setIsLoading(true)
-    setError('')
-    setSuccess(false)
 
     try {
       const { error: updateError } = await authClient.updateUser({
@@ -48,22 +44,21 @@ function SettingsPage() {
       })
 
       if (updateError) {
-        setError(updateError.message || 'Failed to update name.')
+        toast.error(updateError.message || 'Failed to update name.')
         setIsLoading(false)
         return
       }
 
-      setSuccess(true)
+      toast.success('Profile updated successfully!')
       setIsLoading(false)
     } catch (err) {
-      setError('An unexpected error occurred.')
+      toast.error('An unexpected error occurred.')
       setIsLoading(false)
     }
   }
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true)
-    setDeleteError('')
 
     try {
       const { error: delError } = await authClient.deleteUser({
@@ -75,14 +70,11 @@ function SettingsPage() {
       })
 
       if (delError) {
-        setDeleteError(
-          delError.message ||
-            'Failed to delete account. Please re-login and try again.',
-        )
+        toast.error(delError.message || 'Failed to delete account.')
         setIsDeleting(false)
       }
     } catch (err) {
-      setDeleteError('An unexpected error occurred.')
+      toast.error('An unexpected error occurred.')
       setIsDeleting(false)
     }
   }
@@ -134,16 +126,6 @@ function SettingsPage() {
               </div>
             </div>
 
-            {error && (
-              <p className="pl-1 text-xs font-medium text-[#ffb4ab]">{error}</p>
-            )}
-
-            {success && (
-              <p className="pl-1 text-xs font-medium text-[#c9ebd0]">
-                Name updated successfully!
-              </p>
-            )}
-
             <Button
               type="submit"
               disabled={isLoading || name.trim() === data?.user.name}
@@ -167,12 +149,6 @@ function SettingsPage() {
             Once you delete your account, there is no going back. All your data,
             test results, and chat history will be permanently erased.
           </p>
-
-          {deleteError && (
-            <p className="mb-4 pl-1 text-xs font-medium text-[#ffb4ab]">
-              {deleteError}
-            </p>
-          )}
 
           {showDeleteConfirm ? (
             <div className="space-y-4 rounded-2xl bg-[#001206] p-5 border border-[#93000a]/30">

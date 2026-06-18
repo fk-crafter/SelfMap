@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import { ArrowLeft, Loader2, BookOpen, Send, Trash2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/journal')({
   component: JournalPage,
@@ -41,7 +42,7 @@ function JournalPage() {
           setEntries(fetchedData)
         }
       } catch (error) {
-        console.error('Failed to load journal entries', error)
+        toast.error('Failed to load entries')
       }
     }
     fetchEntries()
@@ -66,9 +67,10 @@ function JournalPage() {
         const newEntry = await res.json()
         setEntries((prev) => [newEntry, ...prev])
         setContent('')
+        toast.success('Thought recorded')
       }
     } catch (error) {
-      console.error('Failed to save entry', error)
+      toast.error('Could not save your entry')
     } finally {
       setIsLoading(false)
     }
@@ -84,9 +86,10 @@ function JournalPage() {
 
       if (res.ok) {
         setEntries((prev) => prev.filter((entry) => entry.id !== id))
+        toast.success('Entry removed')
       }
     } catch (error) {
-      console.error('Failed to delete entry', error)
+      toast.error('Failed to delete entry')
     }
   }
 

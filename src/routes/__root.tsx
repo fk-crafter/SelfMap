@@ -6,9 +6,10 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { useEffect } from 'react' // AJOUTÉ
-import { authClient } from '@/lib/auth-client' // AJOUTÉ
-import { useUserStore } from '@/store/userStore' // AJOUTÉ
+import { useEffect } from 'react'
+import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
+import { Toaster } from 'sonner'
 
 import appCss from '../styles.css?url'
 
@@ -25,7 +26,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'SelfMap',
+        title: 'SoulType',
       },
     ],
     links: [
@@ -41,19 +42,18 @@ export const Route = createRootRoute({
     </RootDocument>
   ),
   notFoundComponent: () => (
-    <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="island-shell p-12 text-center rounded-2xl">
-        <h1 className="text-6xl font-bold text-lagoon-deep display-title">
-          404
-        </h1>
-        <p className="mt-4 text-lg text-sea-ink-soft">
-          this page doesn't exist.
+    <div className="flex min-h-screen items-center justify-center bg-[#001809] relative overflow-hidden">
+      <div className="absolute w-[500px] h-[500px] rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+      <div className="relative z-10 p-12 text-center rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl shadow-2xl">
+        <h1 className="font-serif text-8xl font-normal text-[#e9c349]">404</h1>
+        <p className="mt-4 text-lg text-[#c8c5d0]">
+          This dimension doesn't exist.
         </p>
         <a
           href="/"
-          className="mt-8 inline-block px-6 py-3 bg-sea-ink text-white rounded-full no-underline hover:bg-lagoon-deep"
+          className="mt-8 inline-block px-8 py-4 bg-[#e9c349] text-[#001809] font-bold rounded-full no-underline hover:bg-[#e9c349]/90 transition-transform active:scale-95 shadow-[0_0_15px_rgba(233,195,73,0.2)]"
         >
-          back to home
+          Return to Sanctuary
         </a>
       </div>
     </div>
@@ -61,7 +61,6 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  // AJOUT DE LA VÉRIFICATION DE SESSION
   const setUser = useUserStore((state) => state.setUser)
 
   useEffect(() => {
@@ -81,8 +80,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)]">
+      <body className="font-sans antialiased wrap-anywhere selection:bg-[#e9c349]/20 bg-[#001809]">
         {children}
+
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            classNames: {
+              toast:
+                'bg-[#032110] border border-white/10 text-[#c9ebd0] font-sans rounded-2xl shadow-xl backdrop-blur-xl flex items-center gap-3 px-4 py-3 w-full',
+              title: 'text-[#c9ebd0] font-bold text-sm',
+              description: 'text-[#c8c5d0]/70 text-xs',
+              success: 'text-[#e9c349]',
+              error: 'text-[#ffb4ab]',
+            },
+          }}
+        />
+
         <TanStackDevtools
           config={{
             position: 'bottom-right',
