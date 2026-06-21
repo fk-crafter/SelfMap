@@ -29,11 +29,11 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
       </div>
 
       <Card className="w-full max-w-md overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-2 shadow-2xl backdrop-blur-xl rounded-[2.5rem]">
-        <CardHeader className="pt-8 pb-4">
-          <CardTitle className="font-serif text-2xl font-normal text-[#c9ebd0]">
+        <CardHeader className="pt-8 pb-4 px-4 sm:px-6">
+          <CardTitle className="whitespace-nowrap font-serif text-xl font-normal text-[#c9ebd0] sm:text-2xl">
             Ready to understand yourself?
           </CardTitle>
-          <CardDescription className="text-base text-[#c8c5d0]/70">
+          <CardDescription className="whitespace-nowrap text-sm text-[#c8c5d0]/70 sm:text-base">
             Take a 5-minute test to map your personality.
           </CardDescription>
         </CardHeader>
