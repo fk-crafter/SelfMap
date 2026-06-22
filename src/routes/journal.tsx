@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { ArrowLeft, Loader2, BookOpen, Send, Trash2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
+import { motion } from 'motion/react'
 
 export const Route = createFileRoute('/journal')({
   component: JournalPage,
@@ -119,42 +120,48 @@ function JournalPage() {
       </header>
 
       <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-8 px-6 pb-24 relative z-10">
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
-              <BookOpen className="h-5 w-5" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
+                <BookOpen className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-serif text-xl text-[#c9ebd0]">New Entry</h2>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
+                  What's on your mind?
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="font-serif text-xl text-[#c9ebd0]">New Entry</h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
-                What's on your mind?
-              </p>
-            </div>
-          </div>
 
-          <form onSubmit={handleSave} className="space-y-4">
-            <Textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your thoughts here..."
-              className="min-h-[120px] resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
-            />
-            <Button
-              type="submit"
-              disabled={isLoading || !content.trim()}
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  <Send className="h-4 w-4" />
-                  Save Entry
-                </>
-              )}
-            </Button>
-          </form>
-        </Card>
+            <form onSubmit={handleSave} className="space-y-4">
+              <Textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your thoughts here..."
+                className="min-h-[120px] resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+              />
+              <Button
+                type="submit"
+                disabled={isLoading || !content.trim()}
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" />
+                    Save Entry
+                  </>
+                )}
+              </Button>
+            </form>
+          </Card>
+        </motion.div>
 
         <div className="space-y-4">
           <h3 className="pl-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
@@ -165,31 +172,39 @@ function JournalPage() {
               No entries yet. The blank page awaits.
             </p>
           ) : (
-            entries.map((entry) => (
-              <Card
+            entries.map((entry, index) => (
+              <motion.div
                 key={entry.id}
-                className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.1,
+                  ease: 'easeOut',
+                }}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
-                    {new Date(entry.createdAt).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
+                <Card className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
+                      {new Date(entry.createdAt).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <button
+                      onClick={() => handleDelete(entry.id)}
+                      className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                      aria-label="Delete entry"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#c8c5d0]">
+                    {entry.content}
                   </p>
-                  <button
-                    onClick={() => handleDelete(entry.id)}
-                    className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
-                    aria-label="Delete entry"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-                <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#c8c5d0]">
-                  {entry.content}
-                </p>
-              </Card>
+                </Card>
+              </motion.div>
             ))
           )}
         </div>
