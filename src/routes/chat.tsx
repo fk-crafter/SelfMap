@@ -1,10 +1,10 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ArrowLeft, ArrowUp, Loader2, MoreVertical } from 'lucide-react'
-import { ChatBubble } from '@/components/chat/ChatBubble'
+import { ArrowLeft, Send, Sparkles, User, Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { toast } from 'sonner'
+import { motion } from 'motion/react'
 
 export const Route = createFileRoute('/chat')({
   component: ChatPage,
@@ -18,184 +18,180 @@ type Message = {
 function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+
+  // On initialise avec un message de bienvenue du Coach
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: 'assistant',
+      content:
+        "Bonjour. Je suis ton Soul Coach. Qu'est-ce qui occupe tes pensées aujourd'hui ?",
+    },
+  ])
   const [input, setInput] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  // Redirection si non connecté
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
     }
   }, [data, isPending, navigate])
 
-  const scrollToBottom = () => {
+  // Scroll automatique vers le bas à chaque nouveau message
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  }, [messages, isLoading])
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages, isTyping])
-
-  useEffect(() => {
-    const fetchHistory = async () => {
-      if (!data?.user.id) return
-
-      try {
-        const res = await fetch('/api/chat/history', {
-          headers: {
-            'x-user-id': data.user.id,
-          },
-        })
-
-        if (res.ok) {
-          const convo = await res.json()
-          if (convo.messages && convo.messages.length > 0) {
-            setMessages(
-              convo.messages.map((m: any) => ({
-                role: m.role,
-                content: m.content,
-              })),
-            )
-          } else {
-            const type = (data.user as any)?.type
-            const initialMsg = type
-              ? `Hello, I've been reflecting on your profile. Your use of ${type} traits seems particularly sharp today. How are you feeling about your current path?`
-              : "Hello, I'm your coach. How are you feeling about your current path today?"
-
-            setMessages([{ role: 'assistant', content: initialMsg }])
-          }
-        }
-      } catch (error) {
-        console.error('Failed to load history', error)
-      }
-    }
-
-    fetchHistory()
-  }, [data?.user.id])
-
-  const handleSend = async (e: React.FormEvent) => {
+  const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || !data?.user.id) return
 
-    const userMessage = input.trim()
-    setInput('')
+    const userMessage: Message = { role: 'user', content: input }
+    const newMessages = [...messages, userMessage]
 
-    setMessages((prev) => [...prev, { role: 'user', content: userMessage }])
-    setIsTyping(true)
+    setMessages(newMessages)
+    setInput('')
+    setIsLoading(true)
 
     try {
-      const res = await fetch('/api/chat/send', {
+      const res = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': data.user.id,
         },
-        body: JSON.stringify({ content: userMessage }),
+        // On n'envoie que les 6 derniers messages pour ne pas exploser la fenêtre de contexte
+        body: JSON.stringify({ messages: newMessages.slice(-6) }),
       })
 
-      if (res.ok) {
-        const aiMsg = await res.json()
-        setMessages((prev) => [
-          ...prev,
-          { role: 'assistant', content: aiMsg.content },
-        ])
-      }
+      if (!res.ok) throw new Error('Erreur réseau')
+
+      const result = await res.json()
+
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: result.reply },
+      ])
     } catch (error) {
-      console.error('Failed to send message', error)
+      toast.error('Le coach est indisponible pour le moment.')
+      // En cas d'erreur, on retire le message de l'utilisateur pour qu'il puisse réessayer
+      setMessages((prev) => prev.slice(0, -1))
+      setInput(userMessage.content)
     } finally {
-      setIsTyping(false)
+      setIsLoading(false)
     }
   }
 
   if (isPending) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
+      <div className="flex min-h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
       </div>
     )
   }
 
   return (
-    <div className="flex h-screen flex-col bg-[#001809] font-sans">
-      <header className="relative z-10 flex shrink-0 items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/80 px-4 py-3 backdrop-blur-xl">
-        <Button
-          variant="ghost"
-          size="icon"
-          asChild
-          className="-ml-2 text-[#c9ebd0] hover:text-[#e9c349] transition-colors"
+    <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
+      {/* Effets de lumière en fond */}
+      <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
+
+      {/* Header Sticky */}
+      <header className="flex-none sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
+        <Link
+          to="/dashboard"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
         >
-          <Link to="/dashboard">
-            <ArrowLeft className="h-6 w-6" />
-          </Link>
-        </Button>
-
-        <div className="flex flex-col items-center">
-          <h1 className="font-serif text-xl font-normal tracking-tight text-[#e9c349]">
-            SoulType
+          <ArrowLeft className="h-5 w-5" />
+        </Link>
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#c5c0fe]/20 text-[#c5c0fe]">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">
+            Soul Coach
           </h1>
-          <span className="text-[10px] font-medium tracking-widest text-[#c8c5d0]/60 uppercase">
-            AI Growth Coach
-          </span>
         </div>
-
-        <button className="-mr-2 flex h-10 w-10 items-center justify-center text-[#c9ebd0] hover:text-[#e9c349] transition-colors">
-          <MoreVertical className="h-5 w-5" />
-        </button>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mx-auto flex min-h-full max-w-3xl flex-col justify-end">
-          <div className="mb-8 flex justify-center">
-            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8c5d0]/40">
-              Deep Reflection Session • Today
-            </span>
-          </div>
-
-          <div className="pt-4">
-            {messages.map((msg, idx) => (
-              <ChatBubble key={idx} role={msg.role} content={msg.content} />
-            ))}
-
-            {isTyping && (
-              <div className="mb-6 flex w-full justify-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/5 bg-[#c8c5d0]/10">
-                  <img
-                    src="./avatar-coach.png"
-                    alt="AI"
-                    className="h-full w-full object-cover opacity-80 mix-blend-luminosity"
-                  />
-                </div>
-                <div className="flex h-[52px] items-center gap-1.5 rounded-[1.5rem] rounded-bl-sm border border-white/5 bg-[#12301e] px-5 py-4 shadow-lg">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#c9ebd0]/50 [animation-delay:-0.3s]"></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#c9ebd0]/50 [animation-delay:-0.15s]"></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#c9ebd0]/50"></span>
-                </div>
+      {/* Zone de Messages (Scrollable) */}
+      <main className="flex-1 overflow-y-auto px-4 py-6 z-10 space-y-6">
+        {messages.map((msg, index) => {
+          const isAi = msg.role === 'assistant'
+          return (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className={`flex gap-3 ${isAi ? 'flex-row' : 'flex-row-reverse'}`}
+            >
+              <div
+                className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full mt-auto ${isAi ? 'bg-[#c5c0fe]/10 text-[#c5c0fe]' : 'bg-[#e9c349]/10 text-[#e9c349]'}`}
+              >
+                {isAi ? (
+                  <Sparkles className="h-4 w-4" />
+                ) : (
+                  <User className="h-4 w-4" />
+                )}
               </div>
-            )}
-            <div ref={messagesEndRef} className="h-2" />
-          </div>
-        </div>
+
+              {/* Bulle de texte */}
+              <div
+                className={`max-w-[75%] rounded-[1.5rem] px-5 py-3.5 text-sm leading-relaxed ${
+                  isAi
+                    ? 'rounded-bl-sm bg-[rgba(197,192,254,0.05)] border border-white/5 text-[#c8c5d0]'
+                    : 'rounded-br-sm bg-[#e9c349]/10 border border-[#e9c349]/20 text-[#e9c349]'
+                }`}
+              >
+                {msg.content}
+              </div>
+            </motion.div>
+          )
+        })}
+
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex gap-3 flex-row"
+          >
+            <div className="shrink-0 flex h-8 w-8 items-center justify-center rounded-full mt-auto bg-[#c5c0fe]/10 text-[#c5c0fe]">
+              <Sparkles className="h-4 w-4" />
+            </div>
+            <div className="rounded-[1.5rem] rounded-bl-sm bg-[rgba(197,192,254,0.05)] border border-white/5 px-5 py-4 flex gap-1.5 items-center">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5c0fe]/50 animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5c0fe]/50 animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c5c0fe]/50 animate-bounce"></span>
+            </div>
+          </motion.div>
+        )}
+        <div ref={messagesEndRef} />
       </main>
 
-      <footer className="relative z-10 shrink-0 border-t border-white/5 bg-[#001206]/90 p-4 backdrop-blur-2xl">
-        <div className="mx-auto max-w-3xl">
-          <form onSubmit={handleSend} className="flex gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Message your coach..."
-              className="flex-1 rounded-full border border-white/10 bg-[#032110] px-6 h-12 text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
-            />
-            <Button
-              type="submit"
-              size="icon"
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e9c349] shadow-md transition-transform hover:bg-[#e9c349]/90 active:scale-95"
-            >
-              <ArrowUp className="h-6 w-6 text-[#001809]" />
-            </Button>
-          </form>
-        </div>
+      {/* Zone de saisie */}
+      <footer className="flex-none p-4 z-10 bg-[#001809]/80 backdrop-blur-xl border-t border-white/5 pb-safe">
+        <form
+          onSubmit={sendMessage}
+          className="flex gap-2 max-w-2xl mx-auto relative"
+        >
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Écris à ton coach..."
+            disabled={isLoading}
+            className="w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.02)] px-6 py-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/30 focus:outline-none focus:ring-1 focus:ring-[#c5c0fe]/30 disabled:opacity-50 pr-14"
+          />
+          <Button
+            type="submit"
+            disabled={!input.trim() || isLoading}
+            size="icon"
+            className="absolute right-2 top-2 h-10 w-10 rounded-full bg-[#c5c0fe] text-[#001809] hover:bg-[#c5c0fe]/80 transition-transform active:scale-90 disabled:opacity-50 disabled:active:scale-100"
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </form>
       </footer>
     </div>
   )
