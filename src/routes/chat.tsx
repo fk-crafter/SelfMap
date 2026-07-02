@@ -19,7 +19,6 @@ function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
 
-  // On initialise avec un message de bienvenue du Coach
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -31,14 +30,37 @@ function ChatPage() {
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Redirection si non connecté
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
     }
   }, [data, isPending, navigate])
 
-  // Scroll automatique vers le bas à chaque nouveau message
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!data?.user.id) return
+
+      try {
+        const res = await fetch('/api/chat/history', {
+          headers: {
+            'x-user-id': data.user.id,
+          },
+        })
+
+        if (res.ok) {
+          const history = await res.json()
+          if (history && history.length > 0) {
+            setMessages(history)
+          }
+        }
+      } catch (error) {
+        toast.error("Impossible de charger l'historique.")
+      }
+    }
+
+    fetchHistory()
+  }, [data?.user.id])
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
@@ -47,22 +69,19 @@ function ChatPage() {
     e.preventDefault()
     if (!input.trim() || !data?.user.id) return
 
-    const userMessage: Message = { role: 'user', content: input }
-    const newMessages = [...messages, userMessage]
-
-    setMessages(newMessages)
+    const userContent = input
+    setMessages((prev) => [...prev, { role: 'user', content: userContent }])
     setInput('')
     setIsLoading(true)
 
     try {
-      const res = await fetch('/api/ai/chat', {
+      const res = await fetch('/api/chat/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': data.user.id,
         },
-        // On n'envoie que les 6 derniers messages pour ne pas exploser la fenêtre de contexte
-        body: JSON.stringify({ messages: newMessages.slice(-6) }),
+        body: JSON.stringify({ content: userContent }),
       })
 
       if (!res.ok) throw new Error('Erreur réseau')
@@ -75,9 +94,8 @@ function ChatPage() {
       ])
     } catch (error) {
       toast.error('Le coach est indisponible pour le moment.')
-      // En cas d'erreur, on retire le message de l'utilisateur pour qu'il puisse réessayer
       setMessages((prev) => prev.slice(0, -1))
-      setInput(userMessage.content)
+      setInput(userContent)
     } finally {
       setIsLoading(false)
     }
@@ -93,10 +111,8 @@ function ChatPage() {
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
-      {/* Effets de lumière en fond */}
       <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
 
-      {/* Header Sticky */}
       <header className="flex-none sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
         <Link
           to="/dashboard"
@@ -114,7 +130,6 @@ function ChatPage() {
         </div>
       </header>
 
-      {/* Zone de Messages (Scrollable) */}
       <main className="flex-1 overflow-y-auto px-4 py-6 z-10 space-y-6">
         {messages.map((msg, index) => {
           const isAi = msg.role === 'assistant'
@@ -136,7 +151,6 @@ function ChatPage() {
                 )}
               </div>
 
-              {/* Bulle de texte */}
               <div
                 className={`max-w-[75%] rounded-[1.5rem] px-5 py-3.5 text-sm leading-relaxed ${
                   isAi
@@ -169,7 +183,6 @@ function ChatPage() {
         <div ref={messagesEndRef} />
       </main>
 
-      {/* Zone de saisie */}
       <footer className="flex-none p-4 z-10 bg-[#001809]/80 backdrop-blur-xl border-t border-white/5 pb-safe">
         <form
           onSubmit={sendMessage}
