@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Headers,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Headers } from '@nestjs/common';
 import { ChatService } from './chat.service';
 
 @Controller('api/chat')
@@ -14,18 +7,15 @@ export class ChatController {
 
   @Get('history')
   async getHistory(@Headers('x-user-id') userId: string) {
-    if (!userId) throw new UnauthorizedException('User not identified');
-
-    return this.chatService.getOrCreateConversation(userId);
+    return this.chatService.getHistory(userId);
   }
 
   @Post('send')
   async sendMessage(
     @Headers('x-user-id') userId: string,
-    @Body('content') content: string,
+    @Body() body: { content: string },
   ) {
-    if (!userId) throw new UnauthorizedException('User not identified');
-
-    return this.chatService.sendMessage(userId, content);
+    const reply = await this.chatService.sendMessage(userId, body.content);
+    return { reply: reply.content };
   }
 }
