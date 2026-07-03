@@ -22,8 +22,7 @@ function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content:
-        "Bonjour. Je suis ton Soul Coach. Qu'est-ce qui occupe tes pensées aujourd'hui ?",
+      content: "Hello. I'm your Soul Coach. What's on your mind today?",
     },
   ])
   const [input, setInput] = useState('')
@@ -54,7 +53,7 @@ function ChatPage() {
           }
         }
       } catch (error) {
-        toast.error("Impossible de charger l'historique.")
+        toast.error('Unable to load the history.')
       }
     }
 
@@ -84,7 +83,7 @@ function ChatPage() {
         body: JSON.stringify({ content: userContent }),
       })
 
-      if (!res.ok) throw new Error('Erreur réseau')
+      if (!res.ok) throw new Error('Network error')
 
       const result = await res.json()
 
@@ -93,7 +92,7 @@ function ChatPage() {
         { role: 'assistant', content: result.reply },
       ])
     } catch (error) {
-      toast.error('Le coach est indisponible pour le moment.')
+      toast.error('The coach is unavailable for the moment.')
       setMessages((prev) => prev.slice(0, -1))
       setInput(userContent)
     } finally {
@@ -204,7 +203,7 @@ function ChatPage() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Écris à ton coach..."
+            placeholder="Write to your coach..."
             disabled={isLoading}
             className="w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.02)] px-6 py-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/30 focus:outline-none focus:ring-1 focus:ring-[#c5c0fe]/30 disabled:opacity-50 pr-14"
           />

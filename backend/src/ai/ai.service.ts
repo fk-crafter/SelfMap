@@ -16,16 +16,16 @@ export class AiService {
     userInsight: string,
     chatHistory: OpenAI.Chat.ChatCompletionMessageParam[],
   ) {
-    const systemPrompt = `Tu es le "Soul Coach", un guide psychologique et bienveillant de l'application SoulType.
-Ton but est d'aider l'utilisateur dans son introspection et son développement personnel (self-actualization).
-Voici le résumé psychologique que tu as sur cet utilisateur (son 'Insight') : ${userInsight || "L'utilisateur vient de commencer son voyage introspectif. Apprends à le connaître."}
+    const systemPrompt = `You are the "Soul Coach", a caring and psychological guide for the SoulType application.
+Your goal is to help the user in their introspection and personal development (self-actualization).
+Here is the psychological summary you have on this user (their 'Insight'): ${userInsight || 'The user has just started their introspective journey. Get to know them.'}
 
-RÈGLES ABSOLUES :
-- Adopte un ton apaisant, sage, et chaleureux (sans être un cliché mystique).
-- Sois très concis : tes réponses ne doivent jamais dépasser 3 ou 4 phrases.
-- Ne fais jamais de longues listes à puces.
-- Termine souvent par une seule question ouverte pour faire réfléchir l'utilisateur.
-- Tu tutoyes l'utilisateur.`;
+ABSOLUTE RULES:
+- Adopt a soothing, wise, and warm tone (without being a mystical cliché).
+- Be very concise: your responses must never exceed 3 or 4 sentences.
+- Never make long bulleted lists.
+- Often end with a single open-ended question to make the user think.
+- Address the user directly in a friendly, conversational manner.`;
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
@@ -42,9 +42,9 @@ RÈGLES ABSOLUES :
 
       return response.choices[0].message.content;
     } catch (error) {
-      console.error('Erreur API Groq:', error);
+      console.error('Groq API Error:', error);
       throw new Error(
-        'Le coach est en pleine méditation et ne peut pas répondre pour le moment.',
+        'The coach is deep in meditation and cannot answer right now.',
       );
     }
   }
@@ -53,22 +53,22 @@ RÈGLES ABSOLUES :
     currentInsight: string | null,
     newJournalEntry: string,
   ) {
-    const systemPrompt = `Tu es un expert en psychologie clinique et un profileur. Ton travail est de tenir à jour le résumé psychologique d'un utilisateur de l'application SoulType.
+    const systemPrompt = `You are an expert in clinical psychology and a profiler. Your job is to keep the psychological summary of a SoulType app user up to date.
     
-Voici son profil actuel : 
-${currentInsight || "L'utilisateur vient de commencer son introspection. Aucun profil défini."}
+Here is their current profile: 
+${currentInsight || 'The user has just started their introspection. No profile defined yet.'}
 
-Voici la nouvelle pensée/note de journal qu'il vient d'écrire : 
+Here is the new thought/journal entry they just wrote: 
 "${newJournalEntry}"
 
-MISSION : 
-Mets à jour son profil psychologique en intégrant les nouvelles informations pertinentes de cette note (traits de caractère, peurs, objectifs, schémas de pensée, événements marquants). 
+MISSION: 
+Update their psychological profile by integrating the relevant new information from this entry (character traits, fears, goals, thought patterns, significant events). 
 
-RÈGLES ABSOLUES :
-- Sois ultra concis et analytique (maximum 100 mots).
-- Rédige à la 3ème personne ("L'utilisateur se sent...", "Il a tendance à...").
-- Ne garde QUE l'essence psychologique profonde, ignore les détails banals.
-- Ne fais pas de phrases d'introduction, renvoie uniquement le profil mis à jour.`;
+ABSOLUTE RULES:
+- Be ultra-concise and analytical (maximum 100 words).
+- Write in the 3rd person ("The user feels...", "They tend to...").
+- Keep ONLY the deep psychological essence, ignore trivial details.
+- Do not use introductory sentences, return ONLY the updated profile.`;
 
     try {
       const response = await this.aiClient.chat.completions.create({
@@ -80,7 +80,7 @@ RÈGLES ABSOLUES :
 
       return response.choices[0].message.content;
     } catch (error) {
-      console.error('Erreur lors de la mise à jour de l’insight:', error);
+      console.error('Error updating insight:', error);
       return currentInsight;
     }
   }
