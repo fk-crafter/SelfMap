@@ -48,4 +48,40 @@ RÈGLES ABSOLUES :
       );
     }
   }
+
+  async updatePsychologicalInsight(
+    currentInsight: string | null,
+    newJournalEntry: string,
+  ) {
+    const systemPrompt = `Tu es un expert en psychologie clinique et un profileur. Ton travail est de tenir à jour le résumé psychologique d'un utilisateur de l'application SoulType.
+    
+Voici son profil actuel : 
+${currentInsight || "L'utilisateur vient de commencer son introspection. Aucun profil défini."}
+
+Voici la nouvelle pensée/note de journal qu'il vient d'écrire : 
+"${newJournalEntry}"
+
+MISSION : 
+Mets à jour son profil psychologique en intégrant les nouvelles informations pertinentes de cette note (traits de caractère, peurs, objectifs, schémas de pensée, événements marquants). 
+
+RÈGLES ABSOLUES :
+- Sois ultra concis et analytique (maximum 100 mots).
+- Rédige à la 3ème personne ("L'utilisateur se sent...", "Il a tendance à...").
+- Ne garde QUE l'essence psychologique profonde, ignore les détails banals.
+- Ne fais pas de phrases d'introduction, renvoie uniquement le profil mis à jour.`;
+
+    try {
+      const response = await this.aiClient.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'system', content: systemPrompt }],
+        temperature: 0.3,
+        max_tokens: 200,
+      });
+
+      return response.choices[0].message.content;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de l’insight:', error);
+      return currentInsight;
+    }
+  }
 }

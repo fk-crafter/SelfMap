@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Send, Sparkles, User, Loader2 } from 'lucide-react'
+import { ArrowLeft, Send, User, Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
@@ -121,8 +121,12 @@ function ChatPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#c5c0fe]/20 text-[#c5c0fe]">
-            <Sparkles className="h-4 w-4" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
+            <img
+              src="/avatar-coach.png"
+              alt="Coach Avatar"
+              className="h-full w-full object-cover"
+            />
           </div>
           <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">
             Soul Coach
@@ -142,10 +146,14 @@ function ChatPage() {
               className={`flex gap-3 ${isAi ? 'flex-row' : 'flex-row-reverse'}`}
             >
               <div
-                className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full mt-auto ${isAi ? 'bg-[#c5c0fe]/10 text-[#c5c0fe]' : 'bg-[#e9c349]/10 text-[#e9c349]'}`}
+                className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full overflow-hidden mt-auto ${isAi ? 'bg-[#c5c0fe]/10 text-[#c5c0fe]' : 'bg-[#e9c349]/10 text-[#e9c349]'}`}
               >
                 {isAi ? (
-                  <Sparkles className="h-4 w-4" />
+                  <img
+                    src="/avatar-coach.png"
+                    alt="Coach Avatar"
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <User className="h-4 w-4" />
                 )}
@@ -170,8 +178,12 @@ function ChatPage() {
             animate={{ opacity: 1 }}
             className="flex gap-3 flex-row"
           >
-            <div className="shrink-0 flex h-8 w-8 items-center justify-center rounded-full mt-auto bg-[#c5c0fe]/10 text-[#c5c0fe]">
-              <Sparkles className="h-4 w-4" />
+            <div className="shrink-0 flex h-8 w-8 items-center justify-center rounded-full overflow-hidden mt-auto bg-[#c5c0fe]/10 text-[#c5c0fe]">
+              <img
+                src="/avatar-coach.png"
+                alt="Coach Avatar"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="rounded-[1.5rem] rounded-bl-sm bg-[rgba(197,192,254,0.05)] border border-white/5 px-5 py-4 flex gap-1.5 items-center">
               <span className="w-1.5 h-1.5 rounded-full bg-[#c5c0fe]/50 animate-bounce [animation-delay:-0.3s]"></span>
