@@ -60,18 +60,30 @@ function RegisterPage() {
       }
 
       if (signUpData.user.id && profile?.type) {
-        await fetch('/api/user/setup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: signUpData.user.id,
-            mbtiType: profile.type,
-          }),
-        })
+        try {
+          const res = await fetch('http://localhost:3000/user/setup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: signUpData.user.id,
+              mbtiType: profile.type,
+            }),
+          })
+
+          if (!res.ok) {
+            const errorText = await res.text()
+            throw new Error(`Erreur Backend (${res.status}): ${errorText}`)
+          }
+        } catch (fetchErr: any) {
+          setError(`Erreur de connexion au backend IA : ${fetchErr.message}`)
+          setIsLoading(false)
+          return
+        }
       }
 
+      sessionStorage.removeItem('hasSeenOnboarding')
       navigate({ to: '/dashboard' })
     } catch (err) {
       setError('An unexpected error occurred.')

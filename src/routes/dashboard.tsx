@@ -33,11 +33,16 @@ type ExtendedUser = {
 
 function DashboardPage() {
   const navigate = useNavigate()
-  const { data, isPending } = authClient.useSession()
+  const { data, isPending, refetch } = authClient.useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   const user = data?.user as ExtendedUser | undefined
+
+  // Force la mise à jour de la session au chargement pour récupérer l'avatar
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   useEffect(() => {
     if (!isPending && !data?.session) {
