@@ -20,7 +20,11 @@ type ExtendedUser = {
 
 function ProfilePage() {
   const navigate = useNavigate()
-  const { data, isPending } = authClient.useSession()
+  const { data, isPending, refetch } = authClient.useSession()
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   useEffect(() => {
     if (!isPending && !data?.session) {
@@ -80,9 +84,9 @@ function ProfilePage() {
         <div className="mt-8 flex flex-col items-center">
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] shadow-[0_0_30px_rgba(197,192,254,0.1)]">
             <img
-              src="./avatar-coach.png"
+              src={profile.avatarSeed || './avatar-coach.png'}
               alt="User Avatar"
-              className="h-full w-full object-cover opacity-90 mix-blend-luminosity"
+              className="h-full w-full object-cover opacity-90"
             />
           </div>
           <h2 className="mt-6 font-serif text-4xl font-normal text-[#c9ebd0] tracking-tight">
@@ -145,7 +149,7 @@ function ProfilePage() {
           className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
         >
           <Home className="h-5 w-5" />
-          <span className="text-xs font-medium">Home</span>
+          <span className="text-xs font-bold">Home</span>
         </Link>
         <Link
           to="/chat"
