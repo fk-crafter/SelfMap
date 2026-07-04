@@ -15,9 +15,18 @@ type Message = {
   content: string
 }
 
+type ExtendedUser = {
+  id: string
+  name: string
+  avatarSeed?: string | null
+}
+
 function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+
+  const user = data?.user as ExtendedUser | undefined
+  const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -37,12 +46,12 @@ function ChatPage() {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      if (!data?.user.id) return
+      if (!user?.id) return
 
       try {
         const res = await fetch('/api/chat/history', {
           headers: {
-            'x-user-id': data.user.id,
+            'x-user-id': user.id,
           },
         })
 
@@ -58,7 +67,7 @@ function ChatPage() {
     }
 
     fetchHistory()
-  }, [data?.user.id])
+  }, [user?.id])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -66,7 +75,7 @@ function ChatPage() {
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!input.trim() || !data?.user.id) return
+    if (!input.trim() || !user?.id) return
 
     const userContent = input
     setMessages((prev) => [...prev, { role: 'user', content: userContent }])
@@ -78,7 +87,7 @@ function ChatPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': data.user.id,
+          'x-user-id': user.id,
         },
         body: JSON.stringify({ content: userContent }),
       })
@@ -122,7 +131,7 @@ function ChatPage() {
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
             <img
-              src="/avatar-coach.png"
+              src={avatarUrl}
               alt="Coach Avatar"
               className="h-full w-full object-cover"
             />
@@ -149,7 +158,7 @@ function ChatPage() {
               >
                 {isAi ? (
                   <img
-                    src="/avatar-coach.png"
+                    src={avatarUrl}
                     alt="Coach Avatar"
                     className="h-full w-full object-cover"
                   />
@@ -179,7 +188,7 @@ function ChatPage() {
           >
             <div className="shrink-0 flex h-8 w-8 items-center justify-center rounded-full overflow-hidden mt-auto bg-[#c5c0fe]/10 text-[#c5c0fe]">
               <img
-                src="/avatar-coach.png"
+                src={avatarUrl}
                 alt="Coach Avatar"
                 className="h-full w-full object-cover"
               />
