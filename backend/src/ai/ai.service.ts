@@ -96,7 +96,13 @@ ABSOLUTE RULES:
     const systemPrompt = `You are a psychological profiler. The user has an ${mbtiType} MBTI personality type.
 Provide a valid JSON response with exactly these two keys:
 - "insight": A short, 2-3 sentence personalized psychological welcome message addressing the user directly.
-- "visualPrompt": A highly descriptive prompt to generate an aesthetic 2D avatar representing this personality (e.g., "A beautiful minimalist 2D flat vector art avatar of a wise person, ethereal colors, clean background").`;
+- "visualPrompt": A highly specific prompt to generate a 3D character avatar. 
+STRICT STYLE RULES:
+- Style: 3D render, claymorphism, soft rounded shapes, cute stylized character.
+- Quality: High-end 3D, clean lighting, soft ambient occlusion, pastel color palette (lavender, mint, soft yellow), minimalist aesthetic.
+- Content: The character must look like a friendly, wise soul coach holding a small book.
+- Background: Very soft, clean, blurred background.
+- NO manga, NO Picasso, NO 2D flat, NO complex painting styles.`;
 
     try {
       const response = await this.aiClient.chat.completions.create({
