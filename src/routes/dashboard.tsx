@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
+import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -34,12 +35,27 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  const user = data?.user as ExtendedUser | undefined
 
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
     }
   }, [data, isPending, navigate])
+
+  useEffect(() => {
+    const hasSeenOnboarding = sessionStorage.getItem('hasSeenOnboarding')
+    if (user?.avatarSeed && !hasSeenOnboarding) {
+      setShowOnboarding(true)
+    }
+  }, [user?.avatarSeed])
+
+  const handleCompleteOnboarding = () => {
+    sessionStorage.setItem('hasSeenOnboarding', 'true')
+    setShowOnboarding(false)
+  }
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -58,8 +74,6 @@ function DashboardPage() {
       </div>
     )
   }
-
-  const user = data?.user as ExtendedUser | undefined
 
   if (!user) return null
 
@@ -84,6 +98,13 @@ function DashboardPage() {
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+      {showOnboarding && user.avatarSeed && (
+        <OnboardingReveal
+          avatarUrl={user.avatarSeed}
+          onComplete={handleCompleteOnboarding}
+        />
+      )}
+
       <header className="sticky top-0 z-30 flex items-center justify-between bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-[#c9ebd0]/5">
         <div className="flex items-center gap-4">
           <button className="text-[#c9ebd0] hover:text-[#e9c349] transition-colors">
@@ -185,7 +206,7 @@ function DashboardPage() {
 
             <div className="w-full aspect-square max-w-[240px] mx-auto bg-[#c8c5d0]/10 rounded-2xl overflow-hidden flex items-center justify-center">
               <img
-                src="./avatar-coach.png"
+                src={user.avatarSeed || './avatar-coach.png'}
                 alt="Coach Avatar"
                 className="w-full h-full object-cover opacity-80 mix-blend-luminosity"
               />
