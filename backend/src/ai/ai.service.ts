@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 
+interface ProfileData {
+  insight: string;
+  visualPrompt: string;
+}
+
 @Injectable()
 export class AiService {
   private aiClient: OpenAI;
@@ -82,6 +87,40 @@ ABSOLUTE RULES:
     } catch (error) {
       console.error('Error updating insight:', error);
       return currentInsight;
+    }
+  }
+
+  async generateInitialProfile(
+    mbtiType: string,
+  ): Promise<{ insight: string; avatarUrl: string }> {
+    const systemPrompt = `You are a psychological profiler. The user has an ${mbtiType} MBTI personality type.
+Provide a valid JSON response with exactly these two keys:
+- "insight": A short, 2-3 sentence personalized psychological welcome message addressing the user directly.
+- "visualPrompt": A highly descriptive prompt to generate an aesthetic 2D avatar representing this personality (e.g., "A beautiful minimalist 2D flat vector art avatar of a wise person, ethereal colors, clean background").`;
+
+    try {
+      const response = await this.aiClient.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'system', content: systemPrompt }],
+        temperature: 0.7,
+        response_format: { type: 'json_object' },
+      });
+
+      const content = response.choices[0].message.content;
+      if (!content) throw new Error('Empty response from AI');
+
+      const data = JSON.parse(content) as ProfileData;
+
+      const encodedPrompt = encodeURIComponent(data.visualPrompt);
+      const avatarUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
+
+      return {
+        insight: data.insight,
+        avatarUrl,
+      };
+    } catch (error) {
+      console.error('API Error:', error);
+      throw new Error('Failed to generate profile');
     }
   }
 }
