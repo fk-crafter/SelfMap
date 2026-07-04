@@ -42,15 +42,14 @@ function RegisterPage() {
     setError('')
 
     try {
-      const { error: signUpError } = await authClient.signUp.email({
-        email,
-        password,
-        name,
-        type: profile?.type,
-        insight: profile?.insight,
-        avatarSeed: profile?.avatarSeed,
-        scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
-      } as any)
+      const { data: signUpData, error: signUpError } =
+        await authClient.signUp.email({
+          email,
+          password,
+          name,
+          type: profile?.type,
+          scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+        } as any)
 
       if (signUpError) {
         setError(
@@ -58,6 +57,19 @@ function RegisterPage() {
         )
         setIsLoading(false)
         return
+      }
+
+      if (signUpData.user.id && profile?.type) {
+        await fetch('/api/user/setup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: signUpData.user.id,
+            mbtiType: profile.type,
+          }),
+        })
       }
 
       navigate({ to: '/dashboard' })
