@@ -1,83 +1,70 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { useState } from 'react'
+import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Sparkles } from 'lucide-react'
-
-interface OnboardingRevealProps {
-  avatarUrl: string
-  onComplete: () => void
-}
 
 export function OnboardingReveal({
   avatarUrl,
   onComplete,
-}: OnboardingRevealProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsExpanded(true)
-    }, 2500)
-
-    return () => clearTimeout(timer)
-  }, [])
+}: {
+  avatarUrl: string
+  onComplete: () => void
+}) {
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 px-4 backdrop-blur-xl">
-      <div className="absolute inset-0 bg-[#c5c0fe] opacity-5 blur-[120px] pointer-events-none" />
+    <div className="fixed inset-0 z-200 flex flex-col items-center justify-center bg-[#001809] px-6">
+      <div className="absolute inset-0 bg-[#c5c0fe]/5 blur-[120px]" />
 
-      <motion.div
-        layout
-        initial={{ borderRadius: '50%' }}
-        animate={{ borderRadius: isExpanded ? '24px' : '50%' }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 flex flex-col overflow-hidden border border-white/10 bg-[#c5c0fe]/5 shadow-2xl sm:flex-row"
-      >
+      <img
+        src={avatarUrl}
+        alt="Coach loader"
+        onLoad={() => setIsLoaded(true)}
+        className="hidden"
+      />
+
+      {isLoaded ? (
         <motion.div
-          layout
-          className="relative h-64 w-64 shrink-0 sm:h-80 sm:w-80"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="relative z-10 flex flex-col items-center text-center"
         >
-          <img
-            src={avatarUrl}
-            alt="Soul Coach Avatar"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,24,9,0.4)] pointer-events-none" />
-        </motion.div>
-
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ opacity: 0, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex w-full flex-col justify-center p-8 sm:w-[420px]"
+          <div className="mb-8 h-64 w-64 overflow-hidden rounded-full border border-white/10 shadow-[0_0_60px_rgba(197,192,254,0.15)]">
+            <img
+              src={avatarUrl}
+              alt="Soul Coach Avatar"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-8 font-serif text-3xl text-[#c9ebd0]"
+          >
+            Your Soul Coach is ready.
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Button
+              onClick={onComplete}
+              className="rounded-full bg-[#e9c349] px-8 py-6 text-sm font-bold tracking-wider text-[#001809] transition-transform hover:scale-105 hover:bg-[#e9c349]/90"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#e9c349]/10 text-[#e9c349]">
-                <Sparkles className="h-5 w-5" />
-              </div>
-
-              <h2 className="mb-3 font-serif text-3xl font-normal text-[#c9ebd0]">
-                Meet your Soul Coach
-              </h2>
-
-              <p className="mb-8 text-sm leading-relaxed text-[#c8c5d0]">
-                Forged from your psychological essence, this unique avatar
-                embodies your personality. It was custom-generated to guide and
-                evolve with you throughout your introspective journey.
-              </p>
-
-              <Button
-                onClick={onComplete}
-                className="group flex h-12 w-full items-center justify-center rounded-full bg-[#c5c0fe] text-sm font-semibold text-[#001809] transition-all hover:bg-[#c5c0fe]/90 active:scale-95"
-              >
-                Enter my space
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+              ENTER SANCTUARY
+            </Button>
+          </motion.div>
+        </motion.div>
+      ) : (
+        <div className="relative z-10 flex flex-col items-center justify-center">
+          <div className="mb-6 h-8 w-8 animate-spin rounded-full border-2 border-[#e9c349] border-t-transparent" />
+          <p className="animate-pulse text-sm font-medium tracking-widest text-[#c8c5d0] uppercase">
+            Summoning Coach
+          </p>
+        </div>
+      )}
     </div>
   )
 }

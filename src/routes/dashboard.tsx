@@ -33,12 +33,59 @@ type ExtendedUser = {
   scores?: string | null
 }
 
+function ScrambleText({ text }: { text: string }) {
+  const [display, setDisplay] = useState('----')
+
+  useEffect(() => {
+    if (!text) return
+
+    let iterations = 0
+    let interval: NodeJS.Timeout
+
+    const timeout = setTimeout(() => {
+      interval = setInterval(() => {
+        setDisplay(
+          text
+            .split('')
+            .map((_, index) => {
+              if (index < Math.floor(iterations)) {
+                return text[index]
+              }
+              return String.fromCharCode(65 + Math.floor(Math.random() * 26))
+            })
+            .join(''),
+        )
+
+        if (iterations >= text.length) {
+          clearInterval(interval)
+          setDisplay(text)
+        }
+
+        iterations += 0.15
+      }, 50)
+    }, 800)
+
+    return () => {
+      clearTimeout(timeout)
+      clearInterval(interval)
+    }
+  }, [text])
+
+  return (
+    <span className="font-mono font-bold tracking-widest text-[#e9c349]">
+      {display}
+    </span>
+  )
+}
+
 function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const [showSetupModal, setShowSetupModal] = useState(false)
+  const [onboardingStep, setOnboardingStep] = useState<
+    'none' | 'analysis' | 'gender'
+  >('none')
   const [showReveal, setShowReveal] = useState(false)
   const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -61,12 +108,24 @@ function DashboardPage() {
 
     if (!hasSeenOnboarding) {
       if (user.type && !user.avatarSeed) {
-        setShowSetupModal(true)
+        const timer = setTimeout(() => {
+          setOnboardingStep('analysis')
+        }, 1500)
+        return () => clearTimeout(timer)
       } else if (user.avatarSeed) {
         setShowReveal(true)
       }
     }
   }, [user])
+
+  useEffect(() => {
+    if (onboardingStep === 'analysis') {
+      const timer = setTimeout(() => {
+        setOnboardingStep('gender')
+      }, 5500)
+      return () => clearTimeout(timer)
+    }
+  }, [onboardingStep])
 
   const handleCompleteOnboarding = () => {
     sessionStorage.setItem('hasSeenOnboarding', 'true')
@@ -94,7 +153,7 @@ function DashboardPage() {
       if (!res.ok) throw new Error('Erreur backend')
 
       await refetch()
-      setShowSetupModal(false)
+      setOnboardingStep('none')
       setShowReveal(true)
     } catch (err) {
       toast.error('La génération a échoué. Veuillez réessayer.')
@@ -144,13 +203,41 @@ function DashboardPage() {
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      {showSetupModal && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
+      {onboardingStep === 'analysis' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 backdrop-blur-xl px-4">
+          <div className="w-full max-w-[450px] rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
+            <div className="absolute w-[200px] h-[200px] -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
+
+            <h3 className="mb-8 text-xs font-bold uppercase tracking-widest text-[#c8c5d0]">
+              Psychological Architecture
+            </h3>
+
+            <p className="text-sm leading-relaxed text-[#c8c5d0]/90 mb-8">
+              Initial cognitive mapping suggests a dominant <br />
+              <span className="text-4xl mt-6 mb-6 block">
+                <ScrambleText text={user.type} />
+              </span>
+              structure.
+            </p>
+
+            <div className="h-px w-12 bg-[#e9c349]/50 mb-8" />
+
+            <p className="text-xs leading-relaxed text-[#c8c5d0]/60 italic">
+              Human depth cannot be contained within a 20-question baseline.
+              Through ongoing dialogue, your Soul Coach will continuously adapt
+              your profile to uncover your true nature.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {onboardingStep === 'gender' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
           <div className="w-full max-w-[400px] rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
             <div className="absolute w-[200px] h-[200px] -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
 
-            <h2 className="mb-3 font-serif text-3xl font-normal text-[#e9c349]">
-              Personalize Coach
+            <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
+              Initialize Coach
             </h2>
             <p className="mb-8 text-sm text-[#c8c5d0]/80 leading-relaxed">
               To generate a 3D avatar that matches your energy, please select
@@ -198,10 +285,10 @@ function DashboardPage() {
               {isGenerating ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Awakening Coach...
+                  Generating Avatar...
                 </>
               ) : (
-                'GENERATE MY COACH'
+                'CONTINUE'
               )}
             </Button>
           </div>
