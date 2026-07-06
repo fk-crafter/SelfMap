@@ -92,7 +92,12 @@ ABSOLUTE RULES:
 
   async generateInitialProfile(
     mbtiType: string,
+    gender: string,
   ): Promise<{ insight: string; avatarUrl: string }> {
+    let genderInstruction = 'androgynous/neutral';
+    if (gender === 'male') genderInstruction = 'male';
+    if (gender === 'female') genderInstruction = 'female';
+
     const systemPrompt = `You are a psychological profiler. The user has an ${mbtiType} MBTI personality type.
 Provide a valid JSON response with exactly these two keys:
 - "insight": A short, 2-3 sentence personalized psychological welcome message addressing the user directly.
@@ -100,7 +105,7 @@ Provide a valid JSON response with exactly these two keys:
 STRICT STYLE RULES:
 - Style: 3D render, claymorphism, soft rounded shapes, cute stylized character.
 - Quality: High-end 3D, clean lighting, soft ambient occlusion, pastel color palette (lavender, mint, soft yellow), minimalist aesthetic.
-- Content: The character must look like a friendly, wise soul coach holding a small book.
+- Content: The character must look like a friendly, wise soul coach holding a small book. The character must be ${genderInstruction}.
 - Background: Very soft, clean, blurred background.
 - NO manga, NO Picasso, NO 2D flat, NO complex painting styles.`;
 

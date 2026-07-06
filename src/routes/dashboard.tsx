@@ -18,12 +18,14 @@ import {
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
 import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
 })
 
 type ExtendedUser = {
+  id: string
   name: string
   type?: string | null
   insight?: string | null
@@ -35,11 +37,14 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  const [showSetupModal, setShowSetupModal] = useState(false)
+  const [showReveal, setShowReveal] = useState(false)
+  const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('')
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const user = data?.user as ExtendedUser | undefined
 
-  // Force la mise à jour de la session au chargement pour récupérer l'avatar
   useEffect(() => {
     refetch()
   }, [refetch])
@@ -51,15 +56,51 @@ function DashboardPage() {
   }, [data, isPending, navigate])
 
   useEffect(() => {
+    if (!user) return
     const hasSeenOnboarding = sessionStorage.getItem('hasSeenOnboarding')
-    if (user?.avatarSeed && !hasSeenOnboarding) {
-      setShowOnboarding(true)
+
+    if (!hasSeenOnboarding) {
+      if (user.type && !user.avatarSeed) {
+        setShowSetupModal(true)
+      } else if (user.avatarSeed) {
+        setShowReveal(true)
+      }
     }
-  }, [user?.avatarSeed])
+  }, [user])
 
   const handleCompleteOnboarding = () => {
     sessionStorage.setItem('hasSeenOnboarding', 'true')
-    setShowOnboarding(false)
+    setShowReveal(false)
+  }
+
+  const handleGenerateCoach = async () => {
+    if (!gender || !user || !user.type) return
+
+    setIsGenerating(true)
+
+    try {
+      const res = await fetch('http://localhost:3000/user/setup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          mbtiType: user.type,
+          gender: gender,
+        }),
+      })
+
+      if (!res.ok) throw new Error('Erreur backend')
+
+      await refetch()
+      setShowSetupModal(false)
+      setShowReveal(true)
+    } catch (err) {
+      toast.error('La génération a échoué. Veuillez réessayer.')
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const handleLogout = async () => {
@@ -103,7 +144,71 @@ function DashboardPage() {
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      {showOnboarding && user.avatarSeed && (
+      {showSetupModal && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
+          <div className="w-full max-w-[400px] rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
+            <div className="absolute w-[200px] h-[200px] -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
+
+            <h2 className="mb-3 font-serif text-3xl font-normal text-[#e9c349]">
+              Personalize Coach
+            </h2>
+            <p className="mb-8 text-sm text-[#c8c5d0]/80 leading-relaxed">
+              To generate a 3D avatar that matches your energy, please select
+              the gender of your Soul Coach.
+            </p>
+
+            <div className="mb-8 flex gap-3">
+              <button
+                onClick={() => setGender('male')}
+                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
+                  gender === 'male'
+                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
+                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                }`}
+              >
+                Male
+              </button>
+              <button
+                onClick={() => setGender('female')}
+                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
+                  gender === 'female'
+                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
+                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                }`}
+              >
+                Female
+              </button>
+              <button
+                onClick={() => setGender('other')}
+                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
+                  gender === 'other'
+                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
+                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                }`}
+              >
+                Neutral
+              </button>
+            </div>
+
+            <Button
+              onClick={handleGenerateCoach}
+              disabled={!gender || isGenerating}
+              className="w-full rounded-full bg-[#e9c349] h-12 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 disabled:opacity-50"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Awakening Coach...
+                </>
+              ) : (
+                'GENERATE MY COACH'
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {showReveal && user.avatarSeed && (
         <OnboardingReveal
           avatarUrl={user.avatarSeed}
           onComplete={handleCompleteOnboarding}

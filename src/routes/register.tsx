@@ -42,14 +42,13 @@ function RegisterPage() {
     setError('')
 
     try {
-      const { data: signUpData, error: signUpError } =
-        await authClient.signUp.email({
-          email,
-          password,
-          name,
-          type: profile?.type,
-          scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
-        } as any)
+      const { error: signUpError } = await authClient.signUp.email({
+        email,
+        password,
+        name,
+        type: profile?.type,
+        scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+      } as any)
 
       if (signUpError) {
         setError(
@@ -57,30 +56,6 @@ function RegisterPage() {
         )
         setIsLoading(false)
         return
-      }
-
-      if (signUpData.user.id && profile?.type) {
-        try {
-          const res = await fetch('http://localhost:3000/user/setup', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              userId: signUpData.user.id,
-              mbtiType: profile.type,
-            }),
-          })
-
-          if (!res.ok) {
-            const errorText = await res.text()
-            throw new Error(`Erreur Backend (${res.status}): ${errorText}`)
-          }
-        } catch (fetchErr: any) {
-          setError(`Erreur de connexion au backend IA : ${fetchErr.message}`)
-          setIsLoading(false)
-          return
-        }
       }
 
       sessionStorage.removeItem('hasSeenOnboarding')

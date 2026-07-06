@@ -13,7 +13,9 @@ export class UserController {
   constructor(private readonly aiService: AiService) {}
 
   @Post('setup')
-  async setupUserProfile(@Body() body: { userId: string; mbtiType: string }) {
+  async setupUserProfile(
+    @Body() body: { userId: string; mbtiType: string; gender?: string },
+  ) {
     if (!body.userId || !body.mbtiType) {
       throw new HttpException(
         'Missing userId or mbtiType',
@@ -22,8 +24,9 @@ export class UserController {
     }
 
     try {
+      const userGender = body.gender || 'neutral';
       const { insight, avatarUrl } =
-        await this.aiService.generateInitialProfile(body.mbtiType);
+        await this.aiService.generateInitialProfile(body.mbtiType, userGender);
 
       await prisma.user.update({
         where: { id: body.userId },
