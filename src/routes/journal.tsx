@@ -3,7 +3,14 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Loader2, BookOpen, Send, Trash2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Loader2,
+  BookOpen,
+  Send,
+  Trash2,
+  PenLine,
+} from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
@@ -168,44 +175,68 @@ function JournalPage() {
             Past Entries
           </h3>
           {entries.length === 0 ? (
-            <p className="pl-1 text-sm text-[#c8c5d0]/50">
-              No entries yet. The blank page awaits.
-            </p>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-white/10 py-12 text-center"
+            >
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 text-[#c8c5d0]/30">
+                <PenLine className="h-5 w-5" />
+              </div>
+              <p className="text-sm font-medium text-[#c8c5d0]/50">
+                The blank page awaits.
+              </p>
+              <p className="mt-1 text-xs text-[#c8c5d0]/30">
+                Your thoughts will be securely stored here.
+              </p>
+            </motion.div>
           ) : (
-            entries.map((entry, index) => (
-              <motion.div
-                key={entry.id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.1,
-                  ease: 'easeOut',
-                }}
-              >
-                <Card className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative">
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
-                      {new Date(entry.createdAt).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
+            entries.map((entry, index) => {
+              const entryDate = new Date(entry.createdAt)
+              return (
+                <motion.div
+                  key={entry.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    ease: 'easeOut',
+                  }}
+                >
+                  <Card className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
+                          {entryDate.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </span>
+                        <span className="text-[10px] text-[#e9c349]/70">
+                          {entryDate.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => handleDelete(entry.id)}
+                        className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 -mr-2"
+                        aria-label="Delete entry"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <p className="whitespace-pre-wrap wrap-break-words text-sm leading-relaxed text-[#c8c5d0]">
+                      {entry.content}
                     </p>
-                    <button
-                      onClick={() => handleDelete(entry.id)}
-                      className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
-                      aria-label="Delete entry"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#c8c5d0]">
-                    {entry.content}
-                  </p>
-                </Card>
-              </motion.div>
-            ))
+                  </Card>
+                </motion.div>
+              )
+            })
           )}
         </div>
       </main>
