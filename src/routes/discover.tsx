@@ -186,6 +186,10 @@ function DiscoverPage() {
       p.category.toLowerCase().includes(search.toLowerCase()),
   )
 
+  const get16PersonalitiesUrl = (type: string) => {
+    return `https://www.16personalities.com/${type.toLowerCase()}-personality`
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
       <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#e9c349] opacity-15 blur-[80px] pointer-events-none z-0" />
@@ -249,27 +253,32 @@ function DiscoverPage() {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {catItems.map((item) => (
-                  <Card
+                  <a
                     key={item.type}
-                    className="group border border-white/10 bg-[rgba(197,192,254,0.03)] backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:bg-[rgba(197,192,254,0.08)] hover:border-[#e9c349]/20 hover:-translate-y-1 cursor-pointer"
+                    href={get16PersonalitiesUrl(item.type)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
                   >
-                    <div className="w-full aspect-square rounded-xl mb-4 overflow-hidden relative">
-                      <img
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9] group-hover:brightness-110"
-                        src={item.image}
-                        alt={item.name}
-                      />
-                    </div>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-[#e9c349] mb-1">
-                      {item.type}
-                    </span>
-                    <h4 className="text-base font-bold text-[#c9ebd0] tracking-tight">
-                      {item.name}
-                    </h4>
-                    <p className="text-xs text-[#c8c5d0]/60 mt-1 font-medium">
-                      {item.desc}
-                    </p>
-                  </Card>
+                    <Card className="group h-full border border-white/10 bg-[rgba(197,192,254,0.03)] backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center text-center transition-all duration-300 hover:bg-[rgba(197,192,254,0.08)] hover:border-[#e9c349]/20 hover:-translate-y-1 cursor-pointer">
+                      <div className="w-full aspect-square rounded-xl mb-4 overflow-hidden relative">
+                        <img
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9] group-hover:brightness-110"
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      </div>
+                      <span className="text-xs font-semibold uppercase tracking-widest text-[#e9c349] mb-1">
+                        {item.type}
+                      </span>
+                      <h4 className="text-base font-bold text-[#c9ebd0] tracking-tight">
+                        {item.name}
+                      </h4>
+                      <p className="text-xs text-[#c8c5d0]/60 mt-1 font-medium">
+                        {item.desc}
+                      </p>
+                    </Card>
+                  </a>
                 ))}
               </div>
             </div>
