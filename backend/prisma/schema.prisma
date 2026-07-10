@@ -18,7 +18,8 @@ model User {
 
   type          String?  
   insight       String?  
-  avatarSeed    String?  
+  avatarSeed    String?
+  calibrationScore Int       @default(0)
   scores        String?    
 
   sessions      Session[]

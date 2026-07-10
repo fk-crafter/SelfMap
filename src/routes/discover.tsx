@@ -117,7 +117,7 @@ const PERSONALITIES = [
     category: 'Sentinels',
     desc: 'Excellent Managers',
     image:
-      'https://images.unsplash.com/photo-1618005198143-e5283b519a7f?w=500&q=80',
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&q=80',
     badgeColor: 'text-[#c9ebd0]',
     dotColor: 'bg-[#c9ebd0] shadow-[0_0_15px_#c9ebd0]',
   },
@@ -148,7 +148,7 @@ const PERSONALITIES = [
     category: 'Explorers',
     desc: 'Flexible & Charming',
     image:
-      'https://images.unsplash.com/photo-15Autonomous-1558591710-4b4a1ae0f04d?w=500&q=80',
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&q=80',
     badgeColor: 'text-[#ffb4ab]',
     dotColor: 'bg-[#ffb4ab] shadow-[0_0_15px_#ffb4ab]',
   },
