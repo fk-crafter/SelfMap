@@ -6,6 +6,11 @@ interface ProfileData {
   visualPrompt: string;
 }
 
+interface CoachResponseData {
+  reply: string;
+  calibrationIncrement: number;
+}
+
 @Injectable()
 export class AiService {
   private aiClient: OpenAI;
@@ -20,17 +25,23 @@ export class AiService {
   async getCoachResponse(
     userInsight: string,
     chatHistory: OpenAI.Chat.ChatCompletionMessageParam[],
+    currentScore: number = 0,
   ) {
     const systemPrompt = `You are the "Soul Coach", a caring and psychological guide for the SoulType application.
-Your goal is to help the user in their introspection and personal development (self-actualization).
-Here is the psychological summary you have on this user (their 'Insight'): ${userInsight || 'The user has just started their introspective journey. Get to know them.'}
+Your goal is to help the user in their introspection and personal development.
+Here is the psychological summary you have on this user: ${userInsight || 'No profile defined yet.'}
+Current Calibration: ${currentScore}%
 
 ABSOLUTE RULES:
-- Adopt a soothing, wise, and warm tone (without being a mystical cliché).
+- Adopt a soothing, wise, and warm tone.
 - Be very concise: your responses must never exceed 3 or 4 sentences.
 - Never make long bulleted lists.
 - Often end with a single open-ended question to make the user think.
-- Address the user directly in a friendly, conversational manner.`;
+- Address the user directly in a friendly, conversational manner.
+- You MUST respond strictly in valid JSON format.
+- The JSON must contain exactly two keys:
+  1. "reply": Your conversational response.
+  2. "calibrationIncrement": A number (1, 2, or 3) assessing how much the user's last message revealed about their deep personality, values, or feelings (1 = basic small talk, 3 = deep reflection).`;
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
@@ -42,10 +53,15 @@ ABSOLUTE RULES:
         model: 'llama-3.3-70b-versatile',
         messages: messages,
         temperature: 0.7,
-        max_tokens: 150,
+        max_tokens: 200,
+        response_format: { type: 'json_object' },
       });
 
-      return response.choices[0].message.content;
+      const content = response.choices[0].message.content;
+      if (!content) throw new Error('Empty response from AI');
+
+      const data = JSON.parse(content) as CoachResponseData;
+      return data;
     } catch (error) {
       console.error('Groq API Error:', error);
       throw new Error(
