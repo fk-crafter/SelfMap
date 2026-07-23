@@ -6,7 +6,7 @@ interface ProfileData {
   visualPrompt: string;
 }
 
-interface CoachResponseData {
+export interface CoachResponseData {
   reply: string;
   calibrationIncrement: number;
 }
@@ -26,7 +26,7 @@ export class AiService {
     userInsight: string,
     chatHistory: OpenAI.Chat.ChatCompletionMessageParam[],
     currentScore: number = 0,
-  ) {
+  ): Promise<CoachResponseData> {
     const systemPrompt = `You are the "Soul Coach", a caring and psychological guide for the SoulType application.
 Your goal is to help the user in their introspection and personal development.
 Here is the psychological summary you have on this user: ${userInsight || 'No profile defined yet.'}
@@ -60,7 +60,19 @@ ABSOLUTE RULES:
       const content = response.choices[0].message.content;
       if (!content) throw new Error('Empty response from AI');
 
-      const data = JSON.parse(content) as CoachResponseData;
+      const parsed = JSON.parse(content) as Record<string, unknown>;
+
+      const data: CoachResponseData = {
+        reply:
+          typeof parsed.reply === 'string'
+            ? parsed.reply
+            : 'The coach meditates in silence...',
+        calibrationIncrement:
+          typeof parsed.calibrationIncrement === 'number'
+            ? parsed.calibrationIncrement
+            : 1,
+      };
+
       return data;
     } catch (error) {
       console.error('Groq API Error:', error);
@@ -136,7 +148,17 @@ STRICT STYLE RULES:
       const content = response.choices[0].message.content;
       if (!content) throw new Error('Empty response from AI');
 
-      const data = JSON.parse(content) as ProfileData;
+      const parsed = JSON.parse(content) as Record<string, unknown>;
+      const data: ProfileData = {
+        insight:
+          typeof parsed.insight === 'string'
+            ? parsed.insight
+            : 'Welcome to your introspection journey.',
+        visualPrompt:
+          typeof parsed.visualPrompt === 'string'
+            ? parsed.visualPrompt
+            : 'friendly soul coach 3d render',
+      };
 
       const encodedPrompt = encodeURIComponent(data.visualPrompt);
       const avatarUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;

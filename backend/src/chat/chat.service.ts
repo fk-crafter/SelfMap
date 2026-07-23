@@ -81,7 +81,7 @@ export class ChatService {
       data: {
         conversationId: conversation.id,
         role: 'assistant',
-        content: aiResponseContent || 'The coach meditates in silence...',
+        content: aiResponseContent.reply || 'The coach meditates in silence...',
       },
     });
 
