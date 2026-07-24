@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Send, User, Loader2, Sparkles } from 'lucide-react'
+import { ArrowLeft, Send, User, Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
@@ -19,7 +19,6 @@ type ExtendedUser = {
   id: string
   name: string
   avatarSeed?: string | null
-  calibrationScore?: number
 }
 
 function ChatPage() {
@@ -37,7 +36,6 @@ function ChatPage() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [calibrationScore, setCalibrationScore] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -45,12 +43,6 @@ function ChatPage() {
       navigate({ to: '/login' })
     }
   }, [data, isPending, navigate])
-
-  useEffect(() => {
-    if (user?.calibrationScore !== undefined) {
-      setCalibrationScore(user.calibrationScore)
-    }
-  }, [user?.calibrationScore])
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -108,10 +100,6 @@ function ChatPage() {
         ...prev,
         { role: 'assistant', content: result.reply },
       ])
-
-      if (result.newScore !== undefined) {
-        setCalibrationScore(result.newScore)
-      }
     } catch (error) {
       toast.error('The coach is unavailable for the moment.')
       setMessages((prev) => prev.slice(0, -1))
@@ -133,52 +121,26 @@ function ChatPage() {
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
       <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
 
-      <header className="flex-none sticky top-0 z-30 flex items-center justify-between bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/dashboard"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
-              <img
-                src={avatarUrl}
-                alt="Coach Avatar"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">
-              Soul Coach
-            </h1>
+      <header className="flex-none sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
+        <Link
+          to="/dashboard"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Link>
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
+            <img
+              src={avatarUrl}
+              alt="Coach Avatar"
+              className="h-full w-full object-cover"
+            />
           </div>
-        </div>
-        <div className="flex items-center gap-2 bg-[rgba(197,192,254,0.05)] border border-white/10 px-3 py-1.5 rounded-full backdrop-blur-md">
-          <Sparkles className="w-4 h-4 text-[#c5c0fe]" />
-          <span className="text-xs font-semibold text-[#c9ebd0]">
-            {calibrationScore}%
-          </span>
+          <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">
+            Soul Coach
+          </h1>
         </div>
       </header>
-
-      <div className="flex-none w-full bg-[#001206]/90 border-b border-white/5 px-6 py-3 z-20 flex flex-col gap-1.5">
-        <div className="flex justify-between items-center text-xs">
-          <span className="text-[#c8c5d0]/70 font-medium flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#c5c0fe] animate-pulse" />
-            Neural Sync
-          </span>
-          <span className="text-[#c5c0fe] font-bold">
-            {calibrationScore}/100
-          </span>
-        </div>
-        <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden relative">
-          <div
-            className="h-full bg-linear-to-r from-[#c5c0fe] to-[#e9c349] transition-all duration-700 ease-out rounded-full shadow-[0_0_10px_rgba(197,192,254,0.5)]"
-            style={{ width: `${calibrationScore}%` }}
-          />
-        </div>
-      </div>
 
       <main className="flex-1 overflow-y-auto px-4 py-6 z-10 space-y-6">
         {messages.map((msg, index) => {

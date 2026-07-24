@@ -25,23 +25,20 @@ export class AiService {
   async getCoachResponse(
     userInsight: string,
     chatHistory: OpenAI.Chat.ChatCompletionMessageParam[],
-    currentScore: number = 0,
-  ): Promise<CoachResponseData> {
+  ) {
     const systemPrompt = `You are the "Soul Coach", a caring and psychological guide for the SoulType application.
-Your goal is to help the user in their introspection and personal development.
-Here is the psychological summary you have on this user: ${userInsight || 'No profile defined yet.'}
-Current Calibration: ${currentScore}%
+Your goal is to help the user in their introspection and personal development (self-actualization).
+Here is the psychological summary you have on this user (their 'Insight'): ${userInsight || 'The user has just started their introspective journey. Get to know them.'}
 
 ABSOLUTE RULES:
-- Adopt a soothing, wise, and warm tone.
+- Adopt a soothing, wise, and warm tone (without being a mystical cliché).
 - Be very concise: your responses must never exceed 3 or 4 sentences.
 - Never make long bulleted lists.
 - Often end with a single open-ended question to make the user think.
 - Address the user directly in a friendly, conversational manner.
-- You MUST respond strictly in valid JSON format.
-- The JSON must contain exactly two keys:
-  1. "reply": Your conversational response.
-  2. "calibrationIncrement": A number (1, 2, or 3) assessing how much the user's last message revealed about their deep personality, values, or feelings (1 = basic small talk, 3 = deep reflection).`;
+- ALWAYS respond strictly in valid JSON format containing exactly these two keys:
+  1. "reply": Your conversational response to the user.
+  2. "calibrationIncrement": An integer between 1 and 3 evaluating the depth of the user's last message (1 = basic response, 2 = thoughtful, 3 = deep introspection).`;
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
@@ -53,27 +50,14 @@ ABSOLUTE RULES:
         model: 'llama-3.3-70b-versatile',
         messages: messages,
         temperature: 0.7,
-        max_tokens: 200,
+        max_tokens: 150,
         response_format: { type: 'json_object' },
       });
 
       const content = response.choices[0].message.content;
       if (!content) throw new Error('Empty response from AI');
 
-      const parsed = JSON.parse(content) as Record<string, unknown>;
-
-      const data: CoachResponseData = {
-        reply:
-          typeof parsed.reply === 'string'
-            ? parsed.reply
-            : 'The coach meditates in silence...',
-        calibrationIncrement:
-          typeof parsed.calibrationIncrement === 'number'
-            ? parsed.calibrationIncrement
-            : 1,
-      };
-
-      return data;
+      return JSON.parse(content) as CoachResponseData;
     } catch (error) {
       console.error('Groq API Error:', error);
       throw new Error(
@@ -148,17 +132,7 @@ STRICT STYLE RULES:
       const content = response.choices[0].message.content;
       if (!content) throw new Error('Empty response from AI');
 
-      const parsed = JSON.parse(content) as Record<string, unknown>;
-      const data: ProfileData = {
-        insight:
-          typeof parsed.insight === 'string'
-            ? parsed.insight
-            : 'Welcome to your introspection journey.',
-        visualPrompt:
-          typeof parsed.visualPrompt === 'string'
-            ? parsed.visualPrompt
-            : 'friendly soul coach 3d render',
-      };
+      const data = JSON.parse(content) as ProfileData;
 
       const encodedPrompt = encodeURIComponent(data.visualPrompt);
       const avatarUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;

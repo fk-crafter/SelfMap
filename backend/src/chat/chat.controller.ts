@@ -16,6 +16,9 @@ export class ChatController {
     @Body() body: { content: string },
   ) {
     const reply = await this.chatService.sendMessage(userId, body.content);
-    return { reply: reply.content };
+    return {
+      reply: reply.content,
+      newScore: reply.newScore,
+    };
   }
 }

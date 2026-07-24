@@ -37,8 +37,10 @@ export class ChatService {
   async sendMessage(userId: string, content: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { insight: true },
+      select: { insight: true, calibrationScore: true },
     });
+
+    const currentScore: number = Number(user?.calibrationScore ?? 0);
 
     let conversation = await this.prisma.conversation.findFirst({
       where: { userId },
@@ -77,6 +79,16 @@ export class ChatService {
       chatHistory,
     );
 
+    const newScore: number = Math.min(
+      100,
+      currentScore + (aiResponseContent.calibrationIncrement || 1),
+    );
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { calibrationScore: newScore },
+    });
+
     const aiMessage = await this.prisma.message.create({
       data: {
         conversationId: conversation.id,
@@ -88,6 +100,7 @@ export class ChatService {
     return {
       role: aiMessage.role,
       content: aiMessage.content,
+      newScore: newScore,
     };
   }
 }
