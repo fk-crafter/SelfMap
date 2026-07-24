@@ -205,8 +205,8 @@ function DashboardPage() {
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
       {onboardingStep === 'analysis' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 backdrop-blur-xl px-4">
-          <div className="w-full max-w-[450px] rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
-            <div className="absolute w-[200px] h-[200px] -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
+          <div className="w-full max-w-112.5 rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
+            <div className="absolute w-50 h-50 -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
 
             <h3 className="mb-8 text-xs font-bold uppercase tracking-widest text-[#c8c5d0]">
               Psychological Architecture
@@ -233,8 +233,8 @@ function DashboardPage() {
 
       {onboardingStep === 'gender' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
-          <div className="w-full max-w-[400px] rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
-            <div className="absolute w-[200px] h-[200px] -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
+          <div className="w-full max-w-100 rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
+            <div className="absolute w-50 h-50 -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
 
             <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
               Initialize Coach
@@ -401,7 +401,7 @@ function DashboardPage() {
               </Link>
             </Button>
 
-            <div className="w-full aspect-square max-w-[240px] mx-auto bg-[#c8c5d0]/10 rounded-2xl overflow-hidden flex items-center justify-center">
+            <div className="w-full aspect-square max-w-60 mx-auto bg-[#c8c5d0]/10 rounded-2xl overflow-hidden flex items-center justify-center">
               <img
                 src={user.avatarSeed || './avatar-coach.png'}
                 alt="Coach Avatar"

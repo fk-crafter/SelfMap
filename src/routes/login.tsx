@@ -54,7 +54,7 @@ function LoginPage() {
 
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-[#EAE8EF]/50 p-4">
-      <div className="w-full max-w-[400px] rounded-3xl bg-[#F9F8FC] p-6 shadow-2xl shadow-[#1D1B4B]/10 sm:p-8">
+      <div className="w-full max-w-100 rounded-3xl bg-[#F9F8FC] p-6 shadow-2xl shadow-[#1D1B4B]/10 sm:p-8">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#1D1B4B] shadow-lg">
             <Flower2 className="h-6 w-6 text-white" strokeWidth={1.5} />

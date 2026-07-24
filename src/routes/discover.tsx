@@ -192,8 +192,8 @@ function DiscoverPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
-      <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#e9c349] opacity-15 blur-[80px] pointer-events-none z-0" />
-      <div className="absolute w-[600px] h-[600px] bottom-0 -right-40 rounded-full bg-[#c5c0fe] opacity-15 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#e9c349] opacity-15 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-150 h-150 bottom-0 -right-40 rounded-full bg-[#c5c0fe] opacity-15 blur-[80px] pointer-events-none z-0" />
 
       <header className="sticky top-0 z-30 bg-[#001809]/80 backdrop-blur-xl border-b border-[#c9ebd0]/10 px-8 py-5 flex items-center justify-between">
         <h1 className="font-serif text-2xl text-[#e9c349] tracking-tight font-normal">
@@ -208,7 +208,7 @@ function DiscoverPage() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-8 pt-10 pb-32 max-w-[1200px] mx-auto w-full z-10 relative">
+      <main className="flex-1 overflow-y-auto px-8 pt-10 pb-32 max-w-300 mx-auto w-full z-10 relative">
         <section className="mb-14 text-center md:text-left">
           <h2 className="font-serif text-4xl font-normal text-[#c9ebd0] mb-4 tracking-tight leading-tight">
             Discover Your Essence

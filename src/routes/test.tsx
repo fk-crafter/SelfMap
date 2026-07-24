@@ -96,7 +96,7 @@ function TestPage() {
   if (isFinished) {
     return (
       <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#001809] p-6 text-[#c9ebd0] md:p-10 overflow-hidden">
-        <div className="absolute w-[500px] h-[500px] rounded-full bg-[#e9c349] opacity-10 blur-[80px] pointer-events-none" />
+        <div className="absolute w-125 h-125 rounded-full bg-[#e9c349] opacity-10 blur-[80px] pointer-events-none" />
 
         <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-6 text-center">
           <Loader2 className="h-12 w-12 animate-spin text-[#e9c349]" />
@@ -118,8 +118,8 @@ function TestPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans overflow-hidden">
-      <div className="absolute w-[600px] h-[600px] -top-40 -left-40 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
-      <div className="absolute w-[600px] h-[600px] -bottom-40 -right-40 rounded-full bg-[#e9c349] opacity-5 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute w-150 h-150 -top-40 -left-40 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute w-150 h-150 -bottom-40 -right-40 rounded-full bg-[#e9c349] opacity-5 blur-[100px] pointer-events-none z-0" />
 
       <div className="fixed top-0 left-0 right-0 z-50 h-1.5 w-full bg-white/5">
         <div
@@ -143,7 +143,7 @@ function TestPage() {
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center p-6">
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
-          <div className="flex min-h-[160px] w-full flex-col items-center justify-center gap-4 text-center">
+          <div className="flex min-h-40 w-full flex-col items-center justify-center gap-4 text-center">
             <p className="text-[10px] font-bold tracking-[0.2em] text-[#e9c349] uppercase">
               Dimension {currentQuestion.dimension}
             </p>

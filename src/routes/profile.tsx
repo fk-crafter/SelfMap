@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Home, MessageSquare, Search, User, Loader2 } from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
+import { CalibrationScore } from '@/components/profile/CalibrationScore'
 import { authClient } from '@/lib/auth-client'
 import { useEffect } from 'react'
 
@@ -16,6 +17,7 @@ type ExtendedUser = {
   insight?: string | null
   avatarSeed?: string | null
   scores?: string | null
+  calibrationScore?: number
 }
 
 function ProfilePage() {
@@ -70,17 +72,19 @@ function ProfilePage() {
     }
   }
 
-  return (
-    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      <div className="absolute w-[500px] h-[500px] -top-20 -right-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+  const currentCalibration = profile.calibrationScore || 0
 
-      <header className="sticky top-0 z-30 bg-[#001809]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-center px-6 py-5">
-        <h1 className="font-serif text-2xl font-normal text-[#e9c349] tracking-tight">
+  return (
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
+      <div className="pointer-events-none absolute -right-20 -top-20 z-0 h-[500px] w-[500px] rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
+
+      <header className="sticky top-0 z-30 flex items-center justify-center border-b border-white/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
+        <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
           My Profile
         </h1>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-6 pb-32 relative z-10">
+      <main className="relative z-10 flex-1 overflow-y-auto px-6 pb-32">
         <div className="mt-8 flex flex-col items-center">
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] shadow-[0_0_30px_rgba(197,192,254,0.1)]">
             <img
@@ -89,15 +93,15 @@ function ProfilePage() {
               className="h-full w-full object-cover opacity-90"
             />
           </div>
-          <h2 className="mt-6 font-serif text-4xl font-normal text-[#c9ebd0] tracking-tight">
+          <h2 className="mt-6 font-serif text-4xl font-normal tracking-tight text-[#c9ebd0]">
             {profile.type}
           </h2>
-          <span className="mt-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold tracking-widest text-[#e9c349] uppercase">
+          <span className="mt-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
             {profile.name}
           </span>
         </div>
 
-        <Card className="mt-10 border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+        <Card className="mt-10 rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 shadow-xl backdrop-blur-xl">
           <h3 className="mb-6 font-serif text-xl text-[#c9ebd0]">
             Cognitive Mapping
           </h3>
@@ -133,14 +137,18 @@ function ProfilePage() {
           </div>
         </Card>
 
-        <Card className="mt-6 border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <h3 className="mb-3 font-serif text-xl text-[#c9ebd0]">
-            AI Analysis
-          </h3>
-          <p className="text-sm leading-relaxed text-[#c8c5d0] italic">
-            "{profile.insight}"
-          </p>
-        </Card>
+        <div className="mt-6 flex flex-col gap-6">
+          <CalibrationScore score={currentCalibration} />
+
+          <Card className="rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 shadow-xl backdrop-blur-xl">
+            <h3 className="mb-3 font-serif text-xl text-[#c9ebd0]">
+              AI Analysis
+            </h3>
+            <p className="text-sm italic leading-relaxed text-[#c8c5d0]">
+              "{profile.insight}"
+            </p>
+          </Card>
+        </div>
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/90 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">

@@ -53,8 +53,8 @@ function HomePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#001809] p-6 text-[#c9ebd0] md:p-10 overflow-hidden">
-      <div className="absolute -left-40 -top-40 z-0 h-[600px] w-[600px] pointer-events-none rounded-full bg-[#e9c349] opacity-10 blur-[100px]" />
-      <div className="absolute -bottom-40 -right-40 z-0 h-[600px] w-[600px] pointer-events-none rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
+      <div className="absolute -left-40 -top-40 z-0 h-150 w-150 pointer-events-none rounded-full bg-[#e9c349] opacity-10 blur-[100px]" />
+      <div className="absolute -bottom-40 -right-40 z-0 h-150 w-150 pointer-events-none rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
       <HeroSection usersHelped={usersHelped} />
     </main>

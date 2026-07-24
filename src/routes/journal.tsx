@@ -111,8 +111,8 @@ function JournalPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      <div className="absolute w-[500px] h-[500px] -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
-      <div className="absolute w-[400px] h-[400px] top-1/2 -right-20 rounded-full bg-[#e9c349] opacity-5 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-100 h-100 top-1/2 -right-20 rounded-full bg-[#e9c349] opacity-5 blur-[80px] pointer-events-none z-0" />
 
       <header className="sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
         <Link
@@ -150,7 +150,7 @@ function JournalPage() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your thoughts here..."
-                className="min-h-[120px] resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+                className="min-h-30 resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
               />
               <Button
                 type="submit"
