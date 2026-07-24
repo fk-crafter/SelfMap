@@ -79,10 +79,8 @@ export class ChatService {
       chatHistory,
     );
 
-    const newScore: number = Math.min(
-      100,
-      currentScore + (aiResponseContent.calibrationIncrement || 1),
-    );
+    const increment = aiResponseContent.calibrationIncrement ?? 0;
+    const newScore: number = Math.min(100, currentScore + increment);
 
     await this.prisma.user.update({
       where: { id: userId },

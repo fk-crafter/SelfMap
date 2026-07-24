@@ -79,6 +79,14 @@ function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 10)
+    }
+  }, [isLoading])
+
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || !user?.id) return
@@ -126,14 +134,6 @@ function ChatPage() {
       </div>
     )
   }
-
-  useEffect(() => {
-    if (!isLoading && inputRef.current) {
-      setTimeout(() => {
-        inputRef.current?.focus()
-      }, 10)
-    }
-  }, [isLoading])
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">

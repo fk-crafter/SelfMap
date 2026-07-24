@@ -38,7 +38,7 @@ ABSOLUTE RULES:
 - Address the user directly in a friendly, conversational manner.
 - ALWAYS respond strictly in valid JSON format containing exactly these two keys:
   1. "reply": Your conversational response to the user.
-  2. "calibrationIncrement": An integer between 1 and 3 evaluating the depth of the user's last message (1 = basic response, 2 = thoughtful, 3 = deep introspection).`;
+  2. "calibrationIncrement": An integer between 0 and 3 evaluating the psychological depth of the user's last message. 0 = trivial/nonsense/basic greeting, 1 = basic statement about themselves, 2 = thoughtful introspection, 3 = deep psychological revelation.`;
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
