@@ -40,6 +40,7 @@ function ChatPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentScore, setCurrentScore] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!isPending && !data?.session) {
@@ -106,7 +107,6 @@ function ChatPage() {
         { role: 'assistant', content: result.reply },
       ])
 
-      // Mise à jour de la jauge
       if (result.newScore !== undefined) {
         setCurrentScore(result.newScore)
       }
@@ -126,6 +126,14 @@ function ChatPage() {
       </div>
     )
   }
+
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 10)
+    }
+  }, [isLoading])
 
   return (
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
@@ -221,6 +229,7 @@ function ChatPage() {
           className="flex gap-2 max-w-2xl mx-auto relative"
         >
           <input
+            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
