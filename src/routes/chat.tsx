@@ -5,6 +5,7 @@ import { ArrowLeft, Send, User, Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
+import { ProgressJauge } from '@/components/chat/ProgressJauge'
 
 export const Route = createFileRoute('/chat')({
   component: ChatPage,
@@ -19,6 +20,7 @@ type ExtendedUser = {
   id: string
   name: string
   avatarSeed?: string | null
+  calibrationScore?: number
 }
 
 function ChatPage() {
@@ -36,13 +38,16 @@ function ChatPage() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [currentScore, setCurrentScore] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
+    } else if (user?.calibrationScore) {
+      setCurrentScore(user.calibrationScore)
     }
-  }, [data, isPending, navigate])
+  }, [data, isPending, navigate, user])
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -100,6 +105,11 @@ function ChatPage() {
         ...prev,
         { role: 'assistant', content: result.reply },
       ])
+
+      // Mise à jour de la jauge
+      if (result.newScore !== undefined) {
+        setCurrentScore(result.newScore)
+      }
     } catch (error) {
       toast.error('The coach is unavailable for the moment.')
       setMessages((prev) => prev.slice(0, -1))
@@ -124,11 +134,11 @@ function ChatPage() {
       <header className="flex-none sticky top-0 z-30 flex items-center gap-4 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl border-b border-white/5">
         <Link
           to="/dashboard"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95 shrink-0"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
             <img
               src={avatarUrl}
@@ -140,6 +150,8 @@ function ChatPage() {
             Soul Coach
           </h1>
         </div>
+
+        <ProgressJauge score={currentScore} />
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 py-6 z-10 space-y-6">
