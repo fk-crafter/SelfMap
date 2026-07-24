@@ -76,7 +76,7 @@ function ProfilePage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
-      <div className="pointer-events-none absolute -right-20 -top-20 z-0 h-[500px] w-[500px] rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
+      <div className="pointer-events-none absolute -right-20 -top-20 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
 
       <header className="sticky top-0 z-30 flex items-center justify-center border-b border-white/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">

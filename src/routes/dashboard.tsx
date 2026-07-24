@@ -104,7 +104,8 @@ function DashboardPage() {
 
   useEffect(() => {
     if (!user) return
-    const hasSeenOnboarding = sessionStorage.getItem('hasSeenOnboarding')
+
+    const hasSeenOnboarding = localStorage.getItem(`onboarding_${user.id}`)
 
     if (!hasSeenOnboarding) {
       if (user.type && !user.avatarSeed) {
@@ -128,7 +129,9 @@ function DashboardPage() {
   }, [onboardingStep])
 
   const handleCompleteOnboarding = () => {
-    sessionStorage.setItem('hasSeenOnboarding', 'true')
+    if (user) {
+      localStorage.setItem(`onboarding_${user.id}`, 'true')
+    }
     setShowReveal(false)
   }
 
@@ -233,7 +236,7 @@ function DashboardPage() {
 
       {onboardingStep === 'gender' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
-          <div className="w-full max-w-100 rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
+          <div className="w-full max-w-1OO rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
             <div className="absolute w-50 h-50 -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
 
             <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">

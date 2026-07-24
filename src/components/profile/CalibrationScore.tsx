@@ -52,7 +52,7 @@ export function CalibrationScore({ score }: CalibrationScoreProps) {
         </div>
       </div>
 
-      <p className="mt-4 max-w-[220px] text-center text-xs text-[#c8c5d0]/70">
+      <p className="mt-4 max-w-55 text-center text-xs text-[#c8c5d0]/70">
         Depth of psychological alignment based on your continuous interactions.
       </p>
     </div>
