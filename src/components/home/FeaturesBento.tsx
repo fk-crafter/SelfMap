@@ -21,7 +21,7 @@ export function FeaturesBento() {
         </p>
       </motion.div>
 
-      <div className="grid w-full auto-rows-[340px] grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid w-full auto-rows-85 grid-cols-1 gap-6 md:grid-cols-3">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,7 +65,7 @@ export function FeaturesBento() {
           className="md:row-span-2"
         >
           <Card className="group relative flex h-full flex-col overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 backdrop-blur-xl md:p-8">
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-[#001809]/90" />
+            <div className="absolute inset-0 z-0 bg-linear-to-b from-transparent to-[#001809]/90" />
             <img
               src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
               alt="3D Generative Art"

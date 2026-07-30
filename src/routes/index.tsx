@@ -10,6 +10,7 @@ import { HeroSection } from '@/components/home/HeroSection'
 import { Navbar } from '@/components/home/Navbar'
 import { ValueProposition } from '@/components/home/ValueProposition'
 import { FeaturesBento } from '@/components/home/FeaturesBento'
+import { HowItWorks } from '@/components/home/HowItWorks'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -65,6 +66,7 @@ function HomePage() {
         <HeroSection usersHelped={usersHelped} />
         <ValueProposition />
         <FeaturesBento />
+        <HowItWorks />
       </main>
     </div>
   )
