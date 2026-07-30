@@ -1,65 +1,95 @@
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { Users, Wind } from 'lucide-react'
+import { motion } from 'motion/react'
+import { Sparkles, ArrowRight } from 'lucide-react'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
   return (
-    <div className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-12 text-center">
-      <div className="flex flex-col items-center gap-6">
-        <div className="mb-2 flex h-16 w-16 items-center justify-center rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 shadow-[0_0_30px_rgba(233,195,73,0.15)]">
-          <Wind className="h-8 w-8 text-[#e9c349]" />
-        </div>
-        <h1 className="font-serif text-5xl font-normal tracking-tight text-[#e9c349] sm:text-7xl">
-          SoulType
-        </h1>
-        <p className="mx-auto max-w-2xl text-xl leading-relaxed text-[#c8c5d0]">
-          Discover your psychological profile and chat daily with your{' '}
-          <span className="font-medium text-[#c9ebd0]">AI Growth Coach</span>{' '}
-          tailored to help you reach your self-actualization goals.
-        </p>
-      </div>
+    <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 pt-10 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 text-sm font-medium text-[#e9c349]"
+      >
+        <Sparkles className="h-4 w-4" />
+        <span>Discover your true essence</span>
+      </motion.div>
 
-      <Card className="w-full max-w-md overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-2 shadow-2xl backdrop-blur-xl rounded-[2.5rem]">
-        <CardHeader className="pt-8 pb-4 px-4 sm:px-6">
-          <CardTitle className="whitespace-nowrap font-serif text-xl font-normal text-[#c9ebd0] sm:text-2xl">
-            Ready to understand yourself?
-          </CardTitle>
-          <CardDescription className="whitespace-nowrap text-sm text-[#c8c5d0]/70 sm:text-base">
-            Take a 5-minute test to map your personality.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 pb-6">
-          <Button
-            size="lg"
-            className="h-14 w-full rounded-full bg-[#e9c349] text-lg font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-95"
-            asChild
-          >
-            <Link to="/test">Start my test</Link>
-          </Button>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4 pb-8 text-sm text-[#c8c5d0]/60">
-          <Separator className="bg-white/10" />
-          <div className="flex items-center gap-2 pt-2">
-            <Users className="h-4 w-4 text-[#e9c349]" />
-            <p>
-              Join{' '}
-              <span className="font-medium text-[#e9c349]">
-                {usersHelped} explorers
-              </span>{' '}
-              guided towards their true essence.
-            </p>
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+        className="font-serif text-5xl font-normal tracking-tight text-[#c9ebd0] sm:text-7xl"
+      >
+        Your AI <span className="text-[#e9c349]">Soul Coach</span>
+        <br />
+        awaits you.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+        className="mx-auto max-w-2xl text-lg leading-relaxed text-[#c8c5d0] sm:text-xl"
+      >
+        More than a simple MBTI test. Experience a living psychological profile
+        that evolves with you through daily introspection and personalized AI
+        guidance.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
+        className="flex flex-col items-center gap-6 sm:flex-row"
+      >
+        <Button
+          asChild
+          className="h-14 rounded-full bg-[#e9c349] px-8 text-lg font-bold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 hover:bg-[#e9c349]/90 active:scale-95"
+        >
+          <Link to="/test">
+            Start My Test <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
+        </Button>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
+        className="flex flex-col items-center gap-3 pt-4"
+      >
+        <div className="flex -space-x-3">
+          <img
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces&q=80"
+            alt="User"
+            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces&q=80"
+            alt="User"
+            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces&q=80"
+            alt="User"
+            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&q=80"
+            alt="User"
+            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
+          />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#001809] bg-[#12301e] text-xs font-bold text-[#c9ebd0]">
+            +
           </div>
-        </CardFooter>
-      </Card>
-    </div>
+        </div>
+        <p className="text-sm font-medium text-[#c8c5d0]">
+          Joined by <span className="text-[#e9c349]">{usersHelped}+</span>{' '}
+          explorers
+        </p>
+      </motion.div>
+    </section>
   )
 }
