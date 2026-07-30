@@ -43,7 +43,7 @@ export const Route = createRootRoute({
   ),
   notFoundComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-[#001809] relative overflow-hidden">
-      <div className="absolute w-[500px] h-[500px] rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute w-125 h-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
       <div className="relative z-10 p-12 text-center rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl shadow-2xl">
         <h1 className="font-serif text-8xl font-normal text-[#e9c349]">404</h1>
         <p className="mt-4 text-lg text-[#c8c5d0]">
@@ -80,7 +80,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="font-sans antialiased wrap-anywhere selection:bg-[#e9c349]/20 bg-[#001809]">
+      <body className="font-sans antialiased wrap-anywhere selection:bg-[#e9c349]/20 bg-[#001809] dark text-[#c9ebd0]">
         {children}
 
         <Toaster
