@@ -9,6 +9,7 @@ import {
 import { HeroSection } from '@/components/home/HeroSection'
 import { Navbar } from '@/components/home/Navbar'
 import { ValueProposition } from '@/components/home/ValueProposition'
+import { FeaturesBento } from '@/components/home/FeaturesBento'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -60,9 +61,10 @@ function HomePage() {
 
       <Navbar />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center px-6 pb-20 pt-32 md:px-12">
+      <main className="relative z-10 flex flex-1 flex-col items-center px-6 pb-32 pt-32 md:px-12">
         <HeroSection usersHelped={usersHelped} />
         <ValueProposition />
+        <FeaturesBento />
       </main>
     </div>
   )
