@@ -11,6 +11,7 @@ import { Navbar } from '@/components/home/Navbar'
 import { ValueProposition } from '@/components/home/ValueProposition'
 import { FeaturesBento } from '@/components/home/FeaturesBento'
 import { HowItWorks } from '@/components/home/HowItWorks'
+import { Pricing } from '#/components/home/Pricing'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -67,6 +68,7 @@ function HomePage() {
         <ValueProposition />
         <FeaturesBento />
         <HowItWorks />
+        <Pricing />
       </main>
     </div>
   )
