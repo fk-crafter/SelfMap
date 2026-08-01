@@ -65,12 +65,52 @@ export function FeaturesBento() {
           className="md:row-span-2"
         >
           <Card className="group relative flex h-full flex-col overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 backdrop-blur-xl md:p-8">
-            <div className="absolute inset-0 z-0 bg-linear-to-b from-transparent to-[#001809]/90" />
-            <img
-              src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
-              alt="3D Generative Art"
-              className="absolute inset-0 z-0 h-full w-full object-cover opacity-30 mix-blend-luminosity transition-transform duration-700 group-hover:scale-110"
-            />
+            <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden bg-[#001809]">
+              <div className="relative flex h-64 w-64 items-center justify-center">
+                <motion.div
+                  animate={{
+                    scale: [1, 1, 2.5, 2.5, 1],
+                    opacity: [1, 1, 0, 0, 1],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    times: [0, 0.4, 0.5, 0.9, 1],
+                    ease: 'easeInOut',
+                  }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <div className="absolute h-48 w-48 rounded-full border border-white/10 border-t-white/40 animate-[spin_3s_linear_infinite]" />
+                  <div className="absolute h-36 w-36 rounded-full border border-[#c5c0fe]/20 border-b-[#c5c0fe]/60 animate-[spin_2s_linear_infinite_reverse]" />
+                  <div className="absolute h-24 w-24 rounded-full border border-[#e9c349]/10 border-l-[#e9c349]/80 animate-[spin_1.5s_linear_infinite]" />
+                  <div className="absolute h-12 w-12 rounded-full bg-[#e9c349]/20 blur-md animate-pulse" />
+                </motion.div>
+
+                <motion.div
+                  animate={{
+                    scale: [0.3, 0.3, 1, 1, 0.3],
+                    opacity: [0, 0, 1, 1, 0],
+                    filter: [
+                      'blur(15px)',
+                      'blur(15px)',
+                      'blur(0px)',
+                      'blur(0px)',
+                      'blur(15px)',
+                    ],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    times: [0, 0.4, 0.5, 0.9, 1],
+                    ease: 'easeInOut',
+                  }}
+                  className="absolute flex h-32 w-32 items-center justify-center rounded-full border border-[#e9c349]/40 bg-[rgba(233,195,73,0.15)] text-[#e9c349] shadow-[0_0_40px_rgba(233,195,73,0.3)] backdrop-blur-md"
+                >
+                  <UserCircle className="h-16 w-16 stroke-[1.2]" />
+                </motion.div>
+              </div>
+            </div>
+            <div className="absolute inset-0 z-0 bg-linear-to-b from-transparent via-transparent to-[#001809]/90" />
             <div className="relative z-10 flex h-full flex-col justify-end">
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-md">
                 <UserCircle className="h-5 w-5" />
