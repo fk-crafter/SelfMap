@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { Sparkles, ArrowRight } from 'lucide-react'
+import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
   return (
@@ -10,10 +11,14 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 text-sm font-medium text-[#e9c349]"
+        className="flex items-center justify-center"
       >
-        <Sparkles className="h-4 w-4" />
-        <span>AI-Powered Personality Assessment</span>
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-sm font-medium transition-colors hover:bg-[#e9c349]/20">
+          <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349] transition ease-out hover:text-[#f6d773] hover:duration-300 hover:[text-shadow:0_0_8px_rgba(233,195,73,0.8)]">
+            <Sparkles className="h-4 w-4" />
+            <span>AI-Powered Personality Assessment</span>
+          </AnimatedShinyText>
+        </div>
       </motion.div>
 
       <motion.h1
@@ -31,7 +36,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-        className="mx-auto max-w-2xl text-lg leading-relaxed text-[#c8c5d0] sm:text-xl"
+        className="mx-auto max-w-2xl font-sans text-lg leading-relaxed text-[#c8c5d0] sm:text-xl"
       >
         Go beyond traditional MBTI tests with a living psychological profile.
         Map your cognitive functions, engage in daily introspection, and receive
@@ -46,7 +51,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
       >
         <Button
           asChild
-          className="group relative h-12 overflow-hidden rounded-full bg-[#e9c349] px-8 text-base font-semibold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all duration-500 hover:bg-[#f6d773] hover:shadow-[0_0_40px_rgba(233,195,73,0.6)] active:scale-[0.98]"
+          className="group relative h-12 overflow-hidden rounded-full bg-[#e9c349] px-8 font-sans text-base font-semibold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all duration-500 hover:bg-[#f6d773] hover:shadow-[0_0_40px_rgba(233,195,73,0.6)] active:scale-[0.98]"
         >
           <Link to="/test">
             <span className="relative z-10 flex items-center">
@@ -64,7 +69,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
-        className="flex flex-col items-center gap-3 pt-4"
+        className="flex flex-col items-center gap-3 pt-4 font-sans"
       >
         <div className="flex -space-x-3">
           <img
