@@ -13,7 +13,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         className="inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 text-sm font-medium text-[#e9c349]"
       >
         <Sparkles className="h-4 w-4" />
-        <span>Discover your true essence</span>
+        <span>AI-Powered Personality Assessment</span>
       </motion.div>
 
       <motion.h1
@@ -22,9 +22,9 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
         className="font-serif text-5xl font-normal tracking-tight text-[#c9ebd0] sm:text-7xl"
       >
-        Your AI <span className="text-[#e9c349]">Soul Coach</span>
+        The AI <span className="text-[#e9c349]">Soul Coach</span>
         <br />
-        awaits you.
+        That Evolves With You.
       </motion.h1>
 
       <motion.p
@@ -33,9 +33,9 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
         className="mx-auto max-w-2xl text-lg leading-relaxed text-[#c8c5d0] sm:text-xl"
       >
-        More than a simple MBTI test. Experience a living psychological profile
-        that evolves with you through daily introspection and personalized AI
-        guidance.
+        Go beyond traditional MBTI tests with a living psychological profile.
+        Map your cognitive functions, engage in daily introspection, and receive
+        hyper-personalized guidance tailored to your true archetype.
       </motion.p>
 
       <motion.div
@@ -49,7 +49,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
           className="h-14 rounded-full bg-[#e9c349] px-8 text-lg font-bold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 hover:bg-[#e9c349]/90 active:scale-95"
         >
           <Link to="/test">
-            Start My Test <ArrowRight className="ml-2 h-5 w-5" />
+            Discover Your Archetype <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </Button>
       </motion.div>
@@ -86,8 +86,8 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
           </div>
         </div>
         <p className="text-sm font-medium text-[#c8c5d0]">
-          Joined by <span className="text-[#e9c349]">{usersHelped}+</span>{' '}
-          explorers
+          Join <span className="text-[#e9c349]">{usersHelped}+</span>{' '}
+          individuals on their journey to self-mastery
         </p>
       </motion.div>
     </section>
