@@ -46,10 +46,16 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
       >
         <Button
           asChild
-          className="h-14 rounded-full bg-[#e9c349] px-8 text-lg font-bold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 hover:bg-[#e9c349]/90 active:scale-95"
+          className="group relative h-12 overflow-hidden rounded-full bg-[#e9c349] px-8 text-base font-semibold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all duration-500 hover:bg-[#f6d773] hover:shadow-[0_0_40px_rgba(233,195,73,0.6)] active:scale-[0.98]"
         >
           <Link to="/test">
-            Discover Your Archetype <ArrowRight className="ml-2 h-5 w-5" />
+            <span className="relative z-10 flex items-center">
+              Discover Your Archetype
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
+            <div className="absolute inset-0 -z-10 flex h-full w-full items-center justify-center">
+              <div className="h-full w-[200%] translate-x-[-150%] skew-x-[-15deg] bg-linear-to-r from-transparent via-white/50 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[150%]" />
+            </div>
           </Link>
         </Button>
       </motion.div>
