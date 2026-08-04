@@ -1,21 +1,21 @@
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
-import { Sparkles, ArrowRight } from 'lucide-react'
+import { Fingerprint, ArrowRight } from 'lucide-react'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
   return (
-    <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 pt-10 text-center">
+    <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 pt-3 text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="flex items-center justify-center"
       >
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-sm font-medium transition-colors hover:bg-[#e9c349]/20">
-          <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349] transition ease-out hover:text-[#f6d773] hover:duration-300 hover:[text-shadow:0_0_8px_rgba(233,195,73,0.8)]">
-            <Sparkles className="h-4 w-4" />
+        <div className="group inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-sm font-medium transition-all duration-300 hover:border-[#e9c349]/60 hover:bg-[#e9c349]/20 hover:shadow-[0_0_15px_rgba(233,195,73,0.15)]">
+          <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349]">
+            <Fingerprint className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
             <span>AI-Powered Personality Assessment</span>
           </AnimatedShinyText>
         </div>
