@@ -8,15 +8,15 @@ import {
   User,
   Loader2,
   ArrowRight,
-  Sparkles,
-  ArrowUpRight,
   PenLine,
+  Activity,
+  Sparkles,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
 import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
-import { toast } from 'sonner'
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -29,6 +29,38 @@ type ExtendedUser = {
   insight?: string | null
   avatarSeed?: string | null
   scores?: string | null
+}
+
+function DashboardBottomNav() {
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/90 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">
+      <div className="flex flex-col items-center justify-center gap-1 text-[#e9c349]">
+        <Home className="h-5 w-5" />
+        <span className="text-xs font-bold">Home</span>
+      </div>
+      <Link
+        to="/chat"
+        className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
+      >
+        <MessageSquare className="h-5 w-5" />
+        <span className="text-xs font-medium">Chat</span>
+      </Link>
+      <Link
+        to="/discover"
+        className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
+      >
+        <Search className="h-5 w-5" />
+        <span className="text-xs font-medium">Discover</span>
+      </Link>
+      <Link
+        to="/profile"
+        className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
+      >
+        <User className="h-5 w-5" />
+        <span className="text-xs font-medium">Profile</span>
+      </Link>
+    </nav>
+  )
 }
 
 function ScrambleText({ text }: { text: string }) {
@@ -195,13 +227,10 @@ function DashboardPage() {
     <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
       {onboardingStep === 'analysis' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 backdrop-blur-xl px-4">
-          <div className="w-full max-w-112.5 rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
-            <div className="absolute w-50 h-50 -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
-
+          <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
             <h3 className="mb-8 text-xs font-bold uppercase tracking-widest text-[#c8c5d0]">
               Psychological Architecture
             </h3>
-
             <p className="text-sm leading-relaxed text-[#c8c5d0]/90 mb-8">
               Initial cognitive mapping suggests a dominant <br />
               <span className="text-4xl mt-6 mb-6 block">
@@ -209,74 +238,38 @@ function DashboardPage() {
               </span>
               structure.
             </p>
-
-            <div className="h-px w-12 bg-[#e9c349]/50 mb-8" />
-
-            <p className="text-xs leading-relaxed text-[#c8c5d0]/60 italic">
-              Human depth cannot be contained within a 20-question baseline.
-              Through ongoing dialogue, your Soul Coach will continuously adapt
-              your profile to uncover your true nature.
-            </p>
           </div>
         </div>
       )}
 
       {onboardingStep === 'gender' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
-          <div className="w-full max-w-1OO rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
-            <div className="absolute w-50 h-50 -top-10 -right-10 rounded-full bg-[#e9c349] opacity-10 blur-[50px] pointer-events-none" />
-
+          <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
             <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
               Initialize Coach
             </h2>
-            <p className="mb-8 text-sm text-[#c8c5d0]/80 leading-relaxed">
-              To generate a 3D avatar that matches your energy, please select
-              the gender of your Soul Coach.
-            </p>
-
             <div className="mb-8 flex gap-3">
-              <button
-                onClick={() => setGender('male')}
-                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
-                  gender === 'male'
-                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
-                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-                }`}
-              >
-                Male
-              </button>
-              <button
-                onClick={() => setGender('female')}
-                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
-                  gender === 'female'
-                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
-                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-                }`}
-              >
-                Female
-              </button>
-              <button
-                onClick={() => setGender('other')}
-                className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
-                  gender === 'other'
-                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
-                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-                }`}
-              >
-                Neutral
-              </button>
+              {['male', 'female', 'other'].map((g) => (
+                <button
+                  key={g}
+                  onClick={() => setGender(g as any)}
+                  className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
+                    gender === g
+                      ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
+                      : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                  }`}
+                >
+                  {g.charAt(0).toUpperCase() + g.slice(1)}
+                </button>
+              ))}
             </div>
-
             <Button
               onClick={handleGenerateCoach}
               disabled={!gender || isGenerating}
               className="w-full rounded-full bg-[#e9c349] h-12 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 disabled:opacity-50"
             >
               {isGenerating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating Avatar...
-                </>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 'CONTINUE'
               )}
@@ -294,119 +287,92 @@ function DashboardPage() {
 
       <DashboardHeader user={user} />
 
-      <main className="flex-1 overflow-y-auto px-6 pb-32">
-        <div className="mt-8 mb-8">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-2">
-            Inner Sanctuary
-          </h2>
-          <h1 className="font-serif text-5xl font-normal leading-tight text-[#c9ebd0]">
-            Good Morning,
-            <br />
-            {user.name}
-          </h1>
-          <div className="w-12 h-px bg-[#e9c349]/50 mt-6" />
+      <main className="flex-1 overflow-y-auto px-6 pb-32 pt-6">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
+              Inner Sanctuary
+            </h2>
+            <h1 className="font-serif text-3xl font-normal text-[#c9ebd0]">
+              Morning, {user.name}
+            </h1>
+          </div>
+          <div className="flex flex-col items-end">
+            <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1.5 text-xs font-bold tracking-widest text-[#e9c349]">
+              {user.type}
+            </span>
+          </div>
         </div>
 
-        <div className="space-y-6">
-          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#c5c0fe] shadow-[0_0_8px_#c5c0fe]" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#c5c0fe]">
-                Live Guidance
-              </span>
-            </div>
+        <Card className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl mb-6 shadow-xl rounded-[2rem]">
+          <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center">
+            <img
+              src={user.avatarSeed || './avatar-coach.png'}
+              alt="Coach Avatar"
+              className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
+            />
+          </div>
 
-            <h3 className="font-serif text-2xl text-[#c9ebd0] mb-4 leading-snug">
-              Your Soul Coach is ready to explore today's patterns.
-            </h3>
+          <div className="mx-auto max-w-[85%] mb-6 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md">
+            "I noticed a shift in your patterns today. Shall we reflect on your
+            recent decisions?"
+          </div>
 
-            <p className="text-sm text-[#c8c5d0] leading-relaxed mb-6">
-              We've noticed a shift in your cognitive functions. Shall we
-              reflect on your recent decision-making process?
-            </p>
-
-            <Button
-              asChild
-              className="w-full sm:w-auto mb-6 rounded-full bg-[#e9c349] text-[#001809] font-bold text-xs tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 h-12 px-6 flex items-center justify-center gap-2"
-            >
-              <Link to="/chat">
-                CONTINUE REFLECTION <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-
-            <div className="w-full aspect-square max-w-60 mx-auto bg-[#c8c5d0]/10 rounded-2xl overflow-hidden flex items-center justify-center">
-              <img
-                src={user.avatarSeed || './avatar-coach.png'}
-                alt="Coach Avatar"
-                className="w-full h-full object-cover opacity-80 mix-blend-luminosity"
-              />
-            </div>
-          </Card>
-
-          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[10px] font-bold tracking-widest text-[#c8c5d0]">
-                {user.type || 'MBTI'}
-              </span>
-            </div>
-
-            <h3 className="font-serif text-xl text-[#c9ebd0] mb-3">
-              Daily Insight
-            </h3>
-            <p className="text-sm text-[#c8c5d0] leading-relaxed italic mb-6">
-              "
-              {user.insight ||
-                'Efficiency is highly overrated if it bypasses the intuitive soul. Today, allow your mind to breathe without an immediate roadmap.'}
-              "
-            </p>
-
-            <Link
-              to="/profile"
-              className="inline-flex items-center gap-2 text-xs font-bold text-[#e9c349] hover:text-[#e9c349]/80 transition-colors"
-            >
-              Read Full Analysis <ArrowUpRight className="h-3 w-3" />
+          <Button
+            asChild
+            className="w-full rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
+          >
+            <Link to="/chat">
+              START REFLECTION <ArrowRight className="h-4 w-4" />
             </Link>
-          </Card>
+          </Button>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <Link to="/journal">
+            <Card className="group flex flex-col items-center justify-center p-5 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-2xl cursor-pointer">
+              <div className="mb-3 rounded-full bg-white/5 p-3 group-hover:bg-[#e9c349]/10 group-hover:text-[#e9c349] transition-colors">
+                <PenLine className="h-6 w-6 text-[#c8c5d0] group-hover:text-[#e9c349]" />
+              </div>
+              <span className="text-xs font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
+                Quick Journal
+              </span>
+            </Card>
+          </Link>
+
+          <Link to="/profile">
+            <Card className="group flex flex-col items-center justify-center p-5 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-2xl cursor-pointer">
+              <div className="mb-3 rounded-full bg-white/5 p-3 group-hover:bg-[#e9c349]/10 group-hover:text-[#e9c349] transition-colors">
+                <Activity className="h-6 w-6 text-[#c8c5d0] group-hover:text-[#e9c349]" />
+              </div>
+              <span className="text-xs font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
+                Soul Map
+              </span>
+            </Card>
+          </Link>
         </div>
+
+        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="h-4 w-4 text-[#e9c349]" />
+            <h3 className="font-serif text-lg text-[#c9ebd0]">Daily Insight</h3>
+          </div>
+          <p className="text-sm text-[#c8c5d0]/70 italic line-clamp-2 mb-4 leading-relaxed">
+            "
+            {user.insight ||
+              'Efficiency is highly overrated if it bypasses the intuitive soul. Allow your mind to breathe.'}
+            "
+          </p>
+          <Link
+            to="/profile"
+            className="text-xs font-bold tracking-wider text-[#e9c349] hover:opacity-80 transition-opacity"
+          >
+            READ FULL ANALYSIS →
+          </Link>
+        </Card>
       </main>
 
-      <Link
-        to="/journal"
-        className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#e9c349] text-[#001809] shadow-[0_4px_20px_rgba(233,195,73,0.3)] transition-transform hover:scale-105 active:scale-95"
-      >
-        <PenLine className="h-6 w-6" />
-      </Link>
-
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/90 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">
-        <div className="flex flex-col items-center justify-center gap-1 text-[#e9c349]">
-          <Home className="h-5 w-5" />
-          <span className="text-xs font-bold">Home</span>
-        </div>
-        <Link
-          to="/chat"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <MessageSquare className="h-5 w-5" />
-          <span className="text-xs font-medium">Chat</span>
-        </Link>
-        <Link
-          to="/discover"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <Search className="h-5 w-5" />
-          <span className="text-xs font-medium">Discover</span>
-        </Link>
-        <Link
-          to="/profile"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <User className="h-5 w-5" />
-          <span className="text-xs font-medium">Profile</span>
-        </Link>
-      </nav>
+      <DashboardBottomNav />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Menu, User as UserIcon, Settings, LogOut } from 'lucide-react'
+import { User as UserIcon, Settings, LogOut } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
 
@@ -43,9 +43,6 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
       <div className="flex items-center gap-4">
-        <button className="text-[#c9ebd0] transition-colors hover:text-[#e9c349]">
-          <Menu className="h-6 w-6" />
-        </button>
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
           SoulType
         </h1>
