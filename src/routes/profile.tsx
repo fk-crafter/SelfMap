@@ -1,17 +1,19 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Home, MessageSquare, Search, User, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
 import { CalibrationScore } from '@/components/profile/CalibrationScore'
 import { authClient } from '@/lib/auth-client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
 })
 
 type ExtendedUser = {
+  id: string
   name: string
   type?: string | null
   insight?: string | null
@@ -23,6 +25,7 @@ type ExtendedUser = {
 function ProfilePage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
+  const [currentCalibration, setCurrentCalibration] = useState(0)
 
   useEffect(() => {
     refetch()
@@ -34,6 +37,19 @@ function ProfilePage() {
     }
   }, [data, isPending, navigate])
 
+  const profile = data?.user as ExtendedUser | undefined
+
+  useEffect(() => {
+    if (profile?.id) {
+      const savedScore = localStorage.getItem(`calibration_${profile.id}`)
+      if (savedScore) {
+        setCurrentCalibration(Number(savedScore))
+      } else if (profile.calibrationScore) {
+        setCurrentCalibration(profile.calibrationScore)
+      }
+    }
+  }, [profile?.id, profile?.calibrationScore])
+
   if (isPending) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
@@ -41,8 +57,6 @@ function ProfilePage() {
       </div>
     )
   }
-
-  const profile = data?.user as ExtendedUser | undefined
 
   if (!profile || !profile.type) {
     return (
@@ -71,8 +85,6 @@ function ProfilePage() {
       console.error('Error parsing scores')
     }
   }
-
-  const currentCalibration = profile.calibrationScore || 0
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
@@ -151,33 +163,7 @@ function ProfilePage() {
         </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/90 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">
-        <Link
-          to="/dashboard"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <Home className="h-5 w-5" />
-          <span className="text-xs font-bold">Home</span>
-        </Link>
-        <Link
-          to="/chat"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <MessageSquare className="h-5 w-5" />
-          <span className="text-xs font-medium">Chat</span>
-        </Link>
-        <Link
-          to="/discover"
-          className="flex flex-col items-center justify-center gap-1 text-[#c8c5d0]/50 transition-colors hover:text-[#e9c349]"
-        >
-          <Search className="h-5 w-5" />
-          <span className="text-xs font-medium">Discover</span>
-        </Link>
-        <div className="flex flex-col items-center justify-center gap-1 text-[#e9c349]">
-          <User className="h-5 w-5" />
-          <span className="text-xs font-bold">Profile</span>
-        </div>
-      </nav>
+      <DashboardBottomNav />
     </div>
   )
 }
