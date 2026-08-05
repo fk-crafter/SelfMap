@@ -45,10 +45,25 @@ function ChatPage() {
   useEffect(() => {
     if (!isPending && !data?.session) {
       navigate({ to: '/login' })
-    } else if (user?.calibrationScore) {
-      setCurrentScore(user.calibrationScore)
     }
-  }, [data, isPending, navigate, user])
+  }, [data, isPending, navigate])
+
+  useEffect(() => {
+    if (user?.id) {
+      const savedScore = localStorage.getItem(`calibration_${user.id}`)
+      if (savedScore) {
+        setCurrentScore(Number(savedScore))
+      } else if (user.calibrationScore) {
+        setCurrentScore(user.calibrationScore)
+      }
+    }
+  }, [user?.id, user?.calibrationScore])
+
+  useEffect(() => {
+    if (user?.id && currentScore > 0) {
+      localStorage.setItem(`calibration_${user.id}`, currentScore.toString())
+    }
+  }, [currentScore, user?.id])
 
   useEffect(() => {
     const fetchHistory = async () => {
