@@ -247,88 +247,90 @@ function DashboardPage() {
       <DashboardHeader user={user} />
 
       <main className="flex-1 overflow-y-auto px-6 pb-32 pt-6">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
-              Inner Sanctuary
-            </h2>
-            <h1 className="font-serif text-3xl font-normal text-[#c9ebd0]">
-              Morning, {user.name}
-            </h1>
-          </div>
-          <div className="flex flex-col items-end">
-            <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1.5 text-xs font-bold tracking-widest text-[#e9c349]">
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
+          <div className="flex items-end justify-between px-2">
+            <div>
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
+                Inner Sanctuary
+              </h2>
+              <h1 className="font-serif text-3xl font-normal text-[#c9ebd0] md:text-4xl">
+                Morning, {user.name}
+              </h1>
+            </div>
+            <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-2 text-xs font-bold tracking-widest text-[#e9c349]">
               {user.type}
             </span>
           </div>
-        </div>
 
-        <Card className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl mb-6 shadow-xl rounded-[2rem]">
-          <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center">
-            <img
-              src={user.avatarSeed || './avatar-coach.png'}
-              alt="Coach Avatar"
-              className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
-            />
-          </div>
+          <Card className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10">
+            <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
+              <img
+                src={user.avatarSeed || './avatar-coach.png'}
+                alt="Coach Avatar"
+                className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
+              />
+            </div>
 
-          <div className="mx-auto max-w-[85%] mb-6 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md">
-            "I noticed a shift in your patterns today. Shall we reflect on your
-            recent decisions?"
-          </div>
+            <div className="mx-auto max-w-[85%] mb-8 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-5 py-4 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md md:text-base">
+              "I noticed a shift in your patterns today. Shall we reflect on
+              your recent decisions?"
+            </div>
 
-          <Button
-            asChild
-            className="w-full rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
-          >
-            <Link to="/chat">
-              START REFLECTION <ArrowRight className="h-4 w-4" />
+            <Button
+              asChild
+              className="mx-auto w-full max-w-md rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
+            >
+              <Link to="/chat">
+                START REFLECTION <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </Card>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Link to="/journal">
+              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
+                <div className="mb-4 rounded-full bg-white/5 p-4 group-hover:bg-[#e9c349]/10 transition-colors">
+                  <PenLine className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
+                </div>
+                <span className="text-sm font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
+                  Quick Journal
+                </span>
+              </Card>
             </Link>
-          </Button>
-        </Card>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <Link to="/journal">
-            <Card className="group flex flex-col items-center justify-center p-5 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-2xl cursor-pointer">
-              <div className="mb-3 rounded-full bg-white/5 p-3 group-hover:bg-[#e9c349]/10 group-hover:text-[#e9c349] transition-colors">
-                <PenLine className="h-6 w-6 text-[#c8c5d0] group-hover:text-[#e9c349]" />
-              </div>
-              <span className="text-xs font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
-                Quick Journal
-              </span>
-            </Card>
-          </Link>
-
-          <Link to="/profile">
-            <Card className="group flex flex-col items-center justify-center p-5 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-2xl cursor-pointer">
-              <div className="mb-3 rounded-full bg-white/5 p-3 group-hover:bg-[#e9c349]/10 group-hover:text-[#e9c349] transition-colors">
-                <Activity className="h-6 w-6 text-[#c8c5d0] group-hover:text-[#e9c349]" />
-              </div>
-              <span className="text-xs font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
-                Soul Map
-              </span>
-            </Card>
-          </Link>
-        </div>
-
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-2xl">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="h-4 w-4 text-[#e9c349]" />
-            <h3 className="font-serif text-lg text-[#c9ebd0]">Daily Insight</h3>
+            <Link to="/profile">
+              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
+                <div className="mb-4 rounded-full bg-white/5 p-4 group-hover:bg-[#e9c349]/10 transition-colors">
+                  <Activity className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
+                </div>
+                <span className="text-sm font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
+                  Soul Map
+                </span>
+              </Card>
+            </Link>
           </div>
-          <p className="text-sm text-[#c8c5d0]/70 italic line-clamp-2 mb-4 leading-relaxed">
-            "
-            {user.insight ||
-              'Efficiency is highly overrated if it bypasses the intuitive soul. Allow your mind to breathe.'}
-            "
-          </p>
-          <Link
-            to="/profile"
-            className="text-xs font-bold tracking-wider text-[#e9c349] hover:opacity-80 transition-opacity"
-          >
-            READ FULL ANALYSIS →
-          </Link>
-        </Card>
+
+          <Card className="flex flex-col justify-center border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-lg rounded-[1.5rem]">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="h-5 w-5 text-[#e9c349]" />
+              <h3 className="font-serif text-xl text-[#c9ebd0]">
+                Daily Insight
+              </h3>
+            </div>
+            <p className="text-base text-[#c8c5d0]/80 italic mb-6 leading-relaxed">
+              "
+              {user.insight ||
+                'Efficiency is highly overrated if it bypasses the intuitive soul. Allow your mind to breathe.'}
+              "
+            </p>
+            <Link
+              to="/profile"
+              className="text-xs font-bold tracking-wider text-[#e9c349] hover:opacity-80 transition-opacity"
+            >
+              READ FULL ANALYSIS →
+            </Link>
+          </Card>
+        </div>
       </main>
 
       <DashboardBottomNav />
