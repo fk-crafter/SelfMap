@@ -10,7 +10,7 @@ const navItems = [
 
 export function DashboardBottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-20 items-center justify-around border-t border-white/5 bg-[#001206]/95 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 mx-auto flex h-20 w-full items-center justify-around border-t border-white/5 bg-[#001206]/95 px-4 pb-4 shadow-[0_-4px_24px_rgba(0,0,0,0.2)] backdrop-blur-2xl md:bottom-8 md:h-16 md:max-w-md md:rounded-[2rem] md:border md:border-white/10 md:px-8 md:pb-0">
       {navItems.map((item) => {
         const Icon = item.icon
         return (
@@ -26,7 +26,9 @@ export function DashboardBottomNav() {
             className="flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95"
           >
             <Icon className="h-5 w-5" />
-            <span className="text-xs font-medium">{item.label}</span>
+            <span className="text-[11px] font-medium md:text-xs">
+              {item.label}
+            </span>
           </Link>
         )
       })}
