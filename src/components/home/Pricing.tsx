@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { useState } from 'react'
 import {
   Check,
   Sparkles,
@@ -11,6 +12,8 @@ import { Link } from '@tanstack/react-router'
 import { MagicCard } from '@/components/ui/magic-card'
 
 export function Pricing() {
+  const [isYearly, setIsYearly] = useState(true)
+
   return (
     <section className="relative z-10 mt-32 flex w-full flex-col items-center px-6">
       <motion.div
@@ -18,7 +21,7 @@ export function Pricing() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-16 text-center"
+        className="mb-10 text-center"
       >
         <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
           Choose Your Journey
@@ -27,6 +30,38 @@ export function Pricing() {
           Start your introspection for free, or unlock the full cognitive
           potential of your AI Soul Coach.
         </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="mb-12 flex items-center justify-center gap-4"
+      >
+        <span
+          className={`text-sm font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+        >
+          Monthly
+        </span>
+        <button
+          type="button"
+          onClick={() => setIsYearly(!isYearly)}
+          className="relative inline-flex h-7 w-14 shrink-0 cursor-pointer items-center rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] transition-colors duration-300 ease-in-out focus:outline-none"
+        >
+          <span
+            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-[#e9c349] shadow-[0_0_10px_rgba(233,195,73,0.5)] ring-0 transition duration-300 ease-in-out ${isYearly ? 'translate-x-8' : 'translate-x-1'}`}
+          />
+        </button>
+        <div className="flex items-center gap-2">
+          <span
+            className={`text-sm font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+          >
+            Yearly
+          </span>
+          <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
+            Save 33%
+          </span>
+        </div>
       </motion.div>
 
       <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-stretch md:gap-6 lg:gap-10">
@@ -41,7 +76,7 @@ export function Pricing() {
             gradientColor="rgba(201, 235, 208, 0.15)"
             className="flex h-full w-full flex-col backdrop-blur-xl"
           >
-            <div className="flex flex-col h-full">
+            <div className="flex h-full flex-col">
               <div className="mb-8 mt-4">
                 <h3 className="font-serif text-2xl text-[#c9ebd0]">Seeker</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
@@ -52,6 +87,7 @@ export function Pricing() {
                     Free
                   </span>
                 </div>
+                <div className="mt-1 h-4" />
               </div>
 
               <ul className="mb-10 flex flex-1 flex-col gap-5">
@@ -91,7 +127,7 @@ export function Pricing() {
             gradientColor="rgba(233, 195, 73, 0.2)"
             className="flex h-full w-full flex-col border-[#e9c349]/30 bg-[rgba(233,195,73,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.15)] backdrop-blur-xl"
           >
-            <div className="flex flex-col h-full">
+            <div className="flex h-full flex-col">
               <div className="mb-4 inline-flex w-fit items-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
                 The Sanctuary
               </div>
@@ -102,8 +138,17 @@ export function Pricing() {
                   Unrestricted access to continuous cognitive evolution.
                 </p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-[#e9c349]">$15</span>
+                  <span className="text-4xl font-bold text-[#e9c349]">
+                    ${isYearly ? '10' : '15'}
+                  </span>
                   <span className="text-sm text-[#c8c5d0]/70">/month</span>
+                </div>
+                <div className="mt-1 h-4">
+                  {isYearly && (
+                    <span className="text-xs text-[#c8c5d0]/50">
+                      Billed $120 annually
+                    </span>
+                  )}
                 </div>
               </div>
 
