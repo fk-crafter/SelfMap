@@ -1,6 +1,8 @@
 import { motion } from 'motion/react'
 import { MessageSquare, Target, BookOpen, UserCircle } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { BorderBeam } from '@/components/ui/border-beam'
+import { TextRevealByWord } from '@/components/ui/text-reveal'
 
 export function FeaturesBento() {
   return (
@@ -12,9 +14,10 @@ export function FeaturesBento() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="mb-16 text-center"
       >
-        <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
-          Your mind, mapped and reflected.
-        </h2>
+        <TextRevealByWord 
+          text="Your mind, mapped and reflected." 
+          className="font-serif font-normal justify-center" 
+        />
         <p className="mx-auto mt-4 max-w-2xl text-lg text-[#c8c5d0]">
           A seamless ecosystem designed to capture your psychological essence
           and mirror it back to you.
@@ -30,6 +33,7 @@ export function FeaturesBento() {
           className="md:col-span-2"
         >
           <Card className="group relative flex h-full flex-col justify-between overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 backdrop-blur-xl md:p-8">
+            <BorderBeam size={250} duration={12} delay={9} />
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#c5c0fe] opacity-10 blur-[60px] transition-opacity group-hover:opacity-20" />
             <div>
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-[#c5c0fe]">
@@ -65,6 +69,7 @@ export function FeaturesBento() {
           className="md:row-span-2"
         >
           <Card className="group relative flex h-full flex-col overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 backdrop-blur-xl md:p-8">
+            <BorderBeam size={400} duration={12} delay={9} colorFrom="#c9ebd0" colorTo="#c5c0fe" />
             <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden bg-[#001809]">
               <div className="relative flex h-64 w-64 items-center justify-center">
                 <motion.div
@@ -133,6 +138,7 @@ export function FeaturesBento() {
           transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
         >
           <Card className="group relative flex h-full flex-col justify-between overflow-hidden border border-[#e9c349]/20 bg-[rgba(233,195,73,0.02)] p-6 transition-colors hover:bg-[rgba(233,195,73,0.05)] backdrop-blur-xl md:p-8">
+            <BorderBeam size={150} duration={8} delay={4} colorFrom="#e9c349" colorTo="#e9c349" />
             <div>
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
                 <Target className="h-5 w-5" />
@@ -158,6 +164,7 @@ export function FeaturesBento() {
           transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
         >
           <Card className="group relative flex h-full flex-col justify-between overflow-hidden border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 backdrop-blur-xl md:p-8">
+            <BorderBeam size={150} duration={8} delay={6} colorFrom="#c9ebd0" colorTo="#c5c0fe" />
             <div>
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-[#c9ebd0]">
                 <BookOpen className="h-5 w-5" />

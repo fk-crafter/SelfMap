@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { ClipboardList, Hexagon, TrendingUp } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { FlickeringGrid } from '@/components/ui/flickering-grid'
 
 const steps = [
   {
@@ -36,12 +37,23 @@ export function HowItWorks() {
 
   return (
     <section className="relative z-10 mt-32 flex w-full flex-col items-center px-6">
+      <div className="absolute inset-0 z-0 h-full w-full opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]">
+        <FlickeringGrid
+          className="absolute inset-0 z-0 size-full"
+          squareSize={4}
+          gridGap={6}
+          color="#e9c349"
+          maxOpacity={0.5}
+          flickerChance={0.1}
+        />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-24 text-center"
+        className="mb-24 text-center relative z-10"
       >
         <h2 className="font-serif text-4xl font-normal text-[#c9ebd0] sm:text-5xl md:text-6xl">
           The Path to Mastery

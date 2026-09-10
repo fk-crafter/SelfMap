@@ -130,6 +130,7 @@ body,
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --animate-shiny-text: shiny-text 8s infinite;
+  --animate-border-beam: border-beam calc(var(--duration)*1s) infinite linear;
   @keyframes shiny-text {
     0%,
     90%,
@@ -139,6 +140,25 @@ body,
     30%,
     60% {
       background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+  @keyframes border-beam {
+    100% {
+      offset-distance: 100%;
+    }
+  }
+  --animate-meteor-effect: meteor-effect 5s linear infinite;
+  @keyframes meteor-effect {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
     }
   }
 }

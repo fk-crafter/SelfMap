@@ -9,6 +9,7 @@ import {
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Link } from '@tanstack/react-router'
+import { MagicCard } from '@/components/ui/magic-card'
 
 export function Pricing() {
   return (
@@ -37,8 +38,9 @@ export function Pricing() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="w-full max-w-95"
         >
-          <Card className="flex h-full w-full flex-col border border-white/5 bg-[rgba(197,192,254,0.02)] p-8 backdrop-blur-xl transition-all duration-300 hover:bg-[rgba(197,192,254,0.04)]">
-            <div className="mb-8 mt-4">
+          <MagicCard gradientColor="rgba(201, 235, 208, 0.15)" className="flex h-full w-full flex-col backdrop-blur-xl">
+            <div className="flex flex-col h-full">
+              <div className="mb-8 mt-4">
               <h3 className="font-serif text-2xl text-[#c9ebd0]">Seeker</h3>
               <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
                 For the curious minds beginning their path.
@@ -70,7 +72,8 @@ export function Pricing() {
             >
               <Link to="/test">Start Free</Link>
             </Button>
-          </Card>
+            </div>
+          </MagicCard>
         </motion.div>
 
         <motion.div
@@ -80,7 +83,8 @@ export function Pricing() {
           transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
           className="w-full max-w-95 md:scale-105"
         >
-          <Card className="flex h-full w-full flex-col border border-[#e9c349]/30 bg-linear-to-b from-[rgba(233,195,73,0.08)] to-[rgba(233,195,73,0.01)] p-8 shadow-[0_0_40px_rgba(233,195,73,0.15)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_0_60px_rgba(233,195,73,0.2)]">
+          <MagicCard gradientColor="rgba(233, 195, 73, 0.2)" className="flex h-full w-full flex-col border-[#e9c349]/30 bg-[rgba(233,195,73,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.15)] backdrop-blur-xl">
+            <div className="flex flex-col h-full">
             <div className="mb-4 inline-flex w-fit items-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
               The Sanctuary
             </div>
@@ -121,7 +125,8 @@ export function Pricing() {
             >
               <Link to="/test">Unlock Sanctuary</Link>
             </Button>
-          </Card>
+            </div>
+          </MagicCard>
         </motion.div>
       </div>
     </section>

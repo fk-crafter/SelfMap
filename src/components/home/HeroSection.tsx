@@ -3,15 +3,26 @@ import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { Fingerprint, ArrowRight } from 'lucide-react'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
+import { Particles } from '@/components/ui/particles'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
   return (
     <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 pt-3 text-center">
+      <div className="absolute inset-0 -z-10 h-full w-full pointer-events-none">
+        <Particles
+          className="absolute inset-0 z-0 h-full w-full"
+          quantity={120}
+          ease={80}
+          color="#c5c0fe"
+          staticity={40}
+        />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="flex items-center justify-center"
+        className="flex items-center justify-center relative z-10"
       >
         <div className="group inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-sm font-medium transition-all duration-300 hover:border-[#e9c349]/60 hover:bg-[#e9c349]/20 hover:shadow-[0_0_15px_rgba(233,195,73,0.15)]">
           <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349]">

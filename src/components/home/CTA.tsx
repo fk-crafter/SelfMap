@@ -2,6 +2,7 @@ import { motion } from 'motion/react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import { BorderBeam } from '@/components/ui/border-beam'
 
 export function CTA() {
   return (
@@ -13,8 +14,9 @@ export function CTA() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="relative flex w-full flex-col items-center overflow-hidden rounded-3xl border border-[#e9c349]/20 bg-[rgba(233,195,73,0.02)] p-12 backdrop-blur-xl md:p-20"
       >
-        <div className="absolute inset-0 bg-linear-to-b from-[#e9c349]/5 to-transparent" />
-        <div className="absolute -top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#e9c349] opacity-20 blur-[100px]" />
+        <BorderBeam size={300} duration={10} colorFrom="#e9c349" colorTo="#c5c0fe" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#e9c349]/5 to-transparent z-0" />
+        <div className="absolute -top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#e9c349] opacity-20 blur-[100px] z-0" />
 
         <h2 className="relative z-10 font-serif text-4xl font-normal text-[#c9ebd0] md:text-6xl">
           Ready to meet your <span className="text-[#e9c349]">true self</span>?
