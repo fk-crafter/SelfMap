@@ -1,8 +1,8 @@
 import { motion } from 'motion/react'
 import { MessageSquare, Target, BookOpen, UserCircle } from 'lucide-react'
 import { Card } from '@/components/ui/card'
-import { BorderBeam } from '@/components/ui/border-beam'
 import { TextRevealByWord } from '@/components/ui/text-reveal'
+import { MagicCard } from '@/components/ui/magic-card'
 
 export function FeaturesBento() {
   return (
