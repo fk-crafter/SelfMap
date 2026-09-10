@@ -1,48 +1,57 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 
 interface BorderBeamProps {
   className?: string
-  size?: number
   duration?: number
-  borderWidth?: number
-  anchor?: number
   colorFrom?: string
   colorTo?: string
-  delay?: number
+  borderWidth?: number
+  borderRadius?: number
 }
 
 export const BorderBeam = ({
   className,
-  size = 200,
-  duration = 15,
-  anchor = 90,
-  borderWidth = 1.5,
+  duration = 10,
   colorFrom = "#e9c349",
   colorTo = "#c5c0fe",
-  delay = 0,
+  borderWidth = 1.5,
+  borderRadius = 24,
 }: BorderBeamProps) => {
   return (
     <div
-      style={{
-        "--size": size,
-        "--duration": duration,
-        "--anchor": anchor,
-        "--border-width": borderWidth,
-        "--color-from": colorFrom,
-        "--color-to": colorTo,
-        "--delay": `-${delay}s`,
-        maskImage: "linear-gradient(transparent,transparent), linear-gradient(white,white)",
-        maskClip: "padding-box, border-box",
-        maskComposite: "intersect",
-        WebkitMaskImage: "linear-gradient(transparent,transparent), linear-gradient(white,white)",
-        WebkitMaskClip: "padding-box, border-box",
-        WebkitMaskComposite: "xor",
-      } as React.CSSProperties}
-      className={cn(
-        "pointer-events-none absolute inset-0 z-10 rounded-[inherit] border-[length:calc(var(--border-width)*1px)] border-solid border-transparent",
-        "after:absolute after:aspect-square after:w-[calc(var(--size)*1px)] after:animate-border-beam after:[animation-delay:var(--delay)] after:[background:linear-gradient(to_left,var(--color-from),var(--color-to),transparent)] after:[offset-anchor:calc(var(--anchor)*1%)_50%] after:[offset-path:rect(0_auto_auto_0_round_200px)]",
-        className
-      )}
-    />
+      className={cn("pointer-events-none absolute inset-0 z-10", className)}
+      style={{ borderRadius: `${borderRadius}px` }}
+    >
+      <svg
+        className="absolute inset-0 h-full w-full"
+        style={{
+          borderRadius: `${borderRadius}px`,
+        }}
+      >
+        <defs>
+          <linearGradient id="gradient-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={colorFrom} stopOpacity="1" />
+            <stop offset="50%" stopColor={colorTo} stopOpacity="1" />
+            <stop offset="100%" stopColor={colorFrom} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <rect
+          x={borderWidth / 2}
+          y={borderWidth / 2}
+          width={`calc(100% - ${borderWidth}px)`}
+          height={`calc(100% - ${borderWidth}px)`}
+          rx={borderRadius - borderWidth / 2}
+          ry={borderRadius - borderWidth / 2}
+          fill="none"
+          stroke="url(#gradient-glow)"
+          strokeWidth={borderWidth}
+          pathLength="100"
+          strokeDasharray="25 75"
+          className="animate-border-beam-svg"
+        />
+      </svg>
+    </div>
   )
 }
