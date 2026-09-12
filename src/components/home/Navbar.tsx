@@ -1,42 +1,70 @@
+import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { Sparkles } from 'lucide-react'
 
 export function Navbar() {
-  return (
-    <motion.nav
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 flex h-20 items-center justify-between border-b border-white/5 bg-[#001809]/60 px-6 backdrop-blur-xl md:px-12"
-    >
-      <Link
-        to="/"
-        className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
-      >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e9c349]/10 text-[#e9c349]">
-          <Sparkles className="h-4 w-4" />
-        </div>
-        <span className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
-          SoulType
-        </span>
-      </Link>
+  const [isScrolled, setIsScrolled] = useState(false)
 
-      <div className="flex items-center gap-4">
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <motion.nav
+        layout
+        initial={false}
+        animate={{
+          backgroundColor: isScrolled
+            ? 'rgba(0, 24, 9, 0.95)'
+            : 'rgba(0, 24, 9, 0.6)',
+          borderRadius: isScrolled ? 9999 : 0,
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 250,
+          damping: 30,
+          mass: 0.5,
+        }}
+        className={`pointer-events-auto flex items-center justify-between backdrop-blur-xl ${
+          isScrolled
+            ? 'mt-4 h-16 w-[calc(100%-2rem)] max-w-5xl border border-white/10 px-6 shadow-2xl'
+            : 'mt-0 h-20 w-full max-w-none border-b border-white/5 px-6 md:px-12'
+        }`}
+      >
         <Link
-          to="/login"
-          className="text-sm font-medium text-[#c8c5d0] transition-colors hover:text-[#e9c349]"
+          to="/"
+          className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
         >
-          Log in
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e9c349]/10 text-[#e9c349]">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <span className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
+            SoulType
+          </span>
         </Link>
-        <Button
-          asChild
-          className="h-10 rounded-full bg-[#e9c349] px-6 text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-95"
-        >
-          <Link to="/test">Start Journey</Link>
-        </Button>
-      </div>
-    </motion.nav>
+
+        <div className="flex items-center gap-4">
+          <Link
+            to="/login"
+            className="text-sm font-medium text-[#c8c5d0] transition-colors hover:text-[#e9c349]"
+          >
+            Log in
+          </Link>
+          <Button
+            asChild
+            className="h-10 rounded-full bg-[#e9c349] px-6 text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-95"
+          >
+            <Link to="/test">Start Journey</Link>
+          </Button>
+        </div>
+      </motion.nav>
+    </div>
   )
 }
