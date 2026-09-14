@@ -77,8 +77,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4" />
         <link rel="manifest" href="/manifest.json" />
 
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
