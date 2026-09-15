@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
-import { Sparkles } from 'lucide-react'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -40,10 +39,14 @@ export function Navbar() {
       >
         <Link
           to="/"
-          className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+          className="flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e9c349]/10 text-[#e9c349]">
-            <Sparkles className="h-4 w-4" />
+          <div className="flex h-11 w-11 items-center justify-center">
+            <img
+              src="/logo.png"
+              alt="SoulType"
+              className="h-full w-full object-contain"
+            />
           </div>
           <span className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
             SoulType
