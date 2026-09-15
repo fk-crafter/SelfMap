@@ -61,8 +61,8 @@ function HomePage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
-      <div className="pointer-events-none absolute -left-40 -top-40 z-0 h-150 w-150 rounded-full bg-[#e9c349] opacity-10 blur-[100px]" />
-      <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-150 w-150 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
+      <div className="pointer-events-none absolute -left-40 -top-40 z-0 h-150 w-150 rounded-full bg-[radial-gradient(circle,rgba(233,195,73,0.1)_0%,transparent_70%)]" />
+      <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-150 w-150 rounded-full bg-[radial-gradient(circle,rgba(197,192,254,0.1)_0%,transparent_70%)]" />
 
       <Navbar />
 
