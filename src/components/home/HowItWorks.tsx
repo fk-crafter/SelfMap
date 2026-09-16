@@ -36,7 +36,7 @@ export function HowItWorks() {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
   return (
-    <section className="relative z-10 mt-32 flex w-full flex-col items-center px-6">
+    <section className="relative z-10 mt-32 flex w-full flex-col items-center px-4 sm:px-6">
       <div className="absolute inset-0 z-0 h-full w-full opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]">
         <FlickeringGrid
           className="absolute inset-0 z-0 size-full"
@@ -53,12 +53,12 @@ export function HowItWorks() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-24 text-center relative z-10"
+        className="mb-24 text-center relative z-10 px-2"
       >
-        <h2 className="font-serif text-4xl font-normal text-[#c9ebd0] sm:text-5xl md:text-6xl">
+        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#c9ebd0]">
           The Path to Mastery
         </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-[#c8c5d0] sm:text-xl">
+        <p className="mx-auto mt-6 max-w-2xl text-base sm:text-xl text-[#c8c5d0]">
           Three simple steps to unlock your personalized inner sanctuary.
         </p>
       </motion.div>
@@ -94,7 +94,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
               viewport={{ once: true, margin: '0px 0px -45% 0px' }}
               transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-              className="w-full"
+              className="w-full px-2 sm:px-0"
             >
               <Card className="group relative mx-auto flex w-full max-w-xl flex-col overflow-hidden border border-[#e9c349]/20 bg-[#001809] px-6 py-10 text-center transition-all duration-500 hover:border-[#e9c349]/50 hover:bg-[#021f0f] hover:shadow-[0_0_30px_rgba(233,195,73,0.1)] sm:px-10">
                 <div className="pointer-events-none absolute -bottom-8 -right-4 select-none font-serif text-[150px] font-bold leading-none text-[#e9c349]/2 transition-colors duration-500 group-hover:text-[#e9c349]/10">
@@ -102,10 +102,10 @@ export function HowItWorks() {
                 </div>
 
                 <div className="relative z-10 flex flex-col items-center">
-                  <h3 className="mb-4 font-serif text-2xl text-[#c9ebd0] transition-colors duration-300 group-hover:text-[#e9c349]">
+                  <h3 className="mb-4 font-serif text-xl sm:text-2xl text-[#c9ebd0] transition-colors duration-300 group-hover:text-[#e9c349]">
                     {step.title}
                   </h3>
-                  <p className="leading-relaxed text-[#c8c5d0]/70">
+                  <p className="text-sm sm:text-base leading-relaxed text-[#c8c5d0]/70">
                     {step.description}
                   </p>
                 </div>
