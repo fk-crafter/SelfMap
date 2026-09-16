@@ -37,7 +37,7 @@ export function HowItWorks() {
 
   return (
     <section className="relative z-10 mt-32 flex w-full flex-col items-center px-4 sm:px-6">
-      <div className="absolute inset-0 z-0 h-full w-full opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]">
+      <div className="absolute inset-0 z-0 h-full w-full opacity-30 mask-[radial-gradient(ellipse_at_center,black,transparent_80%)]">
         <FlickeringGrid
           className="absolute inset-0 z-0 size-full"
           squareSize={4}

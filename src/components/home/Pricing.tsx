@@ -21,7 +21,7 @@ export function Pricing() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-10 text-center"
+        className="mb-12 text-center"
       >
         <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
           Choose Your Journey
@@ -30,38 +30,6 @@ export function Pricing() {
           Start your introspection for free, or unlock the full cognitive
           potential of your AI Soul Coach.
         </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="mb-12 flex items-center justify-center gap-4"
-      >
-        <span
-          className={`text-sm font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
-        >
-          Monthly
-        </span>
-        <button
-          type="button"
-          onClick={() => setIsYearly(!isYearly)}
-          className="relative inline-flex h-7 w-14 shrink-0 cursor-pointer items-center rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] transition-colors duration-300 ease-in-out focus:outline-none"
-        >
-          <span
-            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-[#e9c349] shadow-[0_0_10px_rgba(233,195,73,0.5)] ring-0 transition duration-300 ease-in-out ${isYearly ? 'translate-x-8' : 'translate-x-1'}`}
-          />
-        </button>
-        <div className="flex items-center gap-2">
-          <span
-            className={`text-sm font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
-          >
-            Yearly
-          </span>
-          <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
-            Save 33%
-          </span>
-        </div>
       </motion.div>
 
       <div className="flex w-full flex-col items-center justify-center gap-8 md:flex-row md:items-stretch md:gap-6 lg:gap-10">
@@ -128,11 +96,36 @@ export function Pricing() {
             className="flex h-full w-full flex-col border-[#e9c349]/30 bg-[rgba(233,195,73,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.15)] backdrop-blur-xl"
           >
             <div className="flex h-full flex-col">
-              <div className="mb-4 inline-flex w-fit items-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
-                The Sanctuary
+              <div className="mb-4 flex items-center justify-between">
+                <div className="inline-flex items-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
+                  The Sanctuary
+                </div>
+
+                {/* Mini Toggle Intégré */}
+                <div className="flex items-center gap-2 rounded-full border border-white/5 bg-black/20 p-1 backdrop-blur-md">
+                  <span
+                    className={`pl-2 text-[10px] font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                  >
+                    Mo
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsYearly(!isYearly)}
+                    className="relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full bg-white/10 transition-colors duration-300 ease-in-out focus:outline-none"
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-[#e9c349] transition duration-300 ease-in-out ${isYearly ? 'translate-x-4' : 'translate-x-1'}`}
+                    />
+                  </button>
+                  <span
+                    className={`pr-1 text-[10px] font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                  >
+                    Yr
+                  </span>
+                </div>
               </div>
 
-              <div className="mb-8">
+              <div className="mb-8 mt-2">
                 <h3 className="font-serif text-2xl text-[#e9c349]">Awakened</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
                   Unrestricted access to continuous cognitive evolution.
@@ -143,11 +136,16 @@ export function Pricing() {
                   </span>
                   <span className="text-sm text-[#c8c5d0]/70">/month</span>
                 </div>
-                <div className="mt-1 h-4">
+                <div className="mt-1 flex h-4 items-center gap-2">
                   {isYearly && (
-                    <span className="text-xs text-[#c8c5d0]/50">
-                      Billed $120 annually
-                    </span>
+                    <>
+                      <span className="text-xs text-[#c8c5d0]/50">
+                        Billed $120 annually
+                      </span>
+                      <span className="rounded-full bg-[#e9c349]/20 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#e9c349]">
+                        Save 33%
+                      </span>
+                    </>
                   )}
                 </div>
               </div>
