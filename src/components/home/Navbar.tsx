@@ -33,36 +33,36 @@ export function Navbar() {
         }}
         className={`pointer-events-auto flex items-center justify-between backdrop-blur-xl ${
           isScrolled
-            ? 'mt-4 h-16 w-[calc(100%-2rem)] max-w-5xl border border-white/10 px-6 shadow-2xl'
-            : 'mt-0 h-20 w-full max-w-none border-b border-white/5 px-6 md:px-12'
+            ? 'mt-4 h-16 w-[calc(100%-2rem)] max-w-5xl border border-white/10 px-3 sm:px-6 shadow-2xl'
+            : 'mt-0 h-20 w-full max-w-none border-b border-white/5 px-4 md:px-12'
         }`}
       >
         <Link
           to="/"
-          className="flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
+          className="flex shrink-0 items-center gap-2 sm:gap-3 transition-transform hover:scale-105 active:scale-95"
         >
-          <div className="flex h-11 w-11 items-center justify-center">
+          <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center shrink-0">
             <img
               src="/logo.png"
               alt="SoulType"
               className="h-full w-full object-contain"
             />
           </div>
-          <span className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
+          <span className="whitespace-nowrap font-serif text-xl sm:text-2xl font-normal tracking-tight text-[#e9c349]">
             SoulType
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-3 sm:gap-4">
           <Link
             to="/login"
-            className="text-sm font-medium text-[#c8c5d0] transition-colors hover:text-[#e9c349]"
+            className="whitespace-nowrap text-sm font-medium text-[#c8c5d0] transition-colors hover:text-[#e9c349]"
           >
             Log in
           </Link>
           <Button
             asChild
-            className="h-10 rounded-full bg-[#e9c349] px-6 text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-95"
+            className="h-9 sm:h-10 whitespace-nowrap rounded-full bg-[#e9c349] px-4 sm:px-6 text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-95"
           >
             <Link to="/test">Start Journey</Link>
           </Button>
