@@ -64,7 +64,9 @@ export function Navbar() {
             asChild
             className="h-9 sm:h-10 whitespace-nowrap rounded-full bg-[#e9c349] px-4 sm:px-6 text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-95"
           >
-            <Link to="/test">Start Journey</Link>
+            <Link to="/test" preload="render">
+              Start Journey
+            </Link>
           </Button>
         </div>
       </motion.nav>
