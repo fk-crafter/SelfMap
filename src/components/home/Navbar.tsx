@@ -23,7 +23,7 @@ export function Navbar() {
           backgroundColor: isScrolled
             ? 'rgba(0, 24, 9, 0.95)'
             : 'rgba(0, 24, 9, 0.6)',
-          borderRadius: isScrolled ? 9999 : 0,
+          borderRadius: isScrolled ? 32 : 0,
         }}
         transition={{
           type: 'spring',
