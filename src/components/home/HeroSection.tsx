@@ -7,8 +7,8 @@ import { Particles } from '@/components/ui/particles'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
   return (
-    <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-10 pt-3 text-center">
-      <div className="absolute inset-0 -z-10 h-full w-full pointer-events-none">
+    <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-8 pt-4 pb-16 text-center sm:gap-10 sm:pb-24">
+      <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full">
         <Particles
           className="absolute inset-0 z-0 h-full w-full"
           quantity={120}
@@ -22,9 +22,9 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="flex items-center justify-center relative z-10"
+        className="relative z-10 flex items-center justify-center"
       >
-        <div className="group inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-sm font-medium transition-all duration-300 hover:border-[#e9c349]/60 hover:bg-[#e9c349]/20 hover:shadow-[0_0_15px_rgba(233,195,73,0.15)]">
+        <div className="group inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-xs font-medium transition-all duration-300 hover:border-[#e9c349]/60 hover:bg-[#e9c349]/20 hover:shadow-[0_0_15px_rgba(233,195,73,0.15)] sm:text-sm">
           <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349]">
             <Fingerprint className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
             <span>AI-Powered Personality Assessment</span>
@@ -36,18 +36,19 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-        className="font-serif text-5xl font-normal tracking-tight text-[#c9ebd0] sm:text-7xl"
+        className="font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#c9ebd0] sm:text-6xl md:text-7xl"
       >
-        The AI <span className="text-[#e9c349]">Soul Coach</span>
-        <br />
-        That Evolves With You.
+        The AI{' '}
+        <span className="whitespace-nowrap text-[#e9c349]">Soul Coach</span>
+        <br className="hidden sm:block" />
+        <span className="sm:hidden"> </span>That Evolves With You.
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-        className="mx-auto max-w-2xl font-sans text-lg leading-relaxed text-[#c8c5d0] sm:text-xl"
+        className="mx-auto max-w-2xl px-4 font-sans text-base leading-relaxed text-[#c8c5d0] sm:px-0 sm:text-lg md:text-xl"
       >
         Go beyond traditional MBTI tests with a living psychological profile.
         Map your cognitive functions, engage in daily introspection, and receive
@@ -62,7 +63,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
       >
         <Button
           asChild
-          className="group relative h-12 overflow-hidden rounded-full bg-[#e9c349] px-8 font-sans text-base font-semibold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all duration-500 hover:bg-[#f6d773] hover:shadow-[0_0_40px_rgba(233,195,73,0.6)] active:scale-[0.98]"
+          className="group relative h-12 overflow-hidden rounded-full bg-[#e9c349] px-8 font-sans text-sm font-semibold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all duration-500 hover:bg-[#f6d773] hover:shadow-[0_0_40px_rgba(233,195,73,0.6)] active:scale-[0.98] sm:text-base"
         >
           <Link to="/test">
             <span className="relative z-10 flex items-center">
