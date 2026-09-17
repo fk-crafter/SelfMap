@@ -1,5 +1,11 @@
 import { motion } from 'motion/react'
-import { MessageSquare, Target, BookOpen, UserCircle } from 'lucide-react'
+import {
+  MessageSquare,
+  Target,
+  BookOpen,
+  UserCircle,
+  Sparkles,
+} from 'lucide-react'
 import { Card } from '@/components/ui/card'
 
 export function FeaturesBento() {
@@ -145,8 +151,25 @@ export function FeaturesBento() {
                 grows.
               </p>
             </div>
-            <div className="text-5xl font-serif text-[#e9c349] opacity-80">
-              87%
+
+            <div className="mt-8 flex flex-col gap-3">
+              <div className="flex items-end gap-1">
+                <span className="font-serif text-5xl leading-none text-[#e9c349]">
+                  87
+                </span>
+                <span className="font-serif text-xl leading-none text-[#e9c349]/60 mb-1">
+                  %
+                </span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#e9c349]/10">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: '87%' }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
+                  className="h-full rounded-full bg-[#e9c349] shadow-[0_0_10px_rgba(233,195,73,0.5)]"
+                />
+              </div>
             </div>
           </Card>
         </motion.div>
@@ -169,6 +192,32 @@ export function FeaturesBento() {
                 Write your thoughts freely. The AI silently analyzes your
                 entries to refine your cognitive mapping.
               </p>
+            </div>
+
+            <div className="mt-8 relative flex h-24 w-full items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="h-16 w-16 rounded-full bg-[#c9ebd0]/0 blur-xl transition-all duration-700 ease-out group-hover:scale-150 group-hover:bg-[#c9ebd0]/15" />
+              </div>
+
+              <motion.div
+                animate={{ y: [-2, 2, -2] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="relative z-10 flex items-center justify-center text-[#c9ebd0]/30 transition-all duration-500 group-hover:text-[#c9ebd0]/90 group-hover:drop-shadow-[0_0_15px_rgba(201,235,208,0.4)]"
+              >
+                <BookOpen className="h-14 w-14 stroke-1" />
+
+                <motion.div
+                  className="absolute -right-3 -top-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100 text-[#e9c349]"
+                  animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 180] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                >
+                  <Sparkles className="h-5 w-5" />
+                </motion.div>
+              </motion.div>
             </div>
           </Card>
         </motion.div>
