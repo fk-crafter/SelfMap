@@ -39,7 +39,7 @@ ABSOLUTE RULES:
   1. "reply": Your conversational response to the user.
   2. "calibrationIncrement": An integer between 0 and 3 evaluating the psychological depth of the user's last message. 0 = trivial/nonsense/chit-chat, 1 = basic statement, 2 = thoughtful introspection, 3 = deep revelation.`;
 
-    const recentHistory = chatHistory.slice(-6);
+    const recentHistory = chatHistory.slice(-20);
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
