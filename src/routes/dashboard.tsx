@@ -129,7 +129,8 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('http://localhost:3000/user/setup', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      const res = await fetch(`${apiUrl}/user/setup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

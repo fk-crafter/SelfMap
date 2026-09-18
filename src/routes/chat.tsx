@@ -70,8 +70,8 @@ function ChatPage() {
       if (!user?.id) return
 
       try {
-        // Ajout de l'URL complète avec le port 3000
-        const res = await fetch('http://localhost:3000/api/chat/history', {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+        const res = await fetch(`${apiUrl}/api/chat/history`, {
           headers: {
             'x-user-id': user.id,
           },
@@ -113,7 +113,8 @@ function ChatPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch('http://localhost:3000/api/chat/send', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      const res = await fetch(`${apiUrl}/api/chat/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
