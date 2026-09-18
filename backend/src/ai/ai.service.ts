@@ -11,6 +11,11 @@ export interface CoachResponseData {
   calibrationIncrement: number;
 }
 
+export interface InsightSynthesis {
+  psychology: string;
+  new_facts: string[];
+}
+
 @Injectable()
 export class AiService {
   private aiClient: OpenAI;
@@ -24,12 +29,17 @@ export class AiService {
 
   async getCoachResponse(
     userInsight: string,
+    userFacts: string,
     chatHistory: OpenAI.Chat.ChatCompletionMessageParam[],
   ) {
     const systemPrompt = `You are the "Soul Coach", a caring, highly empathetic, and non-judgmental friend for the SoulType application.
 Your goal is to support the user naturally.
-Here is the psychological file and factual context you have on this user: 
+
+Here is the psychological profile of the user: 
 ${userInsight || 'The user has just started their journey. Get to know them.'}
+
+Here are the concrete facts you know about them:
+${userFacts || 'No facts recorded yet.'}
 
 ABSOLUTE RULES:
 - BE NATURAL & CASUAL: Act like a real human. You can chat about everyday things or deep topics. Match the user's energy.
@@ -70,25 +80,23 @@ ABSOLUTE RULES:
 
   async updatePsychologicalInsight(
     currentInsight: string | null,
+    currentFacts: string | null,
     newJournalEntry: string,
-  ) {
-    const systemPrompt = `You are a clinical psychologist and profiler maintaining a user's file.
-MISSION:
-Update the file by integrating new info. You MUST format your response with exactly two sections:
+  ): Promise<InsightSynthesis | null> {
+    const systemPrompt = `You are a clinical psychologist and factual archiver.
+Your task is to analyze a recent conversation and update the user's file.
 
-[PSYCHOLOGY]
-(Max 150 words. Write in 3rd person. Keep only deep psychological essence, beliefs, thought patterns).
+You MUST respond strictly in valid JSON format containing exactly these two keys:
+1. "psychology": A string (max 150 words) updating their psychological profile, beliefs, and emotional state in the 3rd person.
+2. "new_facts": An array of strings containing ONLY completely new, concrete facts (names, specific times, events, preferences) mentioned in the excerpt. Do not include facts that are already in the 'Current Facts'. If there are no new facts, return an empty array [].`;
 
-[FACTS]
-(Bullet points. ONLY concrete details: upcoming events, specific times, names, places).
-Never delete existing facts from the current file unless the excerpt explicitly proves they are outdated.
+    const userPrompt = `Current Psychology: 
+${currentInsight || 'None'}
 
-Do not add any other text outside these two sections.`;
+Current Facts:
+${currentFacts || 'None'}
 
-    const userPrompt = `Current File: 
-${currentInsight || 'New user.'}
-
-Recent conversation excerpt to integrate: 
+Recent conversation excerpt: 
 "${newJournalEntry}"`;
 
     try {
@@ -100,12 +108,16 @@ Recent conversation excerpt to integrate:
         ],
         temperature: 0.2,
         max_tokens: 1024,
+        response_format: { type: 'json_object' },
       });
 
-      return response.choices[0].message.content;
+      const content = response.choices[0].message.content;
+      if (!content) return null;
+
+      return JSON.parse(content) as InsightSynthesis;
     } catch (error) {
       console.error('Error updating insight:', error);
-      return currentInsight;
+      return null;
     }
   }
 
