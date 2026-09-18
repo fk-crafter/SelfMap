@@ -37,7 +37,7 @@ export class ChatService {
   async sendMessage(userId: string, content: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { insight: true, calibrationScore: true },
+      select: { insight: true, facts: true, calibrationScore: true },
     });
 
     const currentScore: number = Number(user?.calibrationScore ?? 0);
@@ -76,6 +76,7 @@ export class ChatService {
 
     const aiResponseContent = await this.aiService.getCoachResponse(
       user?.insight || '',
+      user?.facts || '',
       chatHistory,
     );
 
@@ -104,6 +105,7 @@ export class ChatService {
         userId,
         conversation.id,
         user?.insight || null,
+        user?.facts || null,
       );
     }
 
@@ -118,6 +120,7 @@ export class ChatService {
     userId: string,
     conversationId: string,
     currentInsight: string | null,
+    currentFacts: string | null,
   ) {
     try {
       const recentMessages = await this.prisma.message.findMany({
@@ -133,19 +136,38 @@ export class ChatService {
 
       console.log('--- [SOUL COACH] STARTING BACKGROUND SYNTHESIS ---');
 
-      const newInsight = await this.aiService.updatePsychologicalInsight(
+      const synthesis = await this.aiService.updatePsychologicalInsight(
         currentInsight,
+        currentFacts,
         `Recent conversation excerpt:\n${dialogue}`,
       );
 
-      console.log('--- [SOUL COACH] NEW INSIGHT GENERATED ---');
-      console.log(newInsight);
+      if (!synthesis) return;
+
+      console.log('--- [SOUL COACH] NEW SYNTHESIS GENERATED ---');
+      console.log(synthesis);
       console.log('--------------------------------------------');
 
-      if (newInsight && newInsight !== currentInsight) {
+      let updatedFacts = currentFacts || '';
+      if (synthesis.new_facts && synthesis.new_facts.length > 0) {
+        const formattedNewFacts = synthesis.new_facts
+          .map((f) => `- ${f}`)
+          .join('\n');
+        updatedFacts = updatedFacts
+          ? `${updatedFacts}\n${formattedNewFacts}`
+          : formattedNewFacts;
+      }
+
+      if (
+        synthesis.psychology !== currentInsight ||
+        updatedFacts !== currentFacts
+      ) {
         await this.prisma.user.update({
           where: { id: userId },
-          data: { insight: newInsight },
+          data: {
+            insight: synthesis.psychology,
+            facts: updatedFacts,
+          },
         });
       }
     } catch (error) {
