@@ -131,10 +131,16 @@ export class ChatService {
         .map((m) => `${m.role === 'user' ? 'User' : 'Coach'}: ${m.content}`)
         .join('\n');
 
+      console.log('--- [SOUL COACH] STARTING BACKGROUND SYNTHESIS ---');
+
       const newInsight = await this.aiService.updatePsychologicalInsight(
         currentInsight,
         `Recent conversation excerpt:\n${dialogue}`,
       );
+
+      console.log('--- [SOUL COACH] NEW INSIGHT GENERATED ---');
+      console.log(newInsight);
+      console.log('--------------------------------------------');
 
       if (newInsight && newInsight !== currentInsight) {
         await this.prisma.user.update({
