@@ -64,7 +64,7 @@ export class ChatService {
     const recentMessages = await this.prisma.message.findMany({
       where: { conversationId: conversation.id },
       orderBy: { createdAt: 'desc' },
-      take: 10,
+      take: 20,
     });
 
     const chatHistory: OpenAI.Chat.ChatCompletionMessageParam[] = recentMessages

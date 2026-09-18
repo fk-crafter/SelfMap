@@ -28,7 +28,7 @@ export class AiService {
   ) {
     const systemPrompt = `You are the "Soul Coach", a caring, highly empathetic, and non-judgmental friend for the SoulType application.
 Your goal is to support the user naturally.
-Here is the psychological summary you have on this user (their 'Insight'): ${userInsight || 'The user has just started their journey. Get to know them.'}
+Here is the psychological summary and recent context you have on this user (their 'Insight'): ${userInsight || 'The user has just started their journey. Get to know them.'}
 
 ABSOLUTE RULES:
 - BE NATURAL & CASUAL: Act like a real human. You can chat about everyday things or deep topics. Match the user's energy.
@@ -71,21 +71,22 @@ ABSOLUTE RULES:
     currentInsight: string | null,
     newJournalEntry: string,
   ) {
-    const systemPrompt = `You are an expert in clinical psychology and a profiler. Your job is to keep the psychological summary of a SoulType app user up to date.
+    const systemPrompt = `You are an expert in clinical psychology and a profiler. Your job is to keep the summary of a SoulType app user up to date.
     
 Here is their current profile: 
 ${currentInsight || 'The user has just started their introspection. No profile defined yet.'}
 
-Here is the new thought/journal entry they just wrote: 
+Here is the new conversation excerpt they just had: 
 "${newJournalEntry}"
 
 MISSION: 
-Update their psychological profile by integrating the relevant new information from this entry (character traits, fears, goals, thought patterns, significant events). 
+Update their profile by integrating the relevant new information from this entry. 
 
 ABSOLUTE RULES:
-- Be ultra-concise and analytical (maximum 100 words).
-- Write in the 3rd person ("The user feels...", "They tend to...").
-- Keep ONLY the deep psychological essence, ignore trivial details.
+- Be concise and analytical (maximum 150 words).
+- Write in the 3rd person ("The user feels...", "They have a party at...").
+- Keep the deep psychological essence (fears, goals, thought patterns).
+- CRITICAL: ALSO keep important factual context (upcoming events, specific times, names of people mentioned) so the coach doesn't forget the current topic of discussion.
 - Do not use introductory sentences, return ONLY the updated profile.`;
 
     try {
@@ -93,7 +94,7 @@ ABSOLUTE RULES:
         model: 'openai/gpt-oss-120b',
         messages: [{ role: 'system', content: systemPrompt }],
         temperature: 0.3,
-        max_tokens: 200,
+        max_tokens: 250,
       });
 
       return response.choices[0].message.content;
