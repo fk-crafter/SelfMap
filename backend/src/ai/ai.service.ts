@@ -47,7 +47,7 @@ ABSOLUTE RULES:
 
     try {
       const response = await this.aiClient.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-120b',
         messages: messages,
         temperature: 0.7,
         max_tokens: 150,
@@ -89,7 +89,7 @@ ABSOLUTE RULES:
 
     try {
       const response = await this.aiClient.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-120b',
         messages: [{ role: 'system', content: systemPrompt }],
         temperature: 0.3,
         max_tokens: 200,
@@ -123,7 +123,7 @@ STRICT STYLE RULES:
 
     try {
       const response = await this.aiClient.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-120b',
         messages: [{ role: 'system', content: systemPrompt }],
         temperature: 0.7,
         response_format: { type: 'json_object' },
