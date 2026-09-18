@@ -64,7 +64,7 @@ export class ChatService {
     const recentMessages = await this.prisma.message.findMany({
       where: { conversationId: conversation.id },
       orderBy: { createdAt: 'desc' },
-      take: 6,
+      take: 10,
     });
 
     const chatHistory: OpenAI.Chat.ChatCompletionMessageParam[] = recentMessages
@@ -95,10 +95,55 @@ export class ChatService {
       },
     });
 
+    const messageCount = await this.prisma.message.count({
+      where: { conversationId: conversation.id },
+    });
+
+    if (messageCount > 0 && messageCount % 10 === 0) {
+      void this.synthesizeContextInBackground(
+        userId,
+        conversation.id,
+        user?.insight || null,
+      );
+    }
+
     return {
       role: aiMessage.role,
       content: aiMessage.content,
       newScore: newScore,
     };
+  }
+
+  private async synthesizeContextInBackground(
+    userId: string,
+    conversationId: string,
+    currentInsight: string | null,
+  ) {
+    try {
+      const recentMessages = await this.prisma.message.findMany({
+        where: { conversationId },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+      });
+
+      const dialogue = recentMessages
+        .reverse()
+        .map((m) => `${m.role === 'user' ? 'User' : 'Coach'}: ${m.content}`)
+        .join('\n');
+
+      const newInsight = await this.aiService.updatePsychologicalInsight(
+        currentInsight,
+        `Recent conversation excerpt:\n${dialogue}`,
+      );
+
+      if (newInsight && newInsight !== currentInsight) {
+        await this.prisma.user.update({
+          where: { id: userId },
+          data: { insight: newInsight },
+        });
+      }
+    } catch (error) {
+      console.error('Failed to update insight in background:', error);
+    }
   }
 }
