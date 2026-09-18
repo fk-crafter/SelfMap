@@ -34,4 +34,10 @@ export const auth = betterAuth({
       scores: { type: 'string', required: false },
     },
   },
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: 'none',
+      secure: true,
+    },
+  },
 });
