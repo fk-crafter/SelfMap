@@ -32,20 +32,36 @@ export class JournalService {
   ) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { insight: true },
+      select: { insight: true, facts: true },
     });
 
     if (!user) return;
 
-    const newInsight = await this.aiService.updatePsychologicalInsight(
+    const synthesis = await this.aiService.updatePsychologicalInsight(
       user.insight,
+      user.facts,
       newEntryContent,
     );
 
-    if (newInsight && newInsight !== user.insight) {
+    if (!synthesis) return;
+
+    let updatedFacts = user.facts || '';
+    if (synthesis.new_facts && synthesis.new_facts.length > 0) {
+      const formattedNewFacts = synthesis.new_facts
+        .map((f) => `- ${f}`)
+        .join('\n');
+      updatedFacts = updatedFacts
+        ? `${updatedFacts}\n${formattedNewFacts}`
+        : formattedNewFacts;
+    }
+
+    if (synthesis.psychology !== user.insight || updatedFacts !== user.facts) {
       await prisma.user.update({
         where: { id: userId },
-        data: { insight: newInsight },
+        data: {
+          insight: synthesis.psychology,
+          facts: updatedFacts,
+        },
       });
     }
   }

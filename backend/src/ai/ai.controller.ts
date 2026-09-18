@@ -12,9 +12,11 @@ export class AiController {
     @Body() body: { messages: OpenAI.Chat.ChatCompletionMessageParam[] },
   ) {
     const userInsight = '';
+    const userFacts = '';
 
     const reply = await this.aiService.getCoachResponse(
       userInsight,
+      userFacts,
       body.messages,
     );
 
