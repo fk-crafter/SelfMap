@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:3001', 'https://selfmap-beta.vercel.app'],
+    origin: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
     credentials: true,
   });
 

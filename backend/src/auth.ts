@@ -19,7 +19,7 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3001/api/auth',
-  trustedOrigins: ['http://localhost:3001', 'https://selfmap-beta.vercel.app'],
+  trustedOrigins: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
   emailAndPassword: {
     enabled: true,
   },
