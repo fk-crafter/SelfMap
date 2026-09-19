@@ -8,6 +8,7 @@ import {
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { Toaster } from 'sonner'
+import { RegisterServiceWorker } from '@/components/RegisterServiceWorker'
 
 import appCss from '../styles.css?url'
 
@@ -125,6 +126,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <LazyDevtools />
         </Suspense>
 
+        <RegisterServiceWorker />
         <Scripts />
       </body>
     </html>
