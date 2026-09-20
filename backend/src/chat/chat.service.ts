@@ -42,6 +42,26 @@ export class ChatService {
 
     const currentScore: number = Number(user?.calibrationScore ?? 0);
 
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const dailyMessageCount = await this.prisma.message.count({
+      where: {
+        conversation: { userId },
+        role: 'user',
+        createdAt: { gte: startOfDay },
+      },
+    });
+
+    if (dailyMessageCount >= 15) {
+      return {
+        role: 'assistant',
+        content:
+          'The coach has entered a deep state of meditation to process our exchange. Please return tomorrow so we can continue our journey with fresh energy.',
+        newScore: currentScore,
+      };
+    }
+
     let conversation = await this.prisma.conversation.findFirst({
       where: { userId },
       orderBy: { createdAt: 'desc' },
@@ -64,7 +84,7 @@ export class ChatService {
     const recentMessages = await this.prisma.message.findMany({
       where: { conversationId: conversation.id },
       orderBy: { createdAt: 'desc' },
-      take: 20,
+      take: 8,
     });
 
     const chatHistory: OpenAI.Chat.ChatCompletionMessageParam[] = recentMessages
