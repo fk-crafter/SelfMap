@@ -154,7 +154,7 @@ STRICT STYLE RULES:
       const data = JSON.parse(content) as ProfileData;
 
       const encodedPrompt = encodeURIComponent(data.visualPrompt);
-      const avatarUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
+      const avatarUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&model=flux`;
 
       return {
         insight: data.insight,
@@ -162,7 +162,10 @@ STRICT STYLE RULES:
       };
     } catch (error) {
       console.error('API Error:', error);
-      throw new Error('Failed to generate profile');
+      return {
+        insight: 'Welcome to your sanctuary. Your journey begins here.',
+        avatarUrl: '/avatar-coach.png',
+      };
     }
   }
 }

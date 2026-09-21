@@ -56,10 +56,10 @@ function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#001809] p-4 font-sans text-[#c9ebd0]">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5c0fe] opacity-[0.03] blur-[100px]" />
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden bg-[#001809] px-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] pt-[max(env(safe-area-inset-top),1.5rem)] font-sans text-[#c9ebd0]">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[150vw] w-[150vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5c0fe] opacity-[0.03] blur-[80px] sm:h-125 sm:w-125 sm:blur-[100px]" />
 
-      <div className="z-10 w-full max-w-md rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-8 shadow-2xl backdrop-blur-xl sm:p-10">
+      <div className="z-10 flex w-full max-w-md flex-1 flex-col justify-center sm:flex-initial sm:rounded-[2rem] sm:border sm:border-white/5 sm:bg-[rgba(197,192,254,0.02)] sm:p-10 sm:shadow-2xl sm:backdrop-blur-xl">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e9c349]/20 bg-[#e9c349]/10 shadow-[0_0_20px_rgba(233,195,73,0.1)]">
             <Fingerprint className="h-7 w-7 text-[#e9c349]" strokeWidth={1.5} />
@@ -128,7 +128,7 @@ function LoginPage() {
 
           <div className="relative my-4 flex items-center justify-center">
             <div className="absolute w-full border-t border-white/5"></div>
-            <span className="relative bg-[#001809] px-4 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/40 uppercase">
+            <span className="relative bg-[#001809] px-4 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/40 uppercase sm:bg-transparent">
               OR
             </span>
           </div>
@@ -164,14 +164,14 @@ function LoginPage() {
           First time here?{' '}
           <Link
             to="/register"
-            className="font-bold text-[#e9c349] hover:opacity-80 transition-opacity"
+            className="font-bold text-[#e9c349] transition-opacity hover:opacity-80"
           >
             Begin the Journey
           </Link>
         </div>
       </div>
 
-      <div className="mt-8 flex shrink-0 items-center justify-center gap-6 text-[10px] font-semibold text-[#c8c5d0]/30 sm:text-xs">
+      <div className="mt-auto flex shrink-0 items-center justify-center gap-6 pt-8 text-[10px] font-semibold text-[#c8c5d0]/30 sm:mt-8 sm:pt-0 sm:text-xs">
         <div className="flex items-center gap-1.5 uppercase tracking-wider">
           <Lock className="h-3 w-3" /> Secure Connection
         </div>

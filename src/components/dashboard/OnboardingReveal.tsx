@@ -10,15 +10,20 @@ export function OnboardingReveal({
   onComplete: () => void
 }) {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [finalAvatar, setFinalAvatar] = useState(avatarUrl)
 
   return (
     <div className="fixed inset-0 z-200 flex flex-col items-center justify-center bg-[#001809] px-6">
       <div className="absolute inset-0 bg-[#c5c0fe]/5 blur-[120px]" />
 
       <img
-        src={avatarUrl}
+        src={finalAvatar}
         alt="Coach loader"
         onLoad={() => setIsLoaded(true)}
+        onError={() => {
+          setFinalAvatar('/avatar-coach.png')
+          setIsLoaded(true)
+        }}
         className="hidden"
       />
 
@@ -31,7 +36,7 @@ export function OnboardingReveal({
         >
           <div className="mb-8 h-64 w-64 overflow-hidden rounded-full border border-white/10 shadow-[0_0_60px_rgba(197,192,254,0.15)]">
             <img
-              src={avatarUrl}
+              src={finalAvatar}
               alt="Soul Coach Avatar"
               className="h-full w-full object-cover"
             />
