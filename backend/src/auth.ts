@@ -44,7 +44,13 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
-      const finalUrl = `${url}&callbackURL=https://self-map-beta.vercel.app`;
+      // Nettoyage et sécurisation de l'URL pour éviter les doublons
+      const safeUrl = new URL(url);
+      safeUrl.searchParams.set(
+        'callbackURL',
+        'https://self-map-beta.vercel.app',
+      );
+      const finalUrl = safeUrl.toString();
 
       fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
         method: 'POST',
