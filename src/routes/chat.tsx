@@ -27,7 +27,7 @@ type ExtendedUser = {
 function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
-  const { i18n } = useTranslation() // <-- Initialisation de i18n pour récupérer la langue
+  const { i18n } = useTranslation()
 
   const user = data?.user as ExtendedUser | undefined
   const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
@@ -72,12 +72,14 @@ function ChatPage() {
       if (!user?.id) return
 
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-        const res = await fetch(`${apiUrl}/api/chat/history`, {
-          headers: {
-            'x-user-id': user.id,
+        const res = await window.fetch(
+          'https://selfmap-bck.onrender.com/api/chat/history',
+          {
+            headers: {
+              'x-user-id': user.id,
+            },
           },
-        })
+        )
 
         if (res.ok) {
           const history = await res.json()
@@ -115,16 +117,18 @@ function ChatPage() {
     setIsLoading(true)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-      const res = await fetch(`${apiUrl}/api/chat/send`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': user.id,
-          'x-user-lang': i18n.language || 'en', // <-- Envoi de la langue locale au backend
+      const res = await window.fetch(
+        'https://selfmap-bck.onrender.com/api/chat/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-user-id': user.id,
+            'x-user-lang': i18n.language || 'en',
+          },
+          body: JSON.stringify({ content: userContent }),
         },
-        body: JSON.stringify({ content: userContent }),
-      })
+      )
 
       if (!res.ok) throw new Error('Network error')
 

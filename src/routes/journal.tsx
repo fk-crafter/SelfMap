@@ -42,9 +42,12 @@ function JournalPage() {
     const fetchEntries = async () => {
       if (!data?.user.id) return
       try {
-        const res = await fetch('/api/journal', {
-          headers: { 'x-user-id': data.user.id },
-        })
+        const res = await window.fetch(
+          'https://selfmap-bck.onrender.com/api/journal',
+          {
+            headers: { 'x-user-id': data.user.id },
+          },
+        )
         if (res.ok) {
           const fetchedData = await res.json()
           setEntries(fetchedData)
@@ -62,14 +65,17 @@ function JournalPage() {
 
     setIsLoading(true)
     try {
-      const res = await fetch('/api/journal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-user-id': data.user.id,
+      const res = await window.fetch(
+        'https://selfmap-bck.onrender.com/api/journal',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-user-id': data.user.id,
+          },
+          body: JSON.stringify({ content }),
         },
-        body: JSON.stringify({ content }),
-      })
+      )
 
       if (res.ok) {
         const newEntry = await res.json()
@@ -87,10 +93,13 @@ function JournalPage() {
   const handleDelete = async (id: string) => {
     if (!data?.user.id) return
     try {
-      const res = await fetch(`/api/journal/${id}`, {
-        method: 'DELETE',
-        headers: { 'x-user-id': data.user.id },
-      })
+      const res = await window.fetch(
+        `https://selfmap-bck.onrender.com/api/journal/${id}`,
+        {
+          method: 'DELETE',
+          headers: { 'x-user-id': data.user.id },
+        },
+      )
 
       if (res.ok) {
         setEntries((prev) => prev.filter((entry) => entry.id !== id))
