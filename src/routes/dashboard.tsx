@@ -130,15 +130,15 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
-      const res = await fetch(`${apiUrl}/user/setup`, {
+      const apiUrl =
+        import.meta.env.VITE_API_URL || 'https://selfmap-bck.onrender.com'
+      const res = await fetch(`${apiUrl}/users/setup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
-          userId: user.id,
           mbtiType: user.type,
           gender: gender,
         }),
