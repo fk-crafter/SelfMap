@@ -130,11 +130,21 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const { error } = await authClient.updateUser({
-        gender: gender,
-      } as any)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+      const res = await fetch(`${apiUrl}/user/setup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          userId: user.id,
+          mbtiType: user.type,
+          gender: gender,
+        }),
+      })
 
-      if (error) throw new Error(error.message || 'Erreur backend')
+      if (!res.ok) throw new Error('Erreur backend')
 
       await refetch()
       setOnboardingStep('none')
