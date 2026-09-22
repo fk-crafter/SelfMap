@@ -35,6 +35,12 @@ export const auth = betterAuth({
       scores: { type: 'string', required: false },
     },
   },
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: 'none',
+      secure: true,
+    },
+  },
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
