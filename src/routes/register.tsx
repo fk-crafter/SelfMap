@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
+import { registerSchema } from '@/lib/validations'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,
@@ -35,6 +36,12 @@ function RegisterPage() {
 
     if (!acceptedTerms) {
       setError('You must agree to the Terms of Service to continue.')
+      return
+    }
+
+    const validation = registerSchema.safeParse({ name, email, password })
+    if (!validation.success) {
+      setError(validation.error.issues[0].message)
       return
     }
 

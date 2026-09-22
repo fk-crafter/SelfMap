@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
+import { authSchema } from '@/lib/validations'
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -28,6 +29,13 @@ function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const validation = authSchema.safeParse({ email, password })
+    if (!validation.success) {
+      setError(validation.error.issues[0].message)
+      return
+    }
+
     setIsLoading(true)
     setError('')
 
