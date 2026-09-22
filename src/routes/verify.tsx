@@ -32,19 +32,18 @@ function VerifyEmailPage() {
       }
 
       try {
-        // On valide le token directement auprès de Better Auth
         const { error } = await authClient.verifyEmail({
           query: { token },
         })
 
         if (error) {
+          console.error("Détail de l'erreur Better Auth :", error)
           setStatus('error')
           setErrorMessage(
             error.message || 'Verification failed or token expired.',
           )
         } else {
           setStatus('success')
-          // Redirection vers le dashboard ou login après 2 secondes
           setTimeout(() => {
             navigate({ to: '/dashboard' })
           }, 2500)
