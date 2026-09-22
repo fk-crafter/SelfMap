@@ -44,6 +44,8 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
+      const finalUrl = `${url}&callbackURL=https://self-map-beta.vercel.app`;
+
       fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
         method: 'POST',
         headers: {
@@ -57,7 +59,7 @@ export const auth = betterAuth({
               <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
               <p>Welcome to your journey, ${user.name}.</p>
               <p>Please verify your email address to enter the sanctuary.</p>
-              <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
+              <a href="${finalUrl}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
             </div>
           `,
         }),
