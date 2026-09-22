@@ -4,7 +4,6 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import * as nodemailer from 'nodemailer';
 
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
@@ -14,17 +13,6 @@ const pool = new Pool({
 const adapter = new PrismaPg(pool);
 
 export const prisma = new PrismaClient({ adapter });
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -56,22 +44,26 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
-      transporter
-        .sendMail({
-          from: `"Soul Coach" <${process.env.GMAIL_USER}>`,
+      fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           to: user.email,
           subject: 'Unlock your Sanctuary - Verify your email',
           html: `
-          <div style="background-color: #001809; color: #c9ebd0; padding: 40px 20px; font-family: sans-serif; text-align: center;">
-            <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
-            <p>Welcome to your journey, ${user.name}.</p>
-            <p>Please verify your email address to enter the sanctuary.</p>
-            <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
-          </div>
-        `,
-        })
-        .then(() => console.log('Email sent to', user.email))
-        .catch((err) => console.error('Email error:', err));
+            <div style="background-color: #001809; color: #c9ebd0; padding: 40px 20px; font-family: sans-serif; text-align: center;">
+              <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
+              <p>Welcome to your journey, ${user.name}.</p>
+              <p>Please verify your email address to enter the sanctuary.</p>
+              <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
+            </div>
+          `,
+        }),
+      })
+        .then(() => console.log('Email dispatched via Google Webhook'))
+        .catch((err) => console.error('Webhook error:', err));
 
       return Promise.resolve();
     },
