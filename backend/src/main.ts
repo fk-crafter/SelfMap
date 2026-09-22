@@ -13,6 +13,6 @@ async function bootstrap() {
 
   app.use('/api/auth', toNodeHandler(auth));
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();
