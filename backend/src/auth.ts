@@ -40,6 +40,23 @@ export const auth = betterAuth({
       sameSite: 'none',
       secure: true,
     },
+    onResponse: (response: Response, request: Request) => {
+      if (request.url.includes('verify-email') && request.method === 'GET') {
+        return new Response(
+          `<html>
+            <head><meta http-equiv="refresh" content="0;url=https://self-map-beta.vercel.app/login" /></head>
+            <body style="background-color: #001809; color: #e9c349; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+              <h2>Sanctuary Unlocked. Redirecting...</h2>
+            </body>
+          </html>`,
+          {
+            status: 200,
+            headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          },
+        );
+      }
+      return response;
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
