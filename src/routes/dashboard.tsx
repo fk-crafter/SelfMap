@@ -130,15 +130,19 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const { error } = await authClient.$fetch('/users/setup', {
+      const res = await fetch('https://selfmap-bck.onrender.com/users/setup', {
         method: 'POST',
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
           mbtiType: user.type,
           gender: gender,
-        },
+        }),
       })
 
-      if (error) throw new Error('Erreur backend')
+      if (!res.ok) throw new Error('Erreur backend')
 
       await refetch()
       setOnboardingStep('none')
