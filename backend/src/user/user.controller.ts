@@ -2,47 +2,50 @@ import {
   Controller,
   Post,
   Body,
-  HttpException,
-  HttpStatus,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
+import type { Request } from 'express';
+import { auth, prisma } from '../auth';
+import { fromNodeHeaders } from 'better-auth/node';
 import { AiService } from '../ai/ai.service';
-import { prisma } from '../auth';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly aiService: AiService) {}
 
   @Post('setup')
-  async setupUserProfile(
-    @Body() body: { userId: string; mbtiType: string; gender?: string },
+  async setupCoach(
+    @Req() req: Request,
+    @Body() body: { mbtiType: string; gender?: string },
   ) {
-    if (!body.userId || !body.mbtiType) {
-      throw new HttpException(
-        'Missing userId or mbtiType',
-        HttpStatus.BAD_REQUEST,
-      );
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session || !session.user) {
+      throw new UnauthorizedException('Unauthorized');
     }
 
-    try {
-      const userGender = body.gender || 'neutral';
-      const { insight, avatarUrl } =
-        await this.aiService.generateInitialProfile(body.mbtiType, userGender);
+    const userId = session.user.id;
+    const { mbtiType, gender } = body;
+    const userGender = gender || 'neutral';
 
-      await prisma.user.update({
-        where: { id: body.userId },
-        data: {
-          insight: insight,
-          avatarSeed: avatarUrl,
-        },
-      });
+    const profile = await this.aiService.generateInitialProfile(
+      mbtiType,
+      userGender,
+    );
 
-      return { success: true, avatarUrl, insight };
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(
-        'Failed to setup user profile',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        type: mbtiType,
+        gender: userGender,
+        insight: profile.insight,
+        avatarSeed: profile.avatarUrl,
+      },
+    });
+
+    return { user: updatedUser };
   }
 }
