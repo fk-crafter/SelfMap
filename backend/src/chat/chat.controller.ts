@@ -13,9 +13,14 @@ export class ChatController {
   @Post('send')
   async sendMessage(
     @Headers('x-user-id') userId: string,
+    @Headers('x-user-lang') userLang: string,
     @Body() body: { content: string },
   ) {
-    const reply = await this.chatService.sendMessage(userId, body.content);
+    const reply = await this.chatService.sendMessage(
+      userId,
+      body.content,
+      userLang,
+    );
     return {
       reply: reply.content,
       newScore: reply.newScore,

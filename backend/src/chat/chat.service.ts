@@ -34,13 +34,19 @@ export class ChatService {
     }));
   }
 
-  async sendMessage(userId: string, content: string) {
+  async sendMessage(userId: string, content: string, userLang: string = 'en') {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { insight: true, facts: true, calibrationScore: true },
+      select: {
+        insight: true,
+        facts: true,
+        calibrationScore: true,
+        plan: true,
+      },
     });
 
     const currentScore: number = Number(user?.calibrationScore ?? 0);
+    const userPlan = user?.plan || 'FREE';
 
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
@@ -53,11 +59,30 @@ export class ChatService {
       },
     });
 
-    if (dailyMessageCount >= 15) {
+    const LIMITS = {
+      FREE: 15,
+      BETA: 50,
+      PRO: 500,
+    };
+    const dailyLimit = LIMITS[userPlan as keyof typeof LIMITS] || 15;
+
+    if (dailyMessageCount >= dailyLimit) {
+      const isFr = userLang.toLowerCase().includes('fr');
+
+      let limitMessage = '';
+      if (userPlan === 'FREE') {
+        limitMessage = isFr
+          ? 'Le coach est entré en méditation profonde pour assimiler notre échange. Veuillez revenir demain, ou débloquez le Sanctuaire pour une guidance illimitée.'
+          : 'The coach has entered a deep state of meditation to process our exchange. Please return tomorrow, or unlock the Sanctuary for unlimited guidance.';
+      } else {
+        limitMessage = isFr
+          ? "Le coach doit se reposer pour aujourd'hui. Veuillez revenir demain."
+          : 'The coach needs to rest for today. Please return tomorrow.';
+      }
+
       return {
         role: 'assistant',
-        content:
-          'The coach has entered a deep state of meditation to process our exchange. Please return tomorrow so we can continue our journey with fresh energy.',
+        content: limitMessage,
         newScore: currentScore,
       };
     }
@@ -108,11 +133,21 @@ export class ChatService {
       data: { calibrationScore: newScore },
     });
 
+    let finalReply =
+      aiResponseContent.reply || 'The coach meditates in silence...';
+
+    if (aiResponseContent.status === 'warning') {
+      const isFr = userLang.toLowerCase().includes('fr');
+      finalReply = isFr
+        ? 'Je ressens une perturbation. Mon rôle est de guider ton esprit, pas de répondre à ce type de requête. Recentrons-nous sur ton évolution.'
+        : 'I sense a disturbance. My purpose is to guide your mind, not to process such requests. Let us refocus on your journey.';
+    }
+
     const aiMessage = await this.prisma.message.create({
       data: {
         conversationId: conversation.id,
         role: 'assistant',
-        content: aiResponseContent.reply || 'The coach meditates in silence...',
+        content: finalReply,
       },
     });
 
@@ -191,7 +226,8 @@ export class ChatService {
         });
       }
     } catch (error) {
-      console.error('Failed to update insight in background:', error);
+      const err = error as Error;
+      console.error('Failed to update insight in background:', err.message);
     }
   }
 }

@@ -16,6 +16,7 @@ model User {
   updatedAt     DateTime
   facts String? @default("")
   conversations Conversation[]
+  plan String @default("FREE")
 
   type          String?  
   insight       String?  

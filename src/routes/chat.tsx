@@ -6,6 +6,7 @@ import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
 import { ProgressJauge } from '@/components/chat/ProgressJauge'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/chat')({
   component: ChatPage,
@@ -26,6 +27,7 @@ type ExtendedUser = {
 function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+  const { i18n } = useTranslation() // <-- Initialisation de i18n pour récupérer la langue
 
   const user = data?.user as ExtendedUser | undefined
   const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
@@ -119,6 +121,7 @@ function ChatPage() {
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': user.id,
+          'x-user-lang': i18n.language || 'en', // <-- Envoi de la langue locale au backend
         },
         body: JSON.stringify({ content: userContent }),
       })
