@@ -30,10 +30,12 @@ export const auth = betterAuth({
     },
     additionalFields: {
       type: { type: 'string', required: false },
+      gender: { type: 'string', required: false },
       insight: { type: 'string', required: false },
       avatarSeed: { type: 'string', required: false },
       scores: { type: 'string', required: false },
     },
+    changeEmail: { enabled: true },
   },
   advanced: {
     defaultCookieAttributes: {
