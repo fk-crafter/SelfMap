@@ -16,7 +16,9 @@ const adapter = new PrismaPg(pool);
 export const prisma = new PrismaClient({ adapter });
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
@@ -31,7 +33,7 @@ export const auth = betterAuth({
   trustedOrigins: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true, // Bloque la connexion si le mail n'est pas vérifié
+    requireEmailVerification: true,
   },
   user: {
     deleteUser: {
@@ -52,25 +54,25 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendOnSignUp: true,
-    async sendVerificationEmail({ user, url }) {
-      try {
-        await transporter.sendMail({
+    sendVerificationEmail({ user, url }) {
+      transporter
+        .sendMail({
           from: `"Soul Coach" <${process.env.GMAIL_USER}>`,
           to: user.email,
           subject: 'Unlock your Sanctuary - Verify your email',
           html: `
-            <div style="background-color: #001809; color: #c9ebd0; padding: 40px 20px; font-family: sans-serif; text-align: center;">
-              <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
-              <p>Welcome to your journey, ${user.name}.</p>
-              <p>Please verify your email address to enter the sanctuary.</p>
-              <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
-            </div>
-          `,
-        });
-        console.log(`Verification email successfully sent to ${user.email}`);
-      } catch (error) {
-        console.error('Failed to send verification email:', error);
-      }
+          <div style="background-color: #001809; color: #c9ebd0; padding: 40px 20px; font-family: sans-serif; text-align: center;">
+            <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
+            <p>Welcome to your journey, ${user.name}.</p>
+            <p>Please verify your email address to enter the sanctuary.</p>
+            <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
+          </div>
+        `,
+        })
+        .then(() => console.log('Email sent to', user.email))
+        .catch((err) => console.error('Email error:', err));
+
+      return Promise.resolve();
     },
   },
 });
