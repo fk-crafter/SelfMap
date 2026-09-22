@@ -55,6 +55,7 @@ function RegisterPage() {
         name,
         type: profile?.type,
         scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+        callbackURL: 'https://self-map-beta.vercel.app',
       } as any)
 
       if (signUpError) {
