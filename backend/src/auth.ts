@@ -44,14 +44,6 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
-      // Nettoyage et sécurisation de l'URL pour éviter les doublons
-      const safeUrl = new URL(url);
-      safeUrl.searchParams.set(
-        'callbackURL',
-        'https://self-map-beta.vercel.app',
-      );
-      const finalUrl = safeUrl.toString();
-
       fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
         method: 'POST',
         headers: {
@@ -65,13 +57,11 @@ export const auth = betterAuth({
               <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
               <p>Welcome to your journey, ${user.name}.</p>
               <p>Please verify your email address to enter the sanctuary.</p>
-              <a href="${finalUrl}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
+              <a href="${url}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">VERIFY MY EMAIL</a>
             </div>
           `,
         }),
-      })
-        .then(() => console.log('Email dispatched via Google Webhook'))
-        .catch((err) => console.error('Webhook error:', err));
+      }).catch((err) => console.error('Webhook error:', err));
 
       return Promise.resolve();
     },
