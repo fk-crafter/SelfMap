@@ -20,6 +20,7 @@ type ExtendedUser = {
   insight?: string | null
   avatarSeed?: string | null
   scores?: string | null
+  gender?: string | null
 }
 
 function ScrambleText({ text }: { text: string }) {
@@ -129,20 +130,11 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-      const res = await fetch(`${apiUrl}/user/setup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          mbtiType: user.type,
-          gender: gender,
-        }),
-      })
+      const { error } = await authClient.updateUser({
+        gender: gender,
+      } as any)
 
-      if (!res.ok) throw new Error('Erreur backend')
+      if (error) throw new Error(error.message || 'Erreur backend')
 
       await refetch()
       setOnboardingStep('none')
