@@ -130,21 +130,15 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const apiUrl =
-        import.meta.env.VITE_API_URL || 'https://selfmap-bck.onrender.com'
-      const res = await fetch(`${apiUrl}/users/setup`, {
+      const { error } = await authClient.$fetch('/users/setup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
+        body: {
           mbtiType: user.type,
           gender: gender,
-        }),
+        },
       })
 
-      if (!res.ok) throw new Error('Erreur backend')
+      if (error) throw new Error('Erreur backend')
 
       await refetch()
       setOnboardingStep('none')
