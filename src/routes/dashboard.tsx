@@ -139,17 +139,20 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('https://selfmap-bck.onrender.com/users/setup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        'https://selfmap-bck.onrender.com/api/users/setup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            mbtiType: user.type,
+            gender: gender,
+          }),
         },
-        credentials: 'include',
-        body: JSON.stringify({
-          mbtiType: user.type,
-          gender: gender,
-        }),
-      })
+      )
 
       if (!res.ok) throw new Error('Erreur backend')
 
@@ -163,7 +166,6 @@ function DashboardPage() {
     }
   }
 
-  // 4. Si on a pas de user ET qu'on est en train de charger, on affiche le loader pour bloquer l'écran
   if (isPending && !storedUser) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
