@@ -6,7 +6,7 @@
     },
     {
       "source": "/user/setup",
-      "destination": "https://selfmap-bck.onrender.com/user/setup"
+      "destination": "https://selfmap-bck.onrender.com/users/setup"
     }
   ]
 }

@@ -136,7 +136,8 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('/api/users/setup', {
+      // Appel relatif exact qui correspond au vercel.json corrigé
+      const res = await fetch('/users/setup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
