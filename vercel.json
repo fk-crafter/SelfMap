@@ -5,7 +5,7 @@
       "destination": "https://selfmap-bck.onrender.com/api/:match*"
     },
     {
-      "source": "/user/setup",
+      "source": "/users/setup",
       "destination": "https://selfmap-bck.onrender.com/users/setup"
     }
   ]

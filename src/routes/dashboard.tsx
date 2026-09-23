@@ -136,7 +136,11 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('https://selfmap-bck.onrender.com/users/setup', {
+      const setupUrl = import.meta.env.PROD
+        ? '/users/setup'
+        : 'https://selfmap-bck.onrender.com/users/setup'
+
+      const res = await fetch(setupUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
