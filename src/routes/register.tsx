@@ -26,7 +26,7 @@ function RegisterPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [vipCode, setVipCode] = useState('') // Nouvel état pour le code VIP
+  const [vipCode, setVipCode] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -52,7 +52,6 @@ function RegisterPage() {
     setIsLoading(true)
     setError('')
 
-    // Si le code saisi correspond au secret, on attribue le plan BETA, sinon FREE
     const assignedPlan = vipCode.trim() === 'USERBETA' ? 'BETA' : 'FREE'
 
     try {
@@ -166,11 +165,10 @@ function RegisterPage() {
                   </button>
                 </div>
 
-                {/* Champ optionnel pour le code VIP */}
                 <div className="relative">
                   <Input
                     type="text"
-                    placeholder="VIP Access Code (Optional)"
+                    placeholder="BETA Access Code"
                     value={vipCode}
                     onChange={(e) => setVipCode(e.target.value)}
                     className="h-12 w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] pl-12 pr-6 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,6 +22,7 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
+  const navigate = useNavigate()
   const setUser = useUserStore((state) => state.setUser)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,7 +30,6 @@ function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Nouveaux états pour la gestion de l'email non vérifié
   const [isUnverified, setIsUnverified] = useState(false)
   const [isResending, setIsResending] = useState(false)
 
@@ -49,15 +49,9 @@ function LoginPage() {
       const { data, error: signInError } = await authClient.signIn.email({
         email,
         password,
-        fetchOptions: {
-          onSuccess: () => {
-            window.location.href = '/dashboard'
-          },
-        },
       })
 
       if (signInError) {
-        // Intercepte spécifiquement l'erreur d'email non vérifié
         if (
           signInError.message?.toLowerCase().includes('email not verified') ||
           signInError.code === 'EMAIL_NOT_VERIFIED'
@@ -71,6 +65,7 @@ function LoginPage() {
       }
 
       setUser(data.user)
+      navigate({ to: '/dashboard' })
     } catch (err) {
       setError('An unexpected error occurred.')
       setIsLoading(false)
@@ -80,7 +75,6 @@ function LoginPage() {
   const handleResendEmail = async () => {
     setIsResending(true)
     try {
-      // Renommage de 'error' en 'resendError' pour éviter le conflit (no-shadow)
       const { error: resendError } = await authClient.sendVerificationEmail({
         email: email,
         callbackURL: 'https://self-map-beta.vercel.app',
