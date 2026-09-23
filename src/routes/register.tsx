@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Fingerprint,
   MailCheck,
+  KeyRound,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
@@ -25,6 +26,7 @@ function RegisterPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [vipCode, setVipCode] = useState('') // Nouvel état pour le code VIP
   const [showPassword, setShowPassword] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -50,6 +52,9 @@ function RegisterPage() {
     setIsLoading(true)
     setError('')
 
+    // Si le code saisi correspond au secret, on attribue le plan BETA, sinon FREE
+    const assignedPlan = vipCode.trim() === 'USERBETA' ? 'BETA' : 'FREE'
+
     try {
       const { error: signUpError } = await authClient.signUp.email({
         email,
@@ -57,6 +62,7 @@ function RegisterPage() {
         name,
         type: profile?.type,
         scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+        plan: assignedPlan, // On transmet le plan au backend
         callbackURL: 'https://self-map-beta.vercel.app',
       } as any)
 
@@ -158,6 +164,18 @@ function RegisterPage() {
                       <Eye className="h-4 w-4" />
                     )}
                   </button>
+                </div>
+
+                {/* Champ optionnel pour le code VIP */}
+                <div className="relative">
+                  <Input
+                    type="text"
+                    placeholder="VIP Access Code (Optional)"
+                    value={vipCode}
+                    onChange={(e) => setVipCode(e.target.value)}
+                    className="h-12 w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] pl-12 pr-6 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+                  />
+                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#c8c5d0]/40" />
                 </div>
               </div>
 

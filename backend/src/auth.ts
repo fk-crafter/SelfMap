@@ -34,6 +34,7 @@ export const auth = betterAuth({
       insight: { type: 'string', required: false },
       avatarSeed: { type: 'string', required: false },
       scores: { type: 'string', required: false },
+      plan: { type: 'string', required: false, defaultValue: 'FREE' },
     },
     changeEmail: { enabled: true },
   },
