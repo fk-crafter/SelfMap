@@ -60,11 +60,11 @@ export class ChatService {
     });
 
     const LIMITS = {
-      FREE: 15,
-      BETA: 50,
-      PRO: 500,
+      FREE: 10,
+      BETA: 20,
+      PRO: 50,
     };
-    const dailyLimit = LIMITS[userPlan as keyof typeof LIMITS] || 15;
+    const dailyLimit = LIMITS[userPlan as keyof typeof LIMITS] || 10;
 
     if (dailyMessageCount >= dailyLimit) {
       const isFr = userLang.toLowerCase().includes('fr');
