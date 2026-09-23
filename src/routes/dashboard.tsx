@@ -79,7 +79,7 @@ function DashboardPage() {
     'none' | 'analysis' | 'gender'
   >('none')
   const [showReveal, setShowReveal] = useState(false)
-  const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('')
+  const [gender, setGender] = useState<'male' | 'female' | ''>('')
   const [isGenerating, setIsGenerating] = useState(false)
 
   const user = (data?.user || storedUser) as ExtendedUser | undefined
@@ -223,7 +223,7 @@ function DashboardPage() {
               Initialize Coach
             </h2>
             <div className="mb-8 flex gap-3">
-              {['male', 'female', 'other'].map((g) => (
+              {['male', 'female'].map((g) => (
                 <button
                   key={g}
                   onClick={() => setGender(g as any)}
