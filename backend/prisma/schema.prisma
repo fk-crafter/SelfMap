@@ -19,7 +19,7 @@ model User {
   plan             String       @default("FREE")
 
   type             String?  
-  gender           String?      // <-- Ajoute cette ligne ici
+  gender           String?    
   insight          String?  
   avatarSeed       String?
   calibrationScore Int          @default(0)
