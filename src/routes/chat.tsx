@@ -75,9 +75,8 @@ function ChatPage() {
         const res = await window.fetch(
           'https://selfmap-bck.onrender.com/api/chat/history',
           {
-            headers: {
-              'x-user-id': user.id,
-            },
+            credentials: 'include',
+            headers: {},
           },
         )
 
@@ -121,9 +120,9 @@ function ChatPage() {
         'https://selfmap-bck.onrender.com/api/chat/send',
         {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'x-user-id': user.id,
             'x-user-lang': i18n.language || 'en',
           },
           body: JSON.stringify({ content: userContent }),
