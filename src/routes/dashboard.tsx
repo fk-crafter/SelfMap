@@ -136,7 +136,11 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('https://selfmap-bck.onrender.com/users/setup', {
+      const setupUrl = import.meta.env.PROD
+        ? '/users/setup'
+        : 'https://selfmap-bck.onrender.com/users/setup'
+
+      const res = await fetch(setupUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,16 +152,12 @@ function DashboardPage() {
         }),
       })
 
-      if (!res.ok) {
-        const errorText = await res.text()
-        throw new Error(`HTTP ${res.status}: ${errorText}`)
-      }
+      if (!res.ok) throw new Error('Erreur backend')
 
       await refetch()
       setOnboardingStep('none')
       setShowReveal(true)
-    } catch (err: any) {
-      alert(`DEBUG MODE - ERREUR EXACTE : ${err.message}`)
+    } catch (err) {
       toast.error('La génération a échoué. Veuillez réessayer.')
     } finally {
       setIsGenerating(false)

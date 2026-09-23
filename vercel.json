@@ -5,8 +5,12 @@
       "destination": "https://selfmap-bck.onrender.com/api/:match*"
     },
     {
-      "source": "/user/setup",
-      "destination": "https://selfmap-bck.onrender.com/users/setup"
+      "source": "/users/:match*",
+      "destination": "https://selfmap-bck.onrender.com/users/:match*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
