@@ -8,6 +8,7 @@ import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -72,6 +73,9 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
 
+  // 1. On récupère l'utilisateur stocké en mémoire par le login
+  const storedUser = useUserStore((state: any) => state.user)
+
   const [onboardingStep, setOnboardingStep] = useState<
     'none' | 'analysis' | 'gender'
   >('none')
@@ -79,17 +83,22 @@ function DashboardPage() {
   const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('')
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const user = data?.user as ExtendedUser | undefined
+  // 2. On fusionne : si BetterAuth cherche encore, on utilise le store Zustand
+  const user = (data?.user || storedUser) as ExtendedUser | undefined
 
   useEffect(() => {
     refetch()
   }, [refetch])
 
   useEffect(() => {
-    if (!isPending && !data?.session) {
-      navigate({ to: '/login' })
+    // 3. Sécurité anti-rebond : on redirige vers le login uniquement si on n'a ni session API, ni user en mémoire cache
+    if (!isPending && !data?.session && !storedUser) {
+      const timer = setTimeout(() => {
+        navigate({ to: '/login' })
+      }, 300) // Petit délai pour laisser le cookie s'inscrire correctement
+      return () => clearTimeout(timer)
     }
-  }, [data, isPending, navigate])
+  }, [data, isPending, storedUser, navigate])
 
   useEffect(() => {
     if (!user) return
@@ -154,7 +163,8 @@ function DashboardPage() {
     }
   }
 
-  if (isPending) {
+  // 4. Si on a pas de user ET qu'on est en train de charger, on affiche le loader pour bloquer l'écran
+  if (isPending && !storedUser) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
