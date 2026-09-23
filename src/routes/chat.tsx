@@ -72,13 +72,10 @@ function ChatPage() {
       if (!user?.id) return
 
       try {
-        const res = await window.fetch(
-          'https://selfmap-bck.onrender.com/api/chat/history',
-          {
-            credentials: 'include',
-            headers: {},
-          },
-        )
+        const res = await window.fetch('/api/chat/history', {
+          credentials: 'include',
+          headers: {},
+        })
 
         if (res.ok) {
           const history = await res.json()
@@ -116,18 +113,15 @@ function ChatPage() {
     setIsLoading(true)
 
     try {
-      const res = await window.fetch(
-        'https://selfmap-bck.onrender.com/api/chat/send',
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-user-lang': i18n.language || 'en',
-          },
-          body: JSON.stringify({ content: userContent }),
+      const res = await window.fetch('/api/chat/send', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-lang': i18n.language || 'en',
         },
-      )
+        body: JSON.stringify({ content: userContent }),
+      })
 
       if (!res.ok) throw new Error('Network error')
 
