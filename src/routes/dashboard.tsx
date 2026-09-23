@@ -73,7 +73,6 @@ function DashboardPage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
 
-  // 1. On récupère l'utilisateur stocké en mémoire par le login
   const storedUser = useUserStore((state: any) => state.user)
 
   const [onboardingStep, setOnboardingStep] = useState<
@@ -83,7 +82,6 @@ function DashboardPage() {
   const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('')
   const [isGenerating, setIsGenerating] = useState(false)
 
-  // 2. On fusionne : si BetterAuth cherche encore, on utilise le store Zustand
   const user = (data?.user || storedUser) as ExtendedUser | undefined
 
   useEffect(() => {
@@ -91,11 +89,10 @@ function DashboardPage() {
   }, [refetch])
 
   useEffect(() => {
-    // 3. Sécurité anti-rebond : on redirige vers le login uniquement si on n'a ni session API, ni user en mémoire cache
     if (!isPending && !data?.session && !storedUser) {
       const timer = setTimeout(() => {
         navigate({ to: '/login' })
-      }, 300) // Petit délai pour laisser le cookie s'inscrire correctement
+      }, 300)
       return () => clearTimeout(timer)
     }
   }, [data, isPending, storedUser, navigate])
