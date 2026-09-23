@@ -136,8 +136,7 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      // Appel relatif exact qui correspond au vercel.json corrigé
-      const res = await fetch('/users/setup', {
+      const res = await fetch('https://selfmap-bck.onrender.com/users/setup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,12 +148,16 @@ function DashboardPage() {
         }),
       })
 
-      if (!res.ok) throw new Error('Erreur backend')
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(`HTTP ${res.status}: ${errorText}`)
+      }
 
       await refetch()
       setOnboardingStep('none')
       setShowReveal(true)
-    } catch (err) {
+    } catch (err: any) {
+      alert(`DEBUG MODE - ERREUR EXACTE : ${err.message}`)
       toast.error('La génération a échoué. Veuillez réessayer.')
     } finally {
       setIsGenerating(false)
