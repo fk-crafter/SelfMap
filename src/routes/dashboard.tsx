@@ -136,20 +136,17 @@ function DashboardPage() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch(
-        'https://selfmap-bck.onrender.com/api/users/setup',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            mbtiType: user.type,
-            gender: gender,
-          }),
+      const res = await fetch('/api/users/setup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        credentials: 'include',
+        body: JSON.stringify({
+          mbtiType: user.type,
+          gender: gender,
+        }),
+      })
 
       if (!res.ok) throw new Error('Erreur backend')
 
