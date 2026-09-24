@@ -47,6 +47,11 @@ export const auth = betterAuth({
     defaultCookieAttributes: {
       sameSite: 'lax',
       secure: true,
+      maxAge: 2592000,
+      domain:
+        process.env.NODE_ENV === 'production'
+          ? 'self-map-beta.vercel.app'
+          : undefined,
     },
   },
   emailVerification: {
