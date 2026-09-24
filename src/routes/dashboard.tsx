@@ -22,6 +22,7 @@ type ExtendedUser = {
   avatarSeed?: string | null
   scores?: string | null
   gender?: string | null
+  isAdmin?: boolean
 }
 
 function ScrambleText({ text }: { text: string }) {
