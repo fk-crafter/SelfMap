@@ -1,11 +1,12 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { User as UserIcon, Settings, LogOut } from 'lucide-react'
+import { User as UserIcon, Settings, LogOut, Shield } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
 
 type DashboardHeaderProps = {
   user: {
     avatarSeed?: string | null
+    isAdmin?: boolean
   }
 }
 
@@ -74,6 +75,18 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
               <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
               My Profile
             </Link>
+
+            {user.isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+              >
+                <Shield className="h-4 w-4 text-[#e9c349]/70" />
+                Administration
+              </Link>
+            )}
+
             <Link
               to="/settings"
               onClick={() => setIsMenuOpen(false)}
