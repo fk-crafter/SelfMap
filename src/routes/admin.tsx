@@ -23,7 +23,7 @@ function AdminDashboard() {
   const { data: sessionData, isPending } = authClient.useSession()
   const [users, setUsers] = useState<AdminUser[]>([])
   const [isLoadingUsers, setIsLoadingUsers] = useState(true)
-  const [isUpdatingPlan, setIsUpdatingPlan] = useState<string | null>(null) // Stocke l'ID de l'user en cours de modif
+  const [isUpdatingPlan, setIsUpdatingPlan] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -86,7 +86,6 @@ function AdminDashboard() {
       })
 
       if (res.ok) {
-        // Met à jour la liste locale pour que l'affichage soit immédiat
         setUsers(
           users.map((u) =>
             u.id === userId ? { ...u, plan: newPlan.toUpperCase() } : u,
@@ -134,29 +133,29 @@ function AdminDashboard() {
           </h2>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-[#c8c5d0]">
+        <div className="overflow-x-auto pb-4">
+          <table className="w-full min-w-200 text-left text-sm text-[#c8c5d0]">
             <thead className="border-b border-white/10 text-xs uppercase text-[#c8c5d0]/50">
               <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Nom</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Plan</th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Genre</th>
+                <th className="whitespace-nowrap px-4 py-3">Date</th>
+                <th className="whitespace-nowrap px-4 py-3">Nom</th>
+                <th className="whitespace-nowrap px-4 py-3">Email</th>
+                <th className="whitespace-nowrap px-4 py-3">Plan</th>
+                <th className="whitespace-nowrap px-4 py-3">Type</th>
+                <th className="whitespace-nowrap px-4 py-3">Genre</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {users.map((u) => (
                 <tr key={u.id} className="hover:bg-white/5 transition-colors">
-                  <td className="px-4 py-4">
+                  <td className="whitespace-nowrap px-4 py-4">
                     {new Date(u.createdAt).toLocaleDateString('fr-FR')}
                   </td>
-                  <td className="px-4 py-4 font-medium text-[#c9ebd0]">
+                  <td className="whitespace-nowrap px-4 py-4 font-medium text-[#c9ebd0]">
                     {u.name}
                   </td>
-                  <td className="px-4 py-4">{u.email}</td>
-                  <td className="px-4 py-4">
+                  <td className="whitespace-nowrap px-4 py-4">{u.email}</td>
+                  <td className="whitespace-nowrap px-4 py-4">
                     <select
                       value={u.plan}
                       onChange={(e) => handlePlanChange(u.id, e.target.value)}
@@ -180,8 +179,12 @@ function AdminDashboard() {
                       </option>
                     </select>
                   </td>
-                  <td className="px-4 py-4">{u.type || '-'}</td>
-                  <td className="px-4 py-4">{u.gender || '-'}</td>
+                  <td className="whitespace-nowrap px-4 py-4">
+                    {u.type || '-'}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4">
+                    {u.gender || '-'}
+                  </td>
                 </tr>
               ))}
             </tbody>
