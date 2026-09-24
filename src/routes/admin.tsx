@@ -27,13 +27,21 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await window.fetch('/api/users/admin/list', {
+        // Aligné sur la logique de ton dashboard.tsx
+        const adminUrl = import.meta.env.PROD
+          ? '/users/admin/list'
+          : 'https://selfmap-bck.onrender.com/users/admin/list'
+
+        const res = await window.fetch(adminUrl, {
           credentials: 'include',
         })
 
         if (res.ok) {
           const data = await res.json()
           setUsers(data)
+        } else if (res.status === 404) {
+          toast.error('Route 404 : Pense à déployer ton backend sur Render')
+          navigate({ to: '/dashboard' })
         } else {
           toast.error('Accès non autorisé')
           navigate({ to: '/dashboard' })
