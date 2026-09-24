@@ -9,6 +9,7 @@ import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useUserStore } from '@/store/userStore'
+import { PwaPrompt } from '#/components/layout/PwaPrompt'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -348,7 +349,7 @@ function DashboardPage() {
           </Card>
         </div>
       </main>
-
+      <PwaPrompt />
       <DashboardBottomNav />
     </div>
   )
