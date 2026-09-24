@@ -84,4 +84,42 @@ export class UserController {
 
     return { user: updatedUser };
   }
+  @Post('admin/update-plan')
+  async updateAdminUserPlan(
+    @Req() req: Request,
+    @Body() body: { targetUserId: string; newPlan: string },
+  ) {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session || !session.user) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { isAdmin: true },
+    });
+
+    if (!currentUser?.isAdmin) {
+      throw new UnauthorizedException('Forbidden: Admins only');
+    }
+
+    const { targetUserId, newPlan } = body;
+
+    const validPlans = ['FREE', 'BETA', 'PRO'];
+    if (!validPlans.includes(newPlan.toUpperCase())) {
+      throw new Error('Invalid plan selected');
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: targetUserId },
+      data: {
+        plan: newPlan.toUpperCase(),
+      },
+    });
+
+    return { success: true, user: updatedUser };
+  }
 }

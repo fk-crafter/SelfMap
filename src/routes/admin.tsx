@@ -23,6 +23,7 @@ function AdminDashboard() {
   const { data: sessionData, isPending } = authClient.useSession()
   const [users, setUsers] = useState<AdminUser[]>([])
   const [isLoadingUsers, setIsLoadingUsers] = useState(true)
+  const [isUpdatingPlan, setIsUpdatingPlan] = useState<string | null>(null) // Stocke l'ID de l'user en cours de modif
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -66,6 +67,42 @@ function AdminDashboard() {
       }
     }
   }, [sessionData, isPending, navigate])
+
+  const handlePlanChange = async (userId: string, newPlan: string) => {
+    setIsUpdatingPlan(userId)
+
+    try {
+      const updateUrl = import.meta.env.PROD
+        ? '/users/admin/update-plan'
+        : 'https://selfmap-bck.onrender.com/users/admin/update-plan'
+
+      const res = await window.fetch(updateUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ targetUserId: userId, newPlan }),
+      })
+
+      if (res.ok) {
+        // Met à jour la liste locale pour que l'affichage soit immédiat
+        setUsers(
+          users.map((u) =>
+            u.id === userId ? { ...u, plan: newPlan.toUpperCase() } : u,
+          ),
+        )
+        toast.success(`Plan mis à jour : ${newPlan}`)
+      } else {
+        toast.error('Erreur lors de la modification')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Erreur réseau')
+    } finally {
+      setIsUpdatingPlan(null)
+    }
+  }
 
   if (isPending || isLoadingUsers) {
     return (
@@ -120,9 +157,28 @@ function AdminDashboard() {
                   </td>
                   <td className="px-4 py-4">{u.email}</td>
                   <td className="px-4 py-4">
-                    <span className="rounded-full bg-[#e9c349]/10 px-2 py-1 text-xs text-[#e9c349]">
-                      {u.plan}
-                    </span>
+                    <select
+                      value={u.plan}
+                      onChange={(e) => handlePlanChange(u.id, e.target.value)}
+                      disabled={isUpdatingPlan === u.id}
+                      className={`rounded-full px-2 py-1 text-xs font-semibold uppercase tracking-wider outline-none cursor-pointer transition-colors ${
+                        u.plan === 'PRO'
+                          ? 'bg-purple-500/20 text-purple-400'
+                          : u.plan === 'BETA'
+                            ? 'bg-[#e9c349]/20 text-[#e9c349]'
+                            : 'bg-gray-500/20 text-gray-400'
+                      } ${isUpdatingPlan === u.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                      <option value="FREE" className="bg-[#001809] text-white">
+                        FREE
+                      </option>
+                      <option value="BETA" className="bg-[#001809] text-white">
+                        BETA
+                      </option>
+                      <option value="PRO" className="bg-[#001809] text-white">
+                        PRO
+                      </option>
+                    </select>
                   </td>
                   <td className="px-4 py-4">{u.type || '-'}</td>
                   <td className="px-4 py-4">{u.gender || '-'}</td>

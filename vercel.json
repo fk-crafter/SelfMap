@@ -11,6 +11,10 @@
     {
       "source": "/users/admin/list",
       "destination": "https://selfmap-bck.onrender.com/users/admin/list"
+    },
+    {
+      "source": "/users/admin/update-plan",
+      "destination": "https://selfmap-bck.onrender.com/users/admin/update-plan"
     }
   ]
 }
