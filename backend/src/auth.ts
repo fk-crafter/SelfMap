@@ -35,6 +35,7 @@ export const auth = betterAuth({
       avatarSeed: { type: 'string', required: false },
       scores: { type: 'string', required: false },
       plan: { type: 'string', required: false, defaultValue: 'FREE' },
+      isAdmin: { type: 'boolean', required: false, defaultValue: false },
     },
     changeEmail: { enabled: true },
   },
