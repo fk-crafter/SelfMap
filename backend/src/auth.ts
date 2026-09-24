@@ -19,6 +19,7 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3001/api/auth',
+  trustHost: true,
   trustedOrigins: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
   session: {
     expiresIn: 60 * 60 * 24 * 30,
@@ -47,11 +48,6 @@ export const auth = betterAuth({
     defaultCookieAttributes: {
       sameSite: 'lax',
       secure: true,
-      maxAge: 2592000,
-      domain:
-        process.env.NODE_ENV === 'production'
-          ? 'self-map-beta.vercel.app'
-          : undefined,
     },
   },
   emailVerification: {
