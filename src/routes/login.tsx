@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,7 +22,6 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
-  const navigate = useNavigate()
   const setUser = useUserStore((state) => state.setUser)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -65,7 +64,7 @@ function LoginPage() {
       }
 
       setUser(data.user)
-      navigate({ to: '/dashboard' })
+      window.location.href = '/dashboard'
     } catch (err) {
       setError('An unexpected error occurred.')
       setIsLoading(false)
