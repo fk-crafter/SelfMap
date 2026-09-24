@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   Body,
   Req,
@@ -13,6 +14,41 @@ import { AiService } from '../ai/ai.service';
 @Controller('users')
 export class UserController {
   constructor(private readonly aiService: AiService) {}
+
+  @Get('admin/list')
+  async getAdminUsersList(@Req() req: Request) {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session || !session.user) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { isAdmin: true },
+    });
+
+    if (!currentUser?.isAdmin) {
+      throw new UnauthorizedException('Forbidden: Admins only');
+    }
+
+    return prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        plan: true,
+        type: true,
+        gender: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 
   @Post('setup')
   async setupCoach(

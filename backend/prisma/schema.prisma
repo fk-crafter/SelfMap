@@ -18,16 +18,18 @@ model User {
   conversations    Conversation[]
   plan             String       @default("FREE")
 
+  isAdmin          Boolean        @default(false)
+
   type             String?  
   gender           String?    
-  insight          String?  
-  avatarSeed       String?
+  insight          String?
   calibrationScore Int          @default(0)
   scores           String?    
 
   sessions         Session[]
   accounts         Account[]
   journalEntries   JournalEntry[]
+  avatarSeed       String?
 
   @@map("user")
 }
