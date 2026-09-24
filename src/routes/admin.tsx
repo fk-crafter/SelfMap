@@ -27,7 +27,6 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Aligné sur la logique de ton dashboard.tsx
         const adminUrl = import.meta.env.PROD
           ? '/users/admin/list'
           : 'https://selfmap-bck.onrender.com/users/admin/list'
@@ -40,15 +39,19 @@ function AdminDashboard() {
           const data = await res.json()
           setUsers(data)
         } else if (res.status === 404) {
-          toast.error('Route 404 : Pense à déployer ton backend sur Render')
+          toast.error(
+            'Le backend Render est en train de se mettre à jour (404), réessaie dans 2 min',
+          )
           navigate({ to: '/dashboard' })
         } else {
-          toast.error('Accès non autorisé')
+          toast.error(
+            'Accès non autorisé : as-tu coché isAdmin dans la base de données ?',
+          )
           navigate({ to: '/dashboard' })
         }
       } catch (error) {
         console.error(error)
-        toast.error('Erreur réseau')
+        toast.error('Erreur réseau avec le serveur')
         navigate({ to: '/dashboard' })
       } finally {
         setIsLoadingUsers(false)

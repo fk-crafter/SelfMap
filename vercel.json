@@ -7,6 +7,10 @@
     {
       "source": "/users/setup",
       "destination": "https://selfmap-bck.onrender.com/users/setup"
+    },
+    {
+      "source": "/users/admin/list",
+      "destination": "https://selfmap-bck.onrender.com/users/admin/list"
     }
   ]
 }
