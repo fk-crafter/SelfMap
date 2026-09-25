@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { User as UserIcon, Settings, LogOut, Shield } from 'lucide-react'
+import { User as UserIcon, Settings, LogOut, Shield, Crown } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
@@ -8,6 +8,7 @@ type DashboardHeaderProps = {
   user: {
     avatarSeed?: string | null
     isAdmin?: boolean
+    plan?: string | null
   }
 }
 
@@ -76,6 +77,26 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
             >
               <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
               My Profile
+            </Link>
+
+            <Link
+              to="/subscription"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center justify-between px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+            >
+              <div className="flex items-center gap-3">
+                <Crown className="h-4 w-4 text-[#e9c349]" />
+                Sanctuary
+              </div>
+              {user.plan === 'PRO' ? (
+                <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold text-[#e9c349]">
+                  PRO
+                </span>
+              ) : (
+                <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-[#c8c5d0]/70">
+                  Upgrade
+                </span>
+              )}
             </Link>
 
             {user.isAdmin && (

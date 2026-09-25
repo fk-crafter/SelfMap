@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Loader2, User, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, Loader2, User, AlertTriangle, Crown } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
@@ -150,6 +150,47 @@ function SettingsPage() {
               )}
             </Button>
           </form>
+        </Card>
+
+        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Crown className="h-5 w-5 text-[#e9c349]" />
+              <h2 className="font-serif text-xl text-[#c9ebd0]">
+                Abonnement
+              </h2>
+            </div>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
+                (user as any)?.plan === 'PRO'
+                  ? 'bg-[#e9c349]/20 text-[#e9c349] border border-[#e9c349]/40'
+                  : 'bg-white/5 text-[#c8c5d0]/70 border border-white/10'
+              }`}
+            >
+              {(user as any)?.plan === 'PRO'
+                ? 'Sanctuaire PRO'
+                : (user as any)?.plan === 'BETA'
+                ? 'Membre BETA'
+                : 'Gratuit'}
+            </span>
+          </div>
+
+          <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
+            {(user as any)?.plan === 'PRO'
+              ? 'Vous profitez de 50 messages quotidiens et de la mémoire adaptative. Vous pouvez gérer vos factures ou résilier à tout moment.'
+              : 'Passez au Sanctuaire PRO pour débloquer 50 messages quotidiens, la mémoire continue et la guidance illimitée.'}
+          </p>
+
+          <Button
+            asChild
+            className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] hover:bg-[#e9c349]/90 active:scale-[0.98]"
+          >
+            <Link to="/subscription">
+              {(user as any)?.plan === 'PRO'
+                ? 'Gérer mon abonnement'
+                : 'Découvrir le Sanctuaire PRO'}
+            </Link>
+          </Button>
         </Card>
 
         <Card className="mt-8 border border-[#93000a]/30 bg-[#93000a]/10 backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">

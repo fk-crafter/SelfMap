@@ -21,6 +21,7 @@ type ExtendedUser = {
   avatarSeed?: string | null
   scores?: string | null
   calibrationScore?: number
+  plan?: string | null
 }
 
 function ProfilePage() {
@@ -114,6 +115,24 @@ function ProfilePage() {
           <span className="mt-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
             {profile.name}
           </span>
+          <div className="mt-3 flex items-center gap-2">
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#c8c5d0]">
+              Plan :{' '}
+              {profile.plan === 'PRO' ? (
+                <span className="font-bold text-[#e9c349]">Sanctuaire PRO 👑</span>
+              ) : profile.plan === 'BETA' ? (
+                <span className="font-bold text-[#c5c0fe]">Membre BETA</span>
+              ) : (
+                <span className="text-[#c8c5d0]/70">Gratuit</span>
+              )}
+            </span>
+            <Link
+              to="/subscription"
+              className="text-xs font-semibold text-[#e9c349] underline-offset-4 hover:underline"
+            >
+              {profile.plan === 'PRO' ? 'Gérer' : 'Passer à PRO'}
+            </Link>
+          </div>
         </div>
 
         <Card className="mt-10 rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 shadow-xl backdrop-blur-xl">

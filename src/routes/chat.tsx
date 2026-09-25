@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Send, User, Loader2 } from 'lucide-react'
+import { ArrowLeft, Send, User, Loader2, Crown } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
@@ -23,6 +23,7 @@ type ExtendedUser = {
   name: string
   avatarSeed?: string | null
   calibrationScore?: number
+  plan?: string | null
 }
 
 function ChatPage() {
@@ -138,6 +139,21 @@ function ChatPage() {
       if (result.newScore !== undefined) {
         setCurrentScore(result.newScore)
       }
+
+      if (
+        result.reply &&
+        (result.reply.includes('Sanctuaire') ||
+          result.reply.includes('méditation profonde') ||
+          result.reply.includes('revenir demain'))
+      ) {
+        toast('Limite quotidienne atteinte', {
+          description: 'Débloquez 50 messages quotidiens avec le Sanctuaire PRO.',
+          action: {
+            label: 'Débloquer',
+            onClick: () => navigate({ to: '/subscription' }),
+          },
+        })
+      }
     } catch (error) {
       toast.error('The coach is unavailable for the moment.')
       setMessages((prev) => prev.slice(0, -1))
@@ -178,8 +194,22 @@ function ChatPage() {
             Soul Coach
           </h1>
         </div>
-
-        <ProgressJauge score={currentScore} />
+        <div className="ml-auto flex items-center gap-3 shrink-0">
+          <ProgressJauge score={currentScore} />
+          {user?.plan === 'PRO' ? (
+            <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#e9c349]/40 bg-[#e9c349]/10 px-2.5 py-1 text-[11px] font-bold text-[#e9c349]">
+              <Crown className="h-3 w-3" /> PRO
+            </span>
+          ) : (
+            <Link
+              to="/subscription"
+              className="flex items-center gap-1 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-xs font-bold text-[#e9c349] transition-all hover:bg-[#e9c349]/20 hover:scale-105 active:scale-95 shrink-0 shadow-[0_0_10px_rgba(233,195,73,0.15)]"
+            >
+              <Crown className="h-3.5 w-3.5" />
+              <span>Sanctuaire</span>
+            </Link>
+          )}
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 py-6 z-10 space-y-6">

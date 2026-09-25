@@ -1,7 +1,14 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Loader2, ArrowRight, PenLine, Activity, Sparkles } from 'lucide-react'
+import {
+  Loader2,
+  ArrowRight,
+  PenLine,
+  Activity,
+  Sparkles,
+  Crown,
+} from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
 import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
@@ -24,6 +31,7 @@ type ExtendedUser = {
   scores?: string | null
   gender?: string | null
   isAdmin?: boolean
+  plan?: string | null
 }
 
 function ScrambleText({ text }: { text: string }) {
@@ -331,6 +339,35 @@ function DashboardPage() {
               </Card>
             </Link>
           </div>
+
+          {user.plan !== 'PRO' && (
+            <Link to="/subscription">
+              <Card className="group relative overflow-hidden border border-[#e9c349]/30 bg-linear-to-r from-[#e9c349]/10 via-[rgba(197,192,254,0.03)] to-[#032110] p-5 shadow-xl backdrop-blur-xl rounded-[1.5rem] transition-all hover:border-[#e9c349]/60 hover:shadow-[0_0_25px_rgba(233,195,73,0.15)] cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e9c349]/20 text-[#e9c349]">
+                      <Crown className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-serif text-base font-bold text-[#e9c349]">
+                          Le Sanctuaire PRO
+                        </h4>
+                        <span className="rounded-full bg-[#e9c349] px-2 py-0.5 text-[9px] font-extrabold uppercase text-[#001809]">
+                          Découvrir
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#c8c5d0]/70">
+                        50 messages/jour, mémoire continue & guidance
+                        approfondie
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-[#e9c349] transition-transform group-hover:translate-x-1" />
+                </div>
+              </Card>
+            </Link>
+          )}
 
           <Card className="flex flex-col justify-center border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-lg rounded-[1.5rem]">
             <div className="flex items-center gap-2 mb-4">

@@ -16,10 +16,12 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as VerifyRouteImport } from './routes/verify'
@@ -59,6 +61,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -77,6 +84,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscriptionRoute = SubscriptionRouteImport.update({
+  id: '/subscription',
+  path: '/subscription',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -103,10 +115,12 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/test': typeof TestRoute
   '/verify': typeof VerifyRoute
@@ -119,10 +133,12 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/test': typeof TestRoute
   '/verify': typeof VerifyRoute
@@ -136,10 +152,12 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/test': typeof TestRoute
   '/verify': typeof VerifyRoute
@@ -154,10 +172,12 @@ export interface FileRouteTypes {
     | '/discover'
     | '/journal'
     | '/login'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/register'
     | '/settings'
+    | '/subscription'
     | '/terms'
     | '/test'
     | '/verify'
@@ -170,10 +190,12 @@ export interface FileRouteTypes {
     | '/discover'
     | '/journal'
     | '/login'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/register'
     | '/settings'
+    | '/subscription'
     | '/terms'
     | '/test'
     | '/verify'
@@ -186,10 +208,12 @@ export interface FileRouteTypes {
     | '/discover'
     | '/journal'
     | '/login'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/register'
     | '/settings'
+    | '/subscription'
     | '/terms'
     | '/test'
     | '/verify'
@@ -203,10 +227,12 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   JournalRoute: typeof JournalRoute
   LoginRoute: typeof LoginRoute
+  PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   SettingsRoute: typeof SettingsRoute
+  SubscriptionRoute: typeof SubscriptionRoute
   TermsRoute: typeof TermsRoute
   TestRoute: typeof TestRoute
   VerifyRoute: typeof VerifyRoute
@@ -263,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -289,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subscription': {
+      id: '/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof SubscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -323,10 +363,12 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoverRoute: DiscoverRoute,
   JournalRoute: JournalRoute,
   LoginRoute: LoginRoute,
+  PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   SettingsRoute: SettingsRoute,
+  SubscriptionRoute: SubscriptionRoute,
   TermsRoute: TermsRoute,
   TestRoute: TestRoute,
   VerifyRoute: VerifyRoute,
