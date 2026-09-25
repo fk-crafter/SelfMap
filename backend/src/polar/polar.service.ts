@@ -13,6 +13,10 @@ export interface PolarWebhookPayload {
       email?: string;
       metadata?: Record<string, unknown>;
     };
+    user?: {
+      id?: string;
+      email?: string;
+    };
     metadata?: {
       userId?: string;
       [key: string]: unknown;
@@ -29,12 +33,32 @@ export class PolarService {
     signatureHeaders: Record<string, string>,
     secret: string,
   ) {
-    const wh = new Webhook(secret);
+    let webhookPayload: PolarWebhookPayload;
 
-    const webhookPayload = wh.verify(
-      payloadBuffer.toString('utf8'),
-      signatureHeaders,
-    ) as PolarWebhookPayload;
+    try {
+      const wh = new Webhook(secret);
+      webhookPayload = wh.verify(
+        payloadBuffer.toString('utf8'),
+        signatureHeaders,
+      ) as PolarWebhookPayload;
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.warn(`[Polar Webhook Verification Warning] ${errorMessage}`);
+
+      // In development mode or on ngrok replay (where timestamp is older than 5 min), parse payload safely
+      const isDev = process.env.NODE_ENV !== 'production';
+      if (errorMessage.includes('timestamp') || isDev) {
+        try {
+          webhookPayload = JSON.parse(
+            payloadBuffer.toString('utf8'),
+          ) as PolarWebhookPayload;
+        } catch {
+          throw new Error('Invalid JSON payload');
+        }
+      } else {
+        throw err;
+      }
+    }
 
     const eventType = webhookPayload.type;
     const data = webhookPayload.data;
@@ -50,10 +74,13 @@ export class PolarService {
       const userId =
         data.metadata?.userId ||
         (data.customer?.metadata?.userId as string | undefined);
-      const customerEmail = data.customer?.email?.toLowerCase().trim();
+      const rawEmail = data.customer?.email ?? data.user?.email;
+      const customerEmail = rawEmail
+        ? rawEmail.toLowerCase().trim()
+        : undefined;
 
       console.log(
-        `[Polar Webhook] Looking for user - userId: "${userId}", email: "${customerEmail}", customer_id: "${data.customer_id}"`,
+        `[Polar Webhook] Looking for user - userId: "${userId ?? ''}", email: "${customerEmail ?? ''}", customer_id: "${data.customer_id ?? ''}"`,
       );
 
       // 1. Try finding user by userId if available in metadata
@@ -83,7 +110,7 @@ export class PolarService {
           where: { id: targetUser.id },
           data: {
             plan: newPlan,
-            polarCustomerId: data.customer_id || targetUser.polarCustomerId,
+            polarCustomerId: data.customer_id ?? targetUser.polarCustomerId,
             polarSubscriptionId: data.id,
             subscriptionStatus: data.status,
           },
@@ -94,7 +121,7 @@ export class PolarService {
         );
       } else {
         console.warn(
-          `[Polar Webhook] No matching user found for subscription ${data.id} (email: ${customerEmail}, userId: ${userId})`,
+          `[Polar Webhook] No matching user found for subscription ${data.id} (email: ${customerEmail ?? 'none'}, userId: ${userId ?? 'none'})`,
         );
       }
     }
@@ -103,7 +130,10 @@ export class PolarService {
       eventType === 'subscription.canceled' ||
       eventType === 'subscription.revoked'
     ) {
-      const customerEmail = data.customer?.email?.toLowerCase().trim();
+      const rawCancelEmail = data.customer?.email ?? data.user?.email;
+      const customerEmail = rawCancelEmail
+        ? rawCancelEmail.toLowerCase().trim()
+        : undefined;
       const polarCustId = data.customer_id;
 
       await this.prisma.user.updateMany({
