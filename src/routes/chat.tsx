@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Send, User, Loader2 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
 import { ProgressJauge } from '@/components/chat/ProgressJauge'
@@ -27,9 +28,12 @@ type ExtendedUser = {
 function ChatPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+  const storedUser = useUserStore((state: any) => state.user)
+  const hasHydrated = useUserStore((state: any) => state._hasHydrated)
+  const logout = useUserStore((state: any) => state.logout)
   const { i18n } = useTranslation()
 
-  const user = data?.user as ExtendedUser | undefined
+  const user = (data?.user || storedUser) as ExtendedUser | undefined
   const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
 
   const [messages, setMessages] = useState<Message[]>([
@@ -45,10 +49,15 @@ function ChatPage() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (!isPending && !data?.session) {
-      navigate({ to: '/login' })
+    if (hasHydrated && !isPending) {
+      if (data && !data.session) {
+        logout()
+        navigate({ to: '/login', replace: true })
+      } else if (!data?.session && !storedUser) {
+        navigate({ to: '/login', replace: true })
+      }
     }
-  }, [data, isPending, navigate])
+  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
 
   useEffect(() => {
     if (user?.id) {
@@ -144,7 +153,7 @@ function ChatPage() {
     }
   }
 
-  if (isPending) {
+  if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />

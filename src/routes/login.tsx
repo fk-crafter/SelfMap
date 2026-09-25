@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState } from 'react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -22,7 +22,12 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
+  const navigate = useNavigate()
   const setUser = useUserStore((state) => state.setUser)
+  const storedUser = useUserStore((state) => state.user)
+  const hasHydrated = useUserStore((state) => state._hasHydrated)
+  const { data, isPending } = authClient.useSession()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -31,6 +36,16 @@ function LoginPage() {
 
   const [isUnverified, setIsUnverified] = useState(false)
   const [isResending, setIsResending] = useState(false)
+
+  useEffect(() => {
+    if (storedUser) {
+      navigate({ to: '/dashboard', replace: true })
+      return
+    }
+    if (hasHydrated && !isPending && data?.session) {
+      navigate({ to: '/dashboard', replace: true })
+    }
+  }, [storedUser, hasHydrated, isPending, data, navigate])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -90,6 +105,14 @@ function LoginPage() {
     } finally {
       setIsResending(false)
     }
+  }
+
+  if (storedUser || (hasHydrated && !isPending && data?.session)) {
+    return (
+      <div className="flex min-h-dvh w-full items-center justify-center bg-[#001809]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
+      </div>
+    )
   }
 
   return (

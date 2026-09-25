@@ -12,6 +12,7 @@ import {
   PenLine,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
 
@@ -28,23 +29,33 @@ type JournalEntry = {
 function JournalPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+  const storedUser = useUserStore((state: any) => state.user)
+  const hasHydrated = useUserStore((state: any) => state._hasHydrated)
+  const logout = useUserStore((state: any) => state.logout)
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [content, setContent] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
+  const user = data?.user || storedUser
+
   useEffect(() => {
-    if (!isPending && !data?.session) {
-      navigate({ to: '/login' })
+    if (hasHydrated && !isPending) {
+      if (data && !data.session) {
+        logout()
+        navigate({ to: '/login', replace: true })
+      } else if (!data?.session && !storedUser) {
+        navigate({ to: '/login', replace: true })
+      }
     }
-  }, [data, isPending, navigate])
+  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
 
   useEffect(() => {
     const fetchEntries = async () => {
-      if (!data?.user.id) return
+      if (!user?.id) return
       try {
         const res = await window.fetch('/api/journal', {
           credentials: 'include',
-          headers: { 'x-user-id': data.user.id },
+          headers: { 'x-user-id': user.id },
         })
         if (res.ok) {
           const fetchedData = await res.json()
@@ -55,11 +66,11 @@ function JournalPage() {
       }
     }
     fetchEntries()
-  }, [data?.user.id])
+  }, [user?.id])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!content.trim() || !data?.user.id) return
+    if (!content.trim() || !user?.id) return
 
     setIsLoading(true)
     try {
@@ -68,7 +79,7 @@ function JournalPage() {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': data.user.id,
+          'x-user-id': user.id,
         },
         body: JSON.stringify({ content }),
       })
@@ -87,12 +98,12 @@ function JournalPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!data?.user.id) return
+    if (!user?.id) return
     try {
       const res = await window.fetch(`/api/journal/${id}`, {
         method: 'DELETE',
         credentials: 'include',
-        headers: { 'x-user-id': data.user.id },
+        headers: { 'x-user-id': user.id },
       })
 
       if (res.ok) {
@@ -104,7 +115,7 @@ function JournalPage() {
     }
   }
 
-  if (isPending) {
+  if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />

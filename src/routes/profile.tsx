@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
 import { CalibrationScore } from '@/components/profile/CalibrationScore'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 import { useEffect, useState } from 'react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 
@@ -25,6 +26,9 @@ type ExtendedUser = {
 function ProfilePage() {
   const navigate = useNavigate()
   const { data, isPending, refetch } = authClient.useSession()
+  const storedUser = useUserStore((state: any) => state.user)
+  const hasHydrated = useUserStore((state: any) => state._hasHydrated)
+  const logout = useUserStore((state: any) => state.logout)
   const [currentCalibration, setCurrentCalibration] = useState(0)
 
   useEffect(() => {
@@ -32,12 +36,17 @@ function ProfilePage() {
   }, [refetch])
 
   useEffect(() => {
-    if (!isPending && !data?.session) {
-      navigate({ to: '/login' })
+    if (hasHydrated && !isPending) {
+      if (data && !data.session) {
+        logout()
+        navigate({ to: '/login', replace: true })
+      } else if (!data?.session && !storedUser) {
+        navigate({ to: '/login', replace: true })
+      }
     }
-  }, [data, isPending, navigate])
+  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
 
-  const profile = data?.user as ExtendedUser | undefined
+  const profile = (data?.user || storedUser) as ExtendedUser | undefined
 
   useEffect(() => {
     if (profile?.id) {
@@ -50,7 +59,7 @@ function ProfilePage() {
     }
   }, [profile?.id, profile?.calibrationScore])
 
-  if (isPending) {
+  if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />

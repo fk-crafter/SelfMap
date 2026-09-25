@@ -76,6 +76,9 @@ function DashboardPage() {
   const { data, isPending, refetch } = authClient.useSession()
 
   const storedUser = useUserStore((state: any) => state.user)
+  const hasHydrated = useUserStore((state: any) => state._hasHydrated)
+  const setUser = useUserStore((state: any) => state.setUser)
+  const logout = useUserStore((state: any) => state.logout)
 
   const [onboardingStep, setOnboardingStep] = useState<
     'none' | 'analysis' | 'gender'
@@ -87,17 +90,25 @@ function DashboardPage() {
   const user = (data?.user || storedUser) as ExtendedUser | undefined
 
   useEffect(() => {
+    if (data?.user) {
+      setUser(data.user)
+    }
+  }, [data?.user, setUser])
+
+  useEffect(() => {
     refetch()
   }, [refetch])
 
   useEffect(() => {
-    if (!isPending && !data?.session && !storedUser) {
-      const timer = setTimeout(() => {
-        navigate({ to: '/login' })
-      }, 300)
-      return () => clearTimeout(timer)
+    if (hasHydrated && !isPending) {
+      if (data && !data.session) {
+        logout()
+        navigate({ to: '/login', replace: true })
+      } else if (!data?.session && !storedUser) {
+        navigate({ to: '/login', replace: true })
+      }
     }
-  }, [data, isPending, storedUser, navigate])
+  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
 
   useEffect(() => {
     if (!user) return
@@ -170,7 +181,7 @@ function DashboardPage() {
     }
   }
 
-  if (isPending && !storedUser) {
+  if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />

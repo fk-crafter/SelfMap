@@ -10,7 +10,11 @@ async function bootstrap() {
   app.set('trust proxy', 1);
 
   app.enableCors({
-    origin: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://self-map-beta.vercel.app',
+    ],
     credentials: true,
   });
 

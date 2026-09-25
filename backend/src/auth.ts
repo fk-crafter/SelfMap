@@ -20,7 +20,11 @@ export const auth = betterAuth({
   }),
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3001/api/auth',
   trustHost: true,
-  trustedOrigins: ['http://localhost:3001', 'https://self-map-beta.vercel.app'],
+  trustedOrigins: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://self-map-beta.vercel.app',
+  ],
   session: {
     expiresIn: 60 * 60 * 24 * 30,
     updateAge: 60 * 60 * 24,

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { ArrowLeft, Loader2, User, AlertTriangle } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/settings')({
@@ -14,23 +15,34 @@ export const Route = createFileRoute('/settings')({
 function SettingsPage() {
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
+  const storedUser = useUserStore((state: any) => state.user)
+  const hasHydrated = useUserStore((state: any) => state._hasHydrated)
+  const setUser = useUserStore((state: any) => state.setUser)
+  const logout = useUserStore((state: any) => state.logout)
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  useEffect(() => {
-    if (!isPending && !data?.session) {
-      navigate({ to: '/login' })
-    }
-  }, [data, isPending, navigate])
+  const user = data?.user || storedUser
 
   useEffect(() => {
-    if (data?.user.name) {
-      setName(data.user.name)
+    if (hasHydrated && !isPending) {
+      if (data && !data.session) {
+        logout()
+        navigate({ to: '/login', replace: true })
+      } else if (!data?.session && !storedUser) {
+        navigate({ to: '/login', replace: true })
+      }
     }
-  }, [data?.user.name])
+  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
+
+  useEffect(() => {
+    if (user?.name) {
+      setName(user.name)
+    }
+  }, [user?.name])
 
   const handleUpdateName = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,6 +61,10 @@ function SettingsPage() {
         return
       }
 
+      if (user) {
+        setUser({ ...user, name: name.trim() })
+      }
+
       toast.success('Profile updated successfully!')
       setIsLoading(false)
     } catch (err) {
@@ -64,7 +80,8 @@ function SettingsPage() {
       const { error: delError } = await authClient.deleteUser({
         fetchOptions: {
           onSuccess: () => {
-            navigate({ to: '/register' })
+            logout()
+            navigate({ to: '/register', replace: true })
           },
         },
       })
@@ -79,7 +96,7 @@ function SettingsPage() {
     }
   }
 
-  if (isPending) {
+  if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />

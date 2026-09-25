@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -34,6 +34,19 @@ function RegisterPage() {
   const [emailSent, setEmailSent] = useState(false)
 
   const profile = useUserStore((state) => state.profile)
+  const storedUser = useUserStore((state) => state.user)
+  const hasHydrated = useUserStore((state) => state._hasHydrated)
+  const { data, isPending } = authClient.useSession()
+
+  useEffect(() => {
+    if (storedUser) {
+      navigate({ to: '/dashboard', replace: true })
+      return
+    }
+    if (hasHydrated && !isPending && data?.session) {
+      navigate({ to: '/dashboard', replace: true })
+    }
+  }, [storedUser, hasHydrated, isPending, data, navigate])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,7 +74,8 @@ function RegisterPage() {
         name,
         type: profile?.type,
         scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
-        plan: assignedPlan, // On transmet le plan au backend
+        plan: assignedPlan,
+        rememberMe: true,
         callbackURL: 'https://self-map-beta.vercel.app',
       } as any)
 
@@ -79,6 +93,14 @@ function RegisterPage() {
       setError('An unexpected error occurred.')
       setIsLoading(false)
     }
+  }
+
+  if (storedUser || (hasHydrated && !isPending && data?.session)) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-[#001809]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
+      </div>
+    )
   }
 
   return (

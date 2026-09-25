@@ -47,16 +47,36 @@ export const Route = createRootRoute({
       {
         name: 'viewport',
         content:
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover',
       },
       {
         title: 'SoulType',
+      },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: 'yes',
+      },
+      {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'black-translucent',
+      },
+      {
+        name: 'apple-mobile-web-app-title',
+        content: 'SoulType',
+      },
+      {
+        name: 'mobile-web-app-capable',
+        content: 'yes',
       },
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/logo.png',
       },
     ],
   }),
@@ -86,17 +106,24 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const setUser = useUserStore((state) => state.setUser)
+  const logout = useUserStore((state) => state.logout)
 
   useEffect(() => {
     const fetchSession = async () => {
-      const { data } = await authClient.getSession()
-      if (data?.user) {
-        setUser(data.user)
+      try {
+        const { data, error } = await authClient.getSession()
+        if (data?.user) {
+          setUser(data.user)
+        } else if (!error && data && !data.session) {
+          logout()
+        }
+      } catch {
+        // Network error / offline: retain offline cached session
       }
     }
 
     fetchSession()
-  }, [setUser])
+  }, [setUser, logout])
 
   return (
     <html lang="en" suppressHydrationWarning>

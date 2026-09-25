@@ -2,6 +2,7 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { User as UserIcon, Settings, LogOut, Shield } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 
 type DashboardHeaderProps = {
   user: {
@@ -32,10 +33,11 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   }, [isMenuOpen])
 
   const handleLogout = async () => {
+    useUserStore.getState().logout()
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          navigate({ to: '/login' })
+          navigate({ to: '/login', replace: true })
         },
       },
     })
