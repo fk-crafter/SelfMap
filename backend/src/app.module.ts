@@ -6,9 +6,16 @@ import { AiController } from './ai/ai.controller';
 import { AiService } from './ai/ai.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserController } from './user/user.controller';
+import { PolarModule } from './polar/polar.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), ChatModule, JournalModule, PrismaModule],
+  imports: [
+    ConfigModule.forRoot(),
+    ChatModule,
+    JournalModule,
+    PrismaModule,
+    PolarModule,
+  ],
   controllers: [AiController, UserController],
   providers: [AiService],
 })
