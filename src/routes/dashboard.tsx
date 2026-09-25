@@ -73,7 +73,7 @@ function ScrambleText({ text }: { text: string }) {
 
 function DashboardPage() {
   const navigate = useNavigate()
-  const { data, isPending, refetch } = authClient.useSession()
+  const { data, refetch } = authClient.useSession()
 
   const storedUser = useUserStore((state: any) => state.user)
 
@@ -91,13 +91,10 @@ function DashboardPage() {
   }, [refetch])
 
   useEffect(() => {
-    if (!isPending && !data?.session && !storedUser) {
-      const timer = setTimeout(() => {
-        navigate({ to: '/login' })
-      }, 300)
-      return () => clearTimeout(timer)
+    if (!storedUser) {
+      navigate({ to: '/login' })
     }
-  }, [data, isPending, storedUser, navigate])
+  }, [storedUser, navigate])
 
   useEffect(() => {
     if (!user) return
@@ -168,14 +165,6 @@ function DashboardPage() {
     } finally {
       setIsGenerating(false)
     }
-  }
-
-  if (isPending && !storedUser) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
   }
 
   if (!user) return null

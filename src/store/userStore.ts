@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 export interface UserScores {
   E: number
@@ -35,10 +36,17 @@ interface UserState {
   setUser: (user: AuthUser | null) => void
 }
 
-export const useUserStore = create<UserState>((set) => ({
-  profile: null,
-  user: null,
-  isAuthenticated: false,
-  setProfile: (profile) => set({ profile }),
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-}))
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      profile: null,
+      user: null,
+      isAuthenticated: false,
+      setProfile: (profile) => set({ profile }),
+      setUser: (user) => set({ user, isAuthenticated: !!user }),
+    }),
+    {
+      name: 'soultype-session',
+    },
+  ),
+)

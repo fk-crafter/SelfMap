@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import { authClient } from '@/lib/auth-client'
 import { Loader2, ArrowLeft, Shield } from 'lucide-react'
 import { toast } from 'sonner'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/admin')({
   component: AdminDashboard,
@@ -20,7 +20,8 @@ type AdminUser = {
 
 function AdminDashboard() {
   const navigate = useNavigate()
-  const { data: sessionData, isPending } = authClient.useSession()
+  const storedUser = useUserStore((state: any) => state.user)
+
   const [users, setUsers] = useState<AdminUser[]>([])
   const [isLoadingUsers, setIsLoadingUsers] = useState(true)
   const [isUpdatingPlan, setIsUpdatingPlan] = useState<string | null>(null)
@@ -59,14 +60,12 @@ function AdminDashboard() {
       }
     }
 
-    if (!isPending) {
-      if (!sessionData?.session) {
-        navigate({ to: '/login' })
-      } else {
-        fetchUsers()
-      }
+    if (!storedUser) {
+      navigate({ to: '/login' })
+    } else {
+      fetchUsers()
     }
-  }, [sessionData, isPending, navigate])
+  }, [storedUser, navigate])
 
   const handlePlanChange = async (userId: string, newPlan: string) => {
     setIsUpdatingPlan(userId)
@@ -103,7 +102,7 @@ function AdminDashboard() {
     }
   }
 
-  if (isPending || isLoadingUsers) {
+  if (isLoadingUsers) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
