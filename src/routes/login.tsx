@@ -48,6 +48,7 @@ function LoginPage() {
       const { data, error: signInError } = await authClient.signIn.email({
         email,
         password,
+        rememberMe: true,
       })
 
       if (signInError) {
