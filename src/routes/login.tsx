@@ -60,7 +60,7 @@ function LoginPage() {
     setError('')
 
     try {
-      const { data, error: signInError } = await authClient.signIn.email({
+      const { data: resData, error: signInError } = await authClient.signIn.email({
         email,
         password,
         rememberMe: true,
@@ -79,7 +79,7 @@ function LoginPage() {
         return
       }
 
-      setUser(data.user)
+      setUser(resData.user)
       window.location.href = '/dashboard'
     } catch (err) {
       setError('An unexpected error occurred.')

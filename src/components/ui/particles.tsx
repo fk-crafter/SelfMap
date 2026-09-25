@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { useMousePosition } from "@/lib/hooks/use-mouse-position"
 
 interface ParticlesProps {

@@ -30,7 +30,6 @@ function ChatPage() {
   const { data, isPending } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
-  const logout = useUserStore((state: any) => state.logout)
   const { i18n } = useTranslation()
 
   const user = (data?.user || storedUser) as ExtendedUser | undefined
@@ -49,15 +48,10 @@ function ChatPage() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (hasHydrated && !isPending) {
-      if (data && !data.session) {
-        logout()
-        navigate({ to: '/login', replace: true })
-      } else if (!data?.session && !storedUser) {
-        navigate({ to: '/login', replace: true })
-      }
+    if (hasHydrated && !isPending && !data && !storedUser) {
+      navigate({ to: '/login', replace: true })
     }
-  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
+  }, [hasHydrated, isPending, data, storedUser, navigate])
 
   useEffect(() => {
     if (user?.id) {

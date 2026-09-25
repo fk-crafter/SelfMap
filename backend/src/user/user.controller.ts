@@ -21,7 +21,7 @@ export class UserController {
       headers: fromNodeHeaders(req.headers),
     });
 
-    if (!session || !session.user) {
+    if (!session) {
       throw new UnauthorizedException('Unauthorized');
     }
 
@@ -59,7 +59,7 @@ export class UserController {
       headers: fromNodeHeaders(req.headers),
     });
 
-    if (!session || !session.user) {
+    if (!session) {
       throw new UnauthorizedException('Unauthorized');
     }
 
@@ -93,7 +93,7 @@ export class UserController {
       headers: fromNodeHeaders(req.headers),
     });
 
-    if (!session || !session.user) {
+    if (!session) {
       throw new UnauthorizedException('Unauthorized');
     }
 

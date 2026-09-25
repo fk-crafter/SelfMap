@@ -114,7 +114,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         const { data, error } = await authClient.getSession()
         if (data?.user) {
           setUser(data.user)
-        } else if (!error && data && !data.session) {
+        } else if (!error && data === null) {
           logout()
         }
       } catch {

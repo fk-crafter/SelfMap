@@ -1,12 +1,17 @@
 {
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
+    "src",
     "eslint.config.js",
     "prettier.config.js",
-    "vite.config.js",
-    "src",
+    "vite.config.ts",
     "public/service-worker.js"
+  ],
+  "exclude": [
+    "backend",
+    "node_modules",
+    "dist",
+    ".output",
+    ".tanstack"
   ],
 
   "compilerOptions": {

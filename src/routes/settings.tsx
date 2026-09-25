@@ -28,15 +28,10 @@ function SettingsPage() {
   const user = data?.user || storedUser
 
   useEffect(() => {
-    if (hasHydrated && !isPending) {
-      if (data && !data.session) {
-        logout()
-        navigate({ to: '/login', replace: true })
-      } else if (!data?.session && !storedUser) {
-        navigate({ to: '/login', replace: true })
-      }
+    if (hasHydrated && !isPending && !data && !storedUser) {
+      navigate({ to: '/login', replace: true })
     }
-  }, [hasHydrated, isPending, data, storedUser, logout, navigate])
+  }, [hasHydrated, isPending, data, storedUser, navigate])
 
   useEffect(() => {
     if (user?.name) {

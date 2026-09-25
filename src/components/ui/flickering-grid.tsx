@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface FlickeringGridProps {
@@ -66,7 +66,7 @@ export function FlickeringGrid({
   }, [width, height])
 
   const memoizedColor = useMemo(() => {
-    const toRGBA = (color: string) => {
+    const toRGBA = (c: string) => {
       if (typeof window === "undefined") {
         return `rgba(0, 0, 0,`
       }
@@ -74,7 +74,7 @@ export function FlickeringGrid({
       canvas.width = canvas.height = 1
       const ctx = canvas.getContext("2d")
       if (!ctx) return "rgba(255, 0, 0,"
-      ctx.fillStyle = color
+      ctx.fillStyle = c
       ctx.fillRect(0, 0, 1, 1)
       const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data)
       return `rgba(${r}, ${g}, ${b},`
@@ -83,14 +83,14 @@ export function FlickeringGrid({
   }, [color])
 
   const setupCanvas = useCallback(
-    (canvas: HTMLCanvasElement, width: number, height: number) => {
+    (canvas: HTMLCanvasElement, w: number, h: number) => {
       const dpr = window.devicePixelRatio || 1
-      canvas.width = width * dpr
-      canvas.height = height * dpr
-      canvas.style.width = `${width}px`
-      canvas.style.height = `${height}px`
-      const cols = Math.floor(width / (squareSize + gridGap))
-      const rows = Math.floor(height / (squareSize + gridGap))
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      const cols = Math.floor(w / (squareSize + gridGap))
+      const rows = Math.floor(h / (squareSize + gridGap))
 
       const squares = new Float32Array(cols * rows)
       for (let i = 0; i < squares.length; i++) {
@@ -116,16 +116,16 @@ export function FlickeringGrid({
   const drawGrid = useCallback(
     (
       ctx: CanvasRenderingContext2D,
-      width: number,
-      height: number,
+      w: number,
+      h: number,
       cols: number,
       rows: number,
       squares: Float32Array,
       dpr: number
     ) => {
-      ctx.clearRect(0, 0, width, height)
+      ctx.clearRect(0, 0, w, h)
       ctx.fillStyle = "transparent"
-      ctx.fillRect(0, 0, width, height)
+      ctx.fillRect(0, 0, w, h)
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {

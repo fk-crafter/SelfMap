@@ -1,10 +1,6 @@
-"use client"
-
-import { useMousePosition } from "@/lib/hooks/use-mouse-position"
 import { cn } from "@/lib/utils"
 import { motion, useMotionTemplate, useMotionValue } from "motion/react"
 import type { ReactNode } from "react"
-import { useEffect, useRef } from "react"
 
 export interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradientSize?: number
