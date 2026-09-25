@@ -88,6 +88,8 @@ export function buildPolarCheckoutUrl({
     if (userId) {
       // Polar supports metadata parameters in multiple formats depending on checkout config
       url.searchParams.set('metadata[userId]', userId)
+      url.searchParams.set('checkout[metadata][userId]', userId)
+      url.searchParams.set('customer_metadata[userId]', userId)
       url.searchParams.set('userId', userId)
     }
 
