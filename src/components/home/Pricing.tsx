@@ -132,7 +132,7 @@ export function Pricing() {
                 </p>
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-4xl font-bold text-[#e9c349]">
-                    ${isYearly ? '10' : '15'}
+                    ${isYearly ? '12' : '15'}
                   </span>
                   <span className="text-sm text-[#c8c5d0]/70">/month</span>
                 </div>
@@ -140,10 +140,10 @@ export function Pricing() {
                   {isYearly && (
                     <>
                       <span className="text-xs text-[#c8c5d0]/50">
-                        Billed $120 annually
+                        Billed $144 annually
                       </span>
                       <span className="rounded-full bg-[#e9c349]/20 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#e9c349]">
-                        Save 33%
+                        Save 20%
                       </span>
                     </>
                   )}

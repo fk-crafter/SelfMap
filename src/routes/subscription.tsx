@@ -42,6 +42,11 @@ const FAQS = [
       'The Sanctuary subscription is handled securely by Polar. Once payment is confirmed, your account instantly upgrades to PRO status, unlocking extended access to 50 daily messages, adaptive memory, and real-time psychological synthesis.',
   },
   {
+    question: 'What is the advantage of the Annual plan?',
+    answer:
+      'The Annual plan ($144 billed yearly) offers full access for only $12/month instead of $15/month—saving 20% and giving you 2 full months free compared to standard monthly billing.',
+  },
+  {
     question: 'Can I cancel anytime?',
     answer:
       'Yes, absolutely. The subscription has no long-term commitment. You can cancel with one click from the Polar customer portal. Your PRO benefits will remain active until the end of your current billing period.',
@@ -66,6 +71,7 @@ function SubscriptionPage() {
   const setUser = useUserStore((state: any) => state.setUser)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
+  const [isYearly, setIsYearly] = useState(true)
   const [showConfigModal, setShowConfigModal] = useState(false)
   const [customCheckoutUrl, setCustomCheckoutUrl] = useState('')
 
@@ -104,11 +110,16 @@ function SubscriptionPage() {
       return
     }
 
-    const configuredUrl = POLAR_CONFIG.checkoutUrl.trim()
+    const configuredMonthlyUrl = POLAR_CONFIG.checkoutUrl.trim()
+    const configuredYearlyUrl = POLAR_CONFIG.yearlyCheckoutUrl.trim()
+    const activeUrl = isYearly
+      ? configuredYearlyUrl || configuredMonthlyUrl
+      : configuredMonthlyUrl
+
     const isExampleUrl =
-      !configuredUrl ||
-      configuredUrl.includes('example') ||
-      configuredUrl === ''
+      !activeUrl ||
+      activeUrl.includes('example') ||
+      activeUrl === ''
 
     if (isExampleUrl) {
       setShowConfigModal(true)
@@ -125,6 +136,7 @@ function SubscriptionPage() {
       userId: user.id,
       userEmail: user.email,
       returnUrl,
+      interval: isYearly ? 'year' : 'month',
     })
 
     if (checkoutUrl) {
@@ -227,6 +239,43 @@ function SubscriptionPage() {
           )}
         </div>
 
+        {/* Billing Interval Switcher */}
+        <div className="mt-8 flex items-center justify-center">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[rgba(197,192,254,0.03)] p-1.5 backdrop-blur-xl">
+            <button
+              type="button"
+              onClick={() => setIsYearly(false)}
+              className={`cursor-pointer rounded-full px-5 py-2 text-xs font-semibold transition-all ${
+                !isYearly
+                  ? 'bg-[#e9c349] text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.3)]'
+                  : 'text-[#c8c5d0]/70 hover:text-[#c9ebd0]'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsYearly(true)}
+              className={`group flex cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold transition-all ${
+                isYearly
+                  ? 'bg-[#e9c349] text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.3)]'
+                  : 'text-[#c8c5d0]/70 hover:text-[#c9ebd0]'
+              }`}
+            >
+              <span>Annual</span>
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                  isYearly
+                    ? 'bg-[#001809] text-[#e9c349]'
+                    : 'bg-[#e9c349]/20 text-[#e9c349]'
+                }`}
+              >
+                Save 20% • 2 months free
+              </span>
+            </button>
+          </div>
+        </div>
+
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isPlanActive =
@@ -242,31 +291,80 @@ function SubscriptionPage() {
                     : 'border border-white/5 bg-[rgba(197,192,254,0.02)] shadow-xl'
                 }`}
               >
-                {plan.popular && (
-                  <div className="absolute right-6 top-6">
+                {/* Header Controls & Ribbon */}
+                <div className="flex items-center justify-between">
+                  {plan.popular ? (
+                    <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/30 p-1 backdrop-blur-md">
+                      <span
+                        className={`pl-2 text-[10px] font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                      >
+                        Mo
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setIsYearly(!isYearly)}
+                        className="relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full bg-white/10 transition-colors duration-300 ease-in-out focus:outline-none"
+                        aria-label="Switch between monthly and annual"
+                      >
+                        <span
+                          className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-[#e9c349] transition duration-300 ease-in-out ${isYearly ? 'translate-x-4' : 'translate-x-1'}`}
+                        />
+                      </button>
+                      <span
+                        className={`pr-1 text-[10px] font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                      >
+                        Yr
+                      </span>
+                    </div>
+                  ) : (
+                    <div />
+                  )}
+
+                  {plan.popular && (
                     <span className="flex items-center gap-1 rounded-full bg-[#e9c349] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
                       <Crown className="h-3 w-3" />
-                      {plan.badge}
+                      {isYearly ? (plan.yearlyBadge || 'Save 20%') : plan.badge}
                     </span>
-                  </div>
-                )}
+                  )}
+                </div>
 
-                <div>
+                <div className="mt-4">
                   <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
                     {plan.name}
                   </h3>
                   <p className="mt-1 text-xs text-[#c8c5d0]/70">
-                    {plan.subtitle}
+                    {plan.id === 'PRO' && isYearly
+                      ? plan.yearlySubtitle
+                      : plan.subtitle}
                   </p>
 
                   <div className="mt-6 flex items-baseline gap-1">
+                    {plan.id === 'PRO' && isYearly && (
+                      <span className="mr-1 font-serif text-2xl text-[#c8c5d0]/40 line-through">
+                        $15
+                      </span>
+                    )}
                     <span className="font-serif text-4xl font-normal text-[#e9c349]">
-                      {plan.price}
+                      {plan.id === 'PRO' && isYearly
+                        ? plan.yearlyPrice
+                        : plan.price}
                     </span>
                     <span className="text-xs text-[#c8c5d0]/60">
-                      {plan.period}
+                      {plan.id === 'PRO' && isYearly
+                        ? plan.yearlyPeriod
+                        : plan.period}
                     </span>
                   </div>
+
+                  {plan.id === 'PRO' && (
+                    <div className="mt-1.5 flex items-center gap-1.5">
+                      <span className="rounded-full bg-[#e9c349]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#e9c349]">
+                        {isYearly
+                          ? '$144 Billed Annually (2 Months Free)'
+                          : 'Billed Monthly'}
+                      </span>
+                    </div>
+                  )}
 
                   <p className="mt-4 text-xs leading-relaxed text-[#c8c5d0]/80">
                     {plan.description}
@@ -335,7 +433,8 @@ function SubscriptionPage() {
                           </>
                         ) : (
                           <>
-                            Join the Sanctuary PRO
+                            Join the Sanctuary PRO{' '}
+                            {isYearly ? '($144/yr)' : '($15/mo)'}
                             <Zap className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
                           </>
                         )}

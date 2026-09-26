@@ -9,7 +9,11 @@ export interface PlanConfig {
   subtitle: string
   price: string
   period: string
+  yearlyPrice?: string
+  yearlyPeriod?: string
+  yearlySubtitle?: string
   badge?: string
+  yearlyBadge?: string
   description: string
   features: PlanFeature[]
   popular?: boolean
@@ -17,6 +21,10 @@ export interface PlanConfig {
 
 export const POLAR_CONFIG = {
   checkoutUrl: import.meta.env.VITE_POLAR_CHECKOUT_URL || '',
+  yearlyCheckoutUrl:
+    import.meta.env.VITE_POLAR_YEARLY_CHECKOUT_URL ||
+    import.meta.env.VITE_POLAR_CHECKOUT_URL ||
+    '',
   portalUrl:
     import.meta.env.VITE_POLAR_PORTAL_URL || 'https://polar.sh/customer-portal',
 }
@@ -28,6 +36,9 @@ export const PLANS: PlanConfig[] = [
     subtitle: 'Free forever',
     price: '$0',
     period: '/ month',
+    yearlyPrice: '$0',
+    yearlyPeriod: '/ year',
+    yearlySubtitle: 'Free forever',
     description:
       'Explore your psychological foundations and initiate your introspective journey.',
     features: [
@@ -43,7 +54,11 @@ export const PLANS: PlanConfig[] = [
     subtitle: 'Deep & continuous guidance',
     price: '$15',
     period: '/ month',
+    yearlyPrice: '$12',
+    yearlyPeriod: '/ month',
+    yearlySubtitle: 'Billed $144 annually (Save 20% • 2 months free)',
     badge: 'Recommended',
+    yearlyBadge: 'Save 20% • 2 Months Free',
     popular: true,
     description:
       'The ultimate introspective experience with persistent memory, continuous synthesis, and advanced calibration.',
@@ -65,12 +80,21 @@ export function buildPolarCheckoutUrl({
   userId,
   userEmail,
   returnUrl,
+  interval = 'month',
+  customUrl,
 }: {
   userId?: string
   userEmail?: string
   returnUrl?: string
+  interval?: 'month' | 'year'
+  customUrl?: string
 }): string {
-  const base = POLAR_CONFIG.checkoutUrl.trim()
+  const base = (
+    customUrl ||
+    (interval === 'year' && POLAR_CONFIG.yearlyCheckoutUrl
+      ? POLAR_CONFIG.yearlyCheckoutUrl
+      : POLAR_CONFIG.checkoutUrl)
+  ).trim()
   if (!base) return ''
 
   try {
