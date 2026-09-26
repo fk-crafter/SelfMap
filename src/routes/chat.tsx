@@ -143,13 +143,17 @@ function ChatPage() {
       if (
         result.reply &&
         (result.reply.includes('Sanctuaire') ||
+          result.reply.includes('Sanctuary') ||
           result.reply.includes('méditation profonde') ||
-          result.reply.includes('revenir demain'))
+          result.reply.includes('revenir demain') ||
+          result.reply.includes('daily limit') ||
+          result.reply.includes('deep meditation') ||
+          result.reply.includes('come back tomorrow'))
       ) {
-        toast('Limite quotidienne atteinte', {
-          description: 'Débloquez 50 messages quotidiens avec le Sanctuaire PRO.',
+        toast('Daily limit reached', {
+          description: 'Unlock 50 daily messages with Sanctuary PRO.',
           action: {
-            label: 'Débloquer',
+            label: 'Unlock',
             onClick: () => navigate({ to: '/subscription' }),
           },
         })
@@ -206,7 +210,7 @@ function ChatPage() {
               className="flex items-center gap-1 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-xs font-bold text-[#e9c349] transition-all hover:bg-[#e9c349]/20 hover:scale-105 active:scale-95 shrink-0 shadow-[0_0_10px_rgba(233,195,73,0.15)]"
             >
               <Crown className="h-3.5 w-3.5" />
-              <span>Sanctuaire</span>
+              <span>Sanctuary</span>
             </Link>
           )}
         </div>

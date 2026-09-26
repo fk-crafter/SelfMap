@@ -28,7 +28,7 @@ export const Route = createFileRoute('/')({
       {
         name: 'description',
         content:
-          'Découvre ton profil psychologique et échange au quotidien avec ton coach de vie IA.',
+          'Discover your psychological profile and engage daily with your personal AI life coach.',
       },
     ],
   }),

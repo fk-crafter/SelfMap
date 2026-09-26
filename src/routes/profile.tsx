@@ -117,20 +117,20 @@ function ProfilePage() {
           </span>
           <div className="mt-3 flex items-center gap-2">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#c8c5d0]">
-              Plan :{' '}
+              Plan:{' '}
               {profile.plan === 'PRO' ? (
-                <span className="font-bold text-[#e9c349]">Sanctuaire PRO 👑</span>
+                <span className="font-bold text-[#e9c349]">Sanctuary PRO 👑</span>
               ) : profile.plan === 'BETA' ? (
-                <span className="font-bold text-[#c5c0fe]">Membre BETA</span>
+                <span className="font-bold text-[#c5c0fe]">Founding Member BETA</span>
               ) : (
-                <span className="text-[#c8c5d0]/70">Gratuit</span>
+                <span className="text-[#c8c5d0]/70">Free</span>
               )}
             </span>
             <Link
               to="/subscription"
               className="text-xs font-semibold text-[#e9c349] underline-offset-4 hover:underline"
             >
-              {profile.plan === 'PRO' ? 'Gérer' : 'Passer à PRO'}
+              {profile.plan === 'PRO' ? 'Manage' : 'Upgrade to PRO'}
             </Link>
           </div>
         </div>

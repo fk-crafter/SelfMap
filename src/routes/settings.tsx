@@ -172,7 +172,7 @@ function SettingsPage() {
             <div className="flex items-center gap-2">
               <Crown className="h-5 w-5 text-[#e9c349]" />
               <h2 className="font-serif text-xl text-[#c9ebd0]">
-                Abonnement
+                Subscription
               </h2>
             </div>
             <span
@@ -183,17 +183,17 @@ function SettingsPage() {
               }`}
             >
               {(user as any)?.plan === 'PRO'
-                ? 'Sanctuaire PRO'
+                ? 'Sanctuary PRO'
                 : (user as any)?.plan === 'BETA'
-                ? 'Membre BETA'
-                : 'Gratuit'}
+                ? 'Founding Member BETA'
+                : 'Free'}
             </span>
           </div>
 
           <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
             {(user as any)?.plan === 'PRO'
-              ? 'Vous profitez de 50 messages quotidiens et de la mémoire adaptative. Vous pouvez gérer vos factures ou résilier à tout moment.'
-              : 'Passez au Sanctuaire PRO pour débloquer 50 messages quotidiens, la mémoire continue et la guidance illimitée.'}
+              ? 'You enjoy 50 daily messages and continuous adaptive memory. You can manage your invoices or cancel anytime.'
+              : 'Upgrade to Sanctuary PRO to unlock 50 daily messages, continuous memory, and deep psychological guidance.'}
           </p>
 
           <Button
@@ -202,8 +202,8 @@ function SettingsPage() {
           >
             <Link to="/subscription">
               {(user as any)?.plan === 'PRO'
-                ? 'Gérer mon abonnement'
-                : 'Découvrir le Sanctuaire PRO'}
+                ? 'Manage Subscription'
+                : 'Upgrade to Sanctuary PRO'}
             </Link>
           </Button>
         </Card>
@@ -211,7 +211,7 @@ function SettingsPage() {
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
           <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">Session</h2>
           <p className="mb-6 text-xs text-[#c8c5d0]/70">
-            Déconnectez-vous de votre compte sur cet appareil en toute sécurité.
+            Securely sign out of your account on this device.
           </p>
           <Button
             onClick={handleLogout}

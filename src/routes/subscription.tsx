@@ -30,24 +30,24 @@ export const Route = createFileRoute('/subscription')({
 
 const FAQS = [
   {
-    question: 'Comment fonctionne l’abonnement au Sanctuaire ?',
+    question: 'How does the Sanctuary subscription work?',
     answer:
-      'L’abonnement au Sanctuaire est géré de façon 100% sécurisée par Polar. Une fois le paiement validé, votre compte passe instantanément au statut PRO et débloque l’accès étendu à 50 messages quotidiens, la mémoire adaptative et la synthèse psychologique en temps réel.',
+      'The Sanctuary subscription is handled securely by Polar. Once payment is confirmed, your account instantly upgrades to PRO status, unlocking extended access to 50 daily messages, adaptive memory, and real-time psychological synthesis.',
   },
   {
-    question: 'Puis-je résilier à tout moment ?',
+    question: 'Can I cancel anytime?',
     answer:
-      'Oui, absolument. L’abonnement est sans aucun engagement de durée. Vous pouvez le résilier en un clic depuis le portail client Polar. Vos avantages PRO resteront actifs jusqu’à la fin de la période de facturation en cours.',
+      'Yes, absolutely. The subscription has no long-term commitment. You can cancel with one click from the Polar customer portal. Your PRO benefits will remain active until the end of your current billing period.',
   },
   {
-    question: 'Mes données et conversations sont-elles protégées ?',
+    question: 'Are my data and conversations private?',
     answer:
-      'La confidentialité de votre cheminement intérieur est notre priorité absolue. Vos échanges avec le Soul Coach et vos bilans psychologiques sont strictement chiffrés et ne sont jamais partagés ni revendus.',
+      'The confidentiality of your inner journey is our absolute priority. Your conversations with the Soul Coach and your psychological reports are strictly encrypted and never shared or sold.',
   },
   {
-    question: 'Que se passe-t-il si j’étais sur le plan gratuit ?',
+    question: 'What happens to my previous data?',
     answer:
-      'Toutes vos données antérieures, votre profil MBTI, vos scores de calibrage et vos entrées de journal sont intégralement conservés et enrichis par les capacités avancées du Sanctuaire.',
+      'All your previous data, MBTI profile, calibration scores, and journal entries are fully preserved and enhanced by the advanced capabilities of the Sanctuary.',
   },
 ]
 
@@ -70,7 +70,7 @@ function SubscriptionPage() {
   useEffect(() => {
     if (search.success) {
       toast.success(
-        'Félicitations ! Votre accès au Sanctuaire PRO a été validé.',
+        'Congratulations! Your PRO access to the Sanctuary has been activated.',
         {
           duration: 5000,
         },
@@ -82,13 +82,13 @@ function SubscriptionPage() {
         }
       })
     } else if (search.canceled) {
-      toast.info('Le paiement a été interrompu. Vous pouvez réessayer à tout moment.')
+      toast.info('Payment was interrupted. You can try again anytime.')
     }
   }, [search.success, search.canceled, refetch, setUser])
 
   const handleSubscribe = () => {
     if (!user) {
-      toast.info('Veuillez vous connecter pour souscrire au Sanctuaire')
+      toast.info('Please log in to join the Sanctuary')
       navigate({ to: '/login' })
       return
     }
@@ -125,7 +125,7 @@ function SubscriptionPage() {
       window.location.href = checkoutUrl
     } else {
       setIsRedirecting(false)
-      toast.error('Impossible de générer le lien de paiement.')
+      toast.error('Unable to generate payment checkout link.')
     }
   }
 
@@ -165,7 +165,7 @@ function SubscriptionPage() {
         <div className="flex items-center gap-2">
           <Crown className="h-5 w-5 text-[#e9c349]" />
           <h1 className="font-serif text-xl font-normal tracking-tight text-[#e9c349]">
-            Le Sanctuaire
+            The Sanctuary
           </h1>
         </div>
         <div className="w-10" />
@@ -182,10 +182,10 @@ function SubscriptionPage() {
               </div>
               <div>
                 <h3 className="font-serif text-lg font-bold text-[#e9c349]">
-                  Bienvenue dans le Sanctuaire !
+                  Welcome to the Sanctuary!
                 </h3>
                 <p className="mt-1 text-sm text-[#c8c5d0]">
-                  Votre abonnement PRO a été activé avec succès. Vous bénéficiez désormais de 50 messages quotidiens et de la mémoire adaptative continue.
+                  Your PRO subscription has been activated successfully. You now have access to 50 daily messages and continuous adaptive memory.
                 </p>
               </div>
             </div>
@@ -196,29 +196,29 @@ function SubscriptionPage() {
         <div className="text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
             <Sparkles className="h-3.5 w-3.5" />
-            Élévation Introspective
+            Introspective Elevation
           </span>
           <h2 className="mt-4 font-serif text-3xl font-normal tracking-tight text-[#c9ebd0] sm:text-5xl">
-            Débloquez la Pleine Puissance de votre Soul Coach
+            Unlock the Full Power of your Soul Coach
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#c8c5d0]/80 sm:text-base">
-            Accédez à une guidance psychologique sans interruption, une mémoire adaptative continue et un calibrage de personnalité illimité.
+            Access uninterrupted psychological guidance, continuous adaptive memory, and unlimited personality calibration.
           </p>
 
           {/* Current Status Pill */}
           {user && (
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-[#c8c5d0]">
-              <span>Votre plan actuel :</span>
+              <span>Your current plan:</span>
               <span
                 className={`font-bold uppercase tracking-wider ${
                   isPro ? 'text-[#e9c349]' : 'text-[#c5c0fe]'
                 }`}
               >
                 {currentPlan === 'PRO'
-                  ? 'Sanctuaire PRO'
+                  ? 'Sanctuary PRO'
                   : currentPlan === 'BETA'
-                  ? 'Membre Fondateur BETA'
-                  : 'Gratuit (Éveil)'}
+                  ? 'Founding Member BETA'
+                  : 'Free (Awakening)'}
               </span>
             </div>
           )}
@@ -309,14 +309,14 @@ function SubscriptionPage() {
                           className="w-full cursor-default rounded-full border border-[#e9c349]/40 bg-[#e9c349]/20 py-6 text-sm font-bold text-[#e9c349]"
                         >
                           <Check className="mr-2 h-4 w-4" />
-                          Plan Actuel
+                          Current Plan
                         </Button>
                         <Button
                           onClick={() => window.open(POLAR_CONFIG.portalUrl, '_blank')}
                           variant="ghost"
                           className="w-full text-xs text-[#c8c5d0]/70 hover:text-[#e9c349]"
                         >
-                          Gérer mon abonnement (Factures & Résiliation)
+                          Manage Subscription (Billing & Cancellation)
                           <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
                         </Button>
                       </div>
@@ -329,11 +329,11 @@ function SubscriptionPage() {
                         {isRedirecting ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Connexion à Polar...
+                            Connecting to Polar...
                           </>
                         ) : (
                           <>
-                            Rejoindre le Sanctuaire PRO
+                            Join the Sanctuary PRO
                             <Zap className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
                           </>
                         )}
@@ -345,7 +345,7 @@ function SubscriptionPage() {
                       variant="outline"
                       className="w-full rounded-full border-white/10 bg-white/5 py-6 text-sm text-[#c8c5d0]"
                     >
-                      {isPlanActive ? 'Formule Actuelle' : 'Plan Standard Inclus'}
+                      {isPlanActive ? 'Current Plan' : 'Standard Plan Included'}
                     </Button>
                   )}
                 </div>
@@ -358,17 +358,17 @@ function SubscriptionPage() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-5 text-center text-xs text-[#c8c5d0]/70">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
-            <span>Paiement sécurisé par Polar</span>
+            <span>Secure payment powered by Polar</span>
           </div>
           <div className="h-3 w-px bg-white/10 hidden sm:block" />
           <div className="flex items-center gap-2">
             <Lock className="h-4 w-4 text-[#e9c349]" />
-            <span>Chiffrement SSL 256 bits</span>
+            <span>256-bit SSL encryption</span>
           </div>
           <div className="h-3 w-px bg-white/10 hidden sm:block" />
           <div className="flex items-center gap-2">
             <Crown className="h-4 w-4 text-[#e9c349]" />
-            <span>Résiliable en 1 clic sans condition</span>
+            <span>Cancel anytime in 1 click</span>
           </div>
         </div>
 
@@ -381,7 +381,7 @@ function SubscriptionPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#e9c349] hover:underline"
             >
-              Accéder au Portail Client Polar pour gérer vos reçus et moyens de paiement
+              Access Polar Customer Portal to manage receipts and payment methods
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
@@ -391,10 +391,10 @@ function SubscriptionPage() {
         <div className="mt-16">
           <div className="text-center">
             <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
-              Questions Fréquentes
+              Frequently Asked Questions
             </h3>
             <p className="mt-1 text-xs text-[#c8c5d0]/60">
-              Tout ce que vous devez savoir sur le Sanctuaire et la facturation.
+              Everything you need to know about the Sanctuary and billing.
             </p>
           </div>
 
@@ -432,14 +432,14 @@ function SubscriptionPage() {
           <div className="w-full max-w-md rounded-3xl border border-[#e9c349]/30 bg-[#032110] p-6 shadow-2xl">
             <div className="flex items-center gap-3 text-[#e9c349]">
               <Crown className="h-6 w-6" />
-              <h3 className="font-serif text-xl">Lien de paiement Polar</h3>
+              <h3 className="font-serif text-xl">Polar Checkout Link</h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-[#c8c5d0]/80">
-              Pour connecter vos paiements réels, définissez la variable d’environnement <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">VITE_POLAR_CHECKOUT_URL</code> dans votre fichier <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">.env</code> avec le lien de checkout de votre produit Polar.
+              To connect your live payments, set the <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">VITE_POLAR_CHECKOUT_URL</code> environment variable in your <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">.env</code> file with your Polar product checkout link.
             </p>
             <div className="mt-4 space-y-2">
               <label className="text-[11px] font-bold uppercase tracking-wider text-[#c8c5d0]/60">
-                Ou collez votre lien de checkout Polar :
+                Or paste your Polar checkout link:
               </label>
               <input
                 type="url"
@@ -455,14 +455,14 @@ function SubscriptionPage() {
                 onClick={() => setShowConfigModal(false)}
                 className="rounded-full text-xs text-[#c8c5d0]"
               >
-                Annuler
+                Cancel
               </Button>
               <Button
                 disabled={!customCheckoutUrl.trim()}
                 onClick={handleLaunchCustomCheckout}
                 className="rounded-full bg-[#e9c349] text-xs font-bold text-[#001809]"
               >
-                Ouvrir le paiement
+                Open Checkout
               </Button>
             </div>
           </div>

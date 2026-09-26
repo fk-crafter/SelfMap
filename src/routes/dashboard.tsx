@@ -177,7 +177,7 @@ function DashboardPage() {
       setShowReveal(true)
     } catch (err: any) {
       alert(`DEBUG MODE - ERREUR EXACTE : ${err.message}`)
-      toast.error('La génération a échoué. Veuillez réessayer.')
+      toast.error('Coach generation failed. Please try again.')
     } finally {
       setIsGenerating(false)
     }
@@ -351,15 +351,14 @@ function DashboardPage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <h4 className="font-serif text-base font-bold text-[#e9c349]">
-                          Le Sanctuaire PRO
+                          The Sanctuary PRO
                         </h4>
                         <span className="rounded-full bg-[#e9c349] px-2 py-0.5 text-[9px] font-extrabold uppercase text-[#001809]">
-                          Découvrir
+                          Upgrade
                         </span>
                       </div>
                       <p className="text-xs text-[#c8c5d0]/70">
-                        50 messages/jour, mémoire continue & guidance
-                        approfondie
+                        50 messages/day, continuous memory & deep guidance
                       </p>
                     </div>
                   </div>
