@@ -117,9 +117,7 @@ function SubscriptionPage() {
       : configuredMonthlyUrl
 
     const isExampleUrl =
-      !activeUrl ||
-      activeUrl.includes('example') ||
-      activeUrl === ''
+      !activeUrl || activeUrl.includes('example') || activeUrl === ''
 
     if (isExampleUrl) {
       setShowConfigModal(true)
@@ -239,43 +237,6 @@ function SubscriptionPage() {
           )}
         </div>
 
-        {/* Billing Interval Switcher */}
-        <div className="mt-8 flex items-center justify-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[rgba(197,192,254,0.03)] p-1.5 backdrop-blur-xl">
-            <button
-              type="button"
-              onClick={() => setIsYearly(false)}
-              className={`cursor-pointer rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                !isYearly
-                  ? 'bg-[#e9c349] text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.3)]'
-                  : 'text-[#c8c5d0]/70 hover:text-[#c9ebd0]'
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsYearly(true)}
-              className={`group flex cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                isYearly
-                  ? 'bg-[#e9c349] text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.3)]'
-                  : 'text-[#c8c5d0]/70 hover:text-[#c9ebd0]'
-              }`}
-            >
-              <span>Annual</span>
-              <span
-                className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                  isYearly
-                    ? 'bg-[#001809] text-[#e9c349]'
-                    : 'bg-[#e9c349]/20 text-[#e9c349]'
-                }`}
-              >
-                Save 20% • 2 months free
-              </span>
-            </button>
-          </div>
-        </div>
-
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isPlanActive =
@@ -285,18 +246,17 @@ function SubscriptionPage() {
             return (
               <Card
                 key={plan.id}
-                className={`relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] p-8 backdrop-blur-xl transition-all duration-300 ${
+                className={`relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl transition-all duration-300 ${
                   plan.popular
                     ? 'border-2 border-[#e9c349]/50 bg-linear-to-b from-[#e9c349]/10 to-[rgba(197,192,254,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.12)]'
                     : 'border border-white/5 bg-[rgba(197,192,254,0.02)] shadow-xl'
                 }`}
               >
-                {/* Header Controls & Ribbon */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2.5">
                   {plan.popular ? (
-                    <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/30 p-1 backdrop-blur-md">
+                    <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-2.5 py-1 backdrop-blur-md whitespace-nowrap">
                       <span
-                        className={`pl-2 text-[10px] font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                        className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                       >
                         Mo
                       </span>
@@ -311,7 +271,7 @@ function SubscriptionPage() {
                         />
                       </button>
                       <span
-                        className={`pr-1 text-[10px] font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                        className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                       >
                         Yr
                       </span>
@@ -321,9 +281,11 @@ function SubscriptionPage() {
                   )}
 
                   {plan.popular && (
-                    <span className="flex items-center gap-1 rounded-full bg-[#e9c349] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
-                      <Crown className="h-3 w-3" />
-                      {isYearly ? (plan.yearlyBadge || 'Save 20%') : plan.badge}
+                    <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-[#e9c349] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
+                      <Crown className="h-3 w-3 shrink-0" />
+                      <span>
+                        {isYearly ? plan.yearlyBadge || 'Save 20%' : plan.badge}
+                      </span>
                     </span>
                   )}
                 </div>
@@ -357,11 +319,11 @@ function SubscriptionPage() {
                   </div>
 
                   {plan.id === 'PRO' && (
-                    <div className="mt-1.5 flex items-center gap-1.5">
-                      <span className="rounded-full bg-[#e9c349]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#e9c349]">
+                    <div className="mt-2 flex items-center">
+                      <span className="inline-flex items-center whitespace-nowrap rounded-full bg-[#e9c349]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#e9c349]">
                         {isYearly
-                          ? '$144 Billed Annually (2 Months Free)'
-                          : 'Billed Monthly'}
+                          ? '$144 billed annually (2 months free)'
+                          : 'Billed monthly'}
                       </span>
                     </div>
                   )}

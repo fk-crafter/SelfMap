@@ -58,7 +58,7 @@ export const PLANS: PlanConfig[] = [
     yearlyPeriod: '/ month',
     yearlySubtitle: 'Billed $144 annually (Save 20% • 2 months free)',
     badge: 'Recommended',
-    yearlyBadge: 'Save 20% • 2 Months Free',
+    yearlyBadge: 'Save 20%',
     popular: true,
     description:
       'The ultimate introspective experience with persistent memory, continuous synthesis, and advanced calibration.',

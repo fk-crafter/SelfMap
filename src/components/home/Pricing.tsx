@@ -101,10 +101,9 @@ export function Pricing() {
                   The Sanctuary
                 </div>
 
-                {/* Mini Toggle Intégré */}
-                <div className="flex items-center gap-2 rounded-full border border-white/5 bg-black/20 p-1 backdrop-blur-md">
+                <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-2.5 py-1 backdrop-blur-md whitespace-nowrap">
                   <span
-                    className={`pl-2 text-[10px] font-medium transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                    className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                   >
                     Mo
                   </span>
@@ -112,13 +111,14 @@ export function Pricing() {
                     type="button"
                     onClick={() => setIsYearly(!isYearly)}
                     className="relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full bg-white/10 transition-colors duration-300 ease-in-out focus:outline-none"
+                    aria-label="Switch between monthly and annual"
                   >
                     <span
                       className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-[#e9c349] transition duration-300 ease-in-out ${isYearly ? 'translate-x-4' : 'translate-x-1'}`}
                     />
                   </button>
                   <span
-                    className={`pr-1 text-[10px] font-medium transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
+                    className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                   >
                     Yr
                   </span>
