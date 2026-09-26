@@ -41,7 +41,7 @@ export const PLANS: PlanConfig[] = [
     id: 'PRO',
     name: 'The Sanctuary',
     subtitle: 'Deep & continuous guidance',
-    price: '$9.99',
+    price: '$15',
     period: '/ month',
     badge: 'Recommended',
     popular: true,
