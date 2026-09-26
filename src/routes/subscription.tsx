@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button'
 import { PLANS, buildPolarCheckoutUrl, POLAR_CONFIG } from '@/lib/polar'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
+import { useTranslation } from 'react-i18next'
 
 type SubscriptionSearch = {
   success?: boolean
@@ -35,35 +36,8 @@ export const Route = createFileRoute('/subscription')({
   component: SubscriptionPage,
 })
 
-const FAQS = [
-  {
-    question: 'How does the Sanctuary subscription work?',
-    answer:
-      'The Sanctuary subscription is handled securely by Polar. Once payment is confirmed, your account instantly upgrades to PRO status, unlocking extended access to 50 daily messages, adaptive memory, and real-time psychological synthesis.',
-  },
-  {
-    question: 'What is the advantage of the Annual plan?',
-    answer:
-      'The Annual plan ($144 billed yearly) offers full access for only $12/month instead of $15/month—saving 20% and giving you 2 full months free compared to standard monthly billing.',
-  },
-  {
-    question: 'Can I cancel anytime?',
-    answer:
-      'Yes, absolutely. The subscription has no long-term commitment. You can cancel with one click from the Polar customer portal. Your PRO benefits will remain active until the end of your current billing period.',
-  },
-  {
-    question: 'Are my data and conversations private?',
-    answer:
-      'The confidentiality of your inner journey is our absolute priority. Your conversations with the Soul Coach and your psychological reports are strictly encrypted and never shared or sold.',
-  },
-  {
-    question: 'What happens to my previous data?',
-    answer:
-      'All your previous data, MBTI profile, calibration scores, and journal entries are fully preserved and enhanced by the advanced capabilities of the Sanctuary.',
-  },
-]
-
 function SubscriptionPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const search = Route.useSearch()
   const { data: sessionData, refetch } = authClient.useSession()
@@ -75,6 +49,29 @@ function SubscriptionPage() {
   const [showConfigModal, setShowConfigModal] = useState(false)
   const [customCheckoutUrl, setCustomCheckoutUrl] = useState('')
 
+  const FAQS = [
+    {
+      question: t('subscription.faq1Q'),
+      answer: t('subscription.faq1A'),
+    },
+    {
+      question: t('subscription.faq2Q'),
+      answer: t('subscription.faq2A'),
+    },
+    {
+      question: t('subscription.faq3Q'),
+      answer: t('subscription.faq3A'),
+    },
+    {
+      question: t('subscription.faq4Q'),
+      answer: t('subscription.faq4A'),
+    },
+    {
+      question: t('subscription.faq5Q'),
+      answer: t('subscription.faq5A'),
+    },
+  ]
+
   const user = sessionData?.user || storedUser
   const currentPlan = (user?.plan || 'FREE').toUpperCase()
   const isPro = currentPlan === 'PRO'
@@ -82,7 +79,7 @@ function SubscriptionPage() {
   useEffect(() => {
     if (search.success) {
       toast.success(
-        'Congratulations! Your PRO access to the Sanctuary has been activated.',
+        t('subscription.successToast'),
         {
           duration: 5000,
         },
@@ -94,13 +91,13 @@ function SubscriptionPage() {
         }
       })
     } else if (search.canceled) {
-      toast.info('Payment was interrupted. You can try again anytime.')
+      toast.info(t('subscription.cancelToast'))
     }
-  }, [search.success, search.canceled, refetch, setUser])
+  }, [search.success, search.canceled, refetch, setUser, t])
 
   const handleSubscribe = () => {
     if (!user) {
-      toast.info('Please log in to join the Sanctuary')
+      toast.info(t('subscription.loginToast'))
       navigate({ to: '/login' })
       return
     }
@@ -179,7 +176,7 @@ function SubscriptionPage() {
         <div className="flex items-center gap-2">
           <Crown className="h-5 w-5 text-[#e9c349]" />
           <h1 className="font-serif text-xl font-normal tracking-tight text-[#e9c349]">
-            The Sanctuary
+            {t('subscription.title')}
           </h1>
         </div>
         <div className="w-10" />
@@ -194,12 +191,10 @@ function SubscriptionPage() {
               </div>
               <div>
                 <h3 className="font-serif text-lg font-bold text-[#e9c349]">
-                  Welcome to the Sanctuary!
+                  {t('subscription.welcomeTitle')}
                 </h3>
                 <p className="mt-1 text-sm text-[#c8c5d0]">
-                  Your PRO subscription has been activated successfully. You now
-                  have access to 50 daily messages and continuous adaptive
-                  memory.
+                  {t('subscription.welcomeDesc')}
                 </p>
               </div>
             </div>
@@ -209,19 +204,18 @@ function SubscriptionPage() {
         <div className="text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
             <Sparkles className="h-3.5 w-3.5" />
-            Introspective Elevation
+            {t('subscription.elevation')}
           </span>
           <h2 className="mt-4 font-serif text-3xl font-normal tracking-tight text-[#c9ebd0] sm:text-5xl">
-            Unlock the Full Power of your Soul Coach
+            {t('subscription.heroTitle')}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#c8c5d0]/80 sm:text-base">
-            Access uninterrupted psychological guidance, continuous adaptive
-            memory, and unlimited personality calibration.
+            {t('subscription.heroSubtitle')}
           </p>
 
           {user && (
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-[#c8c5d0]">
-              <span>Your current plan:</span>
+              <span>{t('subscription.currentPlan')}</span>
               <span
                 className={`font-bold uppercase tracking-wider ${
                   isPro ? 'text-[#e9c349]' : 'text-[#c5c0fe]'
@@ -231,7 +225,7 @@ function SubscriptionPage() {
                   ? 'Sanctuary PRO'
                   : currentPlan === 'BETA'
                     ? 'Founding Member BETA'
-                    : 'Free (Awakening)'}
+                    : `${t('subscription.freePlanName')} (Awakening)`}
               </span>
             </div>
           )}
@@ -242,6 +236,26 @@ function SubscriptionPage() {
             const isPlanActive =
               (plan.id === 'FREE' && currentPlan === 'FREE') ||
               (plan.id === 'PRO' && isPro)
+
+            const planFeatures =
+              plan.id === 'FREE'
+                ? [
+                    { text: t('subscription.freeFeature1') },
+                    { text: t('subscription.freeFeature2') },
+                    { text: t('subscription.freeFeature3') },
+                    { text: t('subscription.freeFeature4') },
+                  ]
+                : [
+                    { text: t('subscription.proFeature1'), highlight: true },
+                    {
+                      text: t('subscription.proFeature2'),
+                      highlight: true,
+                    },
+                    { text: t('subscription.proFeature3') },
+                    { text: t('subscription.proFeature4') },
+                    { text: t('subscription.proFeature5') },
+                    { text: t('subscription.proFeature6') },
+                  ]
 
             return (
               <Card
@@ -258,7 +272,7 @@ function SubscriptionPage() {
                       <span
                         className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                       >
-                        Mo
+                        {t('subscription.mo')}
                       </span>
                       <button
                         type="button"
@@ -273,7 +287,7 @@ function SubscriptionPage() {
                       <span
                         className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
                       >
-                        Yr
+                        {t('subscription.yr')}
                       </span>
                     </div>
                   ) : (
@@ -284,7 +298,7 @@ function SubscriptionPage() {
                     <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-[#e9c349] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
                       <Crown className="h-3 w-3 shrink-0" />
                       <span>
-                        {isYearly ? plan.yearlyBadge || 'Save 20%' : plan.badge}
+                        {isYearly ? t('subscription.save20') : plan.badge}
                       </span>
                     </span>
                   )}
@@ -292,12 +306,16 @@ function SubscriptionPage() {
 
                 <div className="mt-4">
                   <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
-                    {plan.name}
+                    {plan.id === 'FREE'
+                      ? t('subscription.freePlanName')
+                      : t('subscription.proPlanName')}
                   </h3>
                   <p className="mt-1 text-xs text-[#c8c5d0]/70">
                     {plan.id === 'PRO' && isYearly
-                      ? plan.yearlySubtitle
-                      : plan.subtitle}
+                      ? t('subscription.proPlanYearlySubtitle')
+                      : plan.id === 'PRO'
+                        ? t('subscription.proPlanSubtitle')
+                        : t('subscription.freePlanSubtitle')}
                   </p>
 
                   <div className="mt-6 flex items-baseline gap-1">
@@ -313,8 +331,8 @@ function SubscriptionPage() {
                     </span>
                     <span className="text-xs text-[#c8c5d0]/60">
                       {plan.id === 'PRO' && isYearly
-                        ? plan.yearlyPeriod
-                        : plan.period}
+                        ? (t('subscription.mo') === 'Mois' ? '/ mois' : '/ month')
+                        : (t('subscription.mo') === 'Mois' ? '/ mois' : '/ month')}
                     </span>
                   </div>
 
@@ -322,20 +340,22 @@ function SubscriptionPage() {
                     <div className="mt-2 flex items-center">
                       <span className="inline-flex items-center whitespace-nowrap rounded-full bg-[#e9c349]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#e9c349]">
                         {isYearly
-                          ? '$144 billed annually (2 months free)'
-                          : 'Billed monthly'}
+                          ? t('subscription.billedAnnually')
+                          : t('subscription.billedMonthly')}
                       </span>
                     </div>
                   )}
 
                   <p className="mt-4 text-xs leading-relaxed text-[#c8c5d0]/80">
-                    {plan.description}
+                    {plan.id === 'FREE'
+                      ? t('subscription.freePlanDesc')
+                      : t('subscription.proPlanDesc')}
                   </p>
 
                   <div className="my-6 h-px w-full bg-white/10" />
 
                   <ul className="space-y-3.5 text-xs text-[#c8c5d0]">
-                    {plan.features.map((feature, idx) => (
+                    {planFeatures.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
                         <div
                           className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${
@@ -369,7 +389,7 @@ function SubscriptionPage() {
                           className="w-full cursor-default rounded-full border border-[#e9c349]/40 bg-[#e9c349]/20 py-6 text-sm font-bold text-[#e9c349]"
                         >
                           <Check className="mr-2 h-4 w-4" />
-                          Current Plan
+                          {t('subscription.currentPlanBtn')}
                         </Button>
                         <Button
                           onClick={() =>
@@ -378,7 +398,7 @@ function SubscriptionPage() {
                           variant="ghost"
                           className="w-full text-xs text-[#c8c5d0]/70 hover:text-[#e9c349]"
                         >
-                          Manage Subscription (Billing & Cancellation)
+                          {t('subscription.manageBtn')}
                           <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
                         </Button>
                       </div>
@@ -391,12 +411,14 @@ function SubscriptionPage() {
                         {isRedirecting ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Connecting to Polar...
+                            {t('subscription.connecting')}
                           </>
                         ) : (
                           <>
-                            Join the Sanctuary PRO{' '}
-                            {isYearly ? '($144/yr)' : '($15/mo)'}
+                            {t('subscription.joinPro')}{' '}
+                            {isYearly
+                              ? `($144/${t('subscription.yr').toLowerCase()})`
+                              : `($15/${t('subscription.mo').toLowerCase()})`}
                             <Zap className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
                           </>
                         )}
@@ -408,7 +430,9 @@ function SubscriptionPage() {
                       variant="outline"
                       className="w-full rounded-full border-white/10 bg-white/5 py-6 text-sm text-[#c8c5d0]"
                     >
-                      {isPlanActive ? 'Current Plan' : 'Standard Plan Included'}
+                      {isPlanActive
+                        ? t('subscription.currentPlanBtn')
+                        : t('subscription.standardIncluded')}
                     </Button>
                   )}
                 </div>
@@ -420,17 +444,17 @@ function SubscriptionPage() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-5 text-center text-xs text-[#c8c5d0]/70">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
-            <span>Secure payment powered by Polar</span>
+            <span>{t('subscription.securePayment')}</span>
           </div>
           <div className="h-3 w-px bg-white/10 hidden sm:block" />
           <div className="flex items-center gap-2">
             <Lock className="h-4 w-4 text-[#e9c349]" />
-            <span>256-bit SSL encryption</span>
+            <span>{t('subscription.ssl')}</span>
           </div>
           <div className="h-3 w-px bg-white/10 hidden sm:block" />
           <div className="flex items-center gap-2">
             <Crown className="h-4 w-4 text-[#e9c349]" />
-            <span>Cancel anytime in 1 click</span>
+            <span>{t('subscription.cancelAnytime')}</span>
           </div>
         </div>
 
@@ -442,8 +466,7 @@ function SubscriptionPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#e9c349] hover:underline"
             >
-              Access Polar Customer Portal to manage receipts and payment
-              methods
+              {t('subscription.portalLink')}
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
@@ -452,10 +475,10 @@ function SubscriptionPage() {
         <div className="mt-16">
           <div className="text-center">
             <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
-              Frequently Asked Questions
+              {t('subscription.faqTitle')}
             </h3>
             <p className="mt-1 text-xs text-[#c8c5d0]/60">
-              Everything you need to know about the Sanctuary and billing.
+              {t('subscription.faqSubtitle')}
             </p>
           </div>
 

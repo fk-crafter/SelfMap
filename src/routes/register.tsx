@@ -16,12 +16,14 @@ import {
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { registerSchema } from '@/lib/validations'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,
 })
 
 function RegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -52,7 +54,7 @@ function RegisterPage() {
     e.preventDefault()
 
     if (!acceptedTerms) {
-      setError('You must agree to the Terms of Service to continue.')
+      setError(t('auth.termsRequired'))
       return
     }
 
@@ -90,7 +92,7 @@ function RegisterPage() {
       sessionStorage.removeItem('hasSeenOnboarding')
       setEmailSent(true)
     } catch (err) {
-      setError('An unexpected error occurred.')
+      setError(t('auth.unexpectedError'))
       setIsLoading(false)
     }
   }
@@ -114,18 +116,18 @@ function RegisterPage() {
               <MailCheck className="h-8 w-8 text-[#e9c349]" />
             </div>
             <h1 className="mb-3 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
-              Check Your Email
+              {t('auth.checkEmail')}
             </h1>
             <p className="mb-8 text-sm leading-relaxed text-[#c8c5d0]/70">
-              We've sent a verification link to <br />
+              {t('auth.checkEmailSent')} <br />
               <span className="font-bold text-[#c9ebd0]">{email}</span>. <br />
-              Please verify your address to enter the sanctuary.
+              {t('auth.checkEmailVerify')}
             </p>
             <Button
               onClick={() => navigate({ to: '/login' })}
               className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold tracking-wider text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98]"
             >
-              GO TO LOGIN
+              {t('auth.goToLogin')}
             </Button>
           </div>
         ) : (
@@ -138,10 +140,10 @@ function RegisterPage() {
                 />
               </div>
               <h1 className="mb-2 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
-                Begin Your Journey
+                {t('auth.registerTitle')}
               </h1>
               <p className="text-sm font-medium text-[#c8c5d0]/70">
-                Connect with your deeper self through MBTI insights.
+                {t('auth.registerSubtitle')}
               </p>
             </div>
 
@@ -149,7 +151,7 @@ function RegisterPage() {
               <div className="space-y-4">
                 <Input
                   type="text"
-                  placeholder="Full Name"
+                  placeholder={t('auth.fullName')}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -158,7 +160,7 @@ function RegisterPage() {
 
                 <Input
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={t('auth.email')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -168,7 +170,7 @@ function RegisterPage() {
                 <div className="relative">
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
+                    placeholder={t('auth.password')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -190,7 +192,7 @@ function RegisterPage() {
                 <div className="relative">
                   <Input
                     type="text"
-                    placeholder="BETA Access Code"
+                    placeholder={t('auth.betaCode')}
                     value={vipCode}
                     onChange={(e) => setVipCode(e.target.value)}
                     className="h-12 w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] pl-12 pr-6 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
@@ -211,20 +213,20 @@ function RegisterPage() {
                   htmlFor="terms"
                   className="text-xs font-medium leading-relaxed text-[#c8c5d0]/70"
                 >
-                  I agree to the{' '}
-                  <a
-                    href="#"
+                  {t('auth.agreeTerms')}{' '}
+                  <Link
+                    to="/terms"
                     className="font-bold text-[#e9c349] hover:opacity-80 transition-opacity"
                   >
-                    Terms of Service
-                  </a>{' '}
-                  &{' '}
-                  <a
-                    href="#"
+                    {t('auth.termsOfService')}
+                  </Link>{' '}
+                  {t('auth.and')}{' '}
+                  <Link
+                    to="/privacy"
                     className="font-bold text-[#e9c349] hover:opacity-80 transition-opacity"
                   >
-                    Privacy Policy
-                  </a>
+                    {t('auth.privacyPolicy')}
+                  </Link>
                   .
                 </label>
               </div>
@@ -244,7 +246,7 @@ function RegisterPage() {
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    START MY JOURNEY <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('auth.startMyJourney')} <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>
@@ -252,7 +254,7 @@ function RegisterPage() {
               <div className="relative my-4 flex items-center justify-center">
                 <div className="absolute w-full border-t border-white/5"></div>
                 <span className="relative bg-[#001809] px-4 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/40 uppercase">
-                  OR
+                  {t('auth.or')}
                 </span>
               </div>
 
@@ -279,17 +281,17 @@ function RegisterPage() {
                     fill="#ffffff"
                   />
                 </svg>
-                Sign up with Google
+                {t('auth.signUpGoogle')}
               </Button>
             </form>
 
             <div className="mt-8 text-center text-xs font-medium text-[#c8c5d0]/60">
-              Already have an account?{' '}
+              {t('auth.alreadyAccount')}{' '}
               <Link
                 to="/login"
                 className="font-bold text-[#e9c349] hover:opacity-80 transition-opacity"
               >
-                Log In
+                {t('auth.logIn')}
               </Link>
             </div>
           </>
@@ -299,10 +301,10 @@ function RegisterPage() {
       {!emailSent && (
         <div className="mt-8 flex shrink-0 items-center justify-center gap-6 text-[10px] font-semibold text-[#c8c5d0]/30 sm:text-xs">
           <div className="flex items-center gap-1.5 uppercase tracking-wider">
-            <Lock className="h-3 w-3" /> Secure Data
+            <Lock className="h-3 w-3" /> {t('auth.secureData')}
           </div>
           <div className="flex items-center gap-1.5 uppercase tracking-wider">
-            <ShieldCheck className="h-3 w-3" /> Psychology Certified
+            <ShieldCheck className="h-3 w-3" /> {t('auth.psychologyCertified')}
           </div>
         </div>
       )}

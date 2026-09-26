@@ -31,7 +31,7 @@ function ChatPage() {
   const { data, isPending } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const user = (data?.user || storedUser) as ExtendedUser | undefined
   const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
@@ -39,7 +39,7 @@ function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hello. I'm your Soul Coach. What's on your mind today?",
+      content: t('chat.welcome'),
     },
   ])
   const [input, setInput] = useState('')
@@ -88,12 +88,12 @@ function ChatPage() {
           }
         }
       } catch (error) {
-        toast.error('Unable to load the history.')
+        toast.error(t('chat.historyError'))
       }
     }
 
     fetchHistory()
-  }, [user?.id])
+  }, [user?.id, t])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -150,16 +150,16 @@ function ChatPage() {
           result.reply.includes('deep meditation') ||
           result.reply.includes('come back tomorrow'))
       ) {
-        toast('Daily limit reached', {
-          description: 'Unlock 50 daily messages with Sanctuary PRO.',
+        toast(t('chat.dailyLimitTitle'), {
+          description: t('chat.dailyLimitDesc'),
           action: {
-            label: 'Unlock',
+            label: t('chat.unlock'),
             onClick: () => navigate({ to: '/subscription' }),
           },
         })
       }
     } catch (error) {
-      toast.error('The coach is unavailable for the moment.')
+      toast.error(t('chat.sendError'))
       setMessages((prev) => prev.slice(0, -1))
       setInput(userContent)
     } finally {
@@ -210,7 +210,7 @@ function ChatPage() {
               className="flex items-center gap-1 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-xs font-bold text-[#e9c349] transition-all hover:bg-[#e9c349]/20 hover:scale-105 active:scale-95 shrink-0 shadow-[0_0_10px_rgba(233,195,73,0.15)]"
             >
               <Crown className="h-3.5 w-3.5" />
-              <span>Sanctuary</span>
+              <span>{t('chat.sanctuary')}</span>
             </Link>
           )}
         </div>
@@ -287,7 +287,7 @@ function ChatPage() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Write to your coach..."
+            placeholder={t('chat.placeholder')}
             disabled={isLoading}
             className="w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.02)] px-6 py-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/30 focus:outline-none focus:ring-1 focus:ring-[#c5c0fe]/30 disabled:opacity-50 pr-14"
           />

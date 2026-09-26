@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, User, AlertTriangle, Crown, LogOut } from 'lucide-r
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
@@ -14,6 +15,7 @@ export const Route = createFileRoute('/settings')({
 
 function SettingsPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isPending } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
@@ -126,20 +128,20 @@ function SettingsPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <h1 className="font-serif text-2xl font-normal text-[#e9c349] tracking-tight">
-          Settings
+          {t('settings.title')}
         </h1>
       </header>
 
       <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-12 relative z-10">
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
           <h2 className="mb-6 font-serif text-xl text-[#c9ebd0]">
-            Edit Profile
+            {t('settings.editProfile')}
           </h2>
 
           <form onSubmit={handleUpdateName} className="space-y-5">
             <div className="space-y-2">
               <label className="pl-1 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/50 uppercase">
-                First Name
+                {t('settings.firstName')}
               </label>
               <div className="relative">
                 <Input
@@ -161,7 +163,7 @@ function SettingsPage() {
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                'Save Changes'
+                t('settings.saveChanges')
               )}
             </Button>
           </form>
@@ -172,7 +174,7 @@ function SettingsPage() {
             <div className="flex items-center gap-2">
               <Crown className="h-5 w-5 text-[#e9c349]" />
               <h2 className="font-serif text-xl text-[#c9ebd0]">
-                Subscription
+                {t('settings.subscription')}
               </h2>
             </div>
             <span
@@ -192,8 +194,8 @@ function SettingsPage() {
 
           <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
             {user?.plan === 'PRO'
-              ? 'You enjoy 50 daily messages and continuous adaptive memory. You can manage your invoices or cancel anytime.'
-              : 'Upgrade to Sanctuary PRO to unlock 50 daily messages, continuous memory, and deep psychological guidance.'}
+              ? t('settings.proDesc')
+              : t('settings.freeDesc')}
           </p>
 
           <Button
@@ -202,16 +204,16 @@ function SettingsPage() {
           >
             <Link to="/subscription">
               {user?.plan === 'PRO'
-                ? 'Manage Subscription'
-                : 'Upgrade to Sanctuary PRO'}
+                ? t('settings.manageSubscription')
+                : t('settings.upgradeSanctuary')}
             </Link>
           </Button>
         </Card>
 
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">Session</h2>
+          <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">{t('settings.session')}</h2>
           <p className="mb-6 text-xs text-[#c8c5d0]/70">
-            Securely sign out of your account on this device.
+            {t('settings.sessionDesc')}
           </p>
           <Button
             onClick={handleLogout}
@@ -219,24 +221,23 @@ function SettingsPage() {
             className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-[#c9ebd0] transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
+            {t('settings.signOut')}
           </Button>
         </Card>
 
         <Card className="mt-8 border border-[#93000a]/30 bg-[#93000a]/10 backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
           <div className="mb-3 flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-[#ffb4ab]" />
-            <h2 className="font-serif text-xl text-[#ffb4ab]">Danger Zone</h2>
+            <h2 className="font-serif text-xl text-[#ffb4ab]">{t('settings.dangerZone')}</h2>
           </div>
           <p className="mb-6 text-sm text-[#ffb4ab]/80 leading-relaxed">
-            Once you delete your account, there is no going back. All your data,
-            test results, and chat history will be permanently erased.
+            {t('settings.dangerDesc')}
           </p>
 
           {showDeleteConfirm ? (
             <div className="space-y-4 rounded-2xl bg-[#001206] p-5 border border-[#93000a]/30">
               <p className="text-center text-sm font-bold text-[#ffb4ab]">
-                Are you absolutely sure?
+                {t('settings.confirmDelete')}
               </p>
               <div className="flex gap-3">
                 <Button
@@ -245,7 +246,7 @@ function SettingsPage() {
                   disabled={isDeleting}
                   className="flex-1 rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] hover:bg-white/10 hover:text-white"
                 >
-                  Cancel
+                  {t('settings.cancel')}
                 </Button>
                 <Button
                   onClick={handleDeleteAccount}
@@ -255,7 +256,7 @@ function SettingsPage() {
                   {isDeleting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    'Yes, Delete'
+                    t('settings.yesDelete')
                   )}
                 </Button>
               </div>
@@ -265,7 +266,7 @@ function SettingsPage() {
               onClick={() => setShowDeleteConfirm(true)}
               className="flex h-12 w-full items-center justify-center rounded-full bg-[#93000a]/20 text-sm font-bold text-[#ffb4ab] border border-[#93000a]/50 transition-all hover:bg-[#93000a]/40 active:scale-[0.98]"
             >
-              Delete Account
+              {t('settings.deleteAccount')}
             </Button>
           )}
         </Card>

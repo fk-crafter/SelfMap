@@ -15,6 +15,7 @@ import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/journal')({
   component: JournalPage,
@@ -27,6 +28,7 @@ type JournalEntry = {
 }
 
 function JournalPage() {
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { data, isPending } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
@@ -56,11 +58,11 @@ function JournalPage() {
           setEntries(fetchedData)
         }
       } catch (error) {
-        toast.error('Failed to load entries')
+        toast.error(t('journal.failedLoad'))
       }
     }
     fetchEntries()
-  }, [user?.id])
+  }, [user?.id, t])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -82,10 +84,10 @@ function JournalPage() {
         const newEntry = await res.json()
         setEntries((prev) => [newEntry, ...prev])
         setContent('')
-        toast.success('Thought recorded')
+        toast.success(t('journal.thoughtRecorded'))
       }
     } catch (error) {
-      toast.error('Could not save your entry')
+      toast.error(t('journal.failedSave'))
     } finally {
       setIsLoading(false)
     }
@@ -102,10 +104,10 @@ function JournalPage() {
 
       if (res.ok) {
         setEntries((prev) => prev.filter((entry) => entry.id !== id))
-        toast.success('Entry removed')
+        toast.success(t('journal.entryRemoved'))
       }
     } catch (error) {
-      toast.error('Failed to delete entry')
+      toast.error(t('journal.failedDelete'))
     }
   }
 
@@ -130,7 +132,7 @@ function JournalPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <h1 className="font-serif text-2xl font-normal text-[#e9c349] tracking-tight">
-          Inner Journal
+          {t('journal.title')}
         </h1>
       </header>
 
@@ -146,9 +148,9 @@ function JournalPage() {
                 <BookOpen className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="font-serif text-xl text-[#c9ebd0]">New Entry</h2>
+                <h2 className="font-serif text-xl text-[#c9ebd0]">{t('journal.newEntry')}</h2>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
-                  What's on your mind?
+                  {t('journal.whatsOnYourMind')}
                 </p>
               </div>
             </div>
@@ -157,7 +159,7 @@ function JournalPage() {
               <Textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your thoughts here..."
+                placeholder={t('journal.placeholder')}
                 className="min-h-30 resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
               />
               <Button
@@ -170,7 +172,7 @@ function JournalPage() {
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    Save Entry
+                    {t('journal.save')}
                   </>
                 )}
               </Button>
@@ -180,7 +182,7 @@ function JournalPage() {
 
         <div className="space-y-4">
           <h3 className="pl-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
-            Past Entries
+            {t('journal.pastEntries')}
           </h3>
           {entries.length === 0 ? (
             <motion.div
@@ -193,15 +195,16 @@ function JournalPage() {
                 <PenLine className="h-5 w-5" />
               </div>
               <p className="text-sm font-medium text-[#c8c5d0]/50">
-                The blank page awaits.
+                {t('journal.blankPageAwaits')}
               </p>
               <p className="mt-1 text-xs text-[#c8c5d0]/30">
-                Your thoughts will be securely stored here.
+                {t('journal.thoughtsStoredHere')}
               </p>
             </motion.div>
           ) : (
             entries.map((entry, index) => {
               const entryDate = new Date(entry.createdAt)
+              const localeStr = i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US'
               return (
                 <motion.div
                   key={entry.id}
@@ -217,14 +220,14 @@ function JournalPage() {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex flex-col">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
-                          {entryDate.toLocaleDateString('en-US', {
+                          {entryDate.toLocaleDateString(localeStr, {
                             weekday: 'long',
                             month: 'short',
                             day: 'numeric',
                           })}
                         </span>
                         <span className="text-[10px] text-[#e9c349]/70">
-                          {entryDate.toLocaleTimeString('en-US', {
+                          {entryDate.toLocaleTimeString(localeStr, {
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
@@ -233,7 +236,7 @@ function JournalPage() {
                       <button
                         onClick={() => handleDelete(entry.id)}
                         className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 -mr-2"
-                        aria-label="Delete entry"
+                        aria-label={t('journal.delete')}
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

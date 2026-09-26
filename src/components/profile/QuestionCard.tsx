@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { useTranslation } from 'react-i18next'
 
 interface ApiQuestion {
   id: number
@@ -13,34 +14,35 @@ interface QuestionCardProps {
 }
 
 export function QuestionCard({ onAnswer }: QuestionCardProps) {
+  const { t } = useTranslation()
   const options = [
     {
       value: 2,
-      label: 'Agree',
+      label: t('test.agree'),
       size: 'h-12 w-12 sm:h-14 sm:w-14',
       activeColor: 'bg-[#e9c349] shadow-[0_0_20px_#e9c349]',
     },
     {
       value: 1,
-      label: 'Partially Agree',
+      label: t('test.partiallyAgree'),
       size: 'h-9 w-9 sm:h-10 sm:w-10',
       activeColor: 'bg-[#e9c349]/60 shadow-[0_0_15px_rgba(233,195,73,0.4)]',
     },
     {
       value: 0,
-      label: 'Neutral',
+      label: t('test.neutral'),
       size: 'h-6 w-6 sm:h-7 sm:w-7',
       activeColor: 'bg-[#c8c5d0]/50 shadow-[0_0_10px_rgba(200,197,208,0.3)]',
     },
     {
       value: -1,
-      label: 'Partially Disagree',
+      label: t('test.partiallyDisagree'),
       size: 'h-9 w-9 sm:h-10 sm:w-10',
       activeColor: 'bg-[#ffb4ab]/60 shadow-[0_0_15px_rgba(255,180,171,0.4)]',
     },
     {
       value: -2,
-      label: 'Disagree',
+      label: t('test.disagree'),
       size: 'h-12 w-12 sm:h-14 sm:w-14',
       activeColor: 'bg-[#ffb4ab] shadow-[0_0_20px_#ffb4ab]',
     },
@@ -50,10 +52,10 @@ export function QuestionCard({ onAnswer }: QuestionCardProps) {
     <div className="flex w-full max-w-xl flex-col items-center justify-center gap-8 rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-8 backdrop-blur-xl">
       <div className="flex w-full items-center justify-between px-2">
         <span className="font-serif text-sm font-medium tracking-wide text-[#e9c349]/80">
-          Agree
+          {t('test.agree')}
         </span>
         <span className="font-serif text-sm font-medium tracking-wide text-[#ffb4ab]/80">
-          Disagree
+          {t('test.disagree')}
         </span>
       </div>
 

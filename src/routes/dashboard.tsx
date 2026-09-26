@@ -17,6 +17,7 @@ import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useUserStore } from '@/store/userStore'
 import { PwaPrompt } from '#/components/layout/PwaPrompt'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -81,6 +82,7 @@ function ScrambleText({ text }: { text: string }) {
 
 function DashboardPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isPending, refetch } = authClient.useSession()
 
   const storedUser = useUserStore((state: any) => state.user)
@@ -197,16 +199,16 @@ function DashboardPage() {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
         <h1 className="mb-4 font-serif text-3xl font-normal text-[#e9c349]">
-          Profile incomplete
+          {t('dashboard.profileIncomplete')}
         </h1>
         <p className="mb-8 text-[#c8c5d0]/70">
-          You need to take the psychological test to configure your Soul Coach.
+          {t('dashboard.profileIncompleteDesc')}
         </p>
         <Button
           asChild
           className="rounded-full bg-[#e9c349] px-8 py-6 font-bold text-[#001809] hover:bg-[#e9c349]/90"
         >
-          <Link to="/test">Take the test</Link>
+          <Link to="/test">{t('dashboard.takeTest')}</Link>
         </Button>
       </div>
     )
@@ -218,7 +220,7 @@ function DashboardPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 backdrop-blur-xl px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
             <h3 className="mb-8 text-xs font-bold uppercase tracking-widest text-[#c8c5d0]">
-              Psychological Architecture
+              {t('dashboard.psychologicalArchitecture')}
             </h3>
             <p className="text-sm leading-relaxed text-[#c8c5d0]/90 mb-8">
               Initial cognitive mapping suggests a dominant <br />
@@ -235,7 +237,7 @@ function DashboardPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
             <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
-              Initialize Coach
+              {t('dashboard.initializeCoach')}
             </h2>
             <div className="mb-8 flex gap-3">
               {['male', 'female'].map((g) => (
@@ -248,7 +250,7 @@ function DashboardPage() {
                       : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
                   }`}
                 >
-                  {g.charAt(0).toUpperCase() + g.slice(1)}
+                  {g === 'male' ? t('dashboard.male') : t('dashboard.female')}
                 </button>
               ))}
             </div>
@@ -260,7 +262,7 @@ function DashboardPage() {
               {isGenerating ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                'CONTINUE'
+                t('dashboard.continue')
               )}
             </Button>
           </div>
@@ -281,10 +283,10 @@ function DashboardPage() {
           <div className="flex items-end justify-between px-2">
             <div>
               <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
-                Inner Sanctuary
+                {t('dashboard.innerSanctuary')}
               </h2>
               <h1 className="font-serif text-3xl font-normal text-[#c9ebd0] md:text-4xl">
-                Morning, {user.name}
+                {t('dashboard.greeting', { name: user.name })}
               </h1>
             </div>
             <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-2 text-xs font-bold tracking-widest text-[#e9c349]">
@@ -302,8 +304,7 @@ function DashboardPage() {
             </div>
 
             <div className="mx-auto max-w-[85%] mb-8 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-5 py-4 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md md:text-base">
-              "I noticed a shift in your patterns today. Shall we reflect on
-              your recent decisions?"
+              {t('dashboard.coachPrompt')}
             </div>
 
             <Button
@@ -311,7 +312,7 @@ function DashboardPage() {
               className="mx-auto w-full max-w-md rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
             >
               <Link to="/chat">
-                START REFLECTION <ArrowRight className="h-4 w-4" />
+                {t('dashboard.startReflection')} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </Card>
@@ -323,7 +324,7 @@ function DashboardPage() {
                   <PenLine className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
                 </div>
                 <span className="text-sm font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
-                  Quick Journal
+                  {t('dashboard.quickJournal')}
                 </span>
               </Card>
             </Link>
@@ -334,7 +335,7 @@ function DashboardPage() {
                   <Activity className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
                 </div>
                 <span className="text-sm font-bold text-[#c8c5d0] group-hover:text-[#e9c349]">
-                  Soul Map
+                  {t('dashboard.soulMap')}
                 </span>
               </Card>
             </Link>
@@ -351,14 +352,14 @@ function DashboardPage() {
                     <div>
                       <div className="flex items-center gap-2">
                         <h4 className="font-serif text-base font-bold text-[#e9c349]">
-                          The Sanctuary PRO
+                          {t('dashboard.sanctuaryPromoTitle')}
                         </h4>
                         <span className="rounded-full bg-[#e9c349] px-2 py-0.5 text-[9px] font-extrabold uppercase text-[#001809]">
-                          Upgrade
+                          {t('dashboard.upgrade')}
                         </span>
                       </div>
                       <p className="text-xs text-[#c8c5d0]/70">
-                        50 messages/day, continuous memory & deep guidance
+                        {t('dashboard.sanctuaryPromoSubtitle')}
                       </p>
                     </div>
                   </div>
@@ -372,7 +373,7 @@ function DashboardPage() {
             <div className="flex items-center gap-2 mb-4">
               <Sparkles className="h-5 w-5 text-[#e9c349]" />
               <h3 className="font-serif text-xl text-[#c9ebd0]">
-                Daily Insight
+                {t('dashboard.dailyInsight')}
               </h3>
             </div>
             <p className="text-base text-[#c8c5d0]/80 italic mb-6 leading-relaxed">
@@ -385,7 +386,7 @@ function DashboardPage() {
               to="/profile"
               className="text-xs font-bold tracking-wider text-[#e9c349] hover:opacity-80 transition-opacity"
             >
-              READ FULL ANALYSIS →
+              {t('dashboard.readAnalysis')}
             </Link>
           </Card>
         </div>

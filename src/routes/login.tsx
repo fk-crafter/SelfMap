@@ -16,12 +16,14 @@ import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { authSchema } from '@/lib/validations'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
 })
 
 function LoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const setUser = useUserStore((state) => state.setUser)
   const storedUser = useUserStore((state) => state.user)
@@ -82,7 +84,7 @@ function LoginPage() {
       setUser(resData.user)
       window.location.href = '/dashboard'
     } catch (err) {
-      setError('An unexpected error occurred.')
+      setError(t('auth.unexpectedError'))
       setIsLoading(false)
     }
   }
@@ -96,12 +98,12 @@ function LoginPage() {
       })
 
       if (resendError) {
-        toast.error('Failed to resend email. Please try again later.')
+        toast.error(t('auth.resendFailed'))
       } else {
-        toast.success('Verification email sent! Check your inbox.')
+        toast.success(t('auth.resendSuccess'))
       }
     } catch (err) {
-      toast.error('An unexpected error occurred.')
+      toast.error(t('auth.unexpectedError'))
     } finally {
       setIsResending(false)
     }
@@ -130,10 +132,10 @@ function LoginPage() {
                 />
               </div>
               <h1 className="mb-2 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
-                Welcome Back
+                {t('auth.loginTitle')}
               </h1>
               <p className="text-sm font-medium text-[#c8c5d0]/70">
-                Resume your journey to the inner sanctuary.
+                {t('auth.loginSubtitle')}
               </p>
             </div>
 
@@ -141,7 +143,7 @@ function LoginPage() {
               <div className="space-y-4">
                 <Input
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={t('auth.email')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -151,7 +153,7 @@ function LoginPage() {
                 <div className="relative">
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
+                    placeholder={t('auth.password')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -186,7 +188,7 @@ function LoginPage() {
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    ENTER SANCTUARY <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('auth.enterSanctuary')} <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>
@@ -194,7 +196,7 @@ function LoginPage() {
               <div className="relative my-4 flex items-center justify-center">
                 <div className="absolute w-full border-t border-white/5"></div>
                 <span className="relative bg-[#001809] px-4 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/40 uppercase sm:bg-transparent">
-                  OR
+                  {t('auth.or')}
                 </span>
               </div>
 
@@ -221,17 +223,17 @@ function LoginPage() {
                     fill="#ffffff"
                   />
                 </svg>
-                Continue with Google
+                {t('auth.continueGoogle')}
               </Button>
             </form>
 
             <div className="mt-8 text-center text-xs font-medium text-[#c8c5d0]/60">
-              First time here?{' '}
+              {t('auth.firstTime')}{' '}
               <Link
                 to="/register"
                 className="font-bold text-[#e9c349] transition-opacity hover:opacity-80"
               >
-                Begin the Journey
+                {t('auth.beginJourney')}
               </Link>
             </div>
           </>
@@ -241,11 +243,10 @@ function LoginPage() {
               <MailCheck className="h-8 w-8 text-[#e9c349]" />
             </div>
             <h2 className="mb-3 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
-              Sanctuary Awaits
+              {t('auth.sanctuaryAwaits')}
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-[#c8c5d0]/70">
-              Your soul is recognized, but your key must be verified. <br />
-              Please check your inbox for the confirmation link.
+              {t('auth.unverifiedDesc')}
             </p>
             <Button
               onClick={handleResendEmail}
@@ -255,14 +256,14 @@ function LoginPage() {
               {isResending ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
-                'RESEND VERIFICATION EMAIL'
+                t('auth.resendVerification')
               )}
             </Button>
             <button
               onClick={() => setIsUnverified(false)}
               className="mt-6 text-xs font-bold text-[#c8c5d0]/50 hover:text-[#e9c349] transition-colors uppercase tracking-wider"
             >
-              ← Back to Log in
+              ← {t('auth.backToLogin')}
             </button>
           </div>
         )}
@@ -270,10 +271,10 @@ function LoginPage() {
 
       <div className="mt-auto flex shrink-0 items-center justify-center gap-6 pt-8 text-[10px] font-semibold text-[#c8c5d0]/30 sm:mt-8 sm:pt-0 sm:text-xs">
         <div className="flex items-center gap-1.5 uppercase tracking-wider">
-          <Lock className="h-3 w-3" /> Secure Connection
+          <Lock className="h-3 w-3" /> {t('auth.secureConnection')}
         </div>
         <div className="flex items-center gap-1.5 uppercase tracking-wider">
-          <ShieldCheck className="h-3 w-3" /> Privacy Guarded
+          <ShieldCheck className="h-3 w-3" /> {t('auth.privacyGuarded')}
         </div>
       </div>
     </div>

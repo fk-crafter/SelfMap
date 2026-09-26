@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useUserStore } from '@/store/userStore'
 import { QuestionCard } from '@/components/profile/QuestionCard'
 import { questions as quizQuestions } from '../data/questions'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/test')({
   component: TestPage,
@@ -16,6 +17,7 @@ export const Route = createFileRoute('/test')({
 })
 
 function TestPage() {
+  const { t, i18n } = useTranslation()
   const { questions } = Route.useLoaderData()
   const navigate = useNavigate({ from: '/test' })
   const setProfile = useUserStore((state) => state.setProfile)
@@ -101,10 +103,10 @@ function TestPage() {
           <Loader2 className="h-12 w-12 animate-spin text-[#e9c349]" />
           <div>
             <h1 className="mb-3 font-serif text-4xl font-normal text-[#e9c349]">
-              Analyzing your essence...
+              {t('test.analyzing')}
             </h1>
             <p className="text-lg text-[#c8c5d0]">
-              We are configuring your Soul Coach based on your answers.
+              {t('test.analyzingDesc')}
             </p>
           </div>
         </div>
@@ -133,7 +135,7 @@ function TestPage() {
           className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-bold text-[#c9ebd0] transition-colors hover:text-[#e9c349] active:scale-95"
         >
           <ArrowLeft className="h-5 w-5" />
-          Back
+          {t('test.back')}
         </Link>
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
           {currentIndex + 1} / {questions.length}
@@ -144,10 +146,12 @@ function TestPage() {
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
           <div className="flex min-h-40 w-full flex-col items-center justify-center gap-4 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
-              Dimension {currentQuestion.dimension}
+              {t('test.dimension')} {currentQuestion.dimension}
             </p>
             <h2 className="max-w-3xl font-serif text-3xl font-normal leading-tight text-[#c9ebd0] sm:text-4xl md:text-5xl">
-              {currentQuestion.question}
+              {(i18n.language.startsWith('fr') && currentQuestion.questionFr)
+                ? currentQuestion.questionFr
+                : currentQuestion.question}
             </h2>
           </div>
 
@@ -157,8 +161,7 @@ function TestPage() {
 
       <footer className="pointer-events-none fixed bottom-0 left-0 right-0 z-10 flex flex-col items-center gap-4 bg-linear-to-t from-[#001809] via-[#001809] to-transparent px-6 py-8 text-center">
         <p className="max-w-md text-sm font-light italic text-[#c8c5d0]/60">
-          Answer with your first intuition. There are no right or wrong answers,
-          only your truth.
+          {t('test.footerHint')}
         </p>
       </footer>
     </div>

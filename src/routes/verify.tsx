@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { Loader2, ShieldCheck, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/verify')({
   validateSearch: (search: Record<string, unknown>): { token?: string } => {
@@ -14,6 +15,7 @@ export const Route = createFileRoute('/verify')({
 })
 
 function VerifyEmailPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const search = Route.useSearch()
   const token = search.token
@@ -66,10 +68,10 @@ function VerifyEmailPage() {
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-[#e9c349]" />
             <h1 className="font-serif text-2xl font-normal text-[#e9c349]">
-              Unlocking your Sanctuary...
+              {t('verify.unlocking')}
             </h1>
             <p className="text-sm text-[#c8c5d0]/70">
-              Please wait while we verify your email address.
+              {t('verify.unlockingDesc')}
             </p>
           </div>
         )}
@@ -80,10 +82,10 @@ function VerifyEmailPage() {
               <ShieldCheck className="h-7 w-7 text-[#e9c349]" />
             </div>
             <h1 className="font-serif text-2xl font-normal text-[#e9c349]">
-              Sanctuary Unlocked
+              {t('verify.unlocked')}
             </h1>
             <p className="text-sm text-[#c8c5d0]/70">
-              Your email has been successfully verified. Entering your space...
+              {t('verify.unlockedDesc')}
             </p>
           </div>
         )}
@@ -94,14 +96,14 @@ function VerifyEmailPage() {
               <AlertCircle className="h-7 w-7 text-red-400" />
             </div>
             <h1 className="font-serif text-2xl font-normal text-red-400">
-              Verification Failed
+              {t('verify.failed')}
             </h1>
             <p className="text-sm text-[#c8c5d0]/70">{errorMessage}</p>
             <Button
               onClick={() => navigate({ to: '/login' })}
               className="mt-4 h-12 w-full rounded-full bg-[#e9c349] text-sm font-bold text-[#001809]"
             >
-              GO TO LOGIN
+              {t('auth.goToLogin')}
             </Button>
           </div>
         )}

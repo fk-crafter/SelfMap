@@ -8,6 +8,7 @@ import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { useEffect, useState } from 'react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
@@ -26,6 +27,7 @@ type ExtendedUser = {
 
 function ProfilePage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isPending, refetch } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
@@ -66,16 +68,16 @@ function ProfilePage() {
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
         <h1 className="mb-4 font-serif text-3xl font-normal text-[#e9c349]">
-          Profile incomplete
+          {t('profile.profileIncomplete')}
         </h1>
         <p className="mb-8 text-[#c8c5d0]/70">
-          Take the test to discover your results.
+          {t('profile.takeTest')}
         </p>
         <Button
           asChild
           className="rounded-full bg-[#e9c349] px-8 py-6 font-bold text-[#001809] hover:bg-[#e9c349]/90"
         >
-          <Link to="/test">Take the test</Link>
+          <Link to="/test">{t('dashboard.takeTest')}</Link>
         </Button>
       </div>
     )
@@ -96,7 +98,7 @@ function ProfilePage() {
 
       <header className="sticky top-0 z-30 flex items-center justify-center border-b border-white/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
-          My Profile
+          {t('profile.title')}
         </h1>
       </header>
 
@@ -117,7 +119,7 @@ function ProfilePage() {
           </span>
           <div className="mt-3 flex items-center gap-2">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#c8c5d0]">
-              Plan:{' '}
+              {t('profile.plan')}{' '}
               {profile.plan === 'PRO' ? (
                 <span className="font-bold text-[#e9c349]">Sanctuary PRO 👑</span>
               ) : profile.plan === 'BETA' ? (
@@ -130,40 +132,40 @@ function ProfilePage() {
               to="/subscription"
               className="text-xs font-semibold text-[#e9c349] underline-offset-4 hover:underline"
             >
-              {profile.plan === 'PRO' ? 'Manage' : 'Upgrade to PRO'}
+              {profile.plan === 'PRO' ? t('profile.manage') : t('profile.upgrade')}
             </Link>
           </div>
         </div>
 
         <Card className="mt-10 rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 shadow-xl backdrop-blur-xl">
           <h3 className="mb-6 font-serif text-xl text-[#c9ebd0]">
-            Cognitive Mapping
+            {t('profile.cognitiveMapping')}
           </h3>
           <div className="flex flex-col gap-6">
             <DimensionBar
-              leftLabel="Extraverted"
-              rightLabel="Introverted"
+              leftLabel={t('profile.extraverted')}
+              rightLabel={t('profile.introverted')}
               leftValue={scores.E}
               rightValue={scores.I}
               colorClass="bg-[#e9c349] shadow-[0_0_10px_#e9c349]"
             />
             <DimensionBar
-              leftLabel="Sensing"
-              rightLabel="Intuition"
+              leftLabel={t('profile.sensing')}
+              rightLabel={t('profile.intuition')}
               leftValue={scores.S}
               rightValue={scores.N}
               colorClass="bg-[#c5c0fe] shadow-[0_0_10px_#c5c0fe]"
             />
             <DimensionBar
-              leftLabel="Thinking"
-              rightLabel="Feeling"
+              leftLabel={t('profile.thinking')}
+              rightLabel={t('profile.feeling')}
               leftValue={scores.T}
               rightValue={scores.F}
               colorClass="bg-[#c9ebd0] shadow-[0_0_10px_#c9ebd0]"
             />
             <DimensionBar
-              leftLabel="Judging"
-              rightLabel="Perceiving"
+              leftLabel={t('profile.judging')}
+              rightLabel={t('profile.perceiving')}
               leftValue={scores.J}
               rightValue={scores.P}
               colorClass="bg-[#ffb4ab] shadow-[0_0_10px_#ffb4ab]"
@@ -176,7 +178,7 @@ function ProfilePage() {
 
           <Card className="rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-6 shadow-xl backdrop-blur-xl">
             <h3 className="mb-3 font-serif text-xl text-[#c9ebd0]">
-              AI Analysis
+              {t('profile.aiAnalysis')}
             </h3>
             <p className="text-sm italic leading-relaxed text-[#c8c5d0]">
               "{profile.insight}"
