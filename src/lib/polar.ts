@@ -16,10 +16,7 @@ export interface PlanConfig {
 }
 
 export const POLAR_CONFIG = {
-  // Polar checkout URL for the PRO subscription (set in .env as VITE_POLAR_CHECKOUT_URL)
-  checkoutUrl:
-    import.meta.env.VITE_POLAR_CHECKOUT_URL || '',
-  // Polar customer portal URL (set in .env as VITE_POLAR_PORTAL_URL or defaults to polar.sh)
+  checkoutUrl: import.meta.env.VITE_POLAR_CHECKOUT_URL || '',
   portalUrl:
     import.meta.env.VITE_POLAR_PORTAL_URL || 'https://polar.sh/customer-portal',
 }
@@ -52,7 +49,10 @@ export const PLANS: PlanConfig[] = [
       'The ultimate introspective experience with persistent memory, continuous synthesis, and advanced calibration.',
     features: [
       { text: '50 daily interactions with your Soul Coach', highlight: true },
-      { text: 'Deep adaptive memory (key facts & continuous analysis)', highlight: true },
+      {
+        text: 'Deep adaptive memory (key facts & continuous analysis)',
+        highlight: true,
+      },
       { text: 'Real-time dynamic psychological synthesis' },
       { text: 'Continuous and unrestricted cognitive calibration' },
       { text: 'Priority access to all upcoming features' },
@@ -61,11 +61,6 @@ export const PLANS: PlanConfig[] = [
   },
 ]
 
-/**
- * Builds the Polar checkout URL with customer email and user ID in metadata.
- * The webhook backend in `backend/src/polar/polar.service.ts` looks for `data.metadata.userId`
- * to immediately activate the user's PRO plan upon payment.
- */
 export function buildPolarCheckoutUrl({
   userId,
   userEmail,
@@ -86,7 +81,6 @@ export function buildPolarCheckoutUrl({
     }
 
     if (userId) {
-      // Polar supports metadata parameters in multiple formats depending on checkout config
       url.searchParams.set('metadata[userId]', userId)
       url.searchParams.set('checkout[metadata][userId]', userId)
       url.searchParams.set('customer_metadata[userId]', userId)
@@ -100,7 +94,6 @@ export function buildPolarCheckoutUrl({
 
     return url.toString()
   } catch (e) {
-    // If base is a relative or custom link
     const params = new URLSearchParams()
     if (userEmail) params.set('customer_email', userEmail)
     if (userId) {

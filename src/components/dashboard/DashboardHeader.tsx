@@ -1,4 +1,4 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { User as UserIcon, Settings, LogOut, Shield, Crown } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
@@ -14,7 +14,6 @@ type DashboardHeaderProps = {
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const navigate = useNavigate()
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

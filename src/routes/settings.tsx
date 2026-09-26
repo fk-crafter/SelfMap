@@ -177,21 +177,21 @@ function SettingsPage() {
             </div>
             <span
               className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
-                (user as any)?.plan === 'PRO'
+                user?.plan === 'PRO'
                   ? 'bg-[#e9c349]/20 text-[#e9c349] border border-[#e9c349]/40'
                   : 'bg-white/5 text-[#c8c5d0]/70 border border-white/10'
               }`}
             >
-              {(user as any)?.plan === 'PRO'
+              {user?.plan === 'PRO'
                 ? 'Sanctuary PRO'
-                : (user as any)?.plan === 'BETA'
+                : user?.plan === 'BETA'
                 ? 'Founding Member BETA'
                 : 'Free'}
             </span>
           </div>
 
           <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
-            {(user as any)?.plan === 'PRO'
+            {user?.plan === 'PRO'
               ? 'You enjoy 50 daily messages and continuous adaptive memory. You can manage your invoices or cancel anytime.'
               : 'Upgrade to Sanctuary PRO to unlock 50 daily messages, continuous memory, and deep psychological guidance.'}
           </p>
@@ -201,7 +201,7 @@ function SettingsPage() {
             className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] hover:bg-[#e9c349]/90 active:scale-[0.98]"
           >
             <Link to="/subscription">
-              {(user as any)?.plan === 'PRO'
+              {user?.plan === 'PRO'
                 ? 'Manage Subscription'
                 : 'Upgrade to Sanctuary PRO'}
             </Link>

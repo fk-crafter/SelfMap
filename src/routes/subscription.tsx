@@ -20,10 +20,17 @@ import { PLANS, buildPolarCheckoutUrl, POLAR_CONFIG } from '@/lib/polar'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 
+type SubscriptionSearch = {
+  success?: boolean
+  canceled?: boolean
+}
+
 export const Route = createFileRoute('/subscription')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    success: search.success === 'true' || search.success === true,
-    canceled: search.canceled === 'true' || search.canceled === true,
+  validateSearch: (search: Record<string, unknown>): SubscriptionSearch => ({
+    success:
+      search.success === 'true' || search.success === true ? true : undefined,
+    canceled:
+      search.canceled === 'true' || search.canceled === true ? true : undefined,
   }),
   component: SubscriptionPage,
 })
@@ -66,7 +73,6 @@ function SubscriptionPage() {
   const currentPlan = (user?.plan || 'FREE').toUpperCase()
   const isPro = currentPlan === 'PRO'
 
-  // Handle return from Polar checkout with ?success=true
   useEffect(() => {
     if (search.success) {
       toast.success(
@@ -75,8 +81,8 @@ function SubscriptionPage() {
           duration: 5000,
         },
       )
-      // Refetch session to load newly assigned PRO plan from backend
-      refetch().then((res) => {
+      void refetch()
+      authClient.getSession().then((res) => {
         if (res.data?.user) {
           setUser(res.data.user)
         }
@@ -94,17 +100,17 @@ function SubscriptionPage() {
     }
 
     if (isPro) {
-      // User is already pro, open the portal
       window.open(POLAR_CONFIG.portalUrl, '_blank')
       return
     }
 
     const configuredUrl = POLAR_CONFIG.checkoutUrl.trim()
     const isExampleUrl =
-      !configuredUrl || configuredUrl.includes('example') || configuredUrl === ''
+      !configuredUrl ||
+      configuredUrl.includes('example') ||
+      configuredUrl === ''
 
     if (isExampleUrl) {
-      // Prompt user / developer with config modal if URL not set
       setShowConfigModal(true)
       return
     }
@@ -150,11 +156,9 @@ function SubscriptionPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
-      {/* Background glow effects */}
       <div className="pointer-events-none absolute -left-40 -top-40 z-0 h-150 w-150 rounded-full bg-[#e9c349] opacity-10 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
-      {/* Header */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809]/80 px-6 py-4 backdrop-blur-xl">
         <Link
           to="/dashboard"
@@ -171,9 +175,7 @@ function SubscriptionPage() {
         <div className="w-10" />
       </header>
 
-      {/* Main Content */}
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col px-6 pb-32 pt-8">
-        {/* Success Banner */}
         {search.success && (
           <div className="mb-8 rounded-2xl border border-[#e9c349]/40 bg-[#e9c349]/10 p-5 backdrop-blur-xl shadow-[0_0_30px_rgba(233,195,73,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="flex items-start gap-4">
@@ -185,14 +187,15 @@ function SubscriptionPage() {
                   Welcome to the Sanctuary!
                 </h3>
                 <p className="mt-1 text-sm text-[#c8c5d0]">
-                  Your PRO subscription has been activated successfully. You now have access to 50 daily messages and continuous adaptive memory.
+                  Your PRO subscription has been activated successfully. You now
+                  have access to 50 daily messages and continuous adaptive
+                  memory.
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Hero Section */}
         <div className="text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
             <Sparkles className="h-3.5 w-3.5" />
@@ -202,10 +205,10 @@ function SubscriptionPage() {
             Unlock the Full Power of your Soul Coach
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#c8c5d0]/80 sm:text-base">
-            Access uninterrupted psychological guidance, continuous adaptive memory, and unlimited personality calibration.
+            Access uninterrupted psychological guidance, continuous adaptive
+            memory, and unlimited personality calibration.
           </p>
 
-          {/* Current Status Pill */}
           {user && (
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-[#c8c5d0]">
               <span>Your current plan:</span>
@@ -217,14 +220,13 @@ function SubscriptionPage() {
                 {currentPlan === 'PRO'
                   ? 'Sanctuary PRO'
                   : currentPlan === 'BETA'
-                  ? 'Founding Member BETA'
-                  : 'Free (Awakening)'}
+                    ? 'Founding Member BETA'
+                    : 'Free (Awakening)'}
               </span>
             </div>
           )}
         </div>
 
-        {/* Pricing Cards Grid */}
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           {PLANS.map((plan) => {
             const isPlanActive =
@@ -236,11 +238,10 @@ function SubscriptionPage() {
                 key={plan.id}
                 className={`relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] p-8 backdrop-blur-xl transition-all duration-300 ${
                   plan.popular
-                    ? 'border-2 border-[#e9c349]/50 bg-gradient-to-b from-[#e9c349]/10 to-[rgba(197,192,254,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.12)]'
+                    ? 'border-2 border-[#e9c349]/50 bg-linear-to-b from-[#e9c349]/10 to-[rgba(197,192,254,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.12)]'
                     : 'border border-white/5 bg-[rgba(197,192,254,0.02)] shadow-xl'
                 }`}
               >
-                {/* Popular Ribbon */}
                 {plan.popular && (
                   <div className="absolute right-6 top-6">
                     <span className="flex items-center gap-1 rounded-full bg-[#e9c349] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
@@ -273,7 +274,6 @@ function SubscriptionPage() {
 
                   <div className="my-6 h-px w-full bg-white/10" />
 
-                  {/* Features List */}
                   <ul className="space-y-3.5 text-xs text-[#c8c5d0]">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
@@ -312,7 +312,9 @@ function SubscriptionPage() {
                           Current Plan
                         </Button>
                         <Button
-                          onClick={() => window.open(POLAR_CONFIG.portalUrl, '_blank')}
+                          onClick={() =>
+                            window.open(POLAR_CONFIG.portalUrl, '_blank')
+                          }
                           variant="ghost"
                           className="w-full text-xs text-[#c8c5d0]/70 hover:text-[#e9c349]"
                         >
@@ -354,7 +356,6 @@ function SubscriptionPage() {
           })}
         </div>
 
-        {/* Security & Guarantees */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-5 text-center text-xs text-[#c8c5d0]/70">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
@@ -372,7 +373,6 @@ function SubscriptionPage() {
           </div>
         </div>
 
-        {/* Customer Portal Link if PRO */}
         {isPro && (
           <div className="mt-6 text-center">
             <a
@@ -381,13 +381,13 @@ function SubscriptionPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#e9c349] hover:underline"
             >
-              Access Polar Customer Portal to manage receipts and payment methods
+              Access Polar Customer Portal to manage receipts and payment
+              methods
               <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         )}
 
-        {/* FAQ Section */}
         <div className="mt-16">
           <div className="text-center">
             <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
@@ -426,7 +426,6 @@ function SubscriptionPage() {
         </div>
       </main>
 
-      {/* Developer / Setup Modal when Polar URL is not configured yet */}
       {showConfigModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl border border-[#e9c349]/30 bg-[#032110] p-6 shadow-2xl">
@@ -435,7 +434,15 @@ function SubscriptionPage() {
               <h3 className="font-serif text-xl">Polar Checkout Link</h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-[#c8c5d0]/80">
-              To connect your live payments, set the <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">VITE_POLAR_CHECKOUT_URL</code> environment variable in your <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">.env</code> file with your Polar product checkout link.
+              To connect your live payments, set the{' '}
+              <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">
+                VITE_POLAR_CHECKOUT_URL
+              </code>{' '}
+              environment variable in your{' '}
+              <code className="rounded bg-white/10 px-1 py-0.5 text-[#e9c349]">
+                .env
+              </code>{' '}
+              file with your Polar product checkout link.
             </p>
             <div className="mt-4 space-y-2">
               <label className="text-[11px] font-bold uppercase tracking-wider text-[#c8c5d0]/60">
@@ -469,7 +476,6 @@ function SubscriptionPage() {
         </div>
       )}
 
-      {/* Bottom Navigation */}
       <DashboardBottomNav />
     </div>
   )
