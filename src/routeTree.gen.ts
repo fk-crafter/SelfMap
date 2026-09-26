@@ -14,6 +14,8 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoverRouteImport } from './routes/discover'
+import { Route as EnRouteImport } from './routes/en'
+import { Route as FrRouteImport } from './routes/fr'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -49,6 +51,16 @@ const DashboardRoute = DashboardRouteImport.update({
 const DiscoverRoute = DiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnRoute = EnRouteImport.update({
+  id: '/en',
+  path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FrRoute = FrRouteImport.update({
+  id: '/fr',
+  path: '/fr',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalRoute = JournalRouteImport.update({
@@ -113,6 +125,8 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
@@ -131,6 +145,8 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
@@ -150,6 +166,8 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/en': typeof EnRoute
+  '/fr': typeof FrRoute
   '/journal': typeof JournalRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
@@ -170,6 +188,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/discover'
+    | '/en'
+    | '/fr'
     | '/journal'
     | '/login'
     | '/pricing'
@@ -188,6 +208,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/discover'
+    | '/en'
+    | '/fr'
     | '/journal'
     | '/login'
     | '/pricing'
@@ -206,6 +228,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/discover'
+    | '/en'
+    | '/fr'
     | '/journal'
     | '/login'
     | '/pricing'
@@ -225,6 +249,8 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   DashboardRoute: typeof DashboardRoute
   DiscoverRoute: typeof DiscoverRoute
+  EnRoute: typeof EnRoute
+  FrRoute: typeof FrRoute
   JournalRoute: typeof JournalRoute
   LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
@@ -273,6 +299,20 @@ declare module '@tanstack/react-router' {
       path: '/discover'
       fullPath: '/discover'
       preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en': {
+      id: '/en'
+      path: '/en'
+      fullPath: '/en'
+      preLoaderRoute: typeof EnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fr': {
+      id: '/fr'
+      path: '/fr'
+      fullPath: '/fr'
+      preLoaderRoute: typeof FrRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal': {
@@ -361,6 +401,8 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   DashboardRoute: DashboardRoute,
   DiscoverRoute: DiscoverRoute,
+  EnRoute: EnRoute,
+  FrRoute: FrRoute,
   JournalRoute: JournalRoute,
   LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,

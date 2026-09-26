@@ -7,8 +7,11 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { useTranslation } from 'react-i18next'
 
 export function FeaturesBento() {
+  const { t } = useTranslation()
+
   return (
     <section className="relative z-10 mt-32 flex w-full max-w-6xl flex-col items-center px-6">
       <motion.div
@@ -19,11 +22,10 @@ export function FeaturesBento() {
         className="mb-16 text-center"
       >
         <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
-          Your mind, mapped and reflected.
+          {t('features.heading')}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-[#c8c5d0]">
-          A seamless ecosystem designed to capture your psychological essence
-          and mirror it back to you.
+          {t('features.subheading')}
         </p>
       </motion.div>
 
@@ -42,22 +44,19 @@ export function FeaturesBento() {
                 <MessageSquare className="h-5 w-5" />
               </div>
               <h3 className="font-serif text-2xl text-[#c9ebd0]">
-                Conversational Coaching
+                {t('features.chatTitle')}
               </h3>
               <p className="mt-2 max-w-md text-sm text-[#c8c5d0]/70">
-                Engage in deep, meaningful dialogue with an AI that understands
-                your unique cognitive functions and adapts its tone to your
-                current emotional state.
+                {t('features.chatDesc')}
               </p>
             </div>
 
             <div className="mt-4 flex flex-col gap-2 opacity-50 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0">
               <div className="self-end rounded-2xl rounded-tr-sm bg-[#e9c349]/20 px-4 py-2 text-xs text-[#e9c349]">
-                I feel like I'm stuck in a loop today.
+                {t('features.chatExampleUser')}
               </div>
               <div className="self-start rounded-2xl rounded-tl-sm bg-white/5 px-4 py-2 text-xs text-[#c9ebd0]">
-                Your Ni (Introverted Intuition) might be over-analyzing. Let's
-                ground you.
+                {t('features.chatExampleAi')}
               </div>
             </div>
           </Card>
@@ -122,11 +121,10 @@ export function FeaturesBento() {
                 <UserCircle className="h-5 w-5" />
               </div>
               <h3 className="font-serif text-2xl text-[#c9ebd0]">
-                Generative 3D Avatar
+                {t('features.avatarTitle')}
               </h3>
               <p className="mt-2 text-sm text-[#c8c5d0]/70">
-                A visual representation of your soul coach, generated
-                dynamically based on your psychological archetype and energy.
+                {t('features.avatarDesc')}
               </p>
             </div>
           </Card>
@@ -144,11 +142,10 @@ export function FeaturesBento() {
                 <Target className="h-5 w-5" />
               </div>
               <h3 className="font-serif text-xl text-[#e9c349]">
-                Dynamic Calibration
+                {t('features.scoreTitle')}
               </h3>
               <p className="mt-2 text-sm text-[#c8c5d0]/70">
-                The more you interact, the higher your synchronization score
-                grows.
+                {t('features.scoreDesc')}
               </p>
             </div>
 
@@ -186,11 +183,10 @@ export function FeaturesBento() {
                 <BookOpen className="h-5 w-5" />
               </div>
               <h3 className="font-serif text-xl text-[#c9ebd0]">
-                Inner Journal
+                {t('features.journalTitle')}
               </h3>
               <p className="mt-2 text-sm text-[#c8c5d0]/70">
-                Write your thoughts freely. The AI silently analyzes your
-                entries to refine your cognitive mapping.
+                {t('features.journalDesc')}
               </p>
             </div>
 

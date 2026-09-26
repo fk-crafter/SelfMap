@@ -10,8 +10,10 @@ import {
 import { Button } from '@/components/ui/button'
 import { Link } from '@tanstack/react-router'
 import { MagicCard } from '@/components/ui/magic-card'
+import { useTranslation } from 'react-i18next'
 
 export function Pricing() {
+  const { t } = useTranslation()
   const [isYearly, setIsYearly] = useState(true)
 
   return (
@@ -24,11 +26,10 @@ export function Pricing() {
         className="mb-12 text-center"
       >
         <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
-          Choose Your Journey
+          {t('pricing.heading')}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-[#c8c5d0]">
-          Start your introspection for free, or unlock the full cognitive
-          potential of your AI Soul Coach.
+          {t('pricing.subheading')}
         </p>
       </motion.div>
 
@@ -46,13 +47,13 @@ export function Pricing() {
           >
             <div className="flex h-full flex-col">
               <div className="mb-8 mt-4">
-                <h3 className="font-serif text-2xl text-[#c9ebd0]">Seeker</h3>
+                <h3 className="font-serif text-2xl text-[#c9ebd0]">{t('pricing.seekerTitle')}</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
-                  For the curious minds beginning their path.
+                  {t('pricing.seekerSubtitle')}
                 </p>
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-4xl font-bold text-[#c9ebd0]">
-                    Free
+                    {t('pricing.free')}
                   </span>
                 </div>
                 <div className="mt-1 h-4" />
@@ -61,15 +62,15 @@ export function Pricing() {
               <ul className="mb-10 flex flex-1 flex-col gap-5">
                 <li className="flex items-start gap-3 text-sm text-[#c8c5d0]">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#c9ebd0]/50" />
-                  <span>Deep MBTI Cognitive Assessment</span>
+                  <span>{t('pricing.seekerFeature1')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c8c5d0]">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#c9ebd0]/50" />
-                  <span>Standard 3D Generative Avatar</span>
+                  <span>{t('pricing.seekerFeature2')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c8c5d0]">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#c9ebd0]/50" />
-                  <span>10 Daily Coach Interactions</span>
+                  <span>{t('pricing.seekerFeature3')}</span>
                 </li>
               </ul>
 
@@ -78,7 +79,7 @@ export function Pricing() {
                 variant="outline"
                 className="mt-auto h-12 w-full rounded-full border-white/10 bg-transparent font-semibold tracking-wide text-[#c9ebd0] hover:bg-white/5"
               >
-                <Link to="/test">Start Free</Link>
+                <Link to="/test">{t('pricing.startFree')}</Link>
               </Button>
             </div>
           </MagicCard>
@@ -98,7 +99,7 @@ export function Pricing() {
             <div className="flex h-full flex-col">
               <div className="mb-4 flex items-center justify-between">
                 <div className="inline-flex items-center rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
-                  The Sanctuary
+                  {t('pricing.sanctuaryTag')}
                 </div>
 
                 <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-2.5 py-1 backdrop-blur-md whitespace-nowrap">
@@ -126,24 +127,24 @@ export function Pricing() {
               </div>
 
               <div className="mb-8 mt-2">
-                <h3 className="font-serif text-2xl text-[#e9c349]">Awakened</h3>
+                <h3 className="font-serif text-2xl text-[#e9c349]">{t('pricing.sanctuaryTitle')}</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
-                  Unrestricted access to continuous cognitive evolution.
+                  {t('pricing.sanctuarySubtitle')}
                 </p>
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-4xl font-bold text-[#e9c349]">
                     ${isYearly ? '12' : '15'}
                   </span>
-                  <span className="text-sm text-[#c8c5d0]/70">/month</span>
+                  <span className="text-sm text-[#c8c5d0]/70">{t('pricing.perMonth')}</span>
                 </div>
                 <div className="mt-1 flex h-4 items-center gap-2">
                   {isYearly && (
                     <>
                       <span className="text-xs text-[#c8c5d0]/50">
-                        Billed $144 annually
+                        {t('pricing.billedAnnually')}
                       </span>
                       <span className="rounded-full bg-[#e9c349]/20 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-widest text-[#e9c349]">
-                        Save 20%
+                        {t('pricing.save20')}
                       </span>
                     </>
                   )}
@@ -153,19 +154,19 @@ export function Pricing() {
               <ul className="mb-10 flex flex-1 flex-col gap-5">
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">
                   <InfinityIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
-                  <span>Unlimited AI Coach Interactions</span>
+                  <span>{t('pricing.sanctuaryFeature1')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">
                   <Brain className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
-                  <span>Infinite Memory & Deep Context</span>
+                  <span>{t('pricing.sanctuaryFeature2')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">
                   <Zap className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
-                  <span>Advanced Psychological Insights</span>
+                  <span>{t('pricing.sanctuaryFeature3')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">
                   <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
-                  <span>Priority Server Processing</span>
+                  <span>{t('pricing.sanctuaryFeature4')}</span>
                 </li>
               </ul>
 
@@ -173,7 +174,7 @@ export function Pricing() {
                 asChild
                 className="mt-auto h-12 w-full rounded-full bg-[#e9c349] font-bold tracking-wider text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] hover:bg-[#e9c349]/90 active:scale-95"
               >
-                <Link to="/test">Unlock Sanctuary</Link>
+                <Link to="/test">{t('pricing.unlockSanctuary')}</Link>
               </Button>
             </div>
           </MagicCard>

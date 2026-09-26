@@ -4,8 +4,11 @@ import { motion } from 'motion/react'
 import { Fingerprint, ArrowRight } from 'lucide-react'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { Particles } from '@/components/ui/particles'
+import { useTranslation } from 'react-i18next'
 
 export function HeroSection({ usersHelped }: { usersHelped: number }) {
+  const { t } = useTranslation()
+
   return (
     <section className="relative z-10 flex w-full max-w-4xl flex-col items-center gap-8 pt-4 pb-16 text-center sm:gap-10 sm:pb-24">
       <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full">
@@ -27,7 +30,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         <div className="group inline-flex items-center gap-2 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 font-sans text-xs font-medium transition-all duration-300 hover:border-[#e9c349]/60 hover:bg-[#e9c349]/20 hover:shadow-[0_0_15px_rgba(233,195,73,0.15)] sm:text-sm">
           <AnimatedShinyText className="inline-flex items-center justify-center gap-2 text-[#e9c349]">
             <Fingerprint className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-            <span>AI-Powered Personality Assessment</span>
+            <span>{t('hero.badge')}</span>
           </AnimatedShinyText>
         </div>
       </motion.div>
@@ -38,10 +41,10 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
         className="font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#c9ebd0] sm:text-6xl md:text-7xl"
       >
-        The AI{' '}
-        <span className="whitespace-nowrap text-[#e9c349]">Soul Coach</span>
+        {t('hero.titlePart1')}{' '}
+        <span className="whitespace-nowrap text-[#e9c349]">{t('hero.titleSoulCoach')}</span>
         <br className="hidden sm:block" />
-        <span className="sm:hidden"> </span>That Evolves With You.
+        <span className="sm:hidden"> </span>{t('hero.titlePart2')}
       </motion.h1>
 
       <motion.p
@@ -50,9 +53,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
         className="mx-auto max-w-2xl px-4 font-sans text-base leading-relaxed text-[#c8c5d0] sm:px-0 sm:text-lg md:text-xl"
       >
-        Go beyond traditional MBTI tests with a living psychological profile.
-        Map your cognitive functions, engage in daily introspection, and receive
-        hyper-personalized guidance tailored to your true archetype.
+        {t('hero.description')}
       </motion.p>
 
       <motion.div
@@ -67,7 +68,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         >
           <Link to="/test">
             <span className="relative z-10 flex items-center">
-              Discover Your Archetype
+              {t('hero.cta')}
               <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
             <div className="absolute inset-0 -z-10 flex h-full w-full items-center justify-center">
@@ -109,8 +110,7 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
           </div>
         </div>
         <p className="text-sm font-medium text-[#c8c5d0]">
-          Join <span className="text-[#e9c349]">{usersHelped}+</span>{' '}
-          individuals on their journey to self-mastery
+          {t('hero.socialProof', { count: usersHelped })}
         </p>
       </motion.div>
     </section>

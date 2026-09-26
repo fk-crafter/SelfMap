@@ -3,30 +3,29 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import { ClipboardList, Hexagon, TrendingUp } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
-
-const steps = [
-  {
-    icon: ClipboardList,
-    title: 'Take the Assessment',
-    description:
-      'Complete a deep psychological mapping based on cognitive functions to discover your true archetype.',
-  },
-  {
-    icon: Hexagon,
-    title: 'Summon Your Coach',
-    description:
-      'Watch your personalized 3D soul coach come to life, ready to match your energy and communication style.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Evolve Daily',
-    description:
-      'Chat, journal, and reflect. The AI adapts to your growth, raising your dynamic calibration score over time.',
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export function HowItWorks() {
+  const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const steps = [
+    {
+      icon: ClipboardList,
+      title: t('howItWorks.step1Title'),
+      description: t('howItWorks.step1Desc'),
+    },
+    {
+      icon: Hexagon,
+      title: t('howItWorks.step2Title'),
+      description: t('howItWorks.step2Desc'),
+    },
+    {
+      icon: TrendingUp,
+      title: t('howItWorks.step3Title'),
+      description: t('howItWorks.step3Desc'),
+    },
+  ]
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -56,10 +55,10 @@ export function HowItWorks() {
         className="mb-24 text-center relative z-10 px-2"
       >
         <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#c9ebd0]">
-          The Path to Mastery
+          {t('howItWorks.heading')}
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-base sm:text-xl text-[#c8c5d0]">
-          Three simple steps to unlock your personalized inner sanctuary.
+          {t('howItWorks.subheading')}
         </p>
       </motion.div>
 

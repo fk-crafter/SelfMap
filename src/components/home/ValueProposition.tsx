@@ -2,8 +2,11 @@ import type { Variants } from 'motion/react'
 import { motion } from 'motion/react'
 import { X, Check, Brain, Fingerprint } from 'lucide-react'
 import { Card } from '@/components/ui/card'
+import { useTranslation } from 'react-i18next'
 
 export function ValueProposition() {
+  const { t } = useTranslation()
+
   const listVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -34,12 +37,12 @@ export function ValueProposition() {
         className="mb-12 sm:mb-20 text-center"
       >
         <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#c9ebd0]">
-          Why settle for a{' '}
-          <span className="text-[#c8c5d0]/50 line-through">static</span> result?
+          {t('value.titlePart1')}{' '}
+          <span className="text-[#c8c5d0]/50 line-through">{t('value.titleStatic')}</span>{' '}
+          {t('value.titlePart2')}
         </h2>
         <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-xl text-[#c8c5d0]">
-          Personality tests are great, but they are just the beginning. Your
-          inner world is a living ecosystem, not a PDF report.
+          {t('value.subtitle')}
         </p>
       </motion.div>
 
@@ -56,7 +59,7 @@ export function ValueProposition() {
               <Brain className="h-6 w-6" />
             </div>
             <h3 className="mb-6 sm:mb-8 font-serif text-2xl text-[#c8c5d0]/60">
-              Traditional Tests
+              {t('value.traditionalTitle')}
             </h3>
             <motion.ul
               variants={listVariants}
@@ -71,7 +74,7 @@ export function ValueProposition() {
               >
                 <X className="mt-0.5 h-5 w-5 shrink-0 text-[#ffb4ab]/40" />
                 <span>
-                  You read your results once and forget them in a drawer.
+                  {t('value.traditionalPoint1')}
                 </span>
               </motion.li>
               <motion.li
@@ -80,7 +83,7 @@ export function ValueProposition() {
               >
                 <X className="mt-0.5 h-5 w-5 shrink-0 text-[#ffb4ab]/40" />
                 <span>
-                  Generic, copy-pasted advice meant for millions of people.
+                  {t('value.traditionalPoint2')}
                 </span>
               </motion.li>
               <motion.li
@@ -89,8 +92,7 @@ export function ValueProposition() {
               >
                 <X className="mt-0.5 h-5 w-5 shrink-0 text-[#ffb4ab]/40" />
                 <span>
-                  Static labels that don't account for your daily personal
-                  growth.
+                  {t('value.traditionalPoint3')}
                 </span>
               </motion.li>
             </motion.ul>
@@ -146,12 +148,12 @@ export function ValueProposition() {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#e9c349] opacity-75"></span>
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e9c349]"></span>
                   </span>
-                  Living System
+                  {t('value.soultypeBadge')}
                 </div>
               </div>
 
               <h3 className="mb-6 sm:mb-8 font-serif text-2xl sm:text-3xl text-[#e9c349]">
-                SoulType Journey
+                {t('value.soultypeTitle')}
               </h3>
 
               <motion.ul
@@ -169,8 +171,7 @@ export function ValueProposition() {
                     <Check className="h-3.5 w-3.5 text-[#e9c349]" />
                   </div>
                   <span>
-                    A living AI coach that remembers past conversations and
-                    adapts.
+                    {t('value.soultypePoint1')}
                   </span>
                 </motion.li>
                 <motion.li
@@ -181,8 +182,7 @@ export function ValueProposition() {
                     <Check className="h-3.5 w-3.5 text-[#e9c349]" />
                   </div>
                   <span>
-                    Hyper-personalized insights extracted directly from your
-                    inner journal.
+                    {t('value.soultypePoint2')}
                   </span>
                 </motion.li>
                 <motion.li
@@ -193,7 +193,7 @@ export function ValueProposition() {
                     <Check className="h-3.5 w-3.5 text-[#e9c349]" />
                   </div>
                   <span>
-                    Dynamic calibration mapping your evolution in real-time.
+                    {t('value.soultypePoint3')}
                   </span>
                 </motion.li>
               </motion.ul>

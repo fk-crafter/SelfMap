@@ -3,6 +3,7 @@ import { User as UserIcon, Settings, LogOut, Shield, Crown } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
+import { useTranslation } from 'react-i18next'
 
 type DashboardHeaderProps = {
   user: {
@@ -13,6 +14,8 @@ type DashboardHeaderProps = {
 }
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
+  const { t, i18n } = useTranslation()
+  const currentLang = i18n.language.startsWith('fr') ? 'fr' : 'en'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -55,82 +58,109 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         </h1>
       </div>
 
-      <div className="relative" ref={menuRef}>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
-        >
-          {user.avatarSeed ? (
-            <img
-              src={user.avatarSeed}
-              alt="Profile"
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <UserIcon className="h-5 w-5" />
-          )}
-        </button>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center rounded-full border border-white/10 bg-black/40 p-0.5 text-xs font-medium">
+          <button
+            type="button"
+            onClick={() => i18n.changeLanguage('en')}
+            className={`cursor-pointer rounded-full px-2 py-0.5 transition-all ${
+              currentLang === 'en'
+                ? 'bg-[#e9c349] font-bold text-[#001809]'
+                : 'text-[#c8c5d0]/70 hover:text-white'
+            }`}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => i18n.changeLanguage('fr')}
+            className={`cursor-pointer rounded-full px-2 py-0.5 transition-all ${
+              currentLang === 'fr'
+                ? 'bg-[#e9c349] font-bold text-[#001809]'
+                : 'text-[#c8c5d0]/70 hover:text-white'
+            }`}
+          >
+            FR
+          </button>
+        </div>
 
-        {isMenuOpen && (
-          <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
-            <Link
-              to="/profile"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-            >
-              <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
-              My Profile
-            </Link>
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
+          >
+            {user.avatarSeed ? (
+              <img
+                src={user.avatarSeed}
+                alt="Profile"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <UserIcon className="h-5 w-5" />
+            )}
+          </button>
 
-            <Link
-              to="/subscription"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-between px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-            >
-              <div className="flex items-center gap-3">
-                <Crown className="h-4 w-4 text-[#e9c349]" />
-                Sanctuary
-              </div>
-              {user.plan === 'PRO' ? (
-                <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold text-[#e9c349]">
-                  PRO
-                </span>
-              ) : (
-                <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-[#c8c5d0]/70">
-                  Upgrade
-                </span>
-              )}
-            </Link>
-
-            {user.isAdmin && (
+          {isMenuOpen && (
+            <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
               <Link
-                to="/admin"
+                to="/profile"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
               >
-                <Shield className="h-4 w-4 text-[#e9c349]/70" />
-                Administration
+                <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
+                {t('dashboard.profile')}
               </Link>
-            )}
 
-            <Link
-              to="/settings"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-            >
-              <Settings className="h-4 w-4 text-[#e9c349]/70" />
-              Settings
-            </Link>
-            <div className="h-px w-full bg-white/10" />
-            <button
-              onClick={handleLogout}
-              className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm font-medium text-[#ffb4ab] transition-colors hover:bg-white/5"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
-          </div>
-        )}
+              <Link
+                to="/subscription"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center justify-between px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+              >
+                <div className="flex items-center gap-3">
+                  <Crown className="h-4 w-4 text-[#e9c349]" />
+                  {t('dashboard.sanctuary')}
+                </div>
+                {user.plan === 'PRO' ? (
+                  <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold text-[#e9c349]">
+                    PRO
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-[#c8c5d0]/70">
+                    {t('dashboard.upgrade')}
+                  </span>
+                )}
+              </Link>
+
+              {user.isAdmin && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+                >
+                  <Shield className="h-4 w-4 text-[#e9c349]/70" />
+                  {t('dashboard.admin')}
+                </Link>
+              )}
+
+              <Link
+                to="/settings"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+              >
+                <Settings className="h-4 w-4 text-[#e9c349]/70" />
+                {t('dashboard.settings')}
+              </Link>
+              <div className="h-px w-full bg-white/10" />
+              <button
+                onClick={handleLogout}
+                className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm font-medium text-[#ffb4ab] transition-colors hover:bg-white/5"
+              >
+                <LogOut className="h-4 w-4" />
+                {t('dashboard.signOut')}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   )

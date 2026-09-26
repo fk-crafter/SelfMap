@@ -5,7 +5,9 @@ import {
   Scripts,
   createRootRoute,
   Outlet,
+  useRouterState,
 } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { Toaster } from 'sonner'
@@ -107,6 +109,21 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: React.ReactNode }) {
   const setUser = useUserStore((state) => state.setUser)
   const logout = useUserStore((state) => state.logout)
+  const { i18n } = useTranslation()
+  const routerState = useRouterState()
+  const pathname = routerState.location.pathname
+
+  useEffect(() => {
+    if (pathname === '/fr' || pathname.startsWith('/fr/')) {
+      if (i18n.language !== 'fr') {
+        void i18n.changeLanguage('fr')
+      }
+    } else if (pathname === '/en' || pathname.startsWith('/en/')) {
+      if (i18n.language !== 'en') {
+        void i18n.changeLanguage('en')
+      }
+    }
+  }, [pathname, i18n])
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -126,7 +143,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   }, [setUser, logout])
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={i18n.language || 'en'} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4" />
         <link rel="manifest" href="/manifest.json" />

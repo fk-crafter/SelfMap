@@ -1,6 +1,9 @@
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 export function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="relative z-10 w-full border-t border-white/5 bg-[#001809]/80 px-6 py-12 backdrop-blur-xl md:px-12">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row">
@@ -20,21 +23,21 @@ export function Footer() {
             to="/privacy"
             className="transition-colors hover:text-[#e9c349]"
           >
-            Privacy Policy
+            {t('footer.privacy')}
           </Link>
           <Link to="/terms" className="transition-colors hover:text-[#e9c349]">
-            Terms of Service
+            {t('footer.terms')}
           </Link>
           <a
             href="mailto:contact@soultype.test"
             className="transition-colors hover:text-[#e9c349]"
           >
-            Contact
+            {t('footer.contact')}
           </a>
         </div>
 
         <div className="text-sm text-[#c8c5d0]/40">
-          © {new Date().getFullYear()} SoulType. All rights reserved.
+          © {new Date().getFullYear()} SoulType. {t('footer.rights')}
         </div>
       </div>
     </footer>

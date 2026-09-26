@@ -1,32 +1,30 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
-
-const faqs = [
-  {
-    question: 'Is my personal data and journal private?',
-    answer:
-      'Absolutely. Your inner journal and conversations are strictly confidential. We do not sell your data or use it to train public AI models. Your sanctuary is yours alone.',
-  },
-  {
-    question: 'How is this different from just talking to ChatGPT?',
-    answer:
-      'SoulType uses a highly specialized psychological framework. Instead of a generic assistant, you get a dedicated coach mapped to your specific cognitive functions, featuring long-term memory and a dynamic calibration system.',
-  },
-  {
-    question: 'Do I need to know my MBTI type before starting?',
-    answer:
-      'Not at all. The journey begins with a deep cognitive assessment that will accurately determine your archetype before generating your AI Soul Coach.',
-  },
-  {
-    question: 'Can I cancel my Awakened subscription anytime?',
-    answer:
-      'Yes, you can cancel your subscription at any moment with a single click in your settings. You will retain your premium benefits until the end of your billing cycle.',
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export function FAQ() {
+  const { t } = useTranslation()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const faqs = [
+    {
+      question: t('faq.q1'),
+      answer: t('faq.a1'),
+    },
+    {
+      question: t('faq.q2'),
+      answer: t('faq.a2'),
+    },
+    {
+      question: t('faq.q3'),
+      answer: t('faq.a3'),
+    },
+    {
+      question: t('faq.q4'),
+      answer: t('faq.a4'),
+    },
+  ]
 
   return (
     <section className="relative z-10 mt-32 flex w-full max-w-3xl flex-col items-center px-6">
@@ -38,7 +36,7 @@ export function FAQ() {
         className="mb-12 text-center"
       >
         <h2 className="font-serif text-3xl font-normal text-[#c9ebd0] sm:text-4xl md:text-5xl">
-          Frequently Asked Questions
+          {t('faq.heading')}
         </h2>
       </motion.div>
 

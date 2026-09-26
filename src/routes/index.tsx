@@ -56,8 +56,17 @@ export const Route = createFileRoute('/')({
   ),
 })
 
-function HomePage() {
-  const { usersHelped } = Route.useLoaderData()
+export function HomePage({
+  usersHelped: propUsersHelped,
+}: { usersHelped?: number } = {}) {
+  let loaderUsersHelped = 1205
+  try {
+    const data = Route.useLoaderData()
+    if (data.usersHelped) loaderUsersHelped = data.usersHelped
+  } catch {
+    // Outside route loader context
+  }
+  const usersHelped = propUsersHelped ?? loaderUsersHelped
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
