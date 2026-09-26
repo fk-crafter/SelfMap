@@ -34,14 +34,18 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   }, [isMenuOpen])
 
   const handleLogout = async () => {
-    useUserStore.getState().logout()
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          navigate({ to: '/login', replace: true })
-        },
-      },
-    })
+    try {
+      useUserStore.getState().logout()
+      await Promise.race([
+        authClient.signOut(),
+        new Promise((resolve) => setTimeout(resolve, 1500)),
+      ])
+    } catch (err) {
+      console.error('Sign out error:', err)
+    } finally {
+      useUserStore.getState().logout()
+      window.location.href = '/login'
+    }
   }
 
   return (

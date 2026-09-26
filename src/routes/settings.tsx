@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Loader2, User, AlertTriangle, Crown } from 'lucide-react'
+import { ArrowLeft, Loader2, User, AlertTriangle, Crown, LogOut } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
@@ -76,7 +76,7 @@ function SettingsPage() {
         fetchOptions: {
           onSuccess: () => {
             logout()
-            navigate({ to: '/register', replace: true })
+            window.location.href = '/register'
           },
         },
       })
@@ -88,6 +88,21 @@ function SettingsPage() {
     } catch (err) {
       toast.error('An unexpected error occurred.')
       setIsDeleting(false)
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      logout()
+      await Promise.race([
+        authClient.signOut(),
+        new Promise((resolve) => setTimeout(resolve, 1500)),
+      ])
+    } catch (err) {
+      console.error('Sign out error:', err)
+    } finally {
+      logout()
+      window.location.href = '/login'
     }
   }
 
@@ -190,6 +205,21 @@ function SettingsPage() {
                 ? 'Gérer mon abonnement'
                 : 'Découvrir le Sanctuaire PRO'}
             </Link>
+          </Button>
+        </Card>
+
+        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+          <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">Session</h2>
+          <p className="mb-6 text-xs text-[#c8c5d0]/70">
+            Déconnectez-vous de votre compte sur cet appareil en toute sécurité.
+          </p>
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-[#c9ebd0] transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
           </Button>
         </Card>
 

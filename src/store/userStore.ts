@@ -62,7 +62,17 @@ export const useUserStore = create<UserState>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
       setProfile: (profile) => set({ profile }),
       setUser: (user) => set({ user, isAuthenticated: !!user }),
-      logout: () => set({ user: null, isAuthenticated: false, profile: null }),
+      logout: () => {
+        if (typeof window !== 'undefined') {
+          try {
+            window.localStorage.removeItem('soultype-user-session')
+            window.sessionStorage.clear()
+          } catch (e) {
+            console.error('Error clearing storage:', e)
+          }
+        }
+        set({ user: null, isAuthenticated: false, profile: null })
+      },
     }),
     {
       name: 'soultype-user-session',
