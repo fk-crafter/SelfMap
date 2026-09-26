@@ -122,6 +122,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       if (i18n.language !== 'en') {
         void i18n.changeLanguage('en')
       }
+    } else {
+      const browserLang =
+        typeof navigator !== 'undefined'
+          ? navigator.languages[0] || navigator.language || ''
+          : ''
+      const targetLang = browserLang.toLowerCase().startsWith('fr')
+        ? 'fr'
+        : 'en'
+      if (i18n.language !== targetLang) {
+        void i18n.changeLanguage(targetLang)
+      }
     }
   }, [pathname, i18n])
 

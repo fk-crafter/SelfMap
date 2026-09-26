@@ -7,14 +7,21 @@ import fr from './locales/fr.json'
 
 const isBrowser = typeof window !== 'undefined'
 
+export const detectBrowserLanguage = (): 'fr' | 'en' => {
+  if (!isBrowser) return 'en'
+  const lang =
+    (typeof navigator !== 'undefined' &&
+      (navigator.languages[0] || navigator.language)) ||
+    ''
+  return lang.toLowerCase().startsWith('fr') ? 'fr' : 'en'
+}
+
 const getInitialLang = () => {
   if (isBrowser) {
     const path = window.location.pathname.toLowerCase()
     if (path === '/fr' || path.startsWith('/fr/')) return 'fr'
     if (path === '/en' || path.startsWith('/en/')) return 'en'
-    const stored = window.localStorage.getItem('i18nextLng')
-    if (stored?.startsWith('fr')) return 'fr'
-    if (stored?.startsWith('en')) return 'en'
+    return detectBrowserLanguage()
   }
   return 'en'
 }
@@ -31,11 +38,9 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   lng: isBrowser ? getInitialLang() : 'en',
   detection: {
-    order: ['path', 'querystring', 'localStorage', 'navigator'],
+    order: ['path', 'navigator'],
     lookupFromPathIndex: 0,
-    lookupQuerystring: 'lang',
-    lookupLocalStorage: 'i18nextLng',
-    caches: ['localStorage'],
+    caches: [],
   },
   interpolation: {
     escapeValue: false,

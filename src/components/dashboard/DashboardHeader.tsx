@@ -14,8 +14,7 @@ type DashboardHeaderProps = {
 }
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
-  const { t, i18n } = useTranslation()
-  const currentLang = i18n.language.startsWith('fr') ? 'fr' : 'en'
+  const { t } = useTranslation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -58,37 +57,11 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         </h1>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="flex items-center rounded-full border border-white/10 bg-black/40 p-0.5 text-xs font-medium">
-          <button
-            type="button"
-            onClick={() => i18n.changeLanguage('en')}
-            className={`cursor-pointer rounded-full px-2 py-0.5 transition-all ${
-              currentLang === 'en'
-                ? 'bg-[#e9c349] font-bold text-[#001809]'
-                : 'text-[#c8c5d0]/70 hover:text-white'
-            }`}
-          >
-            EN
-          </button>
-          <button
-            type="button"
-            onClick={() => i18n.changeLanguage('fr')}
-            className={`cursor-pointer rounded-full px-2 py-0.5 transition-all ${
-              currentLang === 'fr'
-                ? 'bg-[#e9c349] font-bold text-[#001809]'
-                : 'text-[#c8c5d0]/70 hover:text-white'
-            }`}
-          >
-            FR
-          </button>
-        </div>
-
-        <div className="relative" ref={menuRef}>
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
-          >
+      <div className="relative" ref={menuRef}>
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
+        >
             {user.avatarSeed ? (
               <img
                 src={user.avatarSeed}
@@ -161,7 +134,6 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
             </div>
           )}
         </div>
-      </div>
     </header>
   )
 }

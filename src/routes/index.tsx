@@ -1,4 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { detectBrowserLanguage } from '@/i18n'
 import {
   Card,
   CardContent,
@@ -59,6 +62,19 @@ export const Route = createFileRoute('/')({
 export function HomePage({
   usersHelped: propUsersHelped,
 }: { usersHelped?: number } = {}) {
+  const navigate = useNavigate()
+  const { i18n } = useTranslation()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+      const detected = detectBrowserLanguage()
+      if (detected === 'fr') {
+        void i18n.changeLanguage('fr')
+        navigate({ to: '/fr', replace: true })
+      }
+    }
+  }, [i18n, navigate])
+
   let loaderUsersHelped = 1205
   try {
     const data = Route.useLoaderData()

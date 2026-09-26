@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
-  const currentLang = (i18n.language || 'en').startsWith('fr') ? 'fr' : 'en'
+  const { t } = useTranslation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,19 +15,6 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const handleLanguageSwitch = (lang: 'en' | 'fr') => {
-    void i18n.changeLanguage(lang)
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('i18nextLng', lang)
-      const path = window.location.pathname
-      if (lang === 'fr' && (path === '/' || path === '/en')) {
-        navigate({ to: '/fr' })
-      } else if (lang === 'en' && path === '/fr') {
-        navigate({ to: '/en' })
-      }
-    }
-  }
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
@@ -70,33 +55,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-          {/* Language Switcher */}
-          <div className="flex items-center rounded-full border border-white/10 bg-black/40 p-0.5 text-xs backdrop-blur-md">
-            <button
-              type="button"
-              onClick={() => handleLanguageSwitch('en')}
-              className={`cursor-pointer rounded-full px-2 py-0.5 text-[10px] sm:text-[11px] font-bold transition-all ${
-                currentLang === 'en'
-                  ? 'bg-[#e9c349] text-[#001809] shadow-sm'
-                  : 'text-[#c8c5d0]/50 hover:text-[#c9ebd0]'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLanguageSwitch('fr')}
-              className={`cursor-pointer rounded-full px-2 py-0.5 text-[10px] sm:text-[11px] font-bold transition-all ${
-                currentLang === 'fr'
-                  ? 'bg-[#e9c349] text-[#001809] shadow-sm'
-                  : 'text-[#c8c5d0]/50 hover:text-[#c9ebd0]'
-              }`}
-            >
-              FR
-            </button>
-          </div>
-
+        <div className="flex shrink-0 items-center gap-3 sm:gap-6">
           <Link
             to="/login"
             className="whitespace-nowrap text-xs sm:text-sm font-medium text-[#c8c5d0] transition-colors hover:text-[#e9c349]"
