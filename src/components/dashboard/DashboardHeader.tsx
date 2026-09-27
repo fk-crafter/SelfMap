@@ -50,7 +50,12 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
+    <header
+      style={{
+        paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+      }}
+      className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
+    >
       <div className="flex items-center gap-4">
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
           SoulType
@@ -77,7 +82,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
           </button>
 
           {isMenuOpen && (
-            <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
+            <div className="absolute right-0 top-full mt-2 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
               <Link
                 to="/profile"
                 onClick={() => setIsMenuOpen(false)}

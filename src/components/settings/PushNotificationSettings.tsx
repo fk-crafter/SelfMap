@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Bell, BellOff, BellRing, Check, Loader2, Send } from 'lucide-react'
+import { Bell, BellOff, BellRing, Check, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -9,7 +9,6 @@ import {
   subscribeToPushNotifications,
   unsubscribeFromPushNotifications,
   checkPushSubscriptionStatus,
-  triggerTestPush,
   getNotificationPermission,
 } from '@/lib/pushNotifications'
 
@@ -18,7 +17,6 @@ export function PushNotificationSettings({ userId }: { userId: string }) {
   const [isSupported, setIsSupported] = useState(true)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isTesting, setIsTesting] = useState(false)
 
   useEffect(() => {
     const supported = isPushNotificationSupported()
@@ -57,23 +55,6 @@ export function PushNotificationSettings({ userId }: { userId: string }) {
       toast.error(err.message || t('notifications.error', 'Une erreur est survenue.'))
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const handleSendTest = async () => {
-    if (!userId) return
-    setIsTesting(true)
-    try {
-      const ok = await triggerTestPush(userId, i18n.language)
-      if (ok) {
-        toast.success(t('notifications.testSent', 'Notification test envoyée sur votre appareil !'))
-      } else {
-        toast.error(t('notifications.testFailed', "Échec de l'envoi du test."))
-      }
-    } catch {
-      toast.error(t('notifications.testFailed', "Échec de l'envoi du test."))
-    } finally {
-      setIsTesting(false)
     }
   }
 
@@ -150,22 +131,6 @@ export function PushNotificationSettings({ userId }: { userId: string }) {
               </>
             )}
           </Button>
-
-          {isSubscribed && (
-            <Button
-              onClick={handleSendTest}
-              disabled={isTesting}
-              variant="ghost"
-              className="w-full text-xs text-[#e9c349] hover:bg-[#e9c349]/10 rounded-full h-10 flex items-center justify-center gap-2"
-            >
-              {isTesting ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Send className="h-3.5 w-3.5" />
-              )}
-              {t('notifications.sendTest', 'Envoyer une notification test')}
-            </Button>
-          )}
         </div>
       )}
     </Card>
