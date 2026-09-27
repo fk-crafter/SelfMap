@@ -377,6 +377,22 @@
     "refreshedSuccess": "Synthèse mise à jour avec succès !",
     "discoveringClimate": "Climat de la Semaine",
     "loadError": "Impossible de charger la synthèse hebdomadaire."
+  },
+  "notifications": {
+    "title": "Rappels & Notifications",
+    "active": "Activé",
+    "description": "Recevez un rappel bienveillant chaque soir pour déposer vos pensées dans le journal et être notifié dès la parution de votre bilan du dimanche.",
+    "notSupported": "Les notifications push ne sont pas supportées sur ce navigateur ou nécessitent d'installer l'application (PWA).",
+    "permissionDenied": "Les notifications sont bloquées dans les paramètres de votre navigateur. Veuillez les autoriser pour activer les rappels.",
+    "enable": "Activer les rappels push",
+    "disable": "Désactiver les rappels",
+    "subscribedSuccess": "Notifications activées avec succès !",
+    "unsubscribedSuccess": "Notifications désactivées.",
+    "sendTest": "Envoyer une notification test",
+    "testSent": "Notification test envoyée sur votre appareil !",
+    "testFailed": "Échec de l'envoi de la notification test.",
+    "error": "Une erreur est survenue."
   }
 }
+
 

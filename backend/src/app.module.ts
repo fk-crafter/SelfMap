@@ -8,6 +8,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserController } from './user/user.controller';
 import { PolarModule } from './polar/polar.module';
 import { SynthesisModule } from './synthesis/synthesis.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -17,9 +18,11 @@ import { SynthesisModule } from './synthesis/synthesis.module';
     PrismaModule,
     PolarModule,
     SynthesisModule,
+    NotificationsModule,
   ],
   controllers: [AiController, UserController],
   providers: [AiService],
 })
 export class AppModule {}
+
 

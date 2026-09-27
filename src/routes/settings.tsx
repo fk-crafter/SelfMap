@@ -8,6 +8,7 @@ import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { PushNotificationSettings } from '@/components/settings/PushNotificationSettings'
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
@@ -210,7 +211,10 @@ function SettingsPage() {
           </Button>
         </Card>
 
+        {user?.id && <PushNotificationSettings userId={user.id} />}
+
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+
           <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">{t('settings.session')}</h2>
           <p className="mb-6 text-xs text-[#c8c5d0]/70">
             {t('settings.sessionDesc')}

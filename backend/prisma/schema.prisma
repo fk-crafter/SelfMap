@@ -36,6 +36,7 @@ model User {
   accounts            Account[]
   journalEntries      JournalEntry[]
   weeklySyntheses     WeeklySynthesis[]
+  pushSubscriptions   PushSubscription[]
   avatarSeed          String?
 
   @@map("user")
@@ -129,4 +130,18 @@ model WeeklySynthesis {
 
   @@unique([userId, year, weekNumber])
   @@map("weekly_synthesis")
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("push_subscription")
 }

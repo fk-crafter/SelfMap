@@ -377,6 +377,22 @@
     "refreshedSuccess": "Synthesis updated successfully!",
     "discoveringClimate": "Weekly Climate",
     "loadError": "Unable to load weekly synthesis."
+  },
+  "notifications": {
+    "title": "Reminders & Notifications",
+    "active": "Active",
+    "description": "Receive a gentle evening reminder to reflect in your journal and stay updated when your Sunday synthesis is ready.",
+    "notSupported": "Push notifications are not supported on this browser or require installing the application (PWA).",
+    "permissionDenied": "Notifications are blocked in your browser settings. Please allow them to enable reminders.",
+    "enable": "Enable push reminders",
+    "disable": "Disable reminders",
+    "subscribedSuccess": "Notifications successfully enabled!",
+    "unsubscribedSuccess": "Notifications disabled.",
+    "sendTest": "Send test notification",
+    "testSent": "Test notification sent to your device!",
+    "testFailed": "Failed to send test notification.",
+    "error": "An error occurred."
   }
 }
+
 
