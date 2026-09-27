@@ -69,7 +69,8 @@ export class PolarService {
 
     if (
       eventType === 'subscription.created' ||
-      eventType === 'subscription.updated'
+      eventType === 'subscription.updated' ||
+      eventType === 'subscription.canceled'
     ) {
       const userId =
         data.metadata?.userId ||
@@ -102,7 +103,15 @@ export class PolarService {
         });
       }
 
+      // 4. Fallback to matching polarSubscriptionId
+      if (!targetUser && data.id) {
+        targetUser = await this.prisma.user.findUnique({
+          where: { polarSubscriptionId: data.id },
+        });
+      }
+
       if (targetUser) {
+        // Polar sets cancel_at_period_end: true on cancellation, but status remains 'active' until period end
         const isActive = data.status === 'active';
         const newPlan = isActive ? 'PRO' : 'FREE';
 
@@ -117,7 +126,7 @@ export class PolarService {
         });
 
         console.log(
-          `[Polar Webhook] Successfully updated user ${targetUser.email} (${targetUser.id}) to plan: ${newPlan} (status: ${data.status})`,
+          `[Polar Webhook] Successfully updated user ${targetUser.email} (${targetUser.id}) to plan: ${newPlan} (status: ${data.status}, event: ${eventType})`,
         );
       } else {
         console.warn(
@@ -126,10 +135,7 @@ export class PolarService {
       }
     }
 
-    if (
-      eventType === 'subscription.canceled' ||
-      eventType === 'subscription.revoked'
-    ) {
+    if (eventType === 'subscription.revoked') {
       const rawCancelEmail = data.customer?.email ?? data.user?.email;
       const customerEmail = rawCancelEmail
         ? rawCancelEmail.toLowerCase().trim()
@@ -146,12 +152,12 @@ export class PolarService {
         },
         data: {
           plan: 'FREE',
-          subscriptionStatus: data.status,
+          subscriptionStatus: data.status || 'revoked',
         },
       });
 
       console.log(
-        `[Polar Webhook] Canceled/revoked subscription ${data.id} for user(s)`,
+        `[Polar Webhook] Revoked subscription ${data.id} for user(s), plan set to FREE`,
       );
     }
   }
