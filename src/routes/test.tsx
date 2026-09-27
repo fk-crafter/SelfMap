@@ -84,7 +84,7 @@ function TestPage() {
         name: 'Explorer',
         type: computedType,
         insight: `Your ${computedType} profile is taking shape. Your coach will refine this analysis over time.`,
-        avatarSeed: computedType,
+        avatarSeed: '',
         scores: finalScores,
       }
 

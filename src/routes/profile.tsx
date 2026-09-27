@@ -106,9 +106,16 @@ function ProfilePage() {
         <div className="mt-8 flex flex-col items-center">
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] shadow-[0_0_30px_rgba(197,192,254,0.1)]">
             <img
-              src={profile.avatarSeed || './avatar-coach.png'}
+              src={
+                profile.avatarSeed && (profile.avatarSeed.startsWith('http://') || profile.avatarSeed.startsWith('https://') || profile.avatarSeed.startsWith('/'))
+                  ? profile.avatarSeed
+                  : '/avatar-coach.png'
+              }
               alt="User Avatar"
               className="h-full w-full object-cover opacity-90"
+              onError={(e) => {
+                e.currentTarget.src = '/avatar-coach.png'
+              }}
             />
           </div>
           <h2 className="mt-6 font-serif text-4xl font-normal tracking-tight text-[#c9ebd0]">

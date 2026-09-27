@@ -35,6 +35,15 @@ type ExtendedUser = {
   plan?: string | null
 }
 
+export const isAvatarGenerated = (seed?: string | null): boolean => {
+  if (!seed) return false
+  return (
+    seed.startsWith('http://') ||
+    seed.startsWith('https://') ||
+    seed.startsWith('/')
+  )
+}
+
 function ScrambleText({ text }: { text: string }) {
   const [display, setDisplay] = useState('----')
 
@@ -119,15 +128,14 @@ function DashboardPage() {
 
     const hasSeenOnboarding = localStorage.getItem(`onboarding_${user.id}`)
 
-    if (!hasSeenOnboarding) {
-      if (user.type && !user.avatarSeed) {
-        const timer = setTimeout(() => {
-          setOnboardingStep('analysis')
-        }, 1500)
-        return () => clearTimeout(timer)
-      } else if (user.avatarSeed) {
-        setShowReveal(true)
-      }
+    // If user has an MBTI type but avatar image is not yet generated, prompt the onboarding flow
+    if (user.type && !isAvatarGenerated(user.avatarSeed)) {
+      const timer = setTimeout(() => {
+        setOnboardingStep('analysis')
+      }, 800)
+      return () => clearTimeout(timer)
+    } else if (!hasSeenOnboarding && isAvatarGenerated(user.avatarSeed)) {
+      setShowReveal(true)
     }
   }, [user])
 
@@ -170,23 +178,15 @@ function DashboardPage() {
 
     if (recoveredProfile?.type) {
       setIsRecoveringProfile(true)
-      const setupUrl = import.meta.env.PROD
-        ? '/users/setup'
-        : 'https://selfmap-bck.onrender.com/users/setup'
-
-      fetch(setupUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          mbtiType: recoveredProfile.type,
-          gender: 'neutral',
-        }),
-      })
-        .then(async (res) => {
-          if (res.ok) {
-            await refetch()
-          }
+      authClient
+        .updateUser({
+          type: recoveredProfile.type,
+          scores: recoveredProfile.scores
+            ? JSON.stringify(recoveredProfile.scores)
+            : undefined,
+        } as any)
+        .then(async () => {
+          await refetch()
         })
         .catch((err) => {
           console.error('Failed to auto-recover quiz profile:', err)
@@ -228,7 +228,7 @@ function DashboardPage() {
       setOnboardingStep('none')
       setShowReveal(true)
     } catch (err: any) {
-      alert(`DEBUG MODE - ERREUR EXACTE : ${err.message}`)
+      console.error('Coach generation error:', err)
       toast.error('Coach generation failed. Please try again.')
     } finally {
       setIsGenerating(false)
@@ -283,13 +283,19 @@ function DashboardPage() {
             <h3 className="mb-8 text-xs font-bold uppercase tracking-widest text-[#c8c5d0]">
               {t('dashboard.psychologicalArchitecture')}
             </h3>
-            <p className="text-sm leading-relaxed text-[#c8c5d0]/90 mb-8">
+            <p className="text-sm leading-relaxed text-[#c8c5d0]/90 mb-6">
               Initial cognitive mapping suggests a dominant <br />
               <span className="text-4xl mt-6 mb-6 block">
                 <ScrambleText text={user.type} />
               </span>
               structure.
             </p>
+            <Button
+              onClick={() => setOnboardingStep('gender')}
+              className="rounded-full bg-[#e9c349] px-6 py-2 text-xs font-bold text-[#001809] hover:bg-[#e9c349]/90 transition-transform active:scale-95"
+            >
+              {t('dashboard.continue')}
+            </Button>
           </div>
         </div>
       )}
@@ -330,9 +336,9 @@ function DashboardPage() {
         </div>
       )}
 
-      {showReveal && user.avatarSeed && (
+      {showReveal && isAvatarGenerated(user.avatarSeed) && (
         <OnboardingReveal
-          avatarUrl={user.avatarSeed}
+          avatarUrl={user.avatarSeed!}
           onComplete={handleCompleteOnboarding}
         />
       )}
@@ -358,9 +364,12 @@ function DashboardPage() {
           <Card className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10">
             <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
               <img
-                src={user.avatarSeed || './avatar-coach.png'}
+                src={isAvatarGenerated(user.avatarSeed) ? user.avatarSeed! : '/avatar-coach.png'}
                 alt="Coach Avatar"
                 className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
+                onError={(e) => {
+                  e.currentTarget.src = '/avatar-coach.png'
+                }}
               />
             </div>
 

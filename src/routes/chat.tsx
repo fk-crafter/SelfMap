@@ -34,7 +34,13 @@ function ChatPage() {
   const { t, i18n } = useTranslation()
 
   const user = (data?.user || storedUser) as ExtendedUser | undefined
-  const avatarUrl = user?.avatarSeed || '/avatar-coach.png'
+  const avatarUrl =
+    user?.avatarSeed &&
+    (user.avatarSeed.startsWith('http://') ||
+      user.avatarSeed.startsWith('https://') ||
+      user.avatarSeed.startsWith('/'))
+      ? user.avatarSeed
+      : '/avatar-coach.png'
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -192,6 +198,9 @@ function ChatPage() {
               src={avatarUrl}
               alt="Coach Avatar"
               className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = '/avatar-coach.png'
+              }}
             />
           </div>
           <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">

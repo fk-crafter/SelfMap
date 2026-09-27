@@ -62,11 +62,14 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
         >
-            {user.avatarSeed ? (
+            {user.avatarSeed && (user.avatarSeed.startsWith('http://') || user.avatarSeed.startsWith('https://') || user.avatarSeed.startsWith('/')) ? (
               <img
                 src={user.avatarSeed}
                 alt="Profile"
                 className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = '/avatar-coach.png'
+                }}
               />
             ) : (
               <UserIcon className="h-5 w-5" />

@@ -116,7 +116,6 @@ function RegisterPage() {
         type: effectiveProfile.type,
         scores: JSON.stringify(effectiveProfile.scores),
         insight: effectiveProfile.insight,
-        avatarSeed: effectiveProfile.avatarSeed,
         plan: assignedPlan,
         callbackURL: 'https://self-map-beta.vercel.app',
       })

@@ -9,8 +9,15 @@ export function OnboardingReveal({
   avatarUrl: string
   onComplete: () => void
 }) {
+  const isAvatarUrl =
+    avatarUrl &&
+    (avatarUrl.startsWith('http://') ||
+      avatarUrl.startsWith('https://') ||
+      avatarUrl.startsWith('/'))
   const [isLoaded, setIsLoaded] = useState(false)
-  const [finalAvatar, setFinalAvatar] = useState(avatarUrl)
+  const [finalAvatar, setFinalAvatar] = useState(
+    isAvatarUrl ? avatarUrl : '/avatar-coach.png',
+  )
 
   return (
     <div className="fixed inset-0 z-200 flex flex-col items-center justify-center bg-[#001809] px-6">
@@ -39,6 +46,7 @@ export function OnboardingReveal({
               src={finalAvatar}
               alt="Soul Coach Avatar"
               className="h-full w-full object-cover"
+              onError={() => setFinalAvatar('/avatar-coach.png')}
             />
           </div>
           <motion.h2
