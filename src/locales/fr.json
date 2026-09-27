@@ -357,5 +357,26 @@
     "unlockedDesc": "Votre email a été vérifié avec succès. Accès à votre espace...",
     "failed": "Échec de la Vérification",
     "backToLogin": "Retour à la connexion"
+  },
+  "synthesis": {
+    "cardTitle": "La Synthèse Hebdomadaire",
+    "cardSubtitle": "Bilan psychologique IA de votre semaine",
+    "viewSynthesis": "Consulter le Bilan",
+    "modalTitle": "Synthèse Psychologique de la Semaine",
+    "weekNumber": "Semaine {{week}} • {{year}}",
+    "climateTitle": "Climat Émotionnel & Mental",
+    "themesTitle": "Thèmes Clés Observés",
+    "analysisTitle": "Analyse Psychologique",
+    "intentionTitle": "Intention & Boussole Intérieure",
+    "proAnalysisUnlocked": "Analyse Cognitive Approfondie (PRO)",
+    "freeAnalysisTitle": "Aperçu Synthétique",
+    "proLockedNotice": "L'analyse approfondie des fonctions cognitives MBTI et la détection des angles morts sont réservées aux membres du Sanctuaire PRO.",
+    "unlockPro": "Débloquer le Sanctuaire PRO",
+    "refreshSynthesis": "Actualiser le bilan",
+    "refreshing": "Analyse en cours...",
+    "refreshedSuccess": "Synthèse mise à jour avec succès !",
+    "discoveringClimate": "Climat de la Semaine",
+    "loadError": "Impossible de charger la synthèse hebdomadaire."
   }
 }
+

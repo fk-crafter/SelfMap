@@ -7,6 +7,7 @@ import { AiService } from './ai/ai.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserController } from './user/user.controller';
 import { PolarModule } from './polar/polar.module';
+import { SynthesisModule } from './synthesis/synthesis.module';
 
 @Module({
   imports: [
@@ -15,8 +16,10 @@ import { PolarModule } from './polar/polar.module';
     JournalModule,
     PrismaModule,
     PolarModule,
+    SynthesisModule,
   ],
   controllers: [AiController, UserController],
   providers: [AiService],
 })
 export class AppModule {}
+

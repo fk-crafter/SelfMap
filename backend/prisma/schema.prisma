@@ -35,6 +35,7 @@ model User {
   sessions            Session[]
   accounts            Account[]
   journalEntries      JournalEntry[]
+  weeklySyntheses     WeeklySynthesis[]
   avatarSeed          String?
 
   @@map("user")
@@ -110,4 +111,22 @@ model Message {
   role           String       
   content        String       @db.Text
   createdAt      DateTime     @default(now())
+}
+
+model WeeklySynthesis {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekNumber  Int
+  year        Int
+  climate     String
+  themes      String   @db.Text
+  analysis    String   @db.Text
+  intention   String
+  isPro       Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, year, weekNumber])
+  @@map("weekly_synthesis")
 }

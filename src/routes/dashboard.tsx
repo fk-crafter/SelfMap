@@ -18,8 +18,10 @@ import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useUserStore } from '@/store/userStore'
 import { PwaPrompt } from '#/components/layout/PwaPrompt'
 import { useTranslation } from 'react-i18next'
+import { WeeklySynthesisCard } from '@/components/dashboard/WeeklySynthesisCard'
 
 export const Route = createFileRoute('/dashboard')({
+
   component: DashboardPage,
 })
 
@@ -387,7 +389,10 @@ function DashboardPage() {
             </Button>
           </Card>
 
+          <WeeklySynthesisCard user={user} />
+
           <div className="grid grid-cols-2 gap-4">
+
             <Link to="/journal">
               <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
                 <div className="mb-4 rounded-full bg-white/5 p-4 group-hover:bg-[#e9c349]/10 transition-colors">

@@ -357,5 +357,26 @@
     "unlockedDesc": "Your email has been successfully verified. Entering your space...",
     "failed": "Verification Failed",
     "backToLogin": "Back to Log in"
+  },
+  "synthesis": {
+    "cardTitle": "Weekly AI Synthesis",
+    "cardSubtitle": "AI psychological review of your past week",
+    "viewSynthesis": "View Review",
+    "modalTitle": "Weekly Psychological Synthesis",
+    "weekNumber": "Week {{week}} • {{year}}",
+    "climateTitle": "Emotional & Mental Climate",
+    "themesTitle": "Key Observed Themes",
+    "analysisTitle": "Psychological Analysis",
+    "intentionTitle": "Guiding Intention & Compass",
+    "proAnalysisUnlocked": "In-Depth Cognitive Analysis (PRO)",
+    "freeAnalysisTitle": "Summary Overview",
+    "proLockedNotice": "In-depth Jungian cognitive function mapping and blind-spot detection are reserved for Sanctuary PRO members.",
+    "unlockPro": "Unlock Sanctuary PRO",
+    "refreshSynthesis": "Refresh synthesis",
+    "refreshing": "Analyzing...",
+    "refreshedSuccess": "Synthesis updated successfully!",
+    "discoveringClimate": "Weekly Climate",
+    "loadError": "Unable to load weekly synthesis."
   }
 }
+
