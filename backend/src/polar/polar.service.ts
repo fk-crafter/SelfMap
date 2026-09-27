@@ -8,6 +8,10 @@ export interface PolarWebhookPayload {
     id: string;
     status: string;
     customer_id?: string;
+    current_period_end?: string | null;
+    cancel_at_period_end?: boolean;
+    canceled_at?: string | null;
+    ends_at?: string | null;
     customer?: {
       id?: string;
       email?: string;
@@ -114,6 +118,12 @@ export class PolarService {
         // Polar sets cancel_at_period_end: true on cancellation, but status remains 'active' until period end
         const isActive = data.status === 'active';
         const newPlan = isActive ? 'PRO' : 'FREE';
+        const cancelAtPeriodEnd = Boolean(data.cancel_at_period_end);
+        const currentPeriodEnd = data.current_period_end
+          ? new Date(data.current_period_end)
+          : data.ends_at
+            ? new Date(data.ends_at)
+            : null;
 
         await this.prisma.user.update({
           where: { id: targetUser.id },
@@ -122,11 +132,13 @@ export class PolarService {
             polarCustomerId: data.customer_id ?? targetUser.polarCustomerId,
             polarSubscriptionId: data.id,
             subscriptionStatus: data.status,
+            cancelAtPeriodEnd: cancelAtPeriodEnd,
+            ...(currentPeriodEnd ? { currentPeriodEnd } : {}),
           },
         });
 
         console.log(
-          `[Polar Webhook] Successfully updated user ${targetUser.email} (${targetUser.id}) to plan: ${newPlan} (status: ${data.status}, event: ${eventType})`,
+          `[Polar Webhook] Successfully updated user ${targetUser.email} (${targetUser.id}) to plan: ${newPlan} (status: ${data.status}, cancelAtPeriodEnd: ${cancelAtPeriodEnd}, event: ${eventType})`,
         );
       } else {
         console.warn(
@@ -153,6 +165,8 @@ export class PolarService {
         data: {
           plan: 'FREE',
           subscriptionStatus: data.status || 'revoked',
+          cancelAtPeriodEnd: false,
+          currentPeriodEnd: null,
         },
       });
 

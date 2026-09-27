@@ -15,6 +15,36 @@ import { AiService } from '../ai/ai.service';
 export class UserController {
   constructor(private readonly aiService: AiService) {}
 
+  @Get('me/subscription')
+  async getMySubscription(@Req() req: Request) {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        plan: true,
+        subscriptionStatus: true,
+        cancelAtPeriodEnd: true,
+        currentPeriodEnd: true,
+        polarCustomerId: true,
+        polarSubscriptionId: true,
+      },
+    });
+
+    return {
+      plan: user?.plan || 'FREE',
+      subscriptionStatus: user?.subscriptionStatus || null,
+      cancelAtPeriodEnd: Boolean(user?.cancelAtPeriodEnd),
+      currentPeriodEnd: user?.currentPeriodEnd || null,
+    };
+  }
+
   @Get('admin/list')
   async getAdminUsersList(@Req() req: Request) {
     const session = await auth.api.getSession({

@@ -21,6 +21,8 @@ model User {
   polarCustomerId     String?        @unique
   polarSubscriptionId String?        @unique
   subscriptionStatus  String?
+  cancelAtPeriodEnd   Boolean        @default(false)
+  currentPeriodEnd    DateTime?
 
   isAdmin             Boolean        @default(false)
 

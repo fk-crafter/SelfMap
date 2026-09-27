@@ -26,7 +26,20 @@ export const POLAR_CONFIG = {
     import.meta.env.VITE_POLAR_CHECKOUT_URL ||
     '',
   portalUrl:
-    import.meta.env.VITE_POLAR_PORTAL_URL || 'https://polar.sh/customer-portal',
+    import.meta.env.VITE_POLAR_PORTAL_URL || 'https://polar.sh/react-native-bp/portal',
+}
+
+export function getPolarPortalUrl(userEmail?: string): string {
+  const base = POLAR_CONFIG.portalUrl.trim() || 'https://polar.sh/react-native-bp/portal'
+  if (!userEmail) return base
+  try {
+    const url = new URL(base)
+    url.searchParams.set('email', userEmail)
+    return url.toString()
+  } catch {
+    const sep = base.includes('?') ? '&' : '?'
+    return `${base}${sep}email=${encodeURIComponent(userEmail)}`
+  }
 }
 
 export const PLANS: PlanConfig[] = [

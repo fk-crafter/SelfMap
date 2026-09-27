@@ -33,6 +33,9 @@ export interface AuthUser {
   gender?: string | null
   isAdmin?: boolean | null
   plan?: string | null
+  cancelAtPeriodEnd?: boolean | null
+  currentPeriodEnd?: Date | string | null
+  subscriptionStatus?: string | null
 }
 
 interface UserState {

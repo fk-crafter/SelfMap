@@ -211,7 +211,13 @@
     "proFeature3": "Synthèse psychologique dynamique en temps réel",
     "proFeature4": "Calibration cognitive continue et sans restriction",
     "proFeature5": "Accès prioritaire à toutes les futures fonctionnalités",
-    "proFeature6": "Sans engagement • Résiliation en 1 clic à tout moment"
+    "proFeature6": "Sans engagement • Résiliation en 1 clic à tout moment",
+    "cancellationScheduled": "Annulation programmée",
+    "cancellationNotice": "Votre accès PRO reste actif jusqu'au {{date}}. Après cette date, votre compte repassera automatiquement au plan gratuit.",
+    "renewalScheduled": "Abonnement actif",
+    "renewalNotice": "Votre abonnement sera automatiquement renouvelé le {{date}}.",
+    "endsOn": "Prend fin le {{date}}",
+    "renewsOn": "Renouvellement le {{date}}"
   },
   "settings": {
     "title": "Paramètres",

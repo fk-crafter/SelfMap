@@ -211,7 +211,13 @@
     "proFeature3": "Real-time dynamic psychological synthesis",
     "proFeature4": "Continuous and unrestricted cognitive calibration",
     "proFeature5": "Priority access to all upcoming features",
-    "proFeature6": "No commitment • Cancel in 1 click anytime"
+    "proFeature6": "No commitment • Cancel in 1 click anytime",
+    "cancellationScheduled": "Cancellation scheduled",
+    "cancellationNotice": "Your PRO access remains active until {{date}}. After this date, your account will revert to the free plan.",
+    "renewalScheduled": "Active subscription",
+    "renewalNotice": "Your subscription will automatically renew on {{date}}.",
+    "endsOn": "Ends on {{date}}",
+    "renewsOn": "Renews on {{date}}"
   },
   "settings": {
     "title": "Settings",

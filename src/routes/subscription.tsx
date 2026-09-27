@@ -11,12 +11,19 @@ import {
   Loader2,
   Lock,
   Zap,
+  Calendar,
+  Clock,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { PLANS, buildPolarCheckoutUrl, POLAR_CONFIG } from '@/lib/polar'
+import {
+  PLANS,
+  buildPolarCheckoutUrl,
+  POLAR_CONFIG,
+  getPolarPortalUrl,
+} from '@/lib/polar'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useTranslation } from 'react-i18next'
@@ -95,6 +102,45 @@ function SubscriptionPage() {
     }
   }, [search.success, search.canceled, refetch, setUser, t])
 
+  const [subscriptionDetails, setSubscriptionDetails] = useState<{
+    cancelAtPeriodEnd?: boolean
+    currentPeriodEnd?: string | null
+  } | null>(null)
+
+  useEffect(() => {
+    if (!user) return
+    const fetchSub = async () => {
+      try {
+        const subUrl = import.meta.env.PROD
+          ? '/users/me/subscription'
+          : 'https://selfmap-bck.onrender.com/users/me/subscription'
+        const res = await window.fetch(subUrl, { credentials: 'include' })
+        if (res.ok) {
+          const data = await res.json()
+          setSubscriptionDetails({
+            cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+            currentPeriodEnd: data.currentPeriodEnd,
+          })
+        }
+      } catch (err) {
+        console.warn('Failed to fetch subscription details', err)
+      }
+    }
+    fetchSub()
+  }, [user?.id])
+
+  const cancelAtPeriodEnd =
+    subscriptionDetails?.cancelAtPeriodEnd ?? Boolean(user?.cancelAtPeriodEnd)
+  const currentPeriodEnd =
+    subscriptionDetails?.currentPeriodEnd ?? user?.currentPeriodEnd
+
+  const formattedPeriodEndDate = currentPeriodEnd
+    ? new Date(currentPeriodEnd).toLocaleDateString(
+        t('subscription.mo') === 'Mois' ? 'fr-FR' : 'en-US',
+        { day: 'numeric', month: 'long', year: 'numeric' },
+      )
+    : null
+
   const handleSubscribe = () => {
     if (!user) {
       toast.info(t('subscription.loginToast'))
@@ -103,7 +149,7 @@ function SubscriptionPage() {
     }
 
     if (isPro) {
-      window.open(POLAR_CONFIG.portalUrl, '_blank')
+      window.open(getPolarPortalUrl(user?.email), '_blank')
       return
     }
 
@@ -227,6 +273,56 @@ function SubscriptionPage() {
                     ? 'Founding Member BETA'
                     : `${t('subscription.freePlanName')} (Awakening)`}
               </span>
+            </div>
+          )}
+
+          {isPro && formattedPeriodEndDate && (
+            <div
+              className={`mx-auto mt-6 max-w-xl rounded-2xl border p-4 backdrop-blur-xl shadow-lg transition-all ${
+                cancelAtPeriodEnd
+                  ? 'border-amber-500/30 bg-amber-500/10 text-amber-200'
+                  : 'border-[#e9c349]/30 bg-[#e9c349]/10 text-[#c9ebd0]'
+              }`}
+            >
+              <div className="flex items-start gap-3.5 text-left">
+                <div
+                  className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+                    cancelAtPeriodEnd
+                      ? 'bg-amber-500/20 text-amber-300'
+                      : 'bg-[#e9c349]/20 text-[#e9c349]'
+                  }`}
+                >
+                  <Calendar className="h-4.5 w-4.5" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#e9c349]">
+                      {cancelAtPeriodEnd
+                        ? t('subscription.cancellationScheduled')
+                        : t('subscription.renewalScheduled')}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        window.open(getPolarPortalUrl(user?.email), '_blank')
+                      }
+                      className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-medium text-[#e9c349] hover:underline"
+                    >
+                      {t('subscription.manageBtn')}
+                      <ExternalLink className="h-3 w-3" />
+                    </button>
+                  </div>
+                  <p className="mt-1 text-xs leading-relaxed text-[#c8c5d0]">
+                    {cancelAtPeriodEnd
+                      ? t('subscription.cancellationNotice', {
+                          date: formattedPeriodEndDate,
+                        })
+                      : t('subscription.renewalNotice', {
+                          date: formattedPeriodEndDate,
+                        })}
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -383,7 +479,7 @@ function SubscriptionPage() {
                 <div className="mt-8 pt-4">
                   {plan.id === 'PRO' ? (
                     isPro ? (
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <Button
                           disabled
                           className="w-full cursor-default rounded-full border border-[#e9c349]/40 bg-[#e9c349]/20 py-6 text-sm font-bold text-[#e9c349]"
@@ -391,9 +487,23 @@ function SubscriptionPage() {
                           <Check className="mr-2 h-4 w-4" />
                           {t('subscription.currentPlanBtn')}
                         </Button>
+                        {formattedPeriodEndDate && (
+                          <div className="flex items-center justify-center gap-1.5 py-0.5 text-center text-xs text-[#c8c5d0]">
+                            <Clock className="h-3.5 w-3.5 text-[#e9c349]" />
+                            <span>
+                              {cancelAtPeriodEnd
+                                ? t('subscription.endsOn', {
+                                    date: formattedPeriodEndDate,
+                                  })
+                                : t('subscription.renewsOn', {
+                                    date: formattedPeriodEndDate,
+                                  })}
+                            </span>
+                          </div>
+                        )}
                         <Button
                           onClick={() =>
-                            window.open(POLAR_CONFIG.portalUrl, '_blank')
+                            window.open(getPolarPortalUrl(user?.email), '_blank')
                           }
                           variant="ghost"
                           className="w-full text-xs text-[#c8c5d0]/70 hover:text-[#e9c349]"
@@ -461,7 +571,7 @@ function SubscriptionPage() {
         {isPro && (
           <div className="mt-6 text-center">
             <a
-              href={POLAR_CONFIG.portalUrl}
+              href={getPolarPortalUrl(user?.email)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs text-[#e9c349] hover:underline"
