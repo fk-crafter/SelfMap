@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Bell, BellOff, BellRing, Check, Loader2, Sparkles } from 'lucide-react'
+import { Bell, BellOff, BellRing, Check, Loader2, Send } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -161,7 +161,7 @@ export function PushNotificationSettings({ userId }: { userId: string }) {
               {isTesting ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
               ) : (
-                <Sparkles className="h-3.5 w-3.5" />
+                <Send className="h-3.5 w-3.5" />
               )}
               {t('notifications.sendTest', 'Envoyer une notification test')}
             </Button>

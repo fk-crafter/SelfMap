@@ -8,10 +8,11 @@ import {
   subscribeToPushNotifications,
   getNotificationPermission,
   checkPushSubscriptionStatus,
+  triggerTestPush,
 } from '@/lib/pushNotifications'
 
 export function NotificationPrompt({ user }: { user?: { id: string } | null }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [showPrompt, setShowPrompt] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -54,6 +55,8 @@ export function NotificationPrompt({ user }: { user?: { id: string } | null }) {
         toast.success(t('notifications.subscribedSuccess', 'Notifications activées avec succès !'))
         setShowPrompt(false)
         localStorage.setItem('notification_prompt_dismissed', 'true')
+        // Automatically send test notification so user sees it instantly
+        void triggerTestPush(user.id, i18n.language)
       } else {
         toast.error(res.error || t('notifications.error', 'Une erreur est survenue.'))
         if (getNotificationPermission() === 'denied') {
