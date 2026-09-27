@@ -17,7 +17,6 @@ import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useUserStore } from '@/store/userStore'
 import { PwaPrompt } from '#/components/layout/PwaPrompt'
-import { NotificationPrompt } from '@/components/layout/NotificationPrompt'
 import { useTranslation } from 'react-i18next'
 import { WeeklySynthesisCard } from '@/components/dashboard/WeeklySynthesisCard'
 
@@ -468,7 +467,6 @@ function DashboardPage() {
         </div>
       </main>
       <PwaPrompt />
-      <NotificationPrompt user={user} />
       <DashboardBottomNav />
     </div>
   )
