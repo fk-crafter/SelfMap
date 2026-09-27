@@ -38,13 +38,13 @@ export const auth = betterAuth({
       enabled: true,
     },
     additionalFields: {
-      type: { type: 'string', required: false },
-      gender: { type: 'string', required: false },
-      insight: { type: 'string', required: false },
-      avatarSeed: { type: 'string', required: false },
-      scores: { type: 'string', required: false },
-      plan: { type: 'string', required: false, defaultValue: 'FREE' },
-      isAdmin: { type: 'boolean', required: false, defaultValue: false },
+      type: { type: 'string', required: false, input: true },
+      gender: { type: 'string', required: false, input: true },
+      insight: { type: 'string', required: false, input: true },
+      avatarSeed: { type: 'string', required: false, input: true },
+      scores: { type: 'string', required: false, input: true },
+      plan: { type: 'string', required: false, defaultValue: 'FREE', input: true },
+      isAdmin: { type: 'boolean', required: false, defaultValue: false, input: false },
     },
     changeEmail: { enabled: true },
   },
@@ -58,7 +58,8 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     sendVerificationEmail({ user, url }) {
       const token = new URL(url).searchParams.get('token');
-      const frontendVerifyUrl = `https://self-map-beta.vercel.app/verify?token=${token}`;
+      const frontendBaseUrl = process.env.FRONTEND_URL || 'https://self-map-beta.vercel.app';
+      const frontendVerifyUrl = `${frontendBaseUrl}/verify?token=${token}`;
 
       fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
         method: 'POST',

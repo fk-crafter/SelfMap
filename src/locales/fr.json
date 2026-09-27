@@ -307,6 +307,7 @@
     "checkEmailVerify": "Veuillez vérifier votre adresse email pour entrer dans le sanctuaire.",
     "goToLogin": "ALLER À LA CONNEXION",
     "termsRequired": "Vous devez accepter les conditions d'utilisation pour continuer.",
+    "testRequired": "Veuillez passer le test psychologique avant de créer votre compte.",
     "secureData": "Données Sécurisées",
     "psychologyCertified": "Certifié Psychologique"
   },

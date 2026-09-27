@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
+import type { UserProfile } from '@/store/userStore'
 import { registerSchema } from '@/lib/validations'
 import { useTranslation } from 'react-i18next'
 
@@ -35,10 +36,42 @@ function RegisterPage() {
   const [error, setError] = useState('')
   const [emailSent, setEmailSent] = useState(false)
 
-  const profile = useUserStore((state) => state.profile)
+  const storeProfile = useUserStore((state) => state.profile)
   const storedUser = useUserStore((state) => state.user)
   const hasHydrated = useUserStore((state) => state._hasHydrated)
   const { data, isPending } = authClient.useSession()
+
+  const getEffectiveProfile = (): UserProfile | null => {
+    if (storeProfile?.type) return storeProfile
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('soultype_quiz_profile')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (parsed?.type) return parsed
+        }
+      } catch (e) {
+        console.error('Error reading quiz profile from localStorage:', e)
+      }
+    }
+    return null
+  }
+
+  useEffect(() => {
+    if (!storeProfile && typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('soultype_quiz_profile')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (parsed?.type) {
+            useUserStore.getState().setProfile(parsed)
+          }
+        }
+      } catch (e) {
+        console.error('Error restoring quiz profile:', e)
+      }
+    }
+  }, [storeProfile])
 
   useEffect(() => {
     if (storedUser) {
@@ -64,6 +97,12 @@ function RegisterPage() {
       return
     }
 
+    const effectiveProfile = getEffectiveProfile()
+    if (!effectiveProfile?.type) {
+      setError(t('auth.testRequired'))
+      return
+    }
+
     setIsLoading(true)
     setError('')
 
@@ -74,12 +113,13 @@ function RegisterPage() {
         email,
         password,
         name,
-        type: profile?.type,
-        scores: profile?.scores ? JSON.stringify(profile.scores) : undefined,
+        type: effectiveProfile.type,
+        scores: JSON.stringify(effectiveProfile.scores),
+        insight: effectiveProfile.insight,
+        avatarSeed: effectiveProfile.avatarSeed,
         plan: assignedPlan,
-        rememberMe: true,
         callbackURL: 'https://self-map-beta.vercel.app',
-      } as any)
+      })
 
       if (signUpError) {
         setError(

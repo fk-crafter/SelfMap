@@ -140,12 +140,62 @@ function DashboardPage() {
     }
   }, [onboardingStep])
 
+  const storedProfile = useUserStore((state: any) => state.profile)
+  const [isRecoveringProfile, setIsRecoveringProfile] = useState(false)
+
   const handleCompleteOnboarding = () => {
     if (user) {
       localStorage.setItem(`onboarding_${user.id}`, 'true')
     }
     setShowReveal(false)
   }
+
+  useEffect(() => {
+    if (!user || user.type || isRecoveringProfile) return
+
+    let recoveredProfile: any = null
+    try {
+      const saved = localStorage.getItem('soultype_quiz_profile')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed?.type) recoveredProfile = parsed
+      }
+    } catch (e) {
+      console.error('Failed to read saved quiz profile:', e)
+    }
+
+    if (!recoveredProfile?.type && storedProfile?.type) {
+      recoveredProfile = storedProfile
+    }
+
+    if (recoveredProfile?.type) {
+      setIsRecoveringProfile(true)
+      const setupUrl = import.meta.env.PROD
+        ? '/users/setup'
+        : 'https://selfmap-bck.onrender.com/users/setup'
+
+      fetch(setupUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          mbtiType: recoveredProfile.type,
+          gender: 'neutral',
+        }),
+      })
+        .then(async (res) => {
+          if (res.ok) {
+            await refetch()
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to auto-recover quiz profile:', err)
+        })
+        .finally(() => {
+          setIsRecoveringProfile(false)
+        })
+    }
+  }, [user, isRecoveringProfile, storedProfile, refetch])
 
   const handleGenerateCoach = async () => {
     if (!gender || !user || !user.type) return
@@ -196,6 +246,17 @@ function DashboardPage() {
   if (!user) return null
 
   if (!user.type) {
+    if (isRecoveringProfile) {
+      return (
+        <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
+          <Loader2 className="h-10 w-10 animate-spin text-[#e9c349] mb-4" />
+          <h2 className="font-serif text-2xl text-[#e9c349]">
+            {t('test.analyzing')}
+          </h2>
+        </div>
+      )
+    }
+
     return (
       <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
         <h1 className="mb-4 font-serif text-3xl font-normal text-[#e9c349]">

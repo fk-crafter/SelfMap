@@ -108,7 +108,6 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const setUser = useUserStore((state) => state.setUser)
-  const logout = useUserStore((state) => state.logout)
   const { i18n } = useTranslation()
   const routerState = useRouterState()
   const pathname = routerState.location.pathname
@@ -143,7 +142,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         if (data?.user) {
           setUser(data.user)
         } else if (!error && data === null) {
-          logout()
+          // No active session on server: clear user auth state without wiping quiz profile
+          setUser(null)
         }
       } catch {
         // Network error / offline: retain offline cached session
@@ -151,7 +151,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     }
 
     fetchSession()
-  }, [setUser, logout])
+  }, [setUser])
 
   return (
     <html lang={i18n.language || 'en'} suppressHydrationWarning>

@@ -307,6 +307,7 @@
     "checkEmailVerify": "Please verify your address to enter the sanctuary.",
     "goToLogin": "GO TO LOGIN",
     "termsRequired": "You must agree to the Terms of Service to continue.",
+    "testRequired": "Please complete the psychological quiz before creating your account.",
     "secureData": "Secure Data",
     "psychologyCertified": "Psychology Certified"
   },

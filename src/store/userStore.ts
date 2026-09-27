@@ -31,7 +31,7 @@ export interface AuthUser {
   avatarSeed?: string | null
   scores?: string | null
   gender?: string | null
-  isAdmin?: boolean
+  isAdmin?: boolean | null
   plan?: string | null
 }
 
@@ -71,7 +71,7 @@ export const useUserStore = create<UserState>()(
             console.error('Error clearing storage:', e)
           }
         }
-        set({ user: null, isAuthenticated: false, profile: null })
+        set({ user: null, isAuthenticated: false })
       },
     }),
     {

@@ -1,4 +1,5 @@
 import { createAuthClient } from 'better-auth/react'
+import { inferAdditionalFields } from 'better-auth/client/plugins'
 
 const getBaseURL = () => {
   if (import.meta.env.VITE_API_URL) {
@@ -15,4 +16,17 @@ export const authClient = createAuthClient({
   fetchOptions: {
     credentials: 'include',
   },
+  plugins: [
+    inferAdditionalFields({
+      user: {
+        type: { type: 'string', required: false },
+        gender: { type: 'string', required: false },
+        insight: { type: 'string', required: false },
+        avatarSeed: { type: 'string', required: false },
+        scores: { type: 'string', required: false },
+        plan: { type: 'string', required: false },
+        isAdmin: { type: 'boolean', required: false },
+      },
+    }),
+  ],
 })

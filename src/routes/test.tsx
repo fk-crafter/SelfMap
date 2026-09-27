@@ -80,13 +80,23 @@ function TestPage() {
 
       const computedType = `${finalScores.E >= finalScores.I ? 'E' : 'I'}${finalScores.N >= finalScores.S ? 'N' : 'S'}${finalScores.T >= finalScores.F ? 'T' : 'F'}${finalScores.J >= finalScores.P ? 'J' : 'P'}`
 
-      setProfile({
+      const quizProfile = {
         name: 'Explorer',
         type: computedType,
         insight: `Your ${computedType} profile is taking shape. Your coach will refine this analysis over time.`,
         avatarSeed: computedType,
         scores: finalScores,
-      })
+      }
+
+      setProfile(quizProfile)
+
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('soultype_quiz_profile', JSON.stringify(quizProfile))
+        } catch (e) {
+          console.error('Failed to save quiz profile to localStorage:', e)
+        }
+      }
 
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
