@@ -391,7 +391,11 @@
     "sendTest": "Envoyer une notification test",
     "testSent": "Notification test envoyée sur votre appareil !",
     "testFailed": "Échec de l'envoi de la notification test.",
-    "error": "Une erreur est survenue."
+    "error": "Une erreur est survenue.",
+    "promptTitle": "Activer les rappels du soir ?",
+    "promptDesc": "Recevez une douce invitation chaque soir pour consigner vos pensées et être notifié de votre synthèse du dimanche.",
+    "promptEnable": "Activer les notifications",
+    "promptLater": "Plus tard"
   }
 }
 

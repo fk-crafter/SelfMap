@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
-  Sparkles,
   Compass,
   ArrowRight,
   X,
@@ -83,21 +82,14 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
   return (
     <>
       <Card className="group relative overflow-hidden border border-[#e9c349]/20 bg-linear-to-b from-[#063018] via-[#022110] to-[#001809] p-6 shadow-xl backdrop-blur-xl rounded-[2rem] transition-all hover:border-[#e9c349]/40">
-        <div className="absolute top-0 right-0 -mr-12 -mt-12 h-36 w-36 rounded-full bg-[#e9c349]/5 blur-2xl pointer-events-none" />
-
         <div className="flex items-center justify-between gap-4 mb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#e9c349]/30 bg-[#e9c349]/10 text-[#e9c349]">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
-                {t('synthesis.cardTitle')}
-              </span>
-              <h3 className="font-serif text-lg font-medium text-[#c9ebd0] leading-snug">
-                {synthesis?.climate || t('synthesis.discoveringClimate', 'Climat de la Semaine')}
-              </h3>
-            </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] block mb-1">
+              {t('synthesis.cardTitle')}
+            </span>
+            <h3 className="font-serif text-lg font-medium text-[#c9ebd0] leading-snug">
+              {synthesis?.climate || t('synthesis.discoveringClimate', 'Climat de la Semaine')}
+            </h3>
           </div>
           {synthesis?.weekNumber && (
             <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium text-[#c8c5d0]">
@@ -147,34 +139,29 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between border-b border-white/10 p-6 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e9c349]/15 text-[#e9c349]">
-                    <Sparkles className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="font-serif text-xl text-[#c9ebd0]">
-                      {t('synthesis.modalTitle')}
-                    </h2>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs text-[#c8c5d0]/70 flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {synthesis
-                          ? t('synthesis.weekNumber', {
-                              week: synthesis.weekNumber,
-                              year: synthesis.year,
-                            })
-                          : '...'}
+                <div>
+                  <h2 className="font-serif text-xl text-[#c9ebd0]">
+                    {t('synthesis.modalTitle')}
+                  </h2>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-xs text-[#c8c5d0]/70 flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {synthesis
+                        ? t('synthesis.weekNumber', {
+                            week: synthesis.weekNumber,
+                            year: synthesis.year,
+                          })
+                        : '...'}
+                    </span>
+                    {isPro ? (
+                      <span className="rounded-full bg-[#e9c349]/20 border border-[#e9c349]/40 px-2 py-0.5 text-[10px] font-bold text-[#e9c349] flex items-center gap-1">
+                        <Crown className="h-3 w-3" /> PRO
                       </span>
-                      {isPro ? (
-                        <span className="rounded-full bg-[#e9c349]/20 border border-[#e9c349]/40 px-2 py-0.5 text-[10px] font-bold text-[#e9c349] flex items-center gap-1">
-                          <Crown className="h-3 w-3" /> PRO
-                        </span>
-                      ) : (
-                        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-[#c8c5d0]">
-                          FREE
-                        </span>
-                      )}
-                    </div>
+                    ) : (
+                      <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-[#c8c5d0]">
+                        FREE
+                      </span>
+                    )}
                   </div>
                 </div>
 

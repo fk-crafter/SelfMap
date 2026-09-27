@@ -391,7 +391,11 @@
     "sendTest": "Send test notification",
     "testSent": "Test notification sent to your device!",
     "testFailed": "Failed to send test notification.",
-    "error": "An error occurred."
+    "error": "An error occurred.",
+    "promptTitle": "Enable evening reminders?",
+    "promptDesc": "Receive a gentle evening invitation to journal your thoughts and get notified about your Sunday synthesis.",
+    "promptEnable": "Enable notifications",
+    "promptLater": "Later"
   }
 }
 

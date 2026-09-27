@@ -50,7 +50,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/80 px-6 py-5 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809]/90 px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-4 backdrop-blur-xl">
       <div className="flex items-center gap-4">
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
           SoulType
@@ -60,24 +60,30 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
+          aria-label="Menu"
+          className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
         >
-            {user.avatarSeed && (user.avatarSeed.startsWith('http://') || user.avatarSeed.startsWith('https://') || user.avatarSeed.startsWith('/')) ? (
-              <img
-                src={user.avatarSeed}
-                alt="Profile"
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = '/avatar-coach.png'
-                }}
-              />
-            ) : (
-              <UserIcon className="h-5 w-5" />
-            )}
-          </button>
+          {user.avatarSeed && (user.avatarSeed.startsWith('http://') || user.avatarSeed.startsWith('https://') || user.avatarSeed.startsWith('/')) ? (
+            <img
+              src={user.avatarSeed}
+              alt="Profile"
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = '/avatar-coach.png'
+              }}
+            />
+          ) : (
+            <UserIcon className="h-5 w-5" />
+          )}
+        </button>
 
-          {isMenuOpen && (
-            <div className="absolute right-0 top-12 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
+        {isMenuOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs md:hidden"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            <div className="absolute right-0 top-full mt-3 z-50 flex w-56 flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#032110] shadow-2xl backdrop-blur-xl">
               <Link
                 to="/profile"
                 onClick={() => setIsMenuOpen(false)}
@@ -135,8 +141,9 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                 {t('dashboard.signOut')}
               </button>
             </div>
-          )}
-        </div>
+          </>
+        )}
+      </div>
     </header>
   )
 }
