@@ -275,7 +275,17 @@
     "entryRemoved": "Entry removed",
     "failedDelete": "Failed to delete entry",
     "failedSave": "Could not save your entry",
-    "failedLoad": "Failed to load entries"
+    "failedLoad": "Failed to load entries",
+    "guidedReflection": "Daily Ritual",
+    "dailyPrompt": "Inspiring Prompt",
+    "nextPrompt": "Another prompt",
+    "usePrompt": "Reflect on this",
+    "promptAnswered": "Prompt added to your reflection",
+    "temperamentAnalyst": "Analyst Mind",
+    "temperamentDiplomat": "Diplomat Soul",
+    "temperamentSentinel": "Sentinel Anchor",
+    "temperamentExplorer": "Explorer Spirit",
+    "temperamentUniversal": "Inner Guidance"
   },
   "auth": {
     "loginTitle": "Welcome Back",

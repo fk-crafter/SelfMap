@@ -10,12 +10,18 @@ import {
   Send,
   Trash2,
   PenLine,
+  Sparkles,
+  RefreshCw,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
+import {
+  getDailyPrompt,
+  getTemperamentFromType,
+} from '@/lib/journalPrompts'
 
 export const Route = createFileRoute('/journal')({
   component: JournalPage,
@@ -36,8 +42,29 @@ function JournalPage() {
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [content, setContent] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [promptOffset, setPromptOffset] = useState(0)
 
   const user = data?.user || storedUser
+  const currentPrompt = getDailyPrompt(user?.type, promptOffset)
+  const currentTemperament = getTemperamentFromType(user?.type)
+  const currentLang = i18n.language.startsWith('fr') ? 'fr' : 'en'
+
+  const temperamentBadgeText = {
+    analyst: t('journal.temperamentAnalyst'),
+    diplomat: t('journal.temperamentDiplomat'),
+    sentinel: t('journal.temperamentSentinel'),
+    explorer: t('journal.temperamentExplorer'),
+    universal: t('journal.temperamentUniversal'),
+  }[currentTemperament]
+
+  const handleApplyPrompt = (promptText: string) => {
+    if (!content.trim()) {
+      setContent(`« ${promptText} »\n\n`)
+    } else if (!content.includes(promptText)) {
+      setContent((prev) => `« ${promptText} »\n\n${prev}`)
+    }
+    toast.info(t('journal.promptAnswered'))
+  }
 
   useEffect(() => {
     if (hasHydrated && !isPending && !data && !storedUser) {
@@ -136,11 +163,60 @@ function JournalPage() {
         </h1>
       </header>
 
-      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-8 px-6 pb-24 relative z-10">
+      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-24 relative z-10">
+        {/* Daily Ritual Guided Prompt Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          <Card className="relative overflow-hidden rounded-[2rem] border border-[#e9c349]/25 bg-linear-to-b from-[#e9c349]/10 via-[rgba(197,192,254,0.03)] to-transparent p-5 backdrop-blur-xl shadow-lg">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e9c349]/20 text-[#e9c349]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#e9c349]">
+                  {t('journal.guidedReflection')}
+                </span>
+                {user?.type && (
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-[#c8c5d0]/70">
+                    {user.type} • {temperamentBadgeText}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setPromptOffset((prev) => prev + 1)}
+                className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-[#c8c5d0]/70 transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
+                title={t('journal.nextPrompt')}
+              >
+                <RefreshCw className="h-3 w-3" />
+                <span className="hidden sm:inline">{t('journal.nextPrompt')}</span>
+              </button>
+            </div>
+
+            <p className="font-serif text-sm sm:text-base italic leading-relaxed text-[#c9ebd0]">
+              « {currentPrompt.text[currentLang]} »
+            </p>
+
+            <div className="mt-3.5 flex justify-end">
+              <button
+                type="button"
+                onClick={() => handleApplyPrompt(currentPrompt.text[currentLang])}
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-[#e9c349]/15 px-3 py-1.5 text-xs font-semibold text-[#e9c349] transition-all hover:bg-[#e9c349]/25 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <PenLine className="h-3.5 w-3.5" />
+                {t('journal.usePrompt')}
+              </button>
+            </div>
+          </Card>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         >
           <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
             <div className="mb-4 flex items-center gap-3">

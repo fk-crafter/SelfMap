@@ -275,7 +275,17 @@
     "entryRemoved": "Entrée supprimée",
     "failedDelete": "Impossible de supprimer l'entrée",
     "failedSave": "Impossible d'enregistrer votre note",
-    "failedLoad": "Échec du chargement des notes"
+    "failedLoad": "Échec du chargement des notes",
+    "guidedReflection": "Rituel du Jour",
+    "dailyPrompt": "Question Inspirante",
+    "nextPrompt": "Autre question",
+    "usePrompt": "Répondre à cette question",
+    "promptAnswered": "Question ajoutée à votre réflexion",
+    "temperamentAnalyst": "Profil Analyste",
+    "temperamentDiplomat": "Profil Diplomate",
+    "temperamentSentinel": "Profil Sentinelle",
+    "temperamentExplorer": "Profil Explorateur",
+    "temperamentUniversal": "Guidance Intérieure"
   },
   "auth": {
     "loginTitle": "Bon retour",
