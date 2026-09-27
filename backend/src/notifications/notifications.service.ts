@@ -23,22 +23,21 @@ export interface PushPayload {
 export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
 
-  private readonly publicKey =
-    process.env.VAPID_PUBLIC_KEY ||
-    'BCGVeRz4PdhxiI0AeQmaQknG1fEtJvCB6s1SzDaf6fGOxMyB-vKoFisS8czyFYijK8i7Y9GbQnFhPRokON3Tnes';
-
-  private readonly privateKey =
-    process.env.VAPID_PRIVATE_KEY || 'Hetq5ecIyk0W_ezrkQLQRFvlwfJtDGVyIcSux3i72hw';
-
+  private readonly publicKey = process.env.VAPID_PUBLIC_KEY || '';
+  private readonly privateKey = process.env.VAPID_PRIVATE_KEY || '';
   private readonly subject =
     process.env.VAPID_SUBJECT || 'mailto:contact@selfmap.app';
 
   constructor(private prisma: PrismaService) {
-    try {
-      webpush.setVapidDetails(this.subject, this.publicKey, this.privateKey);
-      this.logger.log('VAPID details configured successfully');
-    } catch (err) {
-      this.logger.error('Failed to configure VAPID details', err);
+    if (this.publicKey && this.privateKey) {
+      try {
+        webpush.setVapidDetails(this.subject, this.publicKey, this.privateKey);
+        this.logger.log('VAPID details configured successfully');
+      } catch (err) {
+        this.logger.error('Failed to configure VAPID details', err);
+      }
+    } else {
+      this.logger.warn('VAPID keys are not configured in environment variables');
     }
   }
 

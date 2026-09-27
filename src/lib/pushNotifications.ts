@@ -37,10 +37,7 @@ export async function getVapidPublicKey(): Promise<string> {
     console.error('Failed to fetch public key from server:', err)
   }
 
-  return (
-    (import.meta.env.VITE_VAPID_PUBLIC_KEY as string) ||
-    'BCGVeRz4PdhxiI0AeQmaQknG1fEtJvCB6s1SzDaf6fGOxMyB-vKoFisS8czyFYijK8i7Y9GbQnFhPRokON3Tnes'
-  )
+  return (import.meta.env.VITE_VAPID_PUBLIC_KEY as string) || ''
 }
 
 export async function subscribeToPushNotifications(
