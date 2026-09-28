@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { ArrowLeft, Loader2, User, AlertTriangle, Crown, LogOut } from 'lucide-react'
+import { ArrowLeft, Loader2, User, AlertTriangle, Crown, LogOut, Globe } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/settings')({
 
 function SettingsPage() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { data, isPending } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
@@ -212,6 +212,56 @@ function SettingsPage() {
         </Card>
 
         {user?.id && <PushNotificationSettings userId={user.id} />}
+
+        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+          <div className="mb-2 flex items-center gap-2">
+            <Globe className="h-5 w-5 text-[#e9c349]" />
+            <h2 className="font-serif text-xl text-[#c9ebd0]">
+              {t('settings.language')}
+            </h2>
+          </div>
+          <p className="mb-4 text-xs text-[#c8c5d0]/70 leading-relaxed">
+            {t('settings.languageDesc')}
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  localStorage.setItem('soultype_user_lang', 'fr')
+                } catch {}
+                void i18n.changeLanguage('fr')
+                toast.success(t('settings.langUpdated'))
+              }}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
+                i18n.language?.startsWith('fr')
+                  ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
+                  : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+              }`}
+            >
+              <span className="text-base">🇫🇷</span>
+              <span>{t('settings.languageFr')}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  localStorage.setItem('soultype_user_lang', 'en')
+                } catch {}
+                void i18n.changeLanguage('en')
+                toast.success(t('settings.langUpdated'))
+              }}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
+                !i18n.language?.startsWith('fr')
+                  ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
+                  : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+              }`}
+            >
+              <span className="text-base">🇬🇧</span>
+              <span>{t('settings.languageEn')}</span>
+            </button>
+          </div>
+        </Card>
 
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
 

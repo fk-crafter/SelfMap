@@ -9,9 +9,14 @@ const isBrowser = typeof window !== 'undefined'
 
 export const detectBrowserLanguage = (): 'fr' | 'en' => {
   if (!isBrowser) return 'en'
+  try {
+    const saved = localStorage.getItem('soultype_user_lang')
+    if (saved === 'fr' || saved === 'en') return saved
+  } catch (e) {}
+
   const lang =
     (typeof navigator !== 'undefined' &&
-      (navigator.languages[0] || navigator.language)) ||
+      ((navigator.languages && navigator.languages[0]) || navigator.language)) ||
     ''
   return lang.toLowerCase().startsWith('fr') ? 'fr' : 'en'
 }
@@ -19,8 +24,24 @@ export const detectBrowserLanguage = (): 'fr' | 'en' => {
 const getInitialLang = () => {
   if (isBrowser) {
     const path = window.location.pathname.toLowerCase()
-    if (path === '/fr' || path.startsWith('/fr/')) return 'fr'
-    if (path === '/en' || path.startsWith('/en/')) return 'en'
+    if (path === '/fr' || path.startsWith('/fr/')) {
+      try {
+        localStorage.setItem('soultype_user_lang', 'fr')
+      } catch (e) {}
+      return 'fr'
+    }
+    if (path === '/en' || path.startsWith('/en/')) {
+      try {
+        localStorage.setItem('soultype_user_lang', 'en')
+      } catch (e) {}
+      return 'en'
+    }
+
+    try {
+      const saved = localStorage.getItem('soultype_user_lang')
+      if (saved === 'fr' || saved === 'en') return saved
+    } catch (e) {}
+
     return detectBrowserLanguage()
   }
   return 'en'
@@ -38,9 +59,9 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   lng: isBrowser ? getInitialLang() : 'en',
   detection: {
-    order: ['path', 'navigator'],
-    lookupFromPathIndex: 0,
-    caches: [],
+    order: ['path', 'localStorage', 'navigator'],
+    lookupLocalStorage: 'soultype_user_lang',
+    caches: ['localStorage'],
   },
   interpolation: {
     escapeValue: false,

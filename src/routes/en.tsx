@@ -21,6 +21,9 @@ function EnglishRoutePage() {
   const { i18n } = useTranslation()
 
   useEffect(() => {
+    try {
+      localStorage.setItem('soultype_user_lang', 'en')
+    } catch {}
     if (i18n.language !== 'en') {
       void i18n.changeLanguage('en')
     }

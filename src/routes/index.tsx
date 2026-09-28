@@ -71,6 +71,10 @@ export function HomePage({
       if (detected === 'fr') {
         void i18n.changeLanguage('fr')
         navigate({ to: '/fr', replace: true })
+      } else {
+        if (i18n.language !== 'en') {
+          void i18n.changeLanguage('en')
+        }
       }
     }
   }, [i18n, navigate])

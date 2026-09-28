@@ -237,7 +237,12 @@
     "deleteAccount": "Supprimer le Compte",
     "confirmDelete": "Êtes-vous absolument sûr ?",
     "yesDelete": "Oui, Supprimer",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "language": "Langue d'affichage",
+    "languageDesc": "Choisissez la langue de l'application et de votre Soul Coach.",
+    "languageFr": "Français",
+    "languageEn": "English",
+    "langUpdated": "Langue modifiée avec succès"
   },
   "profile": {
     "title": "Mon Profil",

@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import '../i18n'
+import { detectBrowserLanguage } from '../i18n'
 import {
   HeadContent,
   Scripts,
@@ -114,21 +115,21 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (pathname === '/fr' || pathname.startsWith('/fr/')) {
+      try {
+        localStorage.setItem('soultype_user_lang', 'fr')
+      } catch {}
       if (i18n.language !== 'fr') {
         void i18n.changeLanguage('fr')
       }
     } else if (pathname === '/en' || pathname.startsWith('/en/')) {
+      try {
+        localStorage.setItem('soultype_user_lang', 'en')
+      } catch {}
       if (i18n.language !== 'en') {
         void i18n.changeLanguage('en')
       }
     } else {
-      const browserLang =
-        typeof navigator !== 'undefined'
-          ? navigator.languages[0] || navigator.language || ''
-          : ''
-      const targetLang = browserLang.toLowerCase().startsWith('fr')
-        ? 'fr'
-        : 'en'
+      const targetLang = detectBrowserLanguage()
       if (i18n.language !== targetLang) {
         void i18n.changeLanguage(targetLang)
       }
