@@ -401,6 +401,15 @@
     "promptDesc": "Recevez une douce invitation chaque soir pour consigner vos pensées et être notifié de votre synthèse du dimanche.",
     "promptEnable": "Activer les notifications",
     "promptLater": "Plus tard"
+  },
+  "pwa": {
+    "iosTitle": "Installez l'application",
+    "iosInstruction": "Touchez",
+    "iosInstruction2": "puis",
+    "iosAction": "« Sur l'écran d'accueil »",
+    "androidTitle": "Installez SoulType",
+    "androidDesc": "Accédez à votre sanctuaire directement depuis l'écran d'accueil.",
+    "installBtn": "Installer"
   }
 }
 

@@ -401,6 +401,15 @@
     "promptDesc": "Receive a gentle evening invitation to journal your thoughts and get notified about your Sunday synthesis.",
     "promptEnable": "Enable notifications",
     "promptLater": "Later"
+  },
+  "pwa": {
+    "iosTitle": "Install the app",
+    "iosInstruction": "Tap",
+    "iosInstruction2": "then",
+    "iosAction": "“Add to Home Screen”",
+    "androidTitle": "Install SoulType",
+    "androidDesc": "Access your sanctuary directly from your home screen.",
+    "installBtn": "Install"
   }
 }
 
