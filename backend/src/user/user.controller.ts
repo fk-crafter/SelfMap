@@ -5,6 +5,8 @@ import {
   Body,
   Req,
   UnauthorizedException,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { auth, prisma } from '../auth';
@@ -151,5 +153,58 @@ export class UserController {
     });
 
     return { success: true, user: updatedUser };
+  }
+
+  @Post('admin/delete-user')
+  async deleteAdminUser(
+    @Req() req: Request,
+    @Body() body: { targetUserId: string },
+  ) {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    if (!session) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { isAdmin: true },
+    });
+
+    if (!currentUser?.isAdmin) {
+      throw new UnauthorizedException('Forbidden: Admins only');
+    }
+
+    const { targetUserId } = body;
+
+    if (!targetUserId) {
+      throw new BadRequestException('ID utilisateur manquant');
+    }
+
+    if (targetUserId === session.user.id) {
+      throw new BadRequestException(
+        'Impossible de supprimer votre propre compte administrateur.',
+      );
+    }
+
+    const userToDelete = await prisma.user.findUnique({
+      where: { id: targetUserId },
+      select: { id: true, email: true, name: true },
+    });
+
+    if (!userToDelete) {
+      throw new NotFoundException('Utilisateur introuvable dans la base de données');
+    }
+
+    await prisma.user.delete({
+      where: { id: targetUserId },
+    });
+
+    return {
+      success: true,
+      message: `Utilisateur ${userToDelete.name} (${userToDelete.email}) supprimé avec succès`,
+    };
   }
 }

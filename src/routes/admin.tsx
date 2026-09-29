@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
-import { Loader2, ArrowLeft, Shield } from 'lucide-react'
+import { Loader2, ArrowLeft, Shield, Trash2, AlertTriangle, Search } from 'lucide-react'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin')({
@@ -25,8 +25,13 @@ function AdminDashboard() {
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
   const [users, setUsers] = useState<AdminUser[]>([])
+  const [searchTerm, setSearchTerm] = useState('')
   const [isLoadingUsers, setIsLoadingUsers] = useState(true)
   const [isUpdatingPlan, setIsUpdatingPlan] = useState<string | null>(null)
+  const [userToDelete, setUserToDelete] = useState<AdminUser | null>(null)
+  const [isDeletingUser, setIsDeletingUser] = useState<string | null>(null)
+
+  const currentAdminId = sessionData?.user?.id || storedUser?.id
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -106,6 +111,53 @@ function AdminDashboard() {
     }
   }
 
+  const handleDeleteUser = async () => {
+    if (!userToDelete) return
+    const targetId = userToDelete.id
+    setIsDeletingUser(targetId)
+
+    try {
+      const deleteUrl = import.meta.env.PROD
+        ? '/users/admin/delete-user'
+        : 'https://selfmap-bck.onrender.com/users/admin/delete-user'
+
+      const res = await window.fetch(deleteUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ targetUserId: targetId }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setUsers(users.filter((u) => u.id !== targetId))
+        toast.success(data.message || 'Utilisateur supprimé de la base de données')
+        setUserToDelete(null)
+      } else {
+        toast.error(data.message || 'Erreur lors de la suppression')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Erreur réseau lors de la suppression')
+    } finally {
+      setIsDeletingUser(null)
+    }
+  }
+
+  const filteredUsers = users.filter((u) => {
+    if (!searchTerm.trim()) return true
+    const term = searchTerm.toLowerCase()
+    return (
+      u.name?.toLowerCase().includes(term) ||
+      u.email?.toLowerCase().includes(term) ||
+      u.type?.toLowerCase().includes(term) ||
+      u.plan?.toLowerCase().includes(term)
+    )
+  })
+
   if (((isPending && !storedUser) || (!hasHydrated && !storedUser)) && isLoadingUsers) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
@@ -130,14 +182,25 @@ function AdminDashboard() {
       </header>
 
       <div className="rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl overflow-hidden">
-        <div className="mb-6 flex justify-between items-center">
+        <div className="mb-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
           <h2 className="text-sm font-bold uppercase tracking-widest text-[#c8c5d0]">
-            Base Utilisateurs ({users.length})
+            Base Utilisateurs ({filteredUsers.length}{searchTerm ? ` / ${users.length}` : ''})
           </h2>
+
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#c8c5d0]/50" />
+            <input
+              type="text"
+              placeholder="Rechercher nom, email..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-full border border-white/10 bg-[#001809]/60 text-[#c9ebd0] placeholder-[#c8c5d0]/40 outline-none focus:border-[#e9c349]/50 transition-colors"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto pb-4">
-          <table className="w-full min-w-200 text-left text-sm text-[#c8c5d0]">
+          <table className="w-full min-w-220 text-left text-sm text-[#c8c5d0]">
             <thead className="border-b border-white/10 text-xs uppercase text-[#c8c5d0]/50">
               <tr>
                 <th className="whitespace-nowrap px-4 py-3">Date</th>
@@ -146,18 +209,19 @@ function AdminDashboard() {
                 <th className="whitespace-nowrap px-4 py-3">Plan</th>
                 <th className="whitespace-nowrap px-4 py-3">Type</th>
                 <th className="whitespace-nowrap px-4 py-3">Genre</th>
+                <th className="whitespace-nowrap px-4 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {users.map((u) => (
+              {filteredUsers.map((u) => (
                 <tr key={u.id} className="hover:bg-white/5 transition-colors">
-                  <td className="whitespace-nowrap px-4 py-4">
+                  <td className="whitespace-nowrap px-4 py-4 text-xs">
                     {new Date(u.createdAt).toLocaleDateString('fr-FR')}
                   </td>
                   <td className="whitespace-nowrap px-4 py-4 font-medium text-[#c9ebd0]">
                     {u.name}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-4">{u.email}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-xs font-mono">{u.email}</td>
                   <td className="whitespace-nowrap px-4 py-4">
                     <select
                       value={u.plan}
@@ -182,11 +246,28 @@ function AdminDashboard() {
                       </option>
                     </select>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-4">
+                  <td className="whitespace-nowrap px-4 py-4 text-xs font-mono">
                     {u.type || '-'}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-4">
+                  <td className="whitespace-nowrap px-4 py-4 text-xs">
                     {u.gender || '-'}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 text-right">
+                    {u.id === currentAdminId ? (
+                      <span className="text-[11px] text-[#e9c349]/60 font-mono italic">
+                        Vous (Admin)
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => setUserToDelete(u)}
+                        disabled={isDeletingUser === u.id}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/20 hover:border-red-500/40 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                        title="Supprimer cet utilisateur de la base de données"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span>Supprimer</span>
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -194,6 +275,74 @@ function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      {userToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-3xl border border-[#93000a]/40 bg-[#001206] p-6 shadow-2xl space-y-5 animate-in zoom-in-95 duration-200">
+            <div className="flex items-center gap-3 text-[#ffb4ab]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#93000a]/20 border border-[#93000a]/30">
+                <AlertTriangle className="h-5 w-5 text-[#ffb4ab]" />
+              </div>
+              <div>
+                <h3 className="font-serif text-lg font-bold text-[#ffdad6]">
+                  Supprimer l'utilisateur ?
+                </h3>
+                <p className="text-xs text-[#ffb4ab]/80">
+                  Cette action est irréversible
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-white/5 bg-white/5 p-4 text-xs space-y-1.5 text-[#c8c5d0]">
+              <p>
+                <span className="text-white/40">Nom :</span>{' '}
+                <strong className="text-white">{userToDelete.name}</strong>
+              </p>
+              <p>
+                <span className="text-white/40">Email :</span>{' '}
+                <strong className="text-white">{userToDelete.email}</strong>
+              </p>
+              <p>
+                <span className="text-white/40">ID :</span>{' '}
+                <span className="font-mono text-[10px] text-white/60">{userToDelete.id}</span>
+              </p>
+            </div>
+
+            <p className="text-xs text-[#c8c5d0]/80 leading-relaxed">
+              L'utilisateur et toutes ses données associées (profil psychologique, sessions, historique de chat, journal, synthèses) seront <strong className="text-[#ffdad6]">définitivement supprimés</strong> de la base de données.
+            </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                disabled={Boolean(isDeletingUser)}
+                onClick={() => setUserToDelete(null)}
+                className="flex-1 rounded-full border border-white/10 bg-white/5 py-2.5 text-xs font-bold text-[#c9ebd0] hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                disabled={Boolean(isDeletingUser)}
+                onClick={handleDeleteUser}
+                className="flex-1 flex items-center justify-center gap-2 rounded-full bg-[#93000a] py-2.5 text-xs font-bold text-[#ffdad6] hover:bg-[#690005] active:scale-95 transition-all shadow-[0_0_15px_rgba(147,0,10,0.3)] cursor-pointer disabled:opacity-50"
+              >
+                {isDeletingUser ? (
+                  <>
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    <span>Suppression...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-3.5 w-3.5" />
+                    <span>Supprimer définitivement</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

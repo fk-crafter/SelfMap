@@ -17,6 +17,10 @@
       "destination": "https://selfmap-bck.onrender.com/users/admin/update-plan"
     },
     {
+      "source": "/users/admin/delete-user",
+      "destination": "https://selfmap-bck.onrender.com/users/admin/delete-user"
+    },
+    {
       "source": "/users/:match*",
       "destination": "https://selfmap-bck.onrender.com/users/:match*"
     }
