@@ -195,7 +195,9 @@ export class UserController {
     });
 
     if (!userToDelete) {
-      throw new NotFoundException('Utilisateur introuvable dans la base de données');
+      throw new NotFoundException(
+        'Utilisateur introuvable dans la base de données',
+      );
     }
 
     await prisma.user.delete({
