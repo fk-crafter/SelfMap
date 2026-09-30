@@ -227,7 +227,12 @@ function SubscriptionPage() {
       <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
       {/* Header */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809]/80 px-6 py-4 backdrop-blur-xl">
+      <header
+        style={{
+          paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+        }}
+        className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
+      >
         <Link
           to="/dashboard"
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
@@ -406,7 +411,7 @@ function SubscriptionPage() {
                       </span>
                     </div>
                     <span className="block text-[10px] text-[#e9c349]/80 font-medium">
-                      12 € / mois
+                      {t('subscription.yearlyMonthEquivalent')}
                     </span>
                   </div>
 
@@ -449,7 +454,7 @@ function SubscriptionPage() {
                       </span>
                     </div>
                     <span className="block text-[10px] text-[#c8c5d0]/60 font-medium">
-                      15 € / mois
+                      {t('subscription.monthlyMonthEquivalent')}
                     </span>
                   </div>
 
@@ -526,10 +531,10 @@ function SubscriptionPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-[#c9ebd0]">
-                    50 Messages Quotidiens
+                    {t('subscription.privilege1Title')}
                   </h4>
                   <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
-                    Échangez sans restriction au fil de vos réflexions.
+                    {t('subscription.privilege1Desc')}
                   </p>
                 </div>
               </div>
@@ -542,10 +547,10 @@ function SubscriptionPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-[#c9ebd0]">
-                    Mémoire Adaptative
+                    {t('subscription.privilege2Title')}
                   </h4>
                   <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
-                    L'IA retient vos faits clés et évolue avec vous.
+                    {t('subscription.privilege2Desc')}
                   </p>
                 </div>
               </div>
@@ -558,10 +563,10 @@ function SubscriptionPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-[#c9ebd0]">
-                    Synthèse Hebdomadaire PRO
+                    {t('subscription.privilege3Title')}
                   </h4>
                   <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
-                    Bilan psychologique complet débloqué chaque dimanche.
+                    {t('subscription.privilege3Desc')}
                   </p>
                 </div>
               </div>
@@ -574,10 +579,10 @@ function SubscriptionPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-[#c9ebd0]">
-                    Calibration Dynamique
+                    {t('subscription.privilege4Title')}
                   </h4>
                   <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
-                    Alignement continu avec vos fonctions cognitives MBTI.
+                    {t('subscription.privilege4Desc')}
                   </p>
                 </div>
               </div>
