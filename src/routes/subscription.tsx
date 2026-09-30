@@ -231,30 +231,20 @@ function SubscriptionPage() {
         style={{
           paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
         }}
-        className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
+        className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
       >
         <Link
           to="/dashboard"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
         >
           <ArrowLeft className="h-5 w-5" />
         </Link>
-        <div className="flex items-center gap-2">
-          <Crown className="h-5 w-5 text-[#e9c349]" />
-          <h1 className="font-serif text-lg font-normal tracking-tight text-[#e9c349]">
+        <div className="flex items-center gap-2 min-w-0">
+          <Crown className="h-5 w-5 shrink-0 text-[#e9c349]" />
+          <h1 className="font-serif text-xl sm:text-2xl font-normal tracking-tight text-[#e9c349] whitespace-nowrap">
             SoulType PRO
           </h1>
         </div>
-        {isPro ? (
-          <button
-            onClick={() => window.open(getPolarPortalUrl(user?.email), '_blank')}
-            className="text-xs font-semibold text-[#e9c349] hover:underline"
-          >
-            {t('subscription.manageBtn')}
-          </button>
-        ) : (
-          <div className="w-10" />
-        )}
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col px-5 pb-32 pt-6">
@@ -278,7 +268,7 @@ function SubscriptionPage() {
         )}
 
         {/* Existing PRO user active status banner */}
-        {isPro && formattedPeriodEndDate && (
+        {isPro && (
           <div
             className={`mb-6 rounded-2xl border p-4 backdrop-blur-xl shadow-lg transition-all ${
               cancelAtPeriodEnd
@@ -296,7 +286,7 @@ function SubscriptionPage() {
               >
                 <Calendar className="h-4 w-4" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-[#e9c349]">
                     {cancelAtPeriodEnd
@@ -308,20 +298,22 @@ function SubscriptionPage() {
                     onClick={() =>
                       window.open(getPolarPortalUrl(user?.email), '_blank')
                     }
-                    className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-medium text-[#e9c349] hover:underline"
+                    className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-medium text-[#e9c349] hover:underline shrink-0"
                   >
-                    {t('subscription.manageBtn')}
+                    <span>{t('settings.manageSubscription')}</span>
                     <ExternalLink className="h-3 w-3" />
                   </button>
                 </div>
                 <p className="mt-1 text-xs text-[#c8c5d0]">
-                  {cancelAtPeriodEnd
-                    ? t('subscription.cancellationNotice', {
-                        date: formattedPeriodEndDate,
-                      })
-                    : t('subscription.renewalNotice', {
-                        date: formattedPeriodEndDate,
-                      })}
+                  {formattedPeriodEndDate
+                    ? cancelAtPeriodEnd
+                      ? t('subscription.cancellationNotice', {
+                          date: formattedPeriodEndDate,
+                        })
+                      : t('subscription.renewalNotice', {
+                          date: formattedPeriodEndDate,
+                        })
+                    : t('subscription.proPlanSubtitle')}
                 </p>
               </div>
             </div>
