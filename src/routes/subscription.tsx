@@ -13,6 +13,13 @@ import {
   Zap,
   Calendar,
   Clock,
+  Star,
+  CheckCircle2,
+  Circle,
+  MessageSquare,
+  Brain,
+  BarChart3,
+  Compass,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
@@ -42,6 +49,15 @@ export const Route = createFileRoute('/subscription')({
   }),
   component: SubscriptionPage,
 })
+
+const isAvatarGenerated = (seed?: string | null): boolean => {
+  if (!seed) return false
+  return (
+    seed.startsWith('http://') ||
+    seed.startsWith('https://') ||
+    seed.startsWith('/')
+  )
+}
 
 function SubscriptionPage() {
   const { t } = useTranslation()
@@ -85,12 +101,9 @@ function SubscriptionPage() {
 
   useEffect(() => {
     if (search.success) {
-      toast.success(
-        t('subscription.successToast'),
-        {
-          duration: 5000,
-        },
-      )
+      toast.success(t('subscription.successToast'), {
+        duration: 5000,
+      })
       void refetch()
       authClient.getSession().then((res) => {
         if (res.data?.user) {
@@ -209,9 +222,11 @@ function SubscriptionPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
+      {/* Background ambient orbs */}
       <div className="pointer-events-none absolute -left-40 -top-40 z-0 h-150 w-150 rounded-full bg-[#e9c349] opacity-10 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
+      {/* Header */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809]/80 px-6 py-4 backdrop-blur-xl">
         <Link
           to="/dashboard"
@@ -221,25 +236,35 @@ function SubscriptionPage() {
         </Link>
         <div className="flex items-center gap-2">
           <Crown className="h-5 w-5 text-[#e9c349]" />
-          <h1 className="font-serif text-xl font-normal tracking-tight text-[#e9c349]">
-            {t('subscription.title')}
+          <h1 className="font-serif text-lg font-normal tracking-tight text-[#e9c349]">
+            SoulType PRO
           </h1>
         </div>
-        <div className="w-10" />
+        {isPro ? (
+          <button
+            onClick={() => window.open(getPolarPortalUrl(user?.email), '_blank')}
+            className="text-xs font-semibold text-[#e9c349] hover:underline"
+          >
+            {t('subscription.manageBtn')}
+          </button>
+        ) : (
+          <div className="w-10" />
+        )}
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col px-6 pb-32 pt-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col px-5 pb-32 pt-6">
+        {/* Success alert */}
         {search.success && (
-          <div className="mb-8 rounded-2xl border border-[#e9c349]/40 bg-[#e9c349]/10 p-5 backdrop-blur-xl shadow-[0_0_30px_rgba(233,195,73,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e9c349] text-[#001809]">
-                <Sparkles className="h-5 w-5" />
+          <div className="mb-6 rounded-2xl border border-[#e9c349]/40 bg-[#e9c349]/10 p-4 backdrop-blur-xl shadow-[0_0_30px_rgba(233,195,73,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e9c349] text-[#001809]">
+                <Sparkles className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="font-serif text-lg font-bold text-[#e9c349]">
+                <h3 className="font-serif text-base font-bold text-[#e9c349]">
                   {t('subscription.welcomeTitle')}
                 </h3>
-                <p className="mt-1 text-sm text-[#c8c5d0]">
+                <p className="mt-0.5 text-xs text-[#c8c5d0]">
                   {t('subscription.welcomeDesc')}
                 </p>
               </div>
@@ -247,379 +272,377 @@ function SubscriptionPage() {
           </div>
         )}
 
-        <div className="text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#e9c349]">
-            <Sparkles className="h-3.5 w-3.5" />
-            {t('subscription.elevation')}
-          </span>
-          <h2 className="mt-4 font-serif text-3xl font-normal tracking-tight text-[#c9ebd0] sm:text-5xl">
-            {t('subscription.heroTitle')}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#c8c5d0]/80 sm:text-base">
-            {t('subscription.heroSubtitle')}
-          </p>
-
-          {user && (
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-[#c8c5d0]">
-              <span>{t('subscription.currentPlan')}</span>
-              <span
-                className={`font-bold uppercase tracking-wider ${
-                  isPro ? 'text-[#e9c349]' : 'text-[#c5c0fe]'
+        {/* Existing PRO user active status banner */}
+        {isPro && formattedPeriodEndDate && (
+          <div
+            className={`mb-6 rounded-2xl border p-4 backdrop-blur-xl shadow-lg transition-all ${
+              cancelAtPeriodEnd
+                ? 'border-amber-500/30 bg-amber-500/10 text-amber-200'
+                : 'border-[#e9c349]/30 bg-[#e9c349]/10 text-[#c9ebd0]'
+            }`}
+          >
+            <div className="flex items-start gap-3 text-left">
+              <div
+                className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                  cancelAtPeriodEnd
+                    ? 'bg-amber-500/20 text-amber-300'
+                    : 'bg-[#e9c349]/20 text-[#e9c349]'
                 }`}
               >
-                {currentPlan === 'PRO'
-                  ? 'Sanctuary PRO'
-                  : currentPlan === 'BETA'
-                    ? 'Founding Member BETA'
-                    : `${t('subscription.freePlanName')} (Awakening)`}
-              </span>
-            </div>
-          )}
-
-          {isPro && formattedPeriodEndDate && (
-            <div
-              className={`mx-auto mt-6 max-w-xl rounded-2xl border p-4 backdrop-blur-xl shadow-lg transition-all ${
-                cancelAtPeriodEnd
-                  ? 'border-amber-500/30 bg-amber-500/10 text-amber-200'
-                  : 'border-[#e9c349]/30 bg-[#e9c349]/10 text-[#c9ebd0]'
-              }`}
-            >
-              <div className="flex items-start gap-3.5 text-left">
-                <div
-                  className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-                    cancelAtPeriodEnd
-                      ? 'bg-amber-500/20 text-amber-300'
-                      : 'bg-[#e9c349]/20 text-[#e9c349]'
-                  }`}
-                >
-                  <Calendar className="h-4.5 w-4.5" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#e9c349]">
-                      {cancelAtPeriodEnd
-                        ? t('subscription.cancellationScheduled')
-                        : t('subscription.renewalScheduled')}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        window.open(getPolarPortalUrl(user?.email), '_blank')
-                      }
-                      className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-medium text-[#e9c349] hover:underline"
-                    >
-                      {t('subscription.manageBtn')}
-                      <ExternalLink className="h-3 w-3" />
-                    </button>
-                  </div>
-                  <p className="mt-1 text-xs leading-relaxed text-[#c8c5d0]">
+                <Calendar className="h-4 w-4" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#e9c349]">
                     {cancelAtPeriodEnd
-                      ? t('subscription.cancellationNotice', {
-                          date: formattedPeriodEndDate,
-                        })
-                      : t('subscription.renewalNotice', {
-                          date: formattedPeriodEndDate,
-                        })}
-                  </p>
+                      ? t('subscription.cancellationScheduled')
+                      : t('subscription.renewalScheduled')}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      window.open(getPolarPortalUrl(user?.email), '_blank')
+                    }
+                    className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-medium text-[#e9c349] hover:underline"
+                  >
+                    {t('subscription.manageBtn')}
+                    <ExternalLink className="h-3 w-3" />
+                  </button>
                 </div>
+                <p className="mt-1 text-xs text-[#c8c5d0]">
+                  {cancelAtPeriodEnd
+                    ? t('subscription.cancellationNotice', {
+                        date: formattedPeriodEndDate,
+                      })
+                    : t('subscription.renewalNotice', {
+                        date: formattedPeriodEndDate,
+                      })}
+                </p>
               </div>
             </div>
-          )}
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {PLANS.map((plan) => {
-            const isPlanActive =
-              (plan.id === 'FREE' && currentPlan === 'FREE') ||
-              (plan.id === 'PRO' && isPro)
-
-            const planFeatures =
-              plan.id === 'FREE'
-                ? [
-                    { text: t('subscription.freeFeature1') },
-                    { text: t('subscription.freeFeature2') },
-                    { text: t('subscription.freeFeature3') },
-                    { text: t('subscription.freeFeature4') },
-                  ]
-                : [
-                    { text: t('subscription.proFeature1'), highlight: true },
-                    {
-                      text: t('subscription.proFeature2'),
-                      highlight: true,
-                    },
-                    { text: t('subscription.proFeature3') },
-                    { text: t('subscription.proFeature4') },
-                    { text: t('subscription.proFeature5') },
-                    { text: t('subscription.proFeature6') },
-                  ]
-
-            return (
-              <Card
-                key={plan.id}
-                className={`relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl transition-all duration-300 ${
-                  plan.popular
-                    ? 'border-2 border-[#e9c349]/50 bg-linear-to-b from-[#e9c349]/10 to-[rgba(197,192,254,0.02)] shadow-[0_0_40px_rgba(233,195,73,0.12)]'
-                    : 'border border-white/5 bg-[rgba(197,192,254,0.02)] shadow-xl'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2.5">
-                  {plan.popular ? (
-                    <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-2.5 py-1 backdrop-blur-md whitespace-nowrap">
-                      <span
-                        className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${!isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
-                      >
-                        {t('subscription.mo')}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setIsYearly(!isYearly)}
-                        className="relative inline-flex h-4 w-8 shrink-0 cursor-pointer items-center rounded-full bg-white/10 transition-colors duration-300 ease-in-out focus:outline-none"
-                        aria-label="Switch between monthly and annual"
-                      >
-                        <span
-                          className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-[#e9c349] transition duration-300 ease-in-out ${isYearly ? 'translate-x-4' : 'translate-x-1'}`}
-                        />
-                      </button>
-                      <span
-                        className={`text-[11px] font-semibold tracking-wide whitespace-nowrap select-none transition-colors ${isYearly ? 'text-[#e9c349]' : 'text-[#c8c5d0]/50'}`}
-                      >
-                        {t('subscription.yr')}
-                      </span>
-                    </div>
-                  ) : (
-                    <div />
-                  )}
-
-                  {plan.popular && (
-                    <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-[#e9c349] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#001809]">
-                      <Crown className="h-3 w-3 shrink-0" />
-                      <span>
-                        {isYearly ? t('subscription.save20') : plan.badge}
-                      </span>
-                    </span>
-                  )}
-                </div>
-
-                <div className="mt-4">
-                  <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
-                    {plan.id === 'FREE'
-                      ? t('subscription.freePlanName')
-                      : t('subscription.proPlanName')}
-                  </h3>
-                  <p className="mt-1 text-xs text-[#c8c5d0]/70">
-                    {plan.id === 'PRO' && isYearly
-                      ? t('subscription.proPlanYearlySubtitle')
-                      : plan.id === 'PRO'
-                        ? t('subscription.proPlanSubtitle')
-                        : t('subscription.freePlanSubtitle')}
-                  </p>
-
-                  <div className="mt-6 flex items-baseline gap-1">
-                    {plan.id === 'PRO' && isYearly && (
-                      <span className="mr-1 font-serif text-2xl text-[#c8c5d0]/40 line-through">
-                        $15
-                      </span>
-                    )}
-                    <span className="font-serif text-4xl font-normal text-[#e9c349]">
-                      {plan.id === 'PRO' && isYearly
-                        ? plan.yearlyPrice
-                        : plan.price}
-                    </span>
-                    <span className="text-xs text-[#c8c5d0]/60">
-                      {plan.id === 'PRO' && isYearly
-                        ? (t('subscription.mo') === 'Mois' ? '/ mois' : '/ month')
-                        : (t('subscription.mo') === 'Mois' ? '/ mois' : '/ month')}
-                    </span>
-                  </div>
-
-                  {plan.id === 'PRO' && (
-                    <div className="mt-2 flex items-center">
-                      <span className="inline-flex items-center whitespace-nowrap rounded-full bg-[#e9c349]/15 px-2.5 py-0.5 text-[11px] font-semibold text-[#e9c349]">
-                        {isYearly
-                          ? t('subscription.billedAnnually')
-                          : t('subscription.billedMonthly')}
-                      </span>
-                    </div>
-                  )}
-
-                  <p className="mt-4 text-xs leading-relaxed text-[#c8c5d0]/80">
-                    {plan.id === 'FREE'
-                      ? t('subscription.freePlanDesc')
-                      : t('subscription.proPlanDesc')}
-                  </p>
-
-                  <div className="my-6 h-px w-full bg-white/10" />
-
-                  <ul className="space-y-3.5 text-xs text-[#c8c5d0]">
-                    {planFeatures.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <div
-                          className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${
-                            plan.popular
-                              ? 'bg-[#e9c349]/20 text-[#e9c349]'
-                              : 'bg-white/10 text-[#c8c5d0]'
-                          }`}
-                        >
-                          <Check className="h-2.5 w-2.5" />
-                        </div>
-                        <span
-                          className={
-                            feature.highlight
-                              ? 'font-medium text-[#c9ebd0]'
-                              : 'text-[#c8c5d0]/80'
-                          }
-                        >
-                          {feature.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-8 pt-4">
-                  {plan.id === 'PRO' ? (
-                    isPro ? (
-                      <div className="space-y-3">
-                        <Button
-                          disabled
-                          className="w-full cursor-default rounded-full border border-[#e9c349]/40 bg-[#e9c349]/20 py-6 text-sm font-bold text-[#e9c349]"
-                        >
-                          <Check className="mr-2 h-4 w-4" />
-                          {t('subscription.currentPlanBtn')}
-                        </Button>
-                        {formattedPeriodEndDate && (
-                          <div className="flex items-center justify-center gap-1.5 py-0.5 text-center text-xs text-[#c8c5d0]">
-                            <Clock className="h-3.5 w-3.5 text-[#e9c349]" />
-                            <span>
-                              {cancelAtPeriodEnd
-                                ? t('subscription.endsOn', {
-                                    date: formattedPeriodEndDate,
-                                  })
-                                : t('subscription.renewsOn', {
-                                    date: formattedPeriodEndDate,
-                                  })}
-                            </span>
-                          </div>
-                        )}
-                        <Button
-                          onClick={() =>
-                            window.open(getPolarPortalUrl(user?.email), '_blank')
-                          }
-                          variant="ghost"
-                          className="w-full text-xs text-[#c8c5d0]/70 hover:text-[#e9c349]"
-                        >
-                          {t('subscription.manageBtn')}
-                          <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button
-                        onClick={handleSubscribe}
-                        disabled={isRedirecting}
-                        className="group w-full cursor-pointer rounded-full bg-[#e9c349] py-6 text-sm font-bold text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.3)] transition-all hover:bg-[#e9c349]/90 hover:scale-[1.02] active:scale-[0.98]"
-                      >
-                        {isRedirecting ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            {t('subscription.connecting')}
-                          </>
-                        ) : (
-                          <>
-                            {t('subscription.joinPro')}{' '}
-                            {isYearly
-                              ? `($144/${t('subscription.yr').toLowerCase()})`
-                              : `($15/${t('subscription.mo').toLowerCase()})`}
-                            <Zap className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
-                          </>
-                        )}
-                      </Button>
-                    )
-                  ) : (
-                    <Button
-                      disabled={isPlanActive}
-                      variant="outline"
-                      className="w-full rounded-full border-white/10 bg-white/5 py-6 text-sm text-[#c8c5d0]"
-                    >
-                      {isPlanActive
-                        ? t('subscription.currentPlanBtn')
-                        : t('subscription.standardIncluded')}
-                    </Button>
-                  )}
-                </div>
-              </Card>
-            )
-          })}
-        </div>
-
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-5 text-center text-xs text-[#c8c5d0]/70">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
-            <span>{t('subscription.securePayment')}</span>
-          </div>
-          <div className="h-3 w-px bg-white/10 hidden sm:block" />
-          <div className="flex items-center gap-2">
-            <Lock className="h-4 w-4 text-[#e9c349]" />
-            <span>{t('subscription.ssl')}</span>
-          </div>
-          <div className="h-3 w-px bg-white/10 hidden sm:block" />
-          <div className="flex items-center gap-2">
-            <Crown className="h-4 w-4 text-[#e9c349]" />
-            <span>{t('subscription.cancelAnytime')}</span>
-          </div>
-        </div>
-
-        {isPro && (
-          <div className="mt-6 text-center">
-            <a
-              href={getPolarPortalUrl(user?.email)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-[#e9c349] hover:underline"
-            >
-              {t('subscription.portalLink')}
-              <ExternalLink className="h-3 w-3" />
-            </a>
           </div>
         )}
 
-        <div className="mt-16">
-          <div className="text-center">
-            <h3 className="font-serif text-2xl font-normal text-[#c9ebd0]">
-              {t('subscription.faqTitle')}
+        {/* ============================================================== */}
+        {/* MOBILE APP PAYWALL SECTION (Directly modeled on mobile UI)     */}
+        {/* ============================================================== */}
+        <section className="text-center">
+          <h2 className="font-serif text-3xl font-normal tracking-tight text-[#e9c349] sm:text-4xl">
+            {t('subscription.choosePlanTitle')}
+          </h2>
+
+          {/* 5 Stars Rating */}
+          <div className="mt-3 flex items-center justify-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className="h-4.5 w-4.5 fill-[#e9c349] text-[#e9c349]"
+              />
+            ))}
+          </div>
+
+          {/* Social Proof Testimonial Quote */}
+          <div className="mx-auto mt-3 max-w-md px-2">
+            <p className="text-xs leading-relaxed text-[#c8c5d0]/90 italic sm:text-sm">
+              {t('subscription.testimonialQuote')}
+            </p>
+            <div className="mt-2 flex items-center justify-center gap-2 text-[11px] text-[#c8c5d0]/60">
+              <span className="text-[#e9c349]">🌿</span>
+              <span>{t('subscription.testimonialAuthor')}</span>
+            </div>
+          </div>
+
+          {/* Central Mascot / Soul Coach Avatar */}
+          <div className="relative mx-auto my-6 flex h-32 w-32 items-center justify-center">
+            <div className="absolute inset-0 rounded-full bg-[#e9c349]/20 blur-2xl animate-pulse" />
+            <div className="absolute -inset-2 rounded-full border border-[#e9c349]/20 pointer-events-none" />
+            {isAvatarGenerated(user?.avatarSeed) ? (
+              <img
+                src={user.avatarSeed}
+                alt={user?.type || 'Soul Coach'}
+                className="relative z-10 h-28 w-28 rounded-full border-2 border-[#e9c349]/40 object-cover shadow-[0_0_30px_rgba(233,195,73,0.3)] transition-transform hover:scale-105"
+              />
+            ) : (
+              <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#e9c349]/40 bg-gradient-to-b from-[#e9c349]/25 to-[#032110] shadow-[0_0_30px_rgba(233,195,73,0.3)]">
+                <Sparkles className="h-12 w-12 text-[#e9c349] animate-bounce" />
+              </div>
+            )}
+          </div>
+
+          {/* Plan Selection Cards */}
+          <div className="mt-4 space-y-3.5 text-left">
+            {/* CARD 1: ANNUAL (MOST POPULAR) */}
+            <div
+              onClick={() => setIsYearly(true)}
+              className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
+                isYearly
+                  ? 'border-2 border-[#e9c349] bg-gradient-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                  : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
+              }`}
+            >
+              {/* Most popular banner */}
+              <div className="flex items-center justify-center rounded-t-xl bg-[#e9c349] py-1 px-3 text-[10px] font-black uppercase tracking-wider text-[#001809]">
+                ★ {t('subscription.mostPopularBadge')}
+              </div>
+
+              <div className="flex items-center justify-between p-4">
+                <div className="pr-2">
+                  <h4 className="text-sm font-bold text-[#c9ebd0] sm:text-base">
+                    {t('subscription.yearlyPlanTitle')}
+                  </h4>
+                  <p className="mt-0.5 text-[11px] text-[#c8c5d0]/70">
+                    {t('subscription.yearlyPlanSub')}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="text-right">
+                    <div className="flex items-baseline justify-end gap-1">
+                      <span className="font-serif text-lg font-bold text-[#e9c349] sm:text-xl">
+                        {t('subscription.yearlyPlanWeekly')}
+                      </span>
+                      <span className="text-[10px] text-[#c8c5d0]/60">
+                        {t('subscription.perWeek')}
+                      </span>
+                    </div>
+                    <span className="block text-[10px] text-[#e9c349]/80 font-medium">
+                      12 € / mois
+                    </span>
+                  </div>
+
+                  {isYearly ? (
+                    <CheckCircle2 className="h-6 w-6 shrink-0 fill-[#e9c349] text-[#001809]" />
+                  ) : (
+                    <Circle className="h-6 w-6 shrink-0 text-white/25" />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 2: MONTHLY */}
+            <div
+              onClick={() => setIsYearly(false)}
+              className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
+                !isYearly
+                  ? 'border-2 border-[#e9c349] bg-gradient-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                  : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
+              }`}
+            >
+              <div className="flex items-center justify-between p-4">
+                <div className="pr-2">
+                  <h4 className="text-sm font-bold text-[#c9ebd0] sm:text-base">
+                    {t('subscription.monthlyPlanTitle')}
+                  </h4>
+                  <p className="mt-0.5 text-[11px] text-[#c8c5d0]/70">
+                    {t('subscription.monthlyPlanSub')}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="text-right">
+                    <div className="flex items-baseline justify-end gap-1">
+                      <span className="font-serif text-lg font-bold text-[#e9c349] sm:text-xl">
+                        {t('subscription.monthlyPlanWeekly')}
+                      </span>
+                      <span className="text-[10px] text-[#c8c5d0]/60">
+                        {t('subscription.perWeek')}
+                      </span>
+                    </div>
+                    <span className="block text-[10px] text-[#c8c5d0]/60 font-medium">
+                      15 € / mois
+                    </span>
+                  </div>
+
+                  {!isYearly ? (
+                    <CheckCircle2 className="h-6 w-6 shrink-0 fill-[#e9c349] text-[#001809]" />
+                  ) : (
+                    <Circle className="h-6 w-6 shrink-0 text-white/25" />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Primary CTA Button */}
+          <Button
+            onClick={handleSubscribe}
+            disabled={isRedirecting}
+            className="mt-6 flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm sm:text-base font-black text-[#001809] shadow-[0_0_30px_rgba(233,195,73,0.35)] transition-all hover:bg-[#e9c349]/90 active:scale-[0.98]"
+          >
+            {isRedirecting ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>{t('subscription.connecting')}</span>
+              </>
+            ) : (
+              <>
+                <span>{t('subscription.ctaUnlockPro')}</span>
+                <Zap className="h-4.5 w-4.5 fill-current" />
+              </>
+            )}
+          </Button>
+
+          {/* Reassurance Micro-copy & Links */}
+          <div className="mt-3.5 space-y-1.5 text-center">
+            <p className="text-[11px] text-[#c8c5d0]/80">
+              {isYearly
+                ? t('subscription.trustMicrocopyYearly')
+                : t('subscription.trustMicrocopyMonthly')}
+            </p>
+            <div className="flex items-center justify-center gap-4 text-[10px] text-[#c8c5d0]/50 pt-1">
+              <Link to="/terms" className="underline hover:text-white transition-colors">
+                {t('subscription.termsLink')}
+              </Link>
+              <span>•</span>
+              <Link to="/privacy" className="underline hover:text-white transition-colors">
+                {t('subscription.privacyLink')}
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================== */}
+        {/* FUSED EXISTING DETAILS: Bento Features, Security & FAQ        */}
+        {/* ============================================================== */}
+        <section className="mt-14 pt-8 border-t border-white/5">
+          <div className="text-center mb-6">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
+              <Sparkles className="h-3 w-3" />
+              {t('subscription.elevation')}
+            </span>
+            <h3 className="mt-2 font-serif text-xl font-normal text-[#c9ebd0]">
+              {t('subscription.whyProTitle')}
             </h3>
-            <p className="mt-1 text-xs text-[#c8c5d0]/60">
-              {t('subscription.faqSubtitle')}
+            <p className="mt-1 text-xs text-[#c8c5d0]/70 max-w-md mx-auto">
+              {t('subscription.whyProSubtitle')}
             </p>
           </div>
 
-          <div className="mt-8 space-y-3">
-            {FAQS.map((faq, idx) => (
-              <div
-                key={idx}
-                className="overflow-hidden rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl transition-all"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="flex w-full items-center justify-between p-5 text-left text-sm font-medium text-[#c9ebd0] transition-colors hover:text-[#e9c349]"
-                >
-                  <span>{faq.question}</span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-[#c8c5d0]/60 transition-transform duration-200 ${
-                      openFaq === idx ? 'rotate-180 text-[#e9c349]' : ''
-                    }`}
-                  />
-                </button>
-                {openFaq === idx && (
-                  <div className="border-t border-white/5 px-5 pb-5 pt-3 text-xs leading-relaxed text-[#c8c5d0]/80">
-                    {faq.answer}
-                  </div>
-                )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] p-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#e9c349]/15 text-[#e9c349]">
+                  <MessageSquare className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#c9ebd0]">
+                    50 Messages Quotidiens
+                  </h4>
+                  <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
+                    Échangez sans restriction au fil de vos réflexions.
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] p-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#e9c349]/15 text-[#e9c349]">
+                  <Brain className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#c9ebd0]">
+                    Mémoire Adaptative
+                  </h4>
+                  <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
+                    L'IA retient vos faits clés et évolue avec vous.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] p-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#e9c349]/15 text-[#e9c349]">
+                  <BarChart3 className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#c9ebd0]">
+                    Synthèse Hebdomadaire PRO
+                  </h4>
+                  <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
+                    Bilan psychologique complet débloqué chaque dimanche.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] p-4 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#e9c349]/15 text-[#e9c349]">
+                  <Compass className="h-4.5 w-4.5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#c9ebd0]">
+                    Calibration Dynamique
+                  </h4>
+                  <p className="text-[11px] text-[#c8c5d0]/70 mt-0.5">
+                    Alignement continu avec vos fonctions cognitives MBTI.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+
+          {/* Trust badges */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-5 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-4 text-center text-xs text-[#c8c5d0]/70">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
+              <span>{t('subscription.securePayment')}</span>
+            </div>
+            <div className="hidden h-3 w-px bg-white/10 sm:block" />
+            <div className="flex items-center gap-2">
+              <Lock className="h-4 w-4 text-[#e9c349]" />
+              <span>{t('subscription.ssl')}</span>
+            </div>
+            <div className="hidden h-3 w-px bg-white/10 sm:block" />
+            <div className="flex items-center gap-2">
+              <Crown className="h-4 w-4 text-[#e9c349]" />
+              <span>{t('subscription.cancelAnytime')}</span>
+            </div>
+          </div>
+
+          {/* FAQ Accordion */}
+          <div className="mt-12">
+            <div className="text-center mb-6">
+              <h3 className="font-serif text-xl font-normal text-[#c9ebd0]">
+                {t('subscription.faqTitle')}
+              </h3>
+              <p className="mt-1 text-xs text-[#c8c5d0]/60">
+                {t('subscription.faqSubtitle')}
+              </p>
+            </div>
+
+            <div className="space-y-2.5">
+              {FAQS.map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="overflow-hidden rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl transition-all"
+                >
+                  <button
+                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                    className="flex w-full items-center justify-between p-4 text-left text-xs sm:text-sm font-medium text-[#c9ebd0] transition-colors hover:text-[#e9c349] cursor-pointer"
+                  >
+                    <span>{faq.question}</span>
+                    <ChevronDown
+                      className={`h-4 w-4 text-[#c8c5d0]/60 transition-transform duration-200 ${
+                        openFaq === idx ? 'rotate-180 text-[#e9c349]' : ''
+                      }`}
+                    />
+                  </button>
+                  {openFaq === idx && (
+                    <div className="border-t border-white/5 px-4 pb-4 pt-2.5 text-xs leading-relaxed text-[#c8c5d0]/80">
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
+      {/* Fallback Custom Checkout Modal */}
       {showConfigModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl border border-[#e9c349]/30 bg-[#032110] p-6 shadow-2xl">
