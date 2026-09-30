@@ -402,16 +402,19 @@ function SubscriptionPage() {
 
                 <div className="flex items-center gap-3 shrink-0">
                   <div className="text-right">
-                    <div className="flex items-baseline justify-end gap-1">
+                    <div className="flex items-baseline justify-end gap-1.5">
+                      <span className="font-serif text-xs text-[#c8c5d0]/40 line-through">
+                        {t('subscription.yearlyPlanOriginalPrice')}
+                      </span>
                       <span className="font-serif text-lg font-bold text-[#e9c349] sm:text-xl">
-                        {t('subscription.yearlyPlanWeekly')}
+                        {t('subscription.yearlyPlanPrice')}
                       </span>
                       <span className="text-[10px] text-[#c8c5d0]/60">
-                        {t('subscription.perWeek')}
+                        {t('subscription.perMonth')}
                       </span>
                     </div>
-                    <span className="block text-[10px] text-[#e9c349]/80 font-medium">
-                      {t('subscription.yearlyMonthEquivalent')}
+                    <span className="block text-[10px] text-[#e9c349]/90 font-medium">
+                      {t('subscription.save20Free')}
                     </span>
                   </div>
 
@@ -447,14 +450,14 @@ function SubscriptionPage() {
                   <div className="text-right">
                     <div className="flex items-baseline justify-end gap-1">
                       <span className="font-serif text-lg font-bold text-[#e9c349] sm:text-xl">
-                        {t('subscription.monthlyPlanWeekly')}
+                        {t('subscription.monthlyPlanPrice')}
                       </span>
                       <span className="text-[10px] text-[#c8c5d0]/60">
-                        {t('subscription.perWeek')}
+                        {t('subscription.perMonth')}
                       </span>
                     </div>
                     <span className="block text-[10px] text-[#c8c5d0]/60 font-medium">
-                      {t('subscription.monthlyMonthEquivalent')}
+                      {t('subscription.billedMonthly')}
                     </span>
                   </div>
 
