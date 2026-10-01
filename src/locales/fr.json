@@ -9,53 +9,63 @@
     "signOut": "Déconnexion"
   },
   "hero": {
-    "badge": "Évaluation Psychologique par IA",
-    "titlePart1": "L'IA",
-    "titleSoulCoach": "Soul Coach",
-    "titlePart2": "Qui Évolue Avec Vous.",
-    "description": "Dépassez les tests MBTI traditionnels avec un profil psychologique vivant. Cartographiez vos fonctions cognitives, initiez votre introspection quotidienne et recevez une guidance sur-mesure adaptée à votre véritable archétype.",
+    "badge": "Évolution Personnelle & MBTI Vivant",
+    "titlePart1": "Le Soul Coach",
+    "titleSoulCoach": "qui comprend vraiment",
+    "titlePart2": "votre fonctionnement intérieur.",
+    "description": "Fini les tests de personnalité qui vous collent une étiquette figée et vous laissent vous débrouiller. Échangez au quotidien avec un coach IA aligné sur vos fonctions cognitives, prêt à désamorcer vos doutes et à vous aider à avancer.",
     "cta": "Découvrir Mon Archétype",
-    "socialProof": "Déjà plus de 1 200 âmes guidées vers la clarté."
+    "guarantee1": "Test 100% gratuit & sans carte",
+    "guarantee2": "Analyse des 8 fonctions cognitives",
+    "guarantee3": "Résultats immédiats & privés"
   },
   "value": {
     "title": "Pourquoi se contenter d'un résultat statique ?",
     "titlePart1": "Pourquoi se contenter d'un résultat",
     "titleStatic": "statique",
     "titlePart2": " ?",
-    "subtitle": "Les tests de personnalité sont un début, pas une destination. Votre monde intérieur est un écosystème vivant, pas un rapport PDF figé.",
+    "subtitle": "Un test de personnalité est un point de départ, pas une boîte dans laquelle s'enfermer. Votre esprit est un écosystème vivant qui évolue chaque jour.",
     "traditionalTitle": "Tests Traditionnels",
-    "traditionalPoint1": "Vous lisez vos résultats une fois et les oubliez dans un tiroir.",
-    "traditionalPoint2": "Des conseils génériques et impersonnels conçus pour des millions de personnes.",
-    "traditionalPoint3": "Des étiquettes statiques qui ignorent votre évolution personnelle au quotidien.",
+    "traditionalPoint1": "Vous lisez vos 4 lettres une fois et les oubliez au fond d'un tiroir.",
+    "traditionalPoint2": "Des descriptions flatteuses mais aucun conseil concret pour votre quotidien.",
+    "traditionalPoint3": "Des étiquettes rigides qui ignorent vos progrès et vos changements d'état d'esprit.",
     "soultypeBadge": "Système Vivant",
-    "soultypeTitle": "Parcours SoulType",
-    "soultypePoint1": "Un compagnon IA personnalisé aligné sur votre architecture cognitive exacte.",
-    "soultypePoint2": "Un score de calibration continu qui évolue à chaque réflexion et échange.",
-    "soultypePoint3": "Une synthèse dynamique reliant vos décisions, vos schémas et vos angles morts."
+    "soultypeTitle": "L'Approche SoulType",
+    "soultypePoint1": "Un compagnon IA qui connaît votre architecture cognitive et parle votre langage.",
+    "soultypePoint2": "Un espace intime et sécurisé pour décharger vos pensées sans filtre chaque jour.",
+    "soultypePoint3": "Un bilan psychologique chaque dimanche pour connecter vos décisions et vos déclics."
   },
   "features": {
-    "heading": "Votre esprit, cartographié et révélé.",
-    "subheading": "Un écosystème conçu pour capturer votre essence psychologique et vous la refléter avec précision.",
-    "chatTitle": "Coaching Conversationnel",
-    "chatDesc": "Engagez un dialogue profond et authentique avec une IA qui comprend vos fonctions cognitives et adapte son ton à votre état émotionnel.",
+    "heading": "Votre esprit, enfin compris et mis en lumière.",
+    "subheading": "Un sanctuaire conçu pour capturer vos schémas de pensée et vous aider à y voir plus clair chaque jour.",
+    "chatTitle": "Dialogue Sans Filtre",
+    "chatDesc": "Une décision qui bloque ? Une surcharge mentale ? Échangez avec une IA qui comprend la racine cognitive de vos doutes.",
     "chatExampleUser": "J'ai l'impression de tourner en boucle aujourd'hui.",
     "chatExampleAi": "Votre Ni (Intuition Introvertie) suranalyse peut-être. Ancrons-nous dans le concret.",
-    "avatarTitle": "Soul Coach 3D Génératif",
-    "avatarDesc": "Une manifestation visuelle de votre archétype psychologique qui réagit et respire au fil de vos échanges.",
+    "avatarTitle": "Votre Archétype Vivant",
+    "avatarDesc": "Une incarnation visuelle et bienveillante de votre structure cognitive, qui évolue au fil de votre parcours introspectif.",
     "journalTitle": "Journal d'Introspection",
-    "journalDesc": "Écrivez librement. Notre IA analyse vos schémas d'expression pour détecter vos évolutions cognitives et thèmes émergents.",
+    "journalDesc": "Écrivez librement votre flux de pensées. Votre coach y détecte les thèmes émergents et vos leviers d'action.",
     "scoreTitle": "Calibration Dynamique",
-    "scoreDesc": "Un indicateur en temps réel mesurant la profondeur de compréhension de votre coach envers votre structure cognitive."
+    "scoreDesc": "Un score en temps réel mesurant la cohérence et l'alignement de vos réflexions avec vos fonctions cognitives."
   },
   "howItWorks": {
-    "heading": "La Voie de la Maîtrise",
-    "subheading": "Trois étapes simples pour accéder à votre sanctuaire intérieur personnalisé.",
-    "step1Title": "Passez l'Évaluation",
-    "step1Desc": "Complétez une cartographie psychologique approfondie basée sur vos fonctions cognitives pour révéler votre véritable archétype.",
-    "step2Title": "Invoquez Votre Coach",
-    "step2Desc": "Regardez votre coach de vie 3D personnalisé prendre vie, prêt à s'adapter à votre énergie et votre style d'échange.",
-    "step3Title": "Évoluez au Quotidien",
-    "step3Desc": "Échangez, tenez votre journal et réfléchissez. L'IA accompagne votre croissance et élève votre score de calibration."
+    "heading": "Comment fonctionne SoulType ?",
+    "subheading": "Un rituel simple en 3 temps pour transformer votre introspection au quotidien.",
+    "step1Title": "1. Passez le test (5 minutes)",
+    "step1Desc": "Cartographiez vos fonctions cognitives profondes pour révéler votre véritable fonctionnement psychologique, bien au-delà d'un simple sigle.",
+    "step2Title": "2. Échangez au fil de vos journées",
+    "step2Desc": "Un doute, une décision difficile ou une surchauffe mentale ? Votre coach vous répond avec le ton et la logique adaptés à votre type.",
+    "step3Title": "3. Débloquez votre Bilan le dimanche",
+    "step3Desc": "Recevez votre Synthèse Hebdomadaire pour voir l'évolution de vos réflexions, repérer vos schémas récurrents et démarrer le lundi avec clarté."
+  },
+  "founder": {
+    "badge": "Le mot du créateur",
+    "title": "Pourquoi j'ai créé SoulType",
+    "p1": "J'ai passé des années passionné par la psychologie cognitive et le MBTI. Mais à chaque fois que je faisais un test gratuit en ligne, c'était la même désillusion : 4 lettres sur un écran, un rapport de 20 pages qu'on n'ouvre plus jamais, et absolument aucune aide concrète face à mes doutes quotidiens, mes blocages ou mes choix de vie.",
+    "p2": "J'ai conçu SoulType pour combler ce manque : créer un espace intime, sans jugement et profondément personnalisé. Un compagnon qui retient ce qui compte pour vous, qui vous aide à désamorcer la surchauffe mentale et qui vous donne enfin les clés pour avancer à votre propre rythme.",
+    "author": "L'équipe SoulType",
+    "role": "Conçu avec passion pour les esprits introspectifs"
   },
   "pricing": {
     "heading": "Choisissez Votre Voie",
@@ -77,10 +87,10 @@
     "sanctuaryTitle": "Éveillé",
     "sanctuaryTag": "Le Sanctuaire",
     "sanctuarySubtitle": "Accès illimité à une évolution cognitive continue.",
-    "sanctuaryFeature1": "Échanges Illimités avec le Coach IA",
+    "sanctuaryFeature1": "50 Échanges Quotidiens avec le Coach IA",
     "sanctuaryFeature2": "Mémoire Continue & Contexte Approfondi",
-    "sanctuaryFeature3": "Synthèse Psychologique Avancée",
-    "sanctuaryFeature4": "Traitement Serveur Prioritaire",
+    "sanctuaryFeature3": "Synthèse Psychologique Avancée du Dimanche",
+    "sanctuaryFeature4": "Calibration Cognitive Continue",
     "unlockSanctuary": "Débloquer le Sanctuaire"
   },
   "faq": {
@@ -95,12 +105,12 @@
     "a4": "Oui, vous pouvez résilier votre abonnement à tout moment en un clic depuis vos paramètres. Vos avantages restent actifs jusqu'à la fin de la période facturée."
   },
   "cta": {
-    "title": "Prêt à rencontrer votre véritable vous ?",
-    "titlePart1": "Prêt à rencontrer votre",
-    "titleHighlight": "véritable vous",
+    "title": "Prêt à comprendre comment tourne votre cerveau ?",
+    "titlePart1": "Prêt à comprendre comment tourne",
+    "titleHighlight": "votre cerveau",
     "titlePart2": " ?",
-    "subtitle": "Le sanctuaire est ouvert. Passez l'évaluation et invoquez le coach IA qui guidera votre évolution.",
-    "button": "Entrer dans le Sanctuaire"
+    "subtitle": "Passez le test en 5 minutes. Obtenez votre profil cognitif détaillé et commencez à échanger dès aujourd'hui.",
+    "button": "Découvrir Mon Archétype"
   },
   "footer": {
     "privacy": "Politique de Confidentialité",

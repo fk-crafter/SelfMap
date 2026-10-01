@@ -9,53 +9,63 @@
     "signOut": "Sign out"
   },
   "hero": {
-    "badge": "AI-Powered Personality Assessment",
-    "titlePart1": "The AI",
-    "titleSoulCoach": "Soul Coach",
-    "titlePart2": "That Evolves With You.",
-    "description": "Go beyond traditional MBTI tests with a living psychological profile. Map your cognitive functions, engage in daily introspection, and receive hyper-personalized guidance tailored to your true archetype.",
-    "cta": "Discover Your Archetype",
-    "socialProof": "Already helping over 1,200 seekers find clarity."
+    "badge": "Personal Growth & Living MBTI",
+    "titlePart1": "The Soul Coach that",
+    "titleSoulCoach": "truly understands",
+    "titlePart2": "how your mind works.",
+    "description": "No more static personality tests that give you a label and leave you on your own. Chat daily with an AI coach aligned with your cognitive functions, ready to ease your doubts and help you grow.",
+    "cta": "Discover My Archetype",
+    "guarantee1": "100% Free test & no credit card",
+    "guarantee2": "Based on 8 cognitive functions",
+    "guarantee3": "Instant & private results"
   },
   "value": {
     "title": "Why settle for a static result?",
     "titlePart1": "Why settle for a",
     "titleStatic": "static",
     "titlePart2": "result?",
-    "subtitle": "Personality tests are great, but they are just the beginning. Your inner world is a living ecosystem, not a PDF report.",
+    "subtitle": "Personality tests are a starting point, not a box to trap yourself in. Your inner mind is a living ecosystem that evolves every single day.",
     "traditionalTitle": "Traditional Tests",
-    "traditionalPoint1": "You read your results once and forget them in a drawer.",
-    "traditionalPoint2": "Generic, copy-pasted advice meant for millions of people.",
-    "traditionalPoint3": "Static labels that don't account for your daily personal growth.",
+    "traditionalPoint1": "You read your 4 letters once and file them away forever.",
+    "traditionalPoint2": "Flattering descriptions with zero actionable daily guidance.",
+    "traditionalPoint3": "Rigid labels that ignore your personal growth and changing mindsets.",
     "soultypeBadge": "Living System",
-    "soultypeTitle": "SoulType Journey",
-    "soultypePoint1": "A personalized AI companion mapped to your exact cognitive stack.",
-    "soultypePoint2": "Continuous calibration score that evolves with every journal entry and chat.",
-    "soultypePoint3": "Dynamic synthesis connecting your decisions, patterns, and blind spots."
+    "soultypeTitle": "The SoulType Approach",
+    "soultypePoint1": "An AI companion mapped to your exact cognitive architecture.",
+    "soultypePoint2": "A safe, private space to decompress your thoughts freely every day.",
+    "soultypePoint3": "A psychological synthesis every Sunday connecting your decisions and breakthroughs."
   },
   "features": {
-    "heading": "Your mind, mapped and reflected.",
-    "subheading": "A seamless ecosystem designed to capture your psychological essence and mirror it back to you.",
-    "chatTitle": "Conversational Coaching",
-    "chatDesc": "Engage in deep, meaningful dialogue with an AI that understands your unique cognitive functions and adapts its tone to your current emotional state.",
+    "heading": "Your mind, finally understood and mirrored.",
+    "subheading": "A calm, clutter-free space designed to capture your thinking patterns and bring you clarity every day.",
+    "chatTitle": "Unfiltered Dialogue",
+    "chatDesc": "Facing a difficult choice? Feeling overwhelmed? Talk with an AI that grasps the cognitive root of your struggles.",
     "chatExampleUser": "I feel like I'm stuck in a loop today.",
     "chatExampleAi": "Your Ni (Introverted Intuition) might be over-analyzing. Let's ground you.",
-    "avatarTitle": "3D Generative Soul Coach",
-    "avatarDesc": "A visual manifestation of your psychological archetype that breathes and reacts as you interact.",
-    "journalTitle": "Introspective Journaling",
-    "journalDesc": "Write freely. Our AI analyzes your linguistic patterns to detect cognitive shifts and emerging themes.",
+    "avatarTitle": "Your Living Archetype",
+    "avatarDesc": "A visual and empathetic embodiment of your cognitive stack that evolves throughout your introspective journey.",
+    "journalTitle": "Introspective Journal",
+    "journalDesc": "Freely record your stream of consciousness. Your coach spots emerging themes and actionable insights.",
     "scoreTitle": "Dynamic Calibration",
-    "scoreDesc": "A real-time metric measuring how deeply the coach understands your psychological architecture."
+    "scoreDesc": "A real-time score measuring the alignment and clarity of your reflections with your core cognitive functions."
   },
   "howItWorks": {
-    "heading": "The Path to Mastery",
-    "subheading": "Three simple steps to unlock your personalized inner sanctuary.",
-    "step1Title": "Take the Assessment",
-    "step1Desc": "Complete a deep psychological mapping based on cognitive functions to discover your true archetype.",
-    "step2Title": "Summon Your Coach",
-    "step2Desc": "Watch your personalized 3D soul coach come to life, ready to match your energy and communication style.",
-    "step3Title": "Evolve Daily",
-    "step3Desc": "Chat, journal, and reflect. The AI adapts to your growth, raising your dynamic calibration score over time."
+    "heading": "How SoulType Works",
+    "subheading": "A simple 3-step routine to transform your daily self-reflection.",
+    "step1Title": "1. Take the test (5 minutes)",
+    "step1Desc": "Discover your true cognitive functions, natural strengths, and blind spots—far beyond a generic 4-letter label.",
+    "step2Title": "2. Chat freely throughout your days",
+    "step2Desc": "Faced with a tough decision, doubts, or overthinking? Your coach responds with insight tailored directly to your personality type.",
+    "step3Title": "3. Unlock your Synthesis every Sunday",
+    "step3Desc": "Receive a full psychological summary of your week to understand your recurring patterns and begin Monday with clarity."
+  },
+  "founder": {
+    "badge": "A note from the creator",
+    "title": "Why I built SoulType",
+    "p1": "I've spent years fascinated by cognitive psychology and personality frameworks like MBTI. But every time I took a test online, the outcome was the same: 4 letters on a screen, a generic 20-page PDF I never opened again, and zero actionable help when facing daily self-doubt, overthinking, or big life decisions.",
+    "p2": "I created SoulType to bridge that gap: a safe, private space designed to truly understand how your brain processes the world. A companion that remembers your breakthroughs, deconstructs your blind spots, and empowers you to grow at your own pace.",
+    "author": "The SoulType Creator",
+    "role": "Crafted with passion for introspective minds"
   },
   "pricing": {
     "heading": "Choose Your Journey",
@@ -77,10 +87,10 @@
     "sanctuaryTitle": "Awakened",
     "sanctuaryTag": "The Sanctuary",
     "sanctuarySubtitle": "Unrestricted access to continuous cognitive evolution.",
-    "sanctuaryFeature1": "Unlimited AI Coach Interactions",
+    "sanctuaryFeature1": "50 Daily Conversations with Soul Coach",
     "sanctuaryFeature2": "Infinite Memory & Deep Context",
-    "sanctuaryFeature3": "Advanced Psychological Insights",
-    "sanctuaryFeature4": "Priority Server Processing",
+    "sanctuaryFeature3": "Advanced Sunday Psychological Synthesis",
+    "sanctuaryFeature4": "Continuous Cognitive Calibration",
     "unlockSanctuary": "Unlock Sanctuary"
   },
   "faq": {
@@ -91,16 +101,16 @@
     "a2": "SoulType uses a highly specialized psychological framework. Instead of a generic assistant, you get a dedicated coach mapped to your specific cognitive functions, featuring long-term memory and a dynamic calibration system.",
     "q3": "Do I need to know my MBTI type before starting?",
     "a3": "Not at all. The journey begins with a deep cognitive assessment that will accurately determine your archetype before generating your AI Soul Coach.",
-    "q4": "Can I cancel my Awakened subscription anytime?",
+    "q4": "Can I cancel my subscription anytime?",
     "a4": "Yes, you can cancel your subscription at any moment with a single click in your settings. You will retain your premium benefits until the end of your billing cycle."
   },
   "cta": {
-    "title": "Ready to meet your true self?",
-    "titlePart1": "Ready to meet your",
-    "titleHighlight": "true self",
+    "title": "Ready to discover how your mind works?",
+    "titlePart1": "Ready to discover how your",
+    "titleHighlight": "mind works",
     "titlePart2": "?",
-    "subtitle": "The sanctuary is open. Take the assessment and summon the AI coach that will guide your evolution.",
-    "button": "Enter the Sanctuary"
+    "subtitle": "Take the 5-minute test. Reveal your full cognitive profile and start chatting with your coach today.",
+    "button": "Discover My Archetype"
   },
   "footer": {
     "privacy": "Privacy Policy",

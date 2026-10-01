@@ -81,37 +81,23 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
-        className="flex flex-col items-center gap-3 pt-4 font-sans"
+        transition={{ duration: 0.5, delay: 0.45, ease: 'easeOut' }}
+        className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-4 font-sans text-xs text-[#c8c5d0]/70"
       >
-        <div className="flex -space-x-3">
-          <img
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces&q=80"
-            alt="User"
-            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=faces&q=80"
-            alt="User"
-            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces&q=80"
-            alt="User"
-            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&q=80"
-            alt="User"
-            className="h-10 w-10 rounded-full border-2 border-[#001809] object-cover"
-          />
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#001809] bg-[#12301e] text-xs font-bold text-[#c9ebd0]">
-            +
-          </div>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[#e9c349]">✓</span>
+          <span>{t('hero.guarantee1')}</span>
         </div>
-        <p className="text-sm font-medium text-[#c8c5d0]">
-          {t('hero.socialProof', { count: usersHelped })}
-        </p>
+        <div className="hidden h-3 w-px bg-white/10 sm:block" />
+        <div className="flex items-center gap-1.5">
+          <span className="text-[#e9c349]">✓</span>
+          <span>{t('hero.guarantee2')}</span>
+        </div>
+        <div className="hidden h-3 w-px bg-white/10 sm:block" />
+        <div className="flex items-center gap-1.5">
+          <span className="text-[#e9c349]">✓</span>
+          <span>{t('hero.guarantee3')}</span>
+        </div>
       </motion.div>
     </section>
   )

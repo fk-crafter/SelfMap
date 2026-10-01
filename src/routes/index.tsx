@@ -14,6 +14,7 @@ import { Navbar } from '@/components/home/Navbar'
 import { ValueProposition } from '@/components/home/ValueProposition'
 import { FeaturesBento } from '@/components/home/FeaturesBento'
 import { HowItWorks } from '@/components/home/HowItWorks'
+import { FoundersNote } from '@/components/home/FoundersNote'
 import { Pricing } from '#/components/home/Pricing'
 import { FAQ } from '#/components/home/FAQ'
 import { CTA } from '#/components/home/CTA'
@@ -100,6 +101,7 @@ export function HomePage({
         <ValueProposition />
         <FeaturesBento />
         <HowItWorks />
+        <FoundersNote />
         <Pricing />
         <FAQ />
         <CTA />

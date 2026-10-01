@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {
   Check,
   Sparkles,
-  Infinity as InfinityIcon,
+  MessageSquare,
   Brain,
   Zap,
 } from 'lucide-react'
@@ -153,7 +153,7 @@ export function Pricing() {
 
               <ul className="mb-10 flex flex-1 flex-col gap-5">
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">
-                  <InfinityIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
+                  <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-[#e9c349]" />
                   <span>{t('pricing.sanctuaryFeature1')}</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-[#c9ebd0]">

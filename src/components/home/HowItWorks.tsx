@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
-import { ClipboardList, Hexagon, TrendingUp } from 'lucide-react'
+import { ClipboardList, MessageSquare, TrendingUp } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { FlickeringGrid } from '@/components/ui/flickering-grid'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,7 @@ export function HowItWorks() {
       description: t('howItWorks.step1Desc'),
     },
     {
-      icon: Hexagon,
+      icon: MessageSquare,
       title: t('howItWorks.step2Title'),
       description: t('howItWorks.step2Desc'),
     },
