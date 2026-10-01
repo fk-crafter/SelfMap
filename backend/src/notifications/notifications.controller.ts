@@ -7,7 +7,10 @@ import {
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
-import { NotificationsService, PushSubscriptionDto } from './notifications.service';
+import {
+  NotificationsService,
+  PushSubscriptionDto,
+} from './notifications.service';
 import type { Request } from 'express';
 import { auth } from '../auth';
 import { fromNodeHeaders } from 'better-auth/node';

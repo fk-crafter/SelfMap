@@ -6,7 +6,10 @@ import {
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
-import { SynthesisService } from './synthesis.service';
+import {
+  SynthesisService,
+  type ParsedWeeklySynthesis,
+} from './synthesis.service';
 import type { Request } from 'express';
 import { auth } from '../auth';
 import { fromNodeHeaders } from 'better-auth/node';
@@ -30,7 +33,7 @@ export class SynthesisController {
   async getCurrentSynthesis(
     @Req() req: Request,
     @Headers('x-user-lang') userLang: string = 'fr',
-  ) {
+  ): Promise<ParsedWeeklySynthesis | null> {
     const userId = await this.getUserId(req);
     return this.synthesisService.getCurrentSynthesis(userId, userLang);
   }
@@ -39,13 +42,13 @@ export class SynthesisController {
   async generateSynthesis(
     @Req() req: Request,
     @Headers('x-user-lang') userLang: string = 'fr',
-  ) {
+  ): Promise<ParsedWeeklySynthesis | null> {
     const userId = await this.getUserId(req);
     return this.synthesisService.generateSynthesis(userId, userLang, true);
   }
 
   @Get('history')
-  async getHistory(@Req() req: Request) {
+  async getHistory(@Req() req: Request): Promise<ParsedWeeklySynthesis[]> {
     const userId = await this.getUserId(req);
     return this.synthesisService.getHistory(userId);
   }

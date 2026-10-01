@@ -1,4 +1,5 @@
-export type Temperament = 'analyst' | 'diplomat' | 'sentinel' | 'explorer' | 'universal'
+export type Temperament =
+  'analyst' | 'diplomat' | 'sentinel' | 'explorer' | 'universal'
 
 export interface JournalPrompt {
   id: string
@@ -9,7 +10,7 @@ export interface JournalPrompt {
   }
 }
 
-export const TEMPERAMENTS_MAP: Record<string, Temperament> = {
+export const TEMPERAMENTS_MAP: Partial<Record<string, Temperament>> = {
   // Analysts (NT)
   INTJ: 'analyst',
   INTP: 'analyst',
@@ -38,7 +39,7 @@ export const TEMPERAMENTS_MAP: Record<string, Temperament> = {
 export function getTemperamentFromType(mbtiType?: string | null): Temperament {
   if (!mbtiType) return 'universal'
   const normalized = mbtiType.toUpperCase().trim()
-  return TEMPERAMENTS_MAP[normalized] || 'universal'
+  return TEMPERAMENTS_MAP[normalized] ?? 'universal'
 }
 
 export const JOURNAL_PROMPTS: JournalPrompt[] = [
@@ -237,7 +238,9 @@ export const JOURNAL_PROMPTS: JournalPrompt[] = [
   },
 ]
 
-export function getPromptsForTemperament(temperament: Temperament): JournalPrompt[] {
+export function getPromptsForTemperament(
+  temperament: Temperament,
+): JournalPrompt[] {
   const specific = JOURNAL_PROMPTS.filter((p) => p.temperament === temperament)
   const universal = JOURNAL_PROMPTS.filter((p) => p.temperament === 'universal')
   return specific.length > 0 ? [...specific, ...universal] : universal

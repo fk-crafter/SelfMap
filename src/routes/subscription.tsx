@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import {
   Sparkles,
   ArrowLeft,
-  Check,
   Crown,
   ShieldCheck,
   ExternalLink,
@@ -12,7 +11,6 @@ import {
   Lock,
   Zap,
   Calendar,
-  Clock,
   CheckCircle2,
   Circle,
   MessageSquare,
@@ -22,10 +20,8 @@ import {
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
-  PLANS,
   buildPolarCheckoutUrl,
   POLAR_CONFIG,
   getPolarPortalUrl,
@@ -63,8 +59,8 @@ function SubscriptionPage() {
   const navigate = useNavigate()
   const search = Route.useSearch()
   const { data: sessionData, refetch } = authClient.useSession()
-  const storedUser = useUserStore((state: any) => state.user)
-  const setUser = useUserStore((state: any) => state.setUser)
+  const storedUser = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const [isYearly, setIsYearly] = useState(true)
@@ -161,7 +157,7 @@ function SubscriptionPage() {
     }
 
     if (isPro) {
-      window.open(getPolarPortalUrl(user?.email), '_blank')
+      window.open(getPolarPortalUrl(user.email), '_blank')
       return
     }
 
@@ -228,7 +224,8 @@ function SubscriptionPage() {
       {/* Header */}
       <header
         style={{
-          paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+          paddingTop:
+            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
         }}
         className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
       >
@@ -331,14 +328,14 @@ function SubscriptionPage() {
           <div className="relative mx-auto my-6 flex h-32 w-32 items-center justify-center">
             <div className="absolute inset-0 rounded-full bg-[#e9c349]/20 blur-2xl animate-pulse" />
             <div className="absolute -inset-2 rounded-full border border-[#e9c349]/20 pointer-events-none" />
-            {isAvatarGenerated(user?.avatarSeed) ? (
+            {user?.avatarSeed && isAvatarGenerated(user.avatarSeed) ? (
               <img
                 src={user.avatarSeed}
-                alt={user?.type || 'Soul Coach'}
+                alt={user.type || 'Soul Coach'}
                 className="relative z-10 h-28 w-28 rounded-full border-2 border-[#e9c349]/40 object-cover shadow-[0_0_30px_rgba(233,195,73,0.3)] transition-transform hover:scale-105"
               />
             ) : (
-              <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#e9c349]/40 bg-gradient-to-b from-[#e9c349]/25 to-[#032110] shadow-[0_0_30px_rgba(233,195,73,0.3)]">
+              <div className="relative z-10 flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#e9c349]/40 bg-linear-to-b from-[#e9c349]/25 to-[#032110] shadow-[0_0_30px_rgba(233,195,73,0.3)]">
                 <Sparkles className="h-12 w-12 text-[#e9c349] animate-bounce" />
               </div>
             )}
@@ -351,7 +348,7 @@ function SubscriptionPage() {
               onClick={() => setIsYearly(true)}
               className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
                 isYearly
-                  ? 'border-2 border-[#e9c349] bg-gradient-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                  ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
                   : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
               }`}
             >
@@ -402,7 +399,7 @@ function SubscriptionPage() {
               onClick={() => setIsYearly(false)}
               className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
                 !isYearly
-                  ? 'border-2 border-[#e9c349] bg-gradient-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                  ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
                   : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
               }`}
             >
@@ -468,11 +465,17 @@ function SubscriptionPage() {
                 : t('subscription.trustMicrocopyMonthly')}
             </p>
             <div className="flex items-center justify-center gap-4 text-[10px] text-[#c8c5d0]/50 pt-1">
-              <Link to="/terms" className="underline hover:text-white transition-colors">
+              <Link
+                to="/terms"
+                className="underline hover:text-white transition-colors"
+              >
                 {t('subscription.termsLink')}
               </Link>
               <span>•</span>
-              <Link to="/privacy" className="underline hover:text-white transition-colors">
+              <Link
+                to="/privacy"
+                className="underline hover:text-white transition-colors"
+              >
                 {t('subscription.privacyLink')}
               </Link>
             </div>

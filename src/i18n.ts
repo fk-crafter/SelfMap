@@ -16,7 +16,7 @@ export const detectBrowserLanguage = (): 'fr' | 'en' => {
 
   const lang =
     (typeof navigator !== 'undefined' &&
-      ((navigator.languages && navigator.languages[0]) || navigator.language)) ||
+      (navigator.languages[0] || navigator.language)) ||
     ''
   return lang.toLowerCase().startsWith('fr') ? 'fr' : 'en'
 }

@@ -173,17 +173,19 @@ STRICT STYLE RULES:
     }
   }
 
-  async generateWeeklySynthesis(
-    input: {
-      userName?: string | null;
-      mbtiType?: string | null;
-      isPro: boolean;
-      lang?: string;
-      userInsight?: string | null;
-      journalEntries: Array<{ content: string; createdAt: Date | string }>;
-      chatMessages: Array<{ content: string; role: string; createdAt: Date | string }>;
-    },
-  ): Promise<{
+  async generateWeeklySynthesis(input: {
+    userName?: string | null;
+    mbtiType?: string | null;
+    isPro: boolean;
+    lang?: string;
+    userInsight?: string | null;
+    journalEntries: Array<{ content: string; createdAt: Date | string }>;
+    chatMessages: Array<{
+      content: string;
+      role: string;
+      createdAt: Date | string;
+    }>;
+  }): Promise<{
     climate: string;
     themes: string[];
     analysis: string;
@@ -193,17 +195,29 @@ STRICT STYLE RULES:
     const mbti = input.mbtiType || 'INFJ';
     const isPro = input.isPro;
 
-    const formattedJournal = input.journalEntries.length > 0
-      ? input.journalEntries
-          .map((e, i) => `[Journal ${i + 1}] (${new Date(e.createdAt).toLocaleDateString()}): ${e.content}`)
-          .join('\n')
-      : isFr ? 'Aucune note de journal enregistrée cette semaine.' : 'No journal entries recorded this week.';
+    const formattedJournal =
+      input.journalEntries.length > 0
+        ? input.journalEntries
+            .map(
+              (e, i) =>
+                `[Journal ${i + 1}] (${new Date(e.createdAt).toLocaleDateString()}): ${e.content}`,
+            )
+            .join('\n')
+        : isFr
+          ? 'Aucune note de journal enregistrée cette semaine.'
+          : 'No journal entries recorded this week.';
 
-    const formattedChat = input.chatMessages.length > 0
-      ? input.chatMessages
-          .map((m) => `[${m.role === 'user' ? 'Utilisateur' : 'Coach'}]: ${m.content}`)
-          .join('\n')
-      : isFr ? 'Aucun échange avec le coach cette semaine.' : 'No chat conversations with the coach this week.';
+    const formattedChat =
+      input.chatMessages.length > 0
+        ? input.chatMessages
+            .map(
+              (m) =>
+                `[${m.role === 'user' ? 'Utilisateur' : 'Coach'}]: ${m.content}`,
+            )
+            .join('\n')
+        : isFr
+          ? 'Aucun échange avec le coach cette semaine.'
+          : 'No chat conversations with the coach this week.';
 
     const systemPrompt = isFr
       ? `Tu es un psychologue analyste expert des types de personnalité et des fonctions cognitives jungiennes (MBTI).
@@ -308,18 +322,44 @@ Generate the weekly synthesis now in JSON format.`;
       const content = response.choices[0].message.content;
       if (!content) throw new Error('Empty response from AI');
 
-      const parsed = JSON.parse(content);
+      interface SynthesisAiJson {
+        climate?: string;
+        themes?: unknown;
+        analysis?: string;
+        intention?: string;
+      }
+
+      const parsed = JSON.parse(content) as SynthesisAiJson;
+      const rawThemes = Array.isArray(parsed.themes)
+        ? parsed.themes.filter((t): t is string => typeof t === 'string')
+        : [];
+
       return {
-        climate: parsed.climate || (isFr ? 'Sérénité & Introspection' : 'Serenity & Introspection'),
-        themes: Array.isArray(parsed.themes) ? parsed.themes : [isFr ? 'Équilibre personnel' : 'Personal balance'],
-        analysis: parsed.analysis || (isFr ? 'Semaine de recueillement et de transition.' : 'A week of quiet reflection and transition.'),
-        intention: parsed.intention || (isFr ? 'Cultive la présence à toi-même cette semaine.' : 'Cultivate self-presence this week.'),
+        climate:
+          (typeof parsed.climate === 'string' && parsed.climate) ||
+          (isFr ? 'Sérénité & Introspection' : 'Serenity & Introspection'),
+        themes:
+          rawThemes.length > 0
+            ? rawThemes
+            : [isFr ? 'Équilibre personnel' : 'Personal balance'],
+        analysis:
+          (typeof parsed.analysis === 'string' && parsed.analysis) ||
+          (isFr
+            ? 'Semaine de recueillement et de transition.'
+            : 'A week of quiet reflection and transition.'),
+        intention:
+          (typeof parsed.intention === 'string' && parsed.intention) ||
+          (isFr
+            ? 'Cultive la présence à toi-même cette semaine.'
+            : 'Cultivate self-presence this week.'),
       };
     } catch (error) {
       console.error('Error generating weekly synthesis:', error);
       return {
         climate: isFr ? 'Pause & Recueillement' : 'Quiet Reflection & Pause',
-        themes: isFr ? ['Écoute de soi', 'Transition'] : ['Self-listening', 'Transition'],
+        themes: isFr
+          ? ['Écoute de soi', 'Transition']
+          : ['Self-listening', 'Transition'],
         analysis: isFr
           ? `Cette semaine a été propice au silence ou à la maturation intérieure pour votre profil **${mbti}**. Chaque période de pause permet à vos fonctions cognitives d'intégrer les expériences récentes.`
           : `This week was a time of quiet reflection and internal processing for your **${mbti}** profile. Pauses allow your cognitive functions to integrate recent experiences.`,
@@ -330,4 +370,3 @@ Generate the weekly synthesis now in JSON format.`;
     }
   }
 }
-

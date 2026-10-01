@@ -37,7 +37,7 @@ export function FoundersNote() {
           </div>
 
           <div className="pt-2 flex items-center gap-3 border-t border-white/5 w-full">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-[#e9c349] to-[#c5c0fe] text-[#001809] font-bold text-xs shadow-md">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-tr from-[#e9c349] to-[#c5c0fe] text-[#001809] font-bold text-xs shadow-md">
               <Sparkles className="h-4 w-4 fill-current" />
             </div>
             <div>

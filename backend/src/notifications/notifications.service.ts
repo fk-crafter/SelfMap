@@ -3,13 +3,13 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as webpush from 'web-push';
 
 export class PushSubscriptionKeysDto {
-  p256dh: string;
-  auth: string;
+  p256dh!: string;
+  auth!: string;
 }
 
 export class PushSubscriptionDto {
-  endpoint: string;
-  keys: PushSubscriptionKeysDto;
+  endpoint!: string;
+  keys!: PushSubscriptionKeysDto;
 }
 
 export interface PushPayload {
@@ -37,7 +37,9 @@ export class NotificationsService {
         this.logger.error('Failed to configure VAPID details', err);
       }
     } else {
-      this.logger.warn('VAPID keys are not configured in environment variables');
+      this.logger.warn(
+        'VAPID keys are not configured in environment variables',
+      );
     }
   }
 
@@ -75,7 +77,9 @@ export class NotificationsService {
     });
   }
 
-  async getStatus(userId: string): Promise<{ subscribed: boolean; count: number }> {
+  async getStatus(
+    userId: string,
+  ): Promise<{ subscribed: boolean; count: number }> {
     const count = await this.prisma.pushSubscription.count({
       where: { userId },
     });
@@ -85,7 +89,10 @@ export class NotificationsService {
     };
   }
 
-  async sendToUser(userId: string, payload: PushPayload): Promise<{ success: number; failed: number }> {
+  async sendToUser(
+    userId: string,
+    payload: PushPayload,
+  ): Promise<{ success: number; failed: number }> {
     const subscriptions = await this.prisma.pushSubscription.findMany({
       where: { userId },
     });
@@ -118,14 +125,19 @@ export class NotificationsService {
       try {
         await webpush.sendNotification(pushConfig, notificationPayload);
         success++;
-      } catch (err: any) {
-        this.logger.warn(`Push failed for endpoint ${sub.endpoint}: ${err.message}`);
+      } catch (err: unknown) {
+        const webPushErr = err as { message?: string; statusCode?: number };
+        this.logger.warn(
+          `Push failed for endpoint ${sub.endpoint}: ${webPushErr.message ?? 'Unknown error'}`,
+        );
         failed++;
         // If expired or gone (404 or 410), clean up stale subscription
-        if (err.statusCode === 404 || err.statusCode === 410) {
-          await this.prisma.pushSubscription.delete({
-            where: { endpoint: sub.endpoint },
-          }).catch(() => null);
+        if (webPushErr.statusCode === 404 || webPushErr.statusCode === 410) {
+          await this.prisma.pushSubscription
+            .delete({
+              where: { endpoint: sub.endpoint },
+            })
+            .catch(() => null);
         }
       }
     }
@@ -135,7 +147,9 @@ export class NotificationsService {
 
   async sendTestNotification(userId: string, userLang: string = 'fr') {
     const isFr = userLang.toLowerCase().startsWith('fr');
-    const title = isFr ? 'Le Sanctuaire vous salue 🌿' : 'The Sanctuary greets you 🌿';
+    const title = isFr
+      ? 'Le Sanctuaire vous salue 🌿'
+      : 'The Sanctuary greets you 🌿';
     const body = isFr
       ? 'Vos notifications sont parfaitement configurées. Votre Soul Coach veille sur votre parcours.'
       : 'Your notifications are properly configured. Your Soul Coach watches over your journey.';

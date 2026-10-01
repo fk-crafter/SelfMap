@@ -6,7 +6,7 @@ import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { Particles } from '@/components/ui/particles'
 import { useTranslation } from 'react-i18next'
 
-export function HeroSection({ usersHelped }: { usersHelped: number }) {
+export function HeroSection({ usersHelped: _usersHelped }: { usersHelped?: number } = {}) {
   const { t } = useTranslation()
 
   return (
@@ -42,9 +42,12 @@ export function HeroSection({ usersHelped }: { usersHelped: number }) {
         className="font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#c9ebd0] sm:text-6xl md:text-7xl"
       >
         {t('hero.titlePart1')}{' '}
-        <span className="whitespace-nowrap text-[#e9c349]">{t('hero.titleSoulCoach')}</span>
+        <span className="whitespace-nowrap text-[#e9c349]">
+          {t('hero.titleSoulCoach')}
+        </span>
         <br className="hidden sm:block" />
-        <span className="sm:hidden"> </span>{t('hero.titlePart2')}
+        <span className="sm:hidden"> </span>
+        {t('hero.titlePart2')}
       </motion.h1>
 
       <motion.p

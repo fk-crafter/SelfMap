@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect } from 'react'
-import '../i18n'
 import { detectBrowserLanguage } from '../i18n'
 import {
   HeadContent,

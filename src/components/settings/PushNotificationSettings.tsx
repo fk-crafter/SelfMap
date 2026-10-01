@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Bell, BellOff, BellRing, Check, Loader2 } from 'lucide-react'
+import { Bell, BellOff, BellRing, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@/lib/pushNotifications'
 
 export function PushNotificationSettings({ userId }: { userId: string }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [isSupported, setIsSupported] = useState(true)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -38,21 +38,37 @@ export function PushNotificationSettings({ userId }: { userId: string }) {
         const res = await unsubscribeFromPushNotifications(userId)
         if (res.success) {
           setIsSubscribed(false)
-          toast.success(t('notifications.unsubscribedSuccess', 'Notifications désactivées.'))
+          toast.success(
+            t(
+              'notifications.unsubscribedSuccess',
+              'Notifications désactivées.',
+            ),
+          )
         } else {
-          toast.error(res.error || t('notifications.error', 'Une erreur est survenue.'))
+          toast.error(
+            res.error || t('notifications.error', 'Une erreur est survenue.'),
+          )
         }
       } else {
         const res = await subscribeToPushNotifications(userId)
         if (res.success) {
           setIsSubscribed(true)
-          toast.success(t('notifications.subscribedSuccess', 'Notifications activées avec succès !'))
+          toast.success(
+            t(
+              'notifications.subscribedSuccess',
+              'Notifications activées avec succès !',
+            ),
+          )
         } else {
-          toast.error(res.error || t('notifications.error', 'Une erreur est survenue.'))
+          toast.error(
+            res.error || t('notifications.error', 'Une erreur est survenue.'),
+          )
         }
       }
     } catch (err: any) {
-      toast.error(err.message || t('notifications.error', 'Une erreur est survenue.'))
+      toast.error(
+        err.message || t('notifications.error', 'Une erreur est survenue.'),
+      )
     } finally {
       setIsLoading(false)
     }

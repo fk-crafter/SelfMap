@@ -2,7 +2,14 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
-import { Loader2, ArrowLeft, Shield, Trash2, AlertTriangle, Search } from 'lucide-react'
+import {
+  Loader2,
+  ArrowLeft,
+  Shield,
+  Trash2,
+  AlertTriangle,
+  Search,
+} from 'lucide-react'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin')({
@@ -31,7 +38,7 @@ function AdminDashboard() {
   const [userToDelete, setUserToDelete] = useState<AdminUser | null>(null)
   const [isDeletingUser, setIsDeletingUser] = useState<string | null>(null)
 
-  const currentAdminId = sessionData?.user?.id || storedUser?.id
+  const currentAdminId = sessionData?.user.id || storedUser?.id
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -134,7 +141,9 @@ function AdminDashboard() {
 
       if (res.ok) {
         setUsers(users.filter((u) => u.id !== targetId))
-        toast.success(data.message || 'Utilisateur supprimé de la base de données')
+        toast.success(
+          data.message || 'Utilisateur supprimé de la base de données',
+        )
         setUserToDelete(null)
       } else {
         toast.error(data.message || 'Erreur lors de la suppression')
@@ -151,14 +160,17 @@ function AdminDashboard() {
     if (!searchTerm.trim()) return true
     const term = searchTerm.toLowerCase()
     return (
-      u.name?.toLowerCase().includes(term) ||
-      u.email?.toLowerCase().includes(term) ||
+      u.name.toLowerCase().includes(term) ||
+      u.email.toLowerCase().includes(term) ||
       u.type?.toLowerCase().includes(term) ||
-      u.plan?.toLowerCase().includes(term)
+      u.plan.toLowerCase().includes(term)
     )
   })
 
-  if (((isPending && !storedUser) || (!hasHydrated && !storedUser)) && isLoadingUsers) {
+  if (
+    ((isPending && !storedUser) || (!hasHydrated && !storedUser)) &&
+    isLoadingUsers
+  ) {
     return (
       <div className="flex h-screen items-center justify-center bg-[#001809]">
         <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
@@ -184,7 +196,8 @@ function AdminDashboard() {
       <div className="rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl overflow-hidden">
         <div className="mb-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
           <h2 className="text-sm font-bold uppercase tracking-widest text-[#c8c5d0]">
-            Base Utilisateurs ({filteredUsers.length}{searchTerm ? ` / ${users.length}` : ''})
+            Base Utilisateurs ({filteredUsers.length}
+            {searchTerm ? ` / ${users.length}` : ''})
           </h2>
 
           <div className="relative w-full sm:w-64">
@@ -209,7 +222,9 @@ function AdminDashboard() {
                 <th className="whitespace-nowrap px-4 py-3">Plan</th>
                 <th className="whitespace-nowrap px-4 py-3">Type</th>
                 <th className="whitespace-nowrap px-4 py-3">Genre</th>
-                <th className="whitespace-nowrap px-4 py-3 text-right">Action</th>
+                <th className="whitespace-nowrap px-4 py-3 text-right">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -221,7 +236,9 @@ function AdminDashboard() {
                   <td className="whitespace-nowrap px-4 py-4 font-medium text-[#c9ebd0]">
                     {u.name}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-4 text-xs font-mono">{u.email}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-xs font-mono">
+                    {u.email}
+                  </td>
                   <td className="whitespace-nowrap px-4 py-4">
                     <select
                       value={u.plan}
@@ -304,12 +321,20 @@ function AdminDashboard() {
               </p>
               <p>
                 <span className="text-white/40">ID :</span>{' '}
-                <span className="font-mono text-[10px] text-white/60">{userToDelete.id}</span>
+                <span className="font-mono text-[10px] text-white/60">
+                  {userToDelete.id}
+                </span>
               </p>
             </div>
 
             <p className="text-xs text-[#c8c5d0]/80 leading-relaxed">
-              L'utilisateur et toutes ses données associées (profil psychologique, sessions, historique de chat, journal, synthèses) seront <strong className="text-[#ffdad6]">définitivement supprimés</strong> de la base de données.
+              L'utilisateur et toutes ses données associées (profil
+              psychologique, sessions, historique de chat, journal, synthèses)
+              seront{' '}
+              <strong className="text-[#ffdad6]">
+                définitivement supprimés
+              </strong>{' '}
+              de la base de données.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
