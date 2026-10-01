@@ -13,7 +13,6 @@ import {
   Zap,
   Calendar,
   Clock,
-  Star,
   CheckCircle2,
   Circle,
   MessageSquare,
@@ -327,27 +326,6 @@ function SubscriptionPage() {
           <h2 className="font-serif text-3xl font-normal tracking-tight text-[#e9c349] sm:text-4xl">
             {t('subscription.choosePlanTitle')}
           </h2>
-
-          {/* 5 Stars Rating */}
-          <div className="mt-3 flex items-center justify-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className="h-4.5 w-4.5 fill-[#e9c349] text-[#e9c349]"
-              />
-            ))}
-          </div>
-
-          {/* Social Proof Testimonial Quote */}
-          <div className="mx-auto mt-3 max-w-md px-2">
-            <p className="text-xs leading-relaxed text-[#c8c5d0]/90 italic sm:text-sm">
-              {t('subscription.testimonialQuote')}
-            </p>
-            <div className="mt-2 flex items-center justify-center gap-2 text-[11px] text-[#c8c5d0]/60">
-              <span className="text-[#e9c349]">🌿</span>
-              <span>{t('subscription.testimonialAuthor')}</span>
-            </div>
-          </div>
 
           {/* Central Mascot / Soul Coach Avatar */}
           <div className="relative mx-auto my-6 flex h-32 w-32 items-center justify-center">
