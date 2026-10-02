@@ -24,21 +24,46 @@ export function HeroSection({
         />
       </div>
 
-      {/* Floating Archetype Avatars framing the hero */}
+      {/* Floating Archetype Avatars framing the hero (1 of each MBTI family) */}
       <div className="pointer-events-none absolute inset-0 -z-10 mx-auto hidden w-full max-w-7xl lg:block">
+        {/* 1. Analystes (Haut Gauche) - INTJ Architecte */}
         <motion.img
           src="/analyste.png"
           alt="Avatar Analyste"
-          className="absolute top-24 left-4 xl:left-8 w-28 xl:w-36 opacity-35 mix-blend-luminosity"
-          animate={{ y: [0, -12, 0] }}
+          className="absolute top-4 xl:top-8 left-2 xl:left-8 w-24 xl:w-32 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          initial={{ rotate: -8 }}
+          animate={{ y: [0, -12, 0], rotate: [-8, -4, -8] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
+
+        {/* 2. Sentinelles (Bas Gauche) - ISTJ Logisticien */}
+        <motion.img
+          src="/sentinelle.png"
+          alt="Avatar Sentinelle"
+          className="absolute bottom-6 xl:bottom-10 left-4 xl:left-12 w-22 xl:w-30 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          initial={{ rotate: 7 }}
+          animate={{ y: [0, 12, 0], rotate: [7, 3, 7] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        />
+
+        {/* 3. Diplomates (Haut Droite) - INFJ Avocat */}
         <motion.img
           src="/diplomate.png"
           alt="Avatar Diplomate"
-          className="absolute top-32 right-4 xl:right-8 w-32 xl:w-40 opacity-35 mix-blend-luminosity"
-          animate={{ y: [0, 16, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-6 xl:top-10 right-2 xl:right-8 w-26 xl:w-34 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          initial={{ rotate: 8 }}
+          animate={{ y: [0, 14, 0], rotate: [8, 4, 8] }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+        />
+
+        {/* 4. Explorateurs (Bas Droite) - ISFP Aventurier */}
+        <motion.img
+          src="/explorateur.png"
+          alt="Avatar Explorateur"
+          className="absolute bottom-4 xl:bottom-8 right-4 xl:right-12 w-22 xl:w-30 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          initial={{ rotate: -7 }}
+          animate={{ y: [0, -14, 0], rotate: [-7, -3, -7] }}
+          transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
         />
       </div>
 
