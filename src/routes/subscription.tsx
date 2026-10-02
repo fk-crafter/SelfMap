@@ -91,8 +91,28 @@ function SubscriptionPage() {
   ]
 
   const user = sessionData?.user || storedUser
-  const currentPlan = (user?.plan || 'FREE').toUpperCase()
-  const isPro = currentPlan === 'PRO'
+
+  const [subscriptionDetails, setSubscriptionDetails] = useState<{
+    plan?: string | null
+    subscriptionStatus?: string | null
+    cancelAtPeriodEnd?: boolean
+    currentPeriodEnd?: string | null
+  } | null>(null)
+
+  const effectivePlan = (
+    subscriptionDetails?.plan ||
+    user?.plan ||
+    'FREE'
+  ).toUpperCase()
+  const effectiveSubStatus = (
+    subscriptionDetails?.subscriptionStatus ||
+    user?.subscriptionStatus ||
+    ''
+  ).toLowerCase()
+  const isPro =
+    effectivePlan === 'PRO' ||
+    effectivePlan === 'BETA' ||
+    effectiveSubStatus === 'active'
 
   useEffect(() => {
     if (search.success) {
@@ -110,11 +130,6 @@ function SubscriptionPage() {
     }
   }, [search.success, search.canceled, refetch, setUser, t])
 
-  const [subscriptionDetails, setSubscriptionDetails] = useState<{
-    cancelAtPeriodEnd?: boolean
-    currentPeriodEnd?: string | null
-  } | null>(null)
-
   useEffect(() => {
     if (!user) return
     const fetchSub = async () => {
@@ -126,9 +141,22 @@ function SubscriptionPage() {
         if (res.ok) {
           const data = await res.json()
           setSubscriptionDetails({
+            plan: data.plan,
+            subscriptionStatus: data.subscriptionStatus,
             cancelAtPeriodEnd: data.cancelAtPeriodEnd,
             currentPeriodEnd: data.currentPeriodEnd,
           })
+          if (
+            data.plan &&
+            (user.plan !== data.plan ||
+              user.subscriptionStatus !== data.subscriptionStatus)
+          ) {
+            setUser({
+              ...user,
+              plan: data.plan,
+              subscriptionStatus: data.subscriptionStatus,
+            })
+          }
         }
       } catch (err) {
         console.warn('Failed to fetch subscription details', err)
@@ -340,7 +368,7 @@ function SubscriptionPage() {
               }}
               className={`relative rounded-2xl transition-all duration-200 select-none ${
                 isPro
-                  ? 'cursor-default opacity-60 border border-white/10 bg-white/5'
+                  ? 'cursor-not-allowed opacity-50 border border-white/10 bg-white/5 pointer-events-none'
                   : 'cursor-pointer ' +
                     (isYearly
                       ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
@@ -394,7 +422,7 @@ function SubscriptionPage() {
               }}
               className={`relative rounded-2xl transition-all duration-200 select-none ${
                 isPro
-                  ? 'cursor-default opacity-60 border border-white/10 bg-white/5'
+                  ? 'cursor-not-allowed opacity-50 border border-white/10 bg-white/5 pointer-events-none'
                   : 'cursor-pointer ' +
                     (!isYearly
                       ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
@@ -441,7 +469,7 @@ function SubscriptionPage() {
             disabled={isRedirecting || isPro}
             className={`mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-full text-sm sm:text-base font-bold transition-all ${
               isPro
-                ? 'cursor-not-allowed border border-white/10 bg-white/10 text-[#c8c5d0]/50 shadow-none hover:bg-white/10 active:scale-100'
+                ? 'cursor-not-allowed border border-white/10 bg-white/10 text-[#c8c5d0]/40 opacity-60 shadow-none pointer-events-none select-none hover:bg-white/10 active:scale-100'
                 : 'cursor-pointer bg-[#e9c349] font-black text-[#001809] shadow-[0_0_30px_rgba(233,195,73,0.35)] hover:bg-[#e9c349]/90 active:scale-[0.98]'
             }`}
           >
