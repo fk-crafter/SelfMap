@@ -244,6 +244,8 @@
     "monthlyPlanWeekly": "$ 3.45",
     "perWeek": "/wk",
     "ctaUnlockPro": "Unlock Sanctuary PRO",
+    "activeSubscription": "Sanctuary PRO Already Active",
+    "manageActiveSub": "Manage or modify your subscription:",
     "trustMicrocopyYearly": "✓ Just $12 per month. Cancel anytime in 1 click.",
     "trustMicrocopyMonthly": "✓ Just $15 per month. Cancel anytime in 1 click.",
     "whyProTitle": "Sanctuary PRO Privileges",

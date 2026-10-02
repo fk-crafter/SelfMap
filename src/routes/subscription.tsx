@@ -157,7 +157,7 @@ function SubscriptionPage() {
     }
 
     if (isPro) {
-      window.open(getPolarPortalUrl(user.email), '_blank')
+      toast.info(t('subscription.activeSubscription'))
       return
     }
 
@@ -345,11 +345,16 @@ function SubscriptionPage() {
           <div className="mt-4 space-y-3.5 text-left">
             {/* CARD 1: ANNUAL (MOST POPULAR) */}
             <div
-              onClick={() => setIsYearly(true)}
-              className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
-                isYearly
-                  ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
-                  : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
+              onClick={() => {
+                if (!isPro) setIsYearly(true)
+              }}
+              className={`relative rounded-2xl transition-all duration-200 select-none ${
+                isPro
+                  ? 'cursor-default opacity-60 border border-white/10 bg-white/5'
+                  : 'cursor-pointer ' +
+                    (isYearly
+                      ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                      : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80')
               }`}
             >
               {/* Most popular banner */}
@@ -396,11 +401,16 @@ function SubscriptionPage() {
 
             {/* CARD 2: MONTHLY */}
             <div
-              onClick={() => setIsYearly(false)}
-              className={`relative cursor-pointer rounded-2xl transition-all duration-200 select-none ${
-                !isYearly
-                  ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
-                  : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80'
+              onClick={() => {
+                if (!isPro) setIsYearly(false)
+              }}
+              className={`relative rounded-2xl transition-all duration-200 select-none ${
+                isPro
+                  ? 'cursor-default opacity-60 border border-white/10 bg-white/5'
+                  : 'cursor-pointer ' +
+                    (!isYearly
+                      ? 'border-2 border-[#e9c349] bg-linear-to-b from-[#e9c349]/15 to-[#001809] shadow-[0_0_35px_rgba(233,195,73,0.2)]'
+                      : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80')
               }`}
             >
               <div className="flex items-center justify-between p-4">
@@ -441,13 +451,22 @@ function SubscriptionPage() {
           {/* Primary CTA Button */}
           <Button
             onClick={handleSubscribe}
-            disabled={isRedirecting}
-            className="mt-6 flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm sm:text-base font-black text-[#001809] shadow-[0_0_30px_rgba(233,195,73,0.35)] transition-all hover:bg-[#e9c349]/90 active:scale-[0.98]"
+            disabled={isRedirecting || isPro}
+            className={`mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-full text-sm sm:text-base font-bold transition-all ${
+              isPro
+                ? 'cursor-not-allowed border border-white/10 bg-white/10 text-[#c8c5d0]/50 shadow-none hover:bg-white/10 active:scale-100'
+                : 'cursor-pointer bg-[#e9c349] font-black text-[#001809] shadow-[0_0_30px_rgba(233,195,73,0.35)] hover:bg-[#e9c349]/90 active:scale-[0.98]'
+            }`}
           >
             {isRedirecting ? (
               <>
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <span>{t('subscription.connecting')}</span>
+              </>
+            ) : isPro ? (
+              <>
+                <CheckCircle2 className="h-5 w-5 text-[#e9c349]" />
+                <span>{t('subscription.activeSubscription')}</span>
               </>
             ) : (
               <>
@@ -456,6 +475,22 @@ function SubscriptionPage() {
               </>
             )}
           </Button>
+
+          {isPro && user?.email && (
+            <div className="mt-3 flex items-center justify-center gap-1.5 text-xs text-[#c8c5d0]/75">
+              <span>{t('subscription.manageActiveSub')}</span>
+              <button
+                type="button"
+                onClick={() =>
+                  window.open(getPolarPortalUrl(user.email), '_blank')
+                }
+                className="inline-flex cursor-pointer items-center gap-1 font-semibold text-[#e9c349] hover:underline"
+              >
+                <span>{t('settings.manageSubscription')}</span>
+                <ExternalLink className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
 
           {/* Reassurance Micro-copy & Links */}
           <div className="mt-3.5 space-y-1.5 text-center">
