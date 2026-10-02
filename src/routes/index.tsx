@@ -96,7 +96,7 @@ export function HomePage({
 
       <Navbar />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center px-6 pb-32 pt-32 md:px-12">
+      <main className="relative z-10 flex flex-1 flex-col items-center px-4 pb-32 pt-20 sm:pt-22 md:pt-24 md:px-12">
         <HeroSection usersHelped={usersHelped} />
         <ValueProposition />
         <FeaturesBento />
