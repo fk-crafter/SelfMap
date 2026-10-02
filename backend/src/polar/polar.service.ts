@@ -49,7 +49,6 @@ export class PolarService {
       const errorMessage = err instanceof Error ? err.message : String(err);
       console.warn(`[Polar Webhook Verification Warning] ${errorMessage}`);
 
-      // In development mode or on ngrok replay (where timestamp is older than 5 min), parse payload safely
       const isDev = process.env.NODE_ENV !== 'production';
       if (errorMessage.includes('timestamp') || isDev) {
         try {
@@ -88,26 +87,22 @@ export class PolarService {
         `[Polar Webhook] Looking for user - userId: "${userId ?? ''}", email: "${customerEmail ?? ''}", customer_id: "${data.customer_id ?? ''}"`,
       );
 
-      // 1. Try finding user by userId if available in metadata
       let targetUser = userId
         ? await this.prisma.user.findUnique({ where: { id: userId } })
         : null;
 
-      // 2. Fallback to matching customer email
       if (!targetUser && customerEmail) {
         targetUser = await this.prisma.user.findUnique({
           where: { email: customerEmail },
         });
       }
 
-      // 3. Fallback to existing polarCustomerId
       if (!targetUser && data.customer_id) {
         targetUser = await this.prisma.user.findUnique({
           where: { polarCustomerId: data.customer_id },
         });
       }
 
-      // 4. Fallback to matching polarSubscriptionId
       if (!targetUser && data.id) {
         targetUser = await this.prisma.user.findUnique({
           where: { polarSubscriptionId: data.id },
@@ -115,7 +110,6 @@ export class PolarService {
       }
 
       if (targetUser) {
-        // Polar sets cancel_at_period_end: true on cancellation, but status remains 'active' until period end
         const isActive = data.status === 'active';
         const newPlan = isActive ? 'PRO' : 'FREE';
         const cancelAtPeriodEnd = Boolean(data.cancel_at_period_end);

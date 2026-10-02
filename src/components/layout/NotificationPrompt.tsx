@@ -18,18 +18,14 @@ export function NotificationPrompt({ user }: { user?: { id: string } | null }) {
   useEffect(() => {
     if (!user?.id) return
 
-    // Do not show if dismissed previously
     const hasDismissed = localStorage.getItem('notification_prompt_dismissed')
     if (hasDismissed === 'true') return
 
-    // Check if browser supports push
     if (!isPushNotificationSupported()) return
 
-    // If permission already granted or denied, don't show
     const perm = getNotificationPermission()
     if (perm === 'granted' || perm === 'denied') return
 
-    // Verify subscription status
     checkPushSubscriptionStatus(user.id).then((isSubscribed) => {
       if (!isSubscribed) {
         const timer = setTimeout(() => setShowPrompt(true), 1500)

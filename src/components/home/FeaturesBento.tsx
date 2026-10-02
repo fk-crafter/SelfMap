@@ -51,7 +51,6 @@ export function FeaturesBento() {
               </p>
             </div>
 
-            {/* Ambient semi-transparent Coach illustration */}
             <div className="pointer-events-none absolute -bottom-6 right-2 sm:right-6 w-36 sm:w-48 select-none opacity-20 transition-all duration-700 ease-out group-hover:opacity-40 group-hover:scale-105">
               <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(197,192,254,0.25)_0%,transparent_70%)] blur-xl" />
               <img

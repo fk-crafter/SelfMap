@@ -217,11 +217,9 @@ function SubscriptionPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
-      {/* Background ambient orbs */}
       <div className="pointer-events-none absolute -left-40 -top-40 z-0 h-150 w-150 rounded-full bg-[#e9c349] opacity-10 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
-      {/* Header */}
       <header
         style={{
           paddingTop:
@@ -244,7 +242,6 @@ function SubscriptionPage() {
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-xl flex-1 flex-col px-5 pb-32 pt-6">
-        {/* Success alert */}
         {search.success && (
           <div className="mb-6 rounded-2xl border border-[#e9c349]/40 bg-[#e9c349]/10 p-4 backdrop-blur-xl shadow-[0_0_30px_rgba(233,195,73,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="flex items-start gap-3">
@@ -263,7 +260,6 @@ function SubscriptionPage() {
           </div>
         )}
 
-        {/* Existing PRO user active status banner */}
         {isPro && (
           <div
             className={`mb-6 rounded-2xl border p-4 backdrop-blur-xl shadow-lg transition-all ${
@@ -316,15 +312,11 @@ function SubscriptionPage() {
           </div>
         )}
 
-        {/* ============================================================== */}
-        {/* MOBILE APP PAYWALL SECTION (Directly modeled on mobile UI)     */}
-        {/* ============================================================== */}
         <section className="text-center">
           <h2 className="font-serif text-3xl font-normal tracking-tight text-[#e9c349] sm:text-4xl">
             {t('subscription.choosePlanTitle')}
           </h2>
 
-          {/* Central Mascot / Soul Coach Avatar */}
           <div className="relative mx-auto my-6 flex h-32 w-32 items-center justify-center">
             <div className="absolute inset-0 rounded-full bg-[#e9c349]/20 blur-2xl animate-pulse" />
             <div className="absolute -inset-2 rounded-full border border-[#e9c349]/20 pointer-events-none" />
@@ -341,9 +333,7 @@ function SubscriptionPage() {
             )}
           </div>
 
-          {/* Plan Selection Cards */}
           <div className="mt-4 space-y-3.5 text-left">
-            {/* CARD 1: ANNUAL (MOST POPULAR) */}
             <div
               onClick={() => {
                 if (!isPro) setIsYearly(true)
@@ -357,7 +347,6 @@ function SubscriptionPage() {
                       : 'border border-white/10 bg-[rgba(197,192,254,0.02)] hover:border-white/20 hover:bg-white/5 opacity-80')
               }`}
             >
-              {/* Most popular banner */}
               <div className="flex items-center justify-center rounded-t-xl bg-[#e9c349] py-1 px-3 text-[10px] font-black uppercase tracking-wider text-[#001809]">
                 ★ {t('subscription.mostPopularBadge')}
               </div>
@@ -399,7 +388,6 @@ function SubscriptionPage() {
               </div>
             </div>
 
-            {/* CARD 2: MONTHLY */}
             <div
               onClick={() => {
                 if (!isPro) setIsYearly(false)
@@ -448,7 +436,6 @@ function SubscriptionPage() {
             </div>
           </div>
 
-          {/* Primary CTA Button */}
           <Button
             onClick={handleSubscribe}
             disabled={isRedirecting || isPro}
@@ -492,7 +479,6 @@ function SubscriptionPage() {
             </div>
           )}
 
-          {/* Reassurance Micro-copy & Links */}
           <div className="mt-3.5 space-y-1.5 text-center">
             <p className="text-[11px] text-[#c8c5d0]/80">
               {isYearly
@@ -517,9 +503,6 @@ function SubscriptionPage() {
           </div>
         </section>
 
-        {/* ============================================================== */}
-        {/* FUSED EXISTING DETAILS: Bento Features, Security & FAQ        */}
-        {/* ============================================================== */}
         <section className="mt-14 pt-8 border-t border-white/5">
           <div className="text-center mb-6">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]">
@@ -600,7 +583,6 @@ function SubscriptionPage() {
             </div>
           </div>
 
-          {/* Trust badges */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-5 rounded-2xl border border-white/5 bg-[rgba(197,192,254,0.015)] p-4 text-center text-xs text-[#c8c5d0]/70">
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-[#e9c349]" />
@@ -618,7 +600,6 @@ function SubscriptionPage() {
             </div>
           </div>
 
-          {/* FAQ Accordion */}
           <div className="mt-12">
             <div className="text-center mb-6">
               <h3 className="font-serif text-xl font-normal text-[#c9ebd0]">
@@ -658,7 +639,6 @@ function SubscriptionPage() {
         </section>
       </main>
 
-      {/* Fallback Custom Checkout Modal */}
       {showConfigModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl border border-[#e9c349]/30 bg-[#032110] p-6 shadow-2xl">

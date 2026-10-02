@@ -103,16 +103,13 @@ export class SynthesisService {
 
     const isPro = user.plan === 'PRO' || user.plan === 'BETA';
 
-    // If synthesis exists and tier is unchanged (or existing was pro), return it
     if (existing) {
       if (isPro && !existing.isPro) {
-        // Upgrade existing synthesis from FREE to PRO
         return this.generateSynthesis(userId, userLang, true);
       }
       return this.parseSynthesis(existing);
     }
 
-    // Otherwise generate the new weekly synthesis
     return this.generateSynthesis(userId, userLang, false);
   }
 

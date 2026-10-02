@@ -164,7 +164,6 @@ function JournalPage() {
       </header>
 
       <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-24 relative z-10">
-        {/* Daily Ritual Guided Prompt Card */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}

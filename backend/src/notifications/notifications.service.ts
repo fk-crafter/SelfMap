@@ -131,7 +131,6 @@ export class NotificationsService {
           `Push failed for endpoint ${sub.endpoint}: ${webPushErr.message ?? 'Unknown error'}`,
         );
         failed++;
-        // If expired or gone (404 or 410), clean up stale subscription
         if (webPushErr.statusCode === 404 || webPushErr.statusCode === 410) {
           await this.prisma.pushSubscription
             .delete({

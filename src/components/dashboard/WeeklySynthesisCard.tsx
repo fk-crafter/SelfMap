@@ -126,7 +126,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
         </Button>
       </Card>
 
-      {/* Modal Dialog */}
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 overflow-y-auto">
@@ -137,7 +136,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
               transition={{ duration: 0.2 }}
               className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[2rem] border border-white/10 bg-[#021f0d] text-[#c9ebd0] shadow-2xl overflow-hidden"
             >
-              {/* Modal Header */}
               <div className="flex items-center justify-between border-b border-white/10 p-6 pb-4">
                 <div>
                   <h2 className="font-serif text-xl text-[#c9ebd0]">
@@ -173,7 +171,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                 </button>
               </div>
 
-              {/* Modal Content */}
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {isLoading ? (
                   <div className="flex flex-col items-center justify-center py-16 gap-3">
@@ -184,7 +181,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                   </div>
                 ) : (
                   <>
-                    {/* Climat Section */}
                     <div className="rounded-2xl border border-[#e9c349]/20 bg-linear-to-r from-[#e9c349]/10 via-[rgba(197,192,254,0.03)] to-transparent p-5">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] block mb-1">
                         {t('synthesis.climateTitle')}
@@ -194,7 +190,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                       </h3>
                     </div>
 
-                    {/* Thèmes Observés */}
                     {synthesis?.themes && synthesis.themes.length > 0 && (
                       <div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-[#c8c5d0]/70 mb-2.5">
@@ -214,7 +209,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                       </div>
                     )}
 
-                    {/* Intention Section */}
                     {synthesis?.intention && (
                       <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
                         <div className="flex items-center gap-2 mb-2">
@@ -229,7 +223,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                       </div>
                     )}
 
-                    {/* Analyse Psychologique */}
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-[#c8c5d0]/70">
                         {isPro
@@ -241,7 +234,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                         {synthesis?.analysis}
                       </div>
 
-                      {/* PRO Upgrade Card for FREE users */}
                       {!isPro && (
                         <div className="relative mt-4 overflow-hidden rounded-2xl border border-[#e9c349]/30 bg-linear-to-b from-[#e9c349]/15 to-[#001809] p-5 backdrop-blur-xl">
                           <div className="flex items-start gap-3">
@@ -272,7 +264,6 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
                 )}
               </div>
 
-              {/* Modal Footer */}
               <div className="flex items-center justify-between border-t border-white/10 p-4 px-6 bg-black/20">
                 <Button
                   variant="ghost"

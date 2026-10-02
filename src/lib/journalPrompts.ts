@@ -11,25 +11,21 @@ export interface JournalPrompt {
 }
 
 export const TEMPERAMENTS_MAP: Partial<Record<string, Temperament>> = {
-  // Analysts (NT)
   INTJ: 'analyst',
   INTP: 'analyst',
   ENTJ: 'analyst',
   ENTP: 'analyst',
 
-  // Diplomats (NF)
   INFJ: 'diplomat',
   INFP: 'diplomat',
   ENFJ: 'diplomat',
   ENFP: 'diplomat',
 
-  // Sentinels (SJ)
   ISTJ: 'sentinel',
   ISFJ: 'sentinel',
   ESTJ: 'sentinel',
   ESFJ: 'sentinel',
 
-  // Explorers (SP)
   ISTP: 'explorer',
   ISFP: 'explorer',
   ESTP: 'explorer',
@@ -43,7 +39,6 @@ export function getTemperamentFromType(mbtiType?: string | null): Temperament {
 }
 
 export const JOURNAL_PROMPTS: JournalPrompt[] = [
-  // --- ANALYSTES (NT) ---
   {
     id: 'nt-1',
     temperament: 'analyst',
@@ -85,7 +80,6 @@ export const JOURNAL_PROMPTS: JournalPrompt[] = [
     },
   },
 
-  // --- DIPLOMATES (NF) ---
   {
     id: 'nf-1',
     temperament: 'diplomat',
@@ -127,7 +121,6 @@ export const JOURNAL_PROMPTS: JournalPrompt[] = [
     },
   },
 
-  // --- SENTINELLES (SJ) ---
   {
     id: 'sj-1',
     temperament: 'sentinel',
@@ -169,7 +162,6 @@ export const JOURNAL_PROMPTS: JournalPrompt[] = [
     },
   },
 
-  // --- EXPLORATEURS (SP) ---
   {
     id: 'sp-1',
     temperament: 'explorer',
@@ -211,7 +203,6 @@ export const JOURNAL_PROMPTS: JournalPrompt[] = [
     },
   },
 
-  // --- UNIVERSELS ---
   {
     id: 'uni-1',
     temperament: 'universal',
@@ -253,7 +244,6 @@ export function getDailyPrompt(
   const temperament = getTemperamentFromType(mbtiType)
   const pool = getPromptsForTemperament(temperament)
 
-  // Seed based on current day of year
   const now = new Date()
   const startOfYear = new Date(now.getFullYear(), 0, 0)
   const diff = now.getTime() - startOfYear.getTime()

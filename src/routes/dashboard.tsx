@@ -131,7 +131,6 @@ function DashboardPage() {
 
     const hasSeenOnboarding = localStorage.getItem(`onboarding_${user.id}`)
 
-    // If user has an MBTI type but avatar image is not yet generated, prompt the onboarding flow
     if (user.type && !isAvatarGenerated(user.avatarSeed)) {
       const timer = setTimeout(() => {
         setOnboardingStep('analysis')

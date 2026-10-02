@@ -142,12 +142,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         if (data?.user) {
           setUser(data.user)
         } else if (!error && data === null) {
-          // No active session on server: clear user auth state without wiping quiz profile
           setUser(null)
         }
-      } catch {
-        // Network error / offline: retain offline cached session
-      }
+      } catch {}
     }
 
     fetchSession()

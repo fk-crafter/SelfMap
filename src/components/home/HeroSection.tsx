@@ -13,7 +13,6 @@ export function HeroSection({
 
   return (
     <section className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-8 sm:gap-7 lg:gap-8 pt-4 pb-16 text-center sm:pb-24">
-      {/* Background ambient particles */}
       <div className="pointer-events-none absolute inset-0 -z-20 h-full w-full">
         <Particles
           className="absolute inset-0 z-0 h-full w-full"
@@ -24,9 +23,7 @@ export function HeroSection({
         />
       </div>
 
-      {/* Floating Archetype Avatars framing the hero (1 of each MBTI family) */}
       <div className="pointer-events-none absolute inset-0 -z-10 mx-auto hidden w-full max-w-7xl lg:block">
-        {/* 1. Analystes (Haut Gauche) - INTJ Architecte */}
         <motion.img
           src="/analyste.png"
           alt="Avatar Analyste"
@@ -36,7 +33,6 @@ export function HeroSection({
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* 2. Sentinelles (Bas Gauche) - ISTJ Logisticien */}
         <motion.img
           src="/sentinelle.png"
           alt="Avatar Sentinelle"
@@ -46,7 +42,6 @@ export function HeroSection({
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
         />
 
-        {/* 3. Diplomates (Haut Droite) - INFJ Avocat */}
         <motion.img
           src="/diplomate.png"
           alt="Avatar Diplomate"
@@ -56,7 +51,6 @@ export function HeroSection({
           transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
         />
 
-        {/* 4. Explorateurs (Bas Droite) - ISFP Aventurier */}
         <motion.img
           src="/explorateur.png"
           alt="Avatar Explorateur"
@@ -67,7 +61,6 @@ export function HeroSection({
         />
       </div>
 
-      {/* Hero Badge */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -82,7 +75,6 @@ export function HeroSection({
         </div>
       </motion.div>
 
-      {/* Main Heading */}
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -98,7 +90,6 @@ export function HeroSection({
         {t('hero.titlePart2')}
       </motion.h1>
 
-      {/* Subtitle */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -108,7 +99,6 @@ export function HeroSection({
         {t('hero.description')}
       </motion.p>
 
-      {/* Primary CTA Button */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -131,7 +121,6 @@ export function HeroSection({
         </Button>
       </motion.div>
 
-      {/* Guarantees (Cleanly visible on all desktops above fold) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
