@@ -12,7 +12,7 @@ export function HeroSection({
   const { t } = useTranslation()
 
   return (
-    <section className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-8 sm:gap-7 lg:gap-8 pt-4 pb-16 text-center sm:pb-24">
+    <section className="relative z-10 flex w-full max-w-6xl flex-col items-center gap-8 sm:gap-7 lg:gap-8 pt-4 pb-16 text-center sm:pb-24">
       <div className="pointer-events-none absolute inset-0 -z-20 h-full w-full">
         <Particles
           className="absolute inset-0 z-0 h-full w-full"
@@ -23,11 +23,11 @@ export function HeroSection({
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 -z-10 mx-auto hidden w-full max-w-7xl lg:block">
+      <div className="pointer-events-none absolute inset-0 -z-10 mx-auto hidden w-full lg:block">
         <motion.img
           src="/analyste.png"
           alt="Avatar Analyste"
-          className="absolute top-4 xl:top-8 left-2 xl:left-8 w-24 xl:w-32 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          className="absolute top-2 xl:top-6 -left-2 xl:left-4 w-20 lg:w-24 xl:w-30 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: -8 }}
           animate={{ y: [0, -12, 0], rotate: [-8, -4, -8] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -36,7 +36,7 @@ export function HeroSection({
         <motion.img
           src="/sentinelle.png"
           alt="Avatar Sentinelle"
-          className="absolute bottom-6 xl:bottom-10 left-4 xl:left-12 w-22 xl:w-30 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          className="absolute bottom-6 xl:bottom-8 -left-1 xl:left-6 w-18 lg:w-22 xl:w-28 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: 7 }}
           animate={{ y: [0, 12, 0], rotate: [7, 3, 7] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
@@ -45,7 +45,7 @@ export function HeroSection({
         <motion.img
           src="/diplomate.png"
           alt="Avatar Diplomate"
-          className="absolute top-6 xl:top-10 right-2 xl:right-8 w-26 xl:w-34 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          className="absolute top-2 xl:top-6 -right-2 xl:right-4 w-22 lg:w-26 xl:w-32 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: 8 }}
           animate={{ y: [0, 14, 0], rotate: [8, 4, 8] }}
           transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
@@ -54,7 +54,7 @@ export function HeroSection({
         <motion.img
           src="/explorateur.png"
           alt="Avatar Explorateur"
-          className="absolute bottom-4 xl:bottom-8 right-4 xl:right-12 w-22 xl:w-30 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+          className="absolute bottom-6 xl:bottom-8 -right-1 xl:right-6 w-18 lg:w-22 xl:w-28 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: -7 }}
           animate={{ y: [0, -14, 0], rotate: [-7, -3, -7] }}
           transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
@@ -79,15 +79,13 @@ export function HeroSection({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-        className="max-w-5xl font-serif text-4xl font-normal leading-[1.1] tracking-tight text-[#c9ebd0] sm:text-5xl md:text-[54px] lg:text-[62px]"
+        className="max-w-2xl font-serif text-3xl font-normal leading-[1.18] tracking-tight text-[#c9ebd0] sm:text-4xl md:text-[44px] lg:text-[50px]"
       >
         {t('hero.titlePart1')}{' '}
-        <span className="whitespace-nowrap text-[#e9c349]">
+        <br className="hidden sm:block" />
+        <span className="text-[#e9c349]">
           {t('hero.titleSoulCoach')}
         </span>
-        <br className="hidden sm:block" />
-        <span className="sm:hidden"> </span>
-        {t('hero.titlePart2')}
       </motion.h1>
 
       <motion.p
