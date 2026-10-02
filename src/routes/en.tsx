@@ -20,14 +20,15 @@ export const Route = createFileRoute('/en')({
 function EnglishRoutePage() {
   const { i18n } = useTranslation()
 
+  if (i18n.language !== 'en') {
+    void i18n.changeLanguage('en')
+  }
+
   useEffect(() => {
     try {
       localStorage.setItem('soultype_user_lang', 'en')
     } catch {}
-    if (i18n.language !== 'en') {
-      void i18n.changeLanguage('en')
-    }
-  }, [i18n])
+  }, [])
 
   return <HomeContent usersHelped={1205} />
 }

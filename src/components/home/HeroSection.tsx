@@ -81,8 +81,10 @@ export function HeroSection({
         transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
         className="max-w-2xl font-serif text-3xl font-normal leading-[1.18] tracking-tight text-[#c9ebd0] sm:text-4xl md:text-[44px] lg:text-[50px]"
       >
-        {t('hero.titlePart1')}{' '}
-        <br className="hidden sm:block" />
+        {t('hero.titlePart1')}
+        <br />
+        {t('hero.titlePart2')}
+        <br />
         <span className="text-[#e9c349]">
           {t('hero.titleSoulCoach')}
         </span>
