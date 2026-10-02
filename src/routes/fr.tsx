@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { HomePage } from './index'
+import { HomeContent } from '@/components/home/HomeContent'
 
 export const Route = createFileRoute('/fr')({
   component: FrenchRoutePage,
@@ -29,5 +29,5 @@ function FrenchRoutePage() {
     }
   }, [i18n])
 
-  return <HomePage usersHelped={1205} />
+  return <HomeContent usersHelped={1205} />
 }
