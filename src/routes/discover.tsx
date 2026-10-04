@@ -230,7 +230,13 @@ function DiscoverPage() {
       <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#e9c349] opacity-10 blur-[100px] pointer-events-none z-0" />
       <div className="absolute w-150 h-150 bottom-0 -right-40 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px] pointer-events-none z-0" />
 
-      <header className="sticky top-0 z-30 bg-[#001809]/80 backdrop-blur-xl border-b border-white/5 px-8 py-5 flex items-center justify-between">
+      <header
+        style={{
+          paddingTop:
+            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+        }}
+        className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#001809] px-6 pb-4"
+      >
         <h1 className="font-serif text-2xl text-[#e9c349] tracking-tight font-normal">
           SoulType
         </h1>

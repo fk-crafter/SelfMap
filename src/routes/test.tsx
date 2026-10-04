@@ -139,7 +139,13 @@ function TestPage() {
         />
       </div>
 
-      <header className="relative z-10 flex shrink-0 flex-row items-center justify-between px-6 pb-6 pt-8">
+      <header
+        style={{
+          paddingTop:
+            'max(2rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
+        }}
+        className="relative z-10 flex shrink-0 flex-row items-center justify-between px-6 pb-6"
+      >
         <Link
           to="/"
           className="flex flex-row items-center gap-2 rounded-full py-2 text-sm font-bold text-[#c9ebd0] transition-colors hover:text-[#e9c349] active:scale-95"

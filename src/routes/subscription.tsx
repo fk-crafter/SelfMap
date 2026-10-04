@@ -253,7 +253,7 @@ function SubscriptionPage() {
           paddingTop:
             'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
         }}
-        className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809]/95 px-6 pb-4 backdrop-blur-xl"
+        className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
       >
         <Link
           to="/dashboard"

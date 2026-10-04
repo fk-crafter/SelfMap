@@ -145,7 +145,7 @@ function RegisterPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#001809] p-4 font-sans text-[#c9ebd0]">
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden bg-[#001809] px-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] pt-[max(env(safe-area-inset-top),1.5rem)] font-sans text-[#c9ebd0]">
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-125 w-125 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5c0fe] opacity-[0.03] blur-[100px]" />
 
       <div className="z-10 w-full max-w-md rounded-[2rem] border border-white/5 bg-[rgba(197,192,254,0.02)] p-8 shadow-2xl backdrop-blur-xl sm:p-10">

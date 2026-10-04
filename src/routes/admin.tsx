@@ -179,7 +179,13 @@ function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans p-6">
+    <div
+      style={{
+        paddingTop:
+          'max(1.5rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+      }}
+      className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans px-6 pb-6"
+    >
       <header className="flex items-center gap-4 mb-8">
         <Link
           to="/dashboard"
