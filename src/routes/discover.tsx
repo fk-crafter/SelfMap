@@ -1,10 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Search, Sparkles } from 'lucide-react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useTranslation } from 'react-i18next'
+import { authClient } from '@/lib/auth-client'
+import { useUserStore } from '@/store/userStore'
 
 export const Route = createFileRoute('/discover')({
   component: DiscoverPage,
@@ -225,6 +227,18 @@ function DiscoverPage() {
     return cat
   }
 
+  const { data: sessionData } = authClient.useSession()
+  const storedUser = useUserStore((state) => state.user)
+  const user = sessionData?.user || storedUser
+
+  const avatarUrl =
+    user?.avatarSeed &&
+    (user.avatarSeed.startsWith('http://') ||
+      user.avatarSeed.startsWith('https://') ||
+      user.avatarSeed.startsWith('/'))
+      ? user.avatarSeed
+      : '/avatar-coach.png'
+
   return (
     <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
       <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#e9c349] opacity-10 blur-[100px] pointer-events-none z-0" />
@@ -240,13 +254,19 @@ function DiscoverPage() {
         <h1 className="font-serif text-2xl text-[#e9c349] tracking-tight font-normal">
           SoulType
         </h1>
-        <div className="w-8 h-8 rounded-full overflow-hidden border border-[#e9c349]/20">
+        <Link
+          to="/profile"
+          className="h-8 w-8 rounded-full overflow-hidden border border-[#e9c349]/20 transition-transform active:scale-95 shrink-0"
+        >
           <img
             alt="Profile avatar"
-            className="w-full h-full object-cover"
-            src="./avatar-coach.png"
+            className="h-full w-full object-cover"
+            src={avatarUrl}
+            onError={(e) => {
+              e.currentTarget.src = '/avatar-coach.png'
+            }}
           />
-        </div>
+        </Link>
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 md:px-8 pt-10 pb-32 max-w-4xl mx-auto w-full z-10 relative">
