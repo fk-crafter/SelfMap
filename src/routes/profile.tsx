@@ -1,13 +1,13 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Loader2 } from 'lucide-react'
 import { DimensionBar } from '@/components/profile/DimensionBar'
 import { CalibrationScore } from '@/components/profile/CalibrationScore'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { useEffect, useState } from 'react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
+import { SoulLoader } from '@/components/ui/soul-loader'
 import { useTranslation } from 'react-i18next'
 import { getArchetypeInfo } from '@/lib/archetypes'
 
@@ -58,11 +58,7 @@ function ProfilePage() {
   }, [profile?.id, profile?.calibrationScore])
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
+    return <SoulLoader fullScreen />
   }
 
   if (!profile || !profile.type) {

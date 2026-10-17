@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
-  Loader2,
   ArrowRight,
   PenLine,
   Activity,
@@ -10,6 +9,7 @@ import {
   Crown,
   HelpCircle,
 } from 'lucide-react'
+import { motion } from 'motion/react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
 import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
@@ -22,6 +22,7 @@ import { PwaPrompt } from '#/components/layout/PwaPrompt'
 import { NotificationPrompt } from '@/components/layout/NotificationPrompt'
 import { useTranslation } from 'react-i18next'
 import { WeeklySynthesisCard } from '@/components/dashboard/WeeklySynthesisCard'
+import { SoulLoader } from '@/components/ui/soul-loader'
 import { getArchetypeInfo } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/dashboard')({
@@ -258,11 +259,7 @@ function DashboardPage() {
   }
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
+    return <SoulLoader fullScreen />
   }
 
   if (!user) return null
@@ -270,12 +267,12 @@ function DashboardPage() {
   if (!user.type) {
     if (isRecoveringProfile) {
       return (
-        <div className="flex h-screen flex-col items-center justify-center bg-[#001809] p-6 text-center text-[#c9ebd0]">
-          <Loader2 className="h-10 w-10 animate-spin text-[#e9c349] mb-4" />
-          <h2 className="font-serif text-2xl text-[#e9c349]">
-            {t('test.analyzing')}
-          </h2>
-        </div>
+        <SoulLoader
+          fullScreen
+          size="lg"
+          label={t('test.analyzing')}
+          sublabel={t('test.analyzingDesc')}
+        />
       )
     }
 
@@ -325,35 +322,41 @@ function DashboardPage() {
       {onboardingStep === 'gender' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/90 backdrop-blur-md px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-8 shadow-2xl relative overflow-hidden">
-            <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
-              {t('dashboard.initializeCoach')}
-            </h2>
-            <div className="mb-8 flex gap-3">
-              {['male', 'female'].map((g) => (
-                <button
-                  key={g}
-                  onClick={() => setGender(g as any)}
-                  className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
-                    gender === g
-                      ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
-                      : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-                  }`}
+            {isGenerating ? (
+              <div className="py-6">
+                <SoulLoader size="md" sublabel="Summoning Coach..." />
+              </div>
+            ) : (
+              <>
+                <h2 className="mb-4 font-serif text-2xl font-normal text-[#e9c349]">
+                  {t('dashboard.initializeCoach')}
+                </h2>
+                <div className="mb-8 flex gap-3">
+                  {['male', 'female'].map((g) => (
+                    <button
+                      key={g}
+                      onClick={() => setGender(g as any)}
+                      className={`flex-1 rounded-2xl border py-4 text-sm font-medium transition-all ${
+                        gender === g
+                          ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349]'
+                          : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                      }`}
+                    >
+                      {g === 'male'
+                        ? t('dashboard.male')
+                        : t('dashboard.female')}
+                    </button>
+                  ))}
+                </div>
+                <Button
+                  onClick={handleGenerateCoach}
+                  disabled={!gender || isGenerating}
+                  className="w-full rounded-full bg-[#e9c349] h-12 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 disabled:opacity-50"
                 >
-                  {g === 'male' ? t('dashboard.male') : t('dashboard.female')}
-                </button>
-              ))}
-            </div>
-            <Button
-              onClick={handleGenerateCoach}
-              disabled={!gender || isGenerating}
-              className="w-full rounded-full bg-[#e9c349] h-12 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 disabled:opacity-50"
-            >
-              {isGenerating ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                t('dashboard.continue')
-              )}
-            </Button>
+                  {t('dashboard.continue')}
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -373,7 +376,12 @@ function DashboardPage() {
 
       <main className="flex-1 overflow-y-auto px-6 pb-32 pt-6">
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
-          <div className="flex items-end justify-between px-2">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="flex items-end justify-between px-2"
+          >
             <div>
               <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
                 {t('dashboard.innerSanctuary')}
@@ -395,45 +403,61 @@ function DashboardPage() {
                 {user.type}
               </span>
             </div>
-          </div>
+          </motion.div>
 
-          <Card
-            data-tour="coach-card"
-            className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10"
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.06, ease: 'easeOut' }}
           >
-            <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
-              <img
-                src={isAvatarGenerated(user.avatarSeed) ? user.avatarSeed! : '/avatar-coach.png'}
-                alt="Coach Avatar"
-                className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
-                onError={(e) => {
-                  e.currentTarget.src = '/avatar-coach.png'
-                }}
-              />
-            </div>
-
-            <div className="mx-auto max-w-[85%] mb-8 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-5 py-4 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md md:text-base">
-              {t('dashboard.coachPrompt')}
-            </div>
-
-            <Button
-              asChild
-              className="mx-auto w-full max-w-md rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
+            <Card
+              data-tour="coach-card"
+              className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10"
             >
-              <Link to="/chat">
-                {t('dashboard.startReflection')} <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </Card>
+              <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
+                <img
+                  src={isAvatarGenerated(user.avatarSeed) ? user.avatarSeed! : '/avatar-coach.png'}
+                  alt="Coach Avatar"
+                  className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
+                  onError={(e) => {
+                    e.currentTarget.src = '/avatar-coach.png'
+                  }}
+                />
+              </div>
 
-          <div data-tour="weekly-synthesis">
+              <div className="mx-auto max-w-[85%] mb-8 inline-block rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-5 py-4 text-sm text-[#c8c5d0] shadow-lg backdrop-blur-md md:text-base">
+                {t('dashboard.coachPrompt')}
+              </div>
+
+              <Button
+                asChild
+                className="mx-auto w-full max-w-md rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
+              >
+                <Link to="/chat">
+                  {t('dashboard.startReflection')} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
+            data-tour="weekly-synthesis"
+          >
             <WeeklySynthesisCard user={user} />
-          </div>
+          </motion.div>
 
-          <div data-tour="quick-actions" className="grid grid-cols-2 gap-4">
-
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
+            data-tour="quick-actions"
+            className="grid grid-cols-2 gap-4"
+          >
             <Link to="/journal">
-              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
+              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:-translate-y-1 hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
                 <div className="mb-4 rounded-full bg-white/5 p-4 group-hover:bg-[#e9c349]/10 transition-colors">
                   <PenLine className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
                 </div>
@@ -444,7 +468,7 @@ function DashboardPage() {
             </Link>
 
             <Link to="/profile">
-              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
+              <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:-translate-y-1 hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">
                 <div className="mb-4 rounded-full bg-white/5 p-4 group-hover:bg-[#e9c349]/10 transition-colors">
                   <Activity className="h-7 w-7 text-[#c8c5d0] group-hover:text-[#e9c349]" />
                 </div>
@@ -453,7 +477,7 @@ function DashboardPage() {
                 </span>
               </Card>
             </Link>
-          </div>
+          </motion.div>
 
           {user.plan !== 'PRO' && (
             <Link to="/subscription">

@@ -22,6 +22,7 @@ import {
   getDailyPrompt,
   getTemperamentFromType,
 } from '@/lib/journalPrompts'
+import { SoulLoader } from '@/components/ui/soul-loader'
 
 export const Route = createFileRoute('/journal')({
   component: JournalPage,
@@ -139,11 +140,7 @@ function JournalPage() {
   }
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
+    return <SoulLoader fullScreen />
   }
 
   return (

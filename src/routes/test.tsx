@@ -1,13 +1,14 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { ArrowLeft, ArrowRight, Loader2, Sparkles, Compass, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Sparkles, Compass, CheckCircle2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { useUserStore } from '@/store/userStore'
 import { authClient } from '@/lib/auth-client'
 import { QuestionCard } from '@/components/profile/QuestionCard'
 import { DimensionBar } from '@/components/profile/DimensionBar'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { SoulLoader } from '@/components/ui/soul-loader'
 import { getArchetypeInfo } from '@/lib/archetypes'
 import { questions as quizQuestions } from '../data/questions'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +56,9 @@ function TestPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
-      if (params.get('preview') === '1') {
+      if (params.get('loader') === '1') {
+        setIsAnalyzing(true)
+      } else if (params.get('preview') === '1') {
         setComputedResult({
           type: 'INTJ',
           scores: { E: 24, I: 76, N: 82, S: 18, T: 68, F: 32, J: 74, P: 26 },
@@ -160,21 +163,12 @@ function TestPage() {
 
   if (isAnalyzing) {
     return (
-      <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#001809] p-6 text-[#c9ebd0] md:p-10">
-        <div className="pointer-events-none absolute h-125 w-125 rounded-full bg-[radial-gradient(circle,rgba(233,195,73,0.1)_0%,transparent_70%)]" />
-
-        <div className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-6 text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-[#e9c349]" />
-          <div>
-            <h1 className="mb-3 font-serif text-4xl font-normal text-[#e9c349]">
-              {t('test.analyzing')}
-            </h1>
-            <p className="text-lg text-[#c8c5d0]">
-              {t('test.analyzingDesc')}
-            </p>
-          </div>
-        </div>
-      </main>
+      <SoulLoader
+        fullScreen
+        size="lg"
+        label={t('test.analyzing')}
+        sublabel={t('test.analyzingDesc')}
+      />
     )
   }
 
@@ -342,16 +336,25 @@ function TestPage() {
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center p-6">
         <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 pb-12">
-          <div className="flex min-h-40 w-full flex-col items-center justify-center gap-4 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
-              {t('test.dimension')} {currentQuestion.dimension}
-            </p>
-            <h2 className="max-w-3xl font-serif text-3xl font-normal leading-tight text-[#c9ebd0] sm:text-4xl md:text-5xl">
-              {(i18n.language.startsWith('fr') && currentQuestion.questionFr)
-                ? currentQuestion.questionFr
-                : currentQuestion.question}
-            </h2>
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentQuestion.id}
+              initial={{ opacity: 0, y: 14, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -14, filter: 'blur(4px)' }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+              className="flex min-h-40 w-full flex-col items-center justify-center gap-4 text-center"
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
+                {t('test.dimension')} {currentQuestion.dimension}
+              </p>
+              <h2 className="max-w-3xl font-serif text-3xl font-normal leading-tight text-[#c9ebd0] sm:text-4xl md:text-5xl">
+                {(i18n.language.startsWith('fr') && currentQuestion.questionFr)
+                  ? currentQuestion.questionFr
+                  : currentQuestion.question}
+              </h2>
+            </motion.div>
+          </AnimatePresence>
 
           <QuestionCard question={currentQuestion} onAnswer={handleAnswer} />
         </div>

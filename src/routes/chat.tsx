@@ -1,12 +1,13 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Send, User, Loader2, Crown, Sparkles } from 'lucide-react'
+import { ArrowLeft, Send, User, Crown, Sparkles } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'motion/react'
 import { ProgressJauge } from '@/components/chat/ProgressJauge'
+import { SoulLoader } from '@/components/ui/soul-loader'
 import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/chat')({
@@ -211,11 +212,7 @@ function ChatPage() {
   }
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
+    return <SoulLoader fullScreen />
   }
 
   return (

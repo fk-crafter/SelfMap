@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
+import { SoulLoader } from '@/components/ui/soul-loader'
 
 export function OnboardingReveal({
   avatarUrl,
@@ -71,12 +72,7 @@ export function OnboardingReveal({
           </motion.div>
         </motion.div>
       ) : (
-        <div className="relative z-10 flex flex-col items-center justify-center">
-          <div className="mb-6 h-8 w-8 animate-spin rounded-full border-2 border-[#e9c349] border-t-transparent" />
-          <p className="animate-pulse text-sm font-medium tracking-widest text-[#c8c5d0] uppercase">
-            Summoning Coach
-          </p>
-        </div>
+        <SoulLoader size="lg" sublabel="Summoning Coach..." />
       )}
     </div>
   )

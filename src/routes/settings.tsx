@@ -17,6 +17,7 @@ import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { PushNotificationSettings } from '@/components/settings/PushNotificationSettings'
+import { SoulLoader } from '@/components/ui/soul-loader'
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
@@ -118,11 +119,7 @@ function SettingsPage() {
   }
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-[#001809]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#e9c349]" />
-      </div>
-    )
+    return <SoulLoader fullScreen />
   }
 
   return (
