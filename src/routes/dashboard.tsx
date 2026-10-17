@@ -8,10 +8,12 @@ import {
   Activity,
   Sparkles,
   Crown,
+  HelpCircle,
 } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useEffect, useState } from 'react'
 import { OnboardingReveal } from '@/components/dashboard/OnboardingReveal'
+import { GuidedTour } from '@/components/dashboard/GuidedTour'
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
 import { toast } from 'sonner'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
@@ -105,6 +107,7 @@ function DashboardPage() {
     'none' | 'analysis' | 'gender'
   >('none')
   const [showReveal, setShowReveal] = useState(false)
+  const [showTour, setShowTour] = useState(false)
   const [gender, setGender] = useState<'male' | 'female' | ''>('')
   const [isGenerating, setIsGenerating] = useState(false)
 
@@ -130,6 +133,7 @@ function DashboardPage() {
     if (!user) return
 
     const hasSeenOnboarding = localStorage.getItem(`onboarding_${user.id}`)
+    const hasSeenTour = localStorage.getItem(`guided_tour_${user.id}`)
 
     if (user.type && !isAvatarGenerated(user.avatarSeed)) {
       const timer = setTimeout(() => {
@@ -138,6 +142,11 @@ function DashboardPage() {
       return () => clearTimeout(timer)
     } else if (!hasSeenOnboarding && isAvatarGenerated(user.avatarSeed)) {
       setShowReveal(true)
+    } else if (!hasSeenTour && isAvatarGenerated(user.avatarSeed)) {
+      const timer = setTimeout(() => {
+        setShowTour(true)
+      }, 500)
+      return () => clearTimeout(timer)
     }
   }, [user])
 
@@ -158,6 +167,16 @@ function DashboardPage() {
       localStorage.setItem(`onboarding_${user.id}`, 'true')
     }
     setShowReveal(false)
+    if (user && !localStorage.getItem(`guided_tour_${user.id}`)) {
+      setTimeout(() => setShowTour(true), 300)
+    }
+  }
+
+  const handleCompleteTour = () => {
+    if (user) {
+      localStorage.setItem(`guided_tour_${user.id}`, 'true')
+    }
+    setShowTour(false)
   }
 
   useEffect(() => {
@@ -345,6 +364,10 @@ function DashboardPage() {
         />
       )}
 
+      {showTour && !showReveal && onboardingStep === 'none' && (
+        <GuidedTour onComplete={handleCompleteTour} />
+      )}
+
       <DashboardHeader user={user} />
 
       <main className="flex-1 overflow-y-auto px-6 pb-32 pt-6">
@@ -358,12 +381,25 @@ function DashboardPage() {
                 {t('dashboard.greeting', { name: user.name })}
               </h1>
             </div>
-            <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-2 text-xs font-bold tracking-widest text-[#e9c349]">
-              {user.type}
-            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setShowTour(true)}
+                aria-label="Replay tour"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c8c5d0]/70 transition-colors hover:border-[#e9c349]/40 hover:text-[#e9c349]"
+              >
+                <HelpCircle className="h-4 w-4" />
+              </button>
+              <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-2 text-xs font-bold tracking-widest text-[#e9c349]">
+                {user.type}
+              </span>
+            </div>
           </div>
 
-          <Card className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10">
+          <Card
+            data-tour="coach-card"
+            className="relative overflow-hidden border border-white/5 bg-linear-to-b from-[rgba(233,195,73,0.05)] to-transparent p-6 text-center backdrop-blur-xl shadow-xl rounded-[2rem] md:p-10"
+          >
             <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
               <img
                 src={isAvatarGenerated(user.avatarSeed) ? user.avatarSeed! : '/avatar-coach.png'}
@@ -389,9 +425,11 @@ function DashboardPage() {
             </Button>
           </Card>
 
-          <WeeklySynthesisCard user={user} />
+          <div data-tour="weekly-synthesis">
+            <WeeklySynthesisCard user={user} />
+          </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div data-tour="quick-actions" className="grid grid-cols-2 gap-4">
 
             <Link to="/journal">
               <Card className="group flex h-full flex-col items-center justify-center p-6 border border-white/5 bg-[rgba(197,192,254,0.02)] hover:bg-[rgba(233,195,73,0.05)] transition-all duration-300 rounded-[1.5rem] cursor-pointer">

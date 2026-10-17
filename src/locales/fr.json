@@ -145,6 +145,21 @@
     "settings": "Paramètres",
     "signOut": "Se déconnecter"
   },
+  "tour": {
+    "stepCounter": "Étape {{current}} sur {{total}}",
+    "skip": "Passer",
+    "prev": "Retour",
+    "next": "Suivant",
+    "finish": "Commencer",
+    "step1Title": "Votre Soul Coach IA",
+    "step1Desc": "Votre confident calibré sur votre profil cognitif. Lancez une réflexion à tout moment pour démêler vos doutes, calmer une surchauffe mentale ou prendre du recul.",
+    "step2Title": "Le Bilan du Dimanche",
+    "step2Desc": "Chaque dimanche, votre coach croise vos échanges de la semaine pour vous révéler vos schémas récurrents et votre évolution psychologique.",
+    "step3Title": "Journal & Soul Map",
+    "step3Desc": "Déposez vos pensées à chaud dans votre Journal intime et suivez l'équilibre de vos dimensions cognitives dans votre Soul Map.",
+    "step4Title": "Navigation du Sanctuaire",
+    "step4Desc": "Basculez en un geste entre votre Sanctuaire, le Chat en direct, l'encyclopédie des 16 profils (Découvrir) et votre Profil détaillé."
+  },
   "bottomNav": {
     "home": "Accueil",
     "chat": "Coach",

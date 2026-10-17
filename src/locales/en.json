@@ -145,6 +145,21 @@
     "settings": "Settings",
     "signOut": "Sign out"
   },
+  "tour": {
+    "stepCounter": "Step {{current}} of {{total}}",
+    "skip": "Skip",
+    "prev": "Back",
+    "next": "Next",
+    "finish": "Get Started",
+    "step1Title": "Your AI Soul Coach",
+    "step1Desc": "Your confidant calibrated to your cognitive profile. Start a reflection anytime to untangle doubts, calm mental overwhelm, or gain perspective.",
+    "step2Title": "Sunday Weekly Synthesis",
+    "step2Desc": "Every Sunday, your coach cross-references your weekly conversations to reveal recurring patterns and your psychological growth.",
+    "step3Title": "Journal & Soul Map",
+    "step3Desc": "Capture your thoughts in the moment in your private Journal and track the balance of your cognitive dimensions in your Soul Map.",
+    "step4Title": "Sanctuary Navigation",
+    "step4Desc": "Switch effortlessly between your Sanctuary, live Chat, the 16-profile encyclopedia (Discover), and your detailed Profile."
+  },
   "bottomNav": {
     "home": "Home",
     "chat": "Chat",
