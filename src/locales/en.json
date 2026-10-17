@@ -168,6 +168,7 @@
   },
   "chat": {
     "welcome": "Hello. I'm your Soul Coach. What's on your mind today?",
+    "welcomeTyped": "Hello {{name}}. I'm your Soul Coach, calibrated to your {{type}} cognitive architecture. Pick a reflection prompt below to start, or write freely about what you're going through.",
     "placeholder": "Write to your coach...",
     "calibration": "CALIBRATION",
     "sanctuary": "Sanctuary",
@@ -176,7 +177,12 @@
     "unlock": "Unlock",
     "thinking": "Thinking...",
     "historyError": "Unable to load the history.",
-    "sendError": "Failed to send message"
+    "sendError": "Failed to send message",
+    "suggestionsLabel": "Reflection prompts",
+    "suggestion1": "Analyze my hidden strengths and blind spots as an {{type}}",
+    "suggestion2": "My mind is overwhelmed, help me sort through my thoughts",
+    "suggestion3": "I'm hesitating on an important decision right now",
+    "suggestion4": "What are my recurring blocks based on my cognitive profile?"
   },
   "subscription": {
     "title": "The Sanctuary",

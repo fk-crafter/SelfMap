@@ -1,11 +1,11 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Send, User, Loader2, Crown } from 'lucide-react'
+import { ArrowLeft, Send, User, Loader2, Crown, Sparkles } from 'lucide-react'
 import { authClient } from '@/lib/auth-client'
 import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { ProgressJauge } from '@/components/chat/ProgressJauge'
 import { useTranslation } from 'react-i18next'
 
@@ -21,6 +21,7 @@ type Message = {
 type ExtendedUser = {
   id: string
   name: string
+  type?: string | null
   avatarSeed?: string | null
   calibrationScore?: number
   plan?: string | null
@@ -34,6 +35,16 @@ function ChatPage() {
   const { t, i18n } = useTranslation()
 
   const user = (data?.user || storedUser) as ExtendedUser | undefined
+  const firstName = user?.name ? user.name.split(' ')[0] : ''
+  const mbtiType = user?.type || 'MBTI'
+
+  const getInitialWelcome = () => {
+    if (user?.type && firstName) {
+      return t('chat.welcomeTyped', { name: firstName, type: user.type })
+    }
+    return t('chat.welcome')
+  }
+
   const avatarUrl =
     user?.avatarSeed &&
     (user.avatarSeed.startsWith('http://') ||
@@ -45,14 +56,34 @@ function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: t('chat.welcome'),
+      content: getInitialWelcome(),
     },
   ])
+  const [hasLoadedHistory, setHasLoadedHistory] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(true)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [currentScore, setCurrentScore] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const suggestionPrompts = [
+    t('chat.suggestion1', { type: mbtiType }),
+    t('chat.suggestion2'),
+    t('chat.suggestion3'),
+    t('chat.suggestion4'),
+  ]
+
+  useEffect(() => {
+    if (!hasLoadedHistory && user?.type && firstName) {
+      setMessages([
+        {
+          role: 'assistant',
+          content: t('chat.welcomeTyped', { name: firstName, type: user.type }),
+        },
+      ])
+    }
+  }, [user?.type, firstName, hasLoadedHistory, t])
 
   useEffect(() => {
     if (hasHydrated && !isPending && !data && !storedUser) {
@@ -90,6 +121,7 @@ function ChatPage() {
         if (res.ok) {
           const history = await res.json()
           if (history && history.length > 0) {
+            setHasLoadedHistory(true)
             setMessages(history)
           }
         }
@@ -113,13 +145,13 @@ function ChatPage() {
     }
   }, [isLoading])
 
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || !user?.id) return
+  const sendContent = async (textToSend: string) => {
+    const trimmed = textToSend.trim()
+    if (!trimmed || !user?.id || isLoading) return
 
-    const userContent = input
-    setMessages((prev) => [...prev, { role: 'user', content: userContent }])
+    setMessages((prev) => [...prev, { role: 'user', content: trimmed }])
     setInput('')
+    setShowSuggestions(false)
     setIsLoading(true)
 
     try {
@@ -130,7 +162,7 @@ function ChatPage() {
           'Content-Type': 'application/json',
           'x-user-lang': i18n.language || 'en',
         },
-        body: JSON.stringify({ content: userContent }),
+        body: JSON.stringify({ content: trimmed }),
       })
 
       if (!res.ok) throw new Error('Network error')
@@ -167,10 +199,15 @@ function ChatPage() {
     } catch (error) {
       toast.error(t('chat.sendError'))
       setMessages((prev) => prev.slice(0, -1))
-      setInput(userContent)
+      setInput(trimmed)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const sendMessage = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await sendContent(input)
   }
 
   if ((isPending && !storedUser) || (!hasHydrated && !storedUser)) {
@@ -292,29 +329,75 @@ function ChatPage() {
         <div ref={messagesEndRef} />
       </main>
 
-      <footer className="flex-none p-4 z-10 bg-[#001809]/80 backdrop-blur-xl border-t border-white/5 pb-safe">
-        <form
-          onSubmit={sendMessage}
-          className="flex gap-2 max-w-2xl mx-auto relative"
-        >
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={t('chat.placeholder')}
-            disabled={isLoading}
-            className="w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.02)] px-6 py-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/30 focus:outline-none focus:ring-1 focus:ring-[#c5c0fe]/30 disabled:opacity-50 pr-14"
-          />
-          <Button
-            type="submit"
-            disabled={!input.trim() || isLoading}
-            size="icon"
-            className="absolute right-2 top-2 h-10 w-10 rounded-full bg-[#c5c0fe] text-[#001809] hover:bg-[#c5c0fe]/80 transition-transform active:scale-90 disabled:opacity-50 disabled:active:scale-100"
+      <footer className="flex-none p-4 z-10 bg-[#001809] border-t border-white/5 pb-safe">
+        <div className="max-w-2xl mx-auto">
+          <AnimatePresence>
+            {showSuggestions && !isLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.25 }}
+                className="mb-3"
+              >
+                <div className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-widest text-[#e9c349]/80">
+                  <Sparkles className="h-3 w-3 text-[#e9c349]" />
+                  <span>{t('chat.suggestionsLabel')}</span>
+                </div>
+                <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-1">
+                  {suggestionPrompts.map((promptText, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => sendContent(promptText)}
+                      className="shrink-0 whitespace-nowrap rounded-full border border-[#e9c349]/25 bg-[#e9c349]/8 px-4 py-2 text-xs font-medium text-[#c9ebd0] transition-all hover:border-[#e9c349]/60 hover:bg-[#e9c349]/15 hover:text-[#e9c349] active:scale-[0.98]"
+                    >
+                      {promptText}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <form
+            onSubmit={sendMessage}
+            className="flex gap-2 relative items-center"
           >
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
+            <button
+              type="button"
+              onClick={() => setShowSuggestions((prev) => !prev)}
+              aria-label={t('chat.suggestionsLabel')}
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-all active:scale-95 ${
+                showSuggestions
+                  ? 'border-[#e9c349]/50 bg-[#e9c349]/15 text-[#e9c349]'
+                  : 'border-white/10 bg-white/5 text-[#c8c5d0]/60 hover:text-[#e9c349]'
+              }`}
+            >
+              <Sparkles className="h-4 w-4" />
+            </button>
+
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t('chat.placeholder')}
+                disabled={isLoading}
+                className="w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.02)] px-6 py-4 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/30 focus:outline-none focus:ring-1 focus:ring-[#c5c0fe]/30 disabled:opacity-50 pr-14"
+              />
+              <Button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                size="icon"
+                className="absolute right-2 top-2 h-10 w-10 rounded-full bg-[#c5c0fe] text-[#001809] hover:bg-[#c5c0fe]/80 transition-transform active:scale-90 disabled:opacity-50 disabled:active:scale-100"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+        </div>
       </footer>
     </div>
   )

@@ -168,6 +168,7 @@
   },
   "chat": {
     "welcome": "Bonjour. Je suis votre Soul Coach. Qu'avez-vous à l'esprit aujourd'hui ?",
+    "welcomeTyped": "Bonjour {{name}}. Je suis votre Soul Coach, calibré sur votre architecture cognitive {{type}}. Choisissez une piste ci-dessous pour démarrer ou écrivez-moi librement ce que vous traversez.",
     "placeholder": "Écrivez à votre coach...",
     "calibration": "CALIBRATION",
     "sanctuary": "Sanctuaire",
@@ -176,7 +177,12 @@
     "unlock": "Débloquer",
     "thinking": "Réflexion en cours...",
     "historyError": "Impossible de charger l'historique.",
-    "sendError": "Échec de l'envoi du message"
+    "sendError": "Échec de l'envoi du message",
+    "suggestionsLabel": "Pistes de réflexion",
+    "suggestion1": "Analyse mes forces cachées et mes angles morts en tant que {{type}}",
+    "suggestion2": "J'ai l'esprit en surchauffe, aide-moi à faire le tri dans mes pensées",
+    "suggestion3": "J'hésite face à une décision importante en ce moment",
+    "suggestion4": "Quels sont mes blocages récurrents selon mon profil cognitif ?"
   },
   "subscription": {
     "title": "Le Sanctuaire",
