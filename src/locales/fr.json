@@ -418,7 +418,15 @@
     "dimension": "Dimension",
     "analyzing": "Analyse de votre essence...",
     "analyzingDesc": "Nous configurons votre Soul Coach à partir de vos réponses.",
-    "footerHint": "Répondez selon votre première intuition. Il n'y a pas de bonne ou de mauvaise réponse, seulement votre réflexion personnelle."
+    "footerHint": "Répondez selon votre première intuition. Il n'y a pas de bonne ou de mauvaise réponse, seulement votre réflexion personnelle.",
+    "resultBadge": "Bilan Cognitif Complété",
+    "resultSummaryTitle": "Votre Fonctionnement Cognitif",
+    "resultEncouragementTitle": "Le Mot de votre Soul Coach",
+    "resultStrengthsTitle": "Vos Forces Naturelles",
+    "resultDimensionsTitle": "Vos 4 Axes Psychologiques",
+    "resultCta": "Sauvegarder mon Bilan & Rencontrer mon Soul Coach",
+    "resultCtaLoggedIn": "Accéder à mon Sanctuaire & mon Soul Coach",
+    "resultSubtext": "Gratuit • Votre Soul Coach est prêt et calibré sur votre profil"
   },
   "verify": {
     "unlocking": "Ouverture de votre Sanctuaire...",

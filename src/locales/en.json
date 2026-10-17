@@ -418,7 +418,15 @@
     "dimension": "Dimension",
     "analyzing": "Analyzing your essence...",
     "analyzingDesc": "We are configuring your Soul Coach based on your answers.",
-    "footerHint": "Answer with your first intuition. There are no right or wrong answers, only your personal reflection."
+    "footerHint": "Answer with your first intuition. There are no right or wrong answers, only your personal reflection.",
+    "resultBadge": "Cognitive Assessment Complete",
+    "resultSummaryTitle": "How Your Mind Works",
+    "resultEncouragementTitle": "A Note from your Soul Coach",
+    "resultStrengthsTitle": "Your Natural Strengths",
+    "resultDimensionsTitle": "Your 4 Psychological Axes",
+    "resultCta": "Save My Assessment & Meet My Soul Coach",
+    "resultCtaLoggedIn": "Enter My Sanctuary & Meet My Soul Coach",
+    "resultSubtext": "100% Free • Your Soul Coach is ready and calibrated to your profile"
   },
   "verify": {
     "unlocking": "Unlocking your Sanctuary...",

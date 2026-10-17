@@ -22,6 +22,7 @@ import { PwaPrompt } from '#/components/layout/PwaPrompt'
 import { NotificationPrompt } from '@/components/layout/NotificationPrompt'
 import { useTranslation } from 'react-i18next'
 import { WeeklySynthesisCard } from '@/components/dashboard/WeeklySynthesisCard'
+import { getArchetypeInfo } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/dashboard')({
 
@@ -491,8 +492,9 @@ function DashboardPage() {
             </div>
             <p className="text-base text-[#c8c5d0]/80 italic mb-6 leading-relaxed">
               "
-              {user.insight ||
-                'Efficiency is highly overrated if it bypasses the intuitive soul. Allow your mind to breathe.'}
+              {user.insight && !user.insight.includes('is taking shape')
+                ? user.insight
+                : getArchetypeInfo(user.type).summaryFr}
               "
             </p>
             <Link

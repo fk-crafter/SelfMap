@@ -9,6 +9,7 @@ import { useUserStore } from '@/store/userStore'
 import { useEffect, useState } from 'react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { useTranslation } from 'react-i18next'
+import { getArchetypeInfo } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
@@ -194,7 +195,11 @@ function ProfilePage() {
               {t('profile.aiAnalysis')}
             </h3>
             <p className="text-sm italic leading-relaxed text-[#c8c5d0]">
-              "{profile.insight}"
+              "
+              {profile.insight && !profile.insight.includes('is taking shape')
+                ? profile.insight
+                : getArchetypeInfo(profile.type).summaryFr}
+              "
             </p>
           </Card>
         </div>
