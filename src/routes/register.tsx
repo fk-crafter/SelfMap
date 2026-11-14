@@ -117,7 +117,7 @@ function RegisterPage() {
         scores: JSON.stringify(effectiveProfile.scores),
         insight: effectiveProfile.insight,
         plan: assignedPlan,
-        callbackURL: 'https://self-map-beta.vercel.app',
+        callbackURL: window.location.origin,
       })
 
       if (signUpError) {

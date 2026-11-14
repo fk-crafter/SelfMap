@@ -16,6 +16,8 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://localhost:3001',
       'https://self-map-beta.vercel.app',
+      'https://www.soultype.app',
+      'https://soultype.app',
     ],
     credentials: true,
   });

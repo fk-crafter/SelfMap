@@ -94,7 +94,7 @@ function LoginPage() {
     try {
       const { error: resendError } = await authClient.sendVerificationEmail({
         email: email,
-        callbackURL: 'https://self-map-beta.vercel.app',
+        callbackURL: window.location.origin,
       })
 
       if (resendError) {

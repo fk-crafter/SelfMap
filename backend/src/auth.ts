@@ -24,6 +24,8 @@ export const auth = betterAuth({
     'http://localhost:3000',
     'http://localhost:3001',
     'https://self-map-beta.vercel.app',
+    'https://www.soultype.app',
+    'https://soultype.app',
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 30,
@@ -77,7 +79,7 @@ export const auth = betterAuth({
     sendVerificationEmail({ user, url }) {
       const token = new URL(url).searchParams.get('token');
       const frontendBaseUrl =
-        process.env.FRONTEND_URL || 'https://self-map-beta.vercel.app';
+        process.env.FRONTEND_URL || 'https://www.soultype.app';
       const frontendVerifyUrl = `${frontendBaseUrl}/verify?token=${token}`;
 
       fetch(process.env.GOOGLE_WEBHOOK_URL as string, {

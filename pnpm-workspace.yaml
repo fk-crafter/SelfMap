@@ -1,0 +1,8 @@
+allowBuilds:
+  esbuild: true
+  lightningcss: true
+  unrs-resolver: true
+overrides:
+  '@tanstack/start-server-core': '>=1.169.39'
+  '@tanstack/react-start-server': '>=1.167.46'
+  '@tanstack/react-start': '>=1.168.60'

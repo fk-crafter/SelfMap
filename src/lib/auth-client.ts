@@ -2,11 +2,11 @@ import { createAuthClient } from 'better-auth/react'
 import { inferAdditionalFields } from 'better-auth/client/plugins'
 
 const getBaseURL = () => {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL
-  }
   if (typeof window !== 'undefined') {
     return `${window.location.origin}/api/auth`
+  }
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL
   }
   return 'http://localhost:3000/api/auth'
 }
