@@ -294,7 +294,7 @@ function DashboardPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+    <div className="flex h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
       {onboardingStep === 'analysis' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#001809]/95 backdrop-blur-xl px-4">
           <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-[#032110] p-10 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">

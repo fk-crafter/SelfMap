@@ -88,15 +88,15 @@ function ProfilePage() {
   }
 
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-[#001809] font-sans text-[#c9ebd0]">
       <div className="pointer-events-none absolute -right-20 top-24 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
 
       <header
         style={{
           paddingTop:
-            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
         }}
-        className="sticky top-0 z-30 flex items-center justify-center border-b border-white/5 bg-[#001809] px-6 pb-4"
+        className="flex-none z-30 flex items-center justify-center border-b border-white/5 bg-[#001809] px-6 pb-4"
       >
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">
           {t('profile.title')}

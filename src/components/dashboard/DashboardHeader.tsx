@@ -52,10 +52,9 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <header
       style={{
-        paddingTop:
-          'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+        paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
       }}
-      className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809] px-6 pb-4"
+      className="flex-none z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809] px-6 pb-4"
     >
       <div className="flex items-center gap-4">
         <h1 className="font-serif text-2xl font-normal tracking-tight text-[#e9c349]">

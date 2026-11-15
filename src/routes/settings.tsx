@@ -123,15 +123,15 @@ function SettingsPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+    <div className="flex h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
       <div className="absolute w-125 h-125 top-24 -right-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
 
       <header
         style={{
           paddingTop:
-            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
         }}
-        className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
+        className="flex-none z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
       >
         <Link
           to="/dashboard"
@@ -144,7 +144,7 @@ function SettingsPage() {
         </h1>
       </header>
 
-      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 px-6 pb-12 relative z-10">
+      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 overflow-y-auto px-6 pb-12 relative z-10">
         <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
           <h2 className="mb-6 font-serif text-xl text-[#c9ebd0]">
             {t('settings.editProfile')}

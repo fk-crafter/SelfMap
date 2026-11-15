@@ -244,16 +244,16 @@ function SubscriptionPage() {
   }
 
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-[#001809] font-sans text-[#c9ebd0]">
       <div className="pointer-events-none absolute -left-40 top-24 z-0 h-150 w-150 rounded-full bg-[#e9c349] opacity-10 blur-[120px]" />
       <div className="pointer-events-none absolute -right-40 top-1/3 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px]" />
 
       <header
         style={{
           paddingTop:
-            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+            'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
         }}
-        className="sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
+        className="flex-none z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
       >
         <Link
           to="/dashboard"
