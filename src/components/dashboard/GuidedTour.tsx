@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { ArrowUp, ArrowDown, Sparkles, ChevronRight, ChevronLeft, X } from 'lucide-react'
+import {
+  ArrowUp,
+  ArrowDown,
+  Sparkles,
+  ChevronRight,
+  ChevronLeft,
+  X,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
 
@@ -133,10 +140,7 @@ export function GuidedTour({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div className="fixed inset-0 z-150 overflow-hidden select-none">
-      <div
-        className="absolute inset-0"
-        onClick={handleNext}
-      />
+      <div className="absolute inset-0" onClick={handleNext} />
 
       {rect && (
         <motion.div
@@ -172,7 +176,11 @@ export function GuidedTour({ onComplete }: { onComplete: () => void }) {
           {placeBelow && (
             <motion.div
               animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                duration: 1.4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
               className="mb-2 flex flex-col items-center justify-center"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#e9c349] bg-[#e9c349]/20 text-[#e9c349] shadow-[0_0_20px_rgba(233,195,73,0.6)]">
@@ -254,7 +262,11 @@ export function GuidedTour({ onComplete }: { onComplete: () => void }) {
           {!placeBelow && (
             <motion.div
               animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                duration: 1.4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
               className="mt-2 flex flex-col items-center justify-center"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#e9c349] bg-[#e9c349]/20 text-[#e9c349] shadow-[0_0_20px_rgba(233,195,73,0.6)]">

@@ -6,13 +6,7 @@
     "vite.config.ts",
     "public/service-worker.js"
   ],
-  "exclude": [
-    "backend",
-    "node_modules",
-    "dist",
-    ".output",
-    ".tanstack"
-  ],
+  "exclude": ["backend", "node_modules", "dist", ".output", ".tanstack"],
 
   "compilerOptions": {
     "target": "ES2022",

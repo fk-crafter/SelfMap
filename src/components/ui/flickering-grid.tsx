@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface FlickeringGridProps {
   squareSize?: number
@@ -18,7 +18,7 @@ export function FlickeringGrid({
   squareSize = 4,
   gridGap = 6,
   flickerChance = 0.3,
-  color = "rgb(233, 195, 73)",
+  color = 'rgb(233, 195, 73)',
   width,
   height,
   className,
@@ -34,7 +34,7 @@ export function FlickeringGrid({
       ([entry]) => {
         setIsInView(entry.isIntersecting)
       },
-      { threshold: 0 }
+      { threshold: 0 },
     )
 
     if (containerRef.current) {
@@ -61,19 +61,19 @@ export function FlickeringGrid({
     }
 
     updateSize()
-    window.addEventListener("resize", updateSize)
-    return () => window.removeEventListener("resize", updateSize)
+    window.addEventListener('resize', updateSize)
+    return () => window.removeEventListener('resize', updateSize)
   }, [width, height])
 
   const memoizedColor = useMemo(() => {
     const toRGBA = (c: string) => {
-      if (typeof window === "undefined") {
+      if (typeof window === 'undefined') {
         return `rgba(0, 0, 0,`
       }
-      const canvas = document.createElement("canvas")
+      const canvas = document.createElement('canvas')
       canvas.width = canvas.height = 1
-      const ctx = canvas.getContext("2d")
-      if (!ctx) return "rgba(255, 0, 0,"
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return 'rgba(255, 0, 0,'
       ctx.fillStyle = c
       ctx.fillRect(0, 0, 1, 1)
       const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data)
@@ -99,7 +99,7 @@ export function FlickeringGrid({
 
       return { cols, rows, squares, dpr }
     },
-    [squareSize, gridGap, maxOpacity]
+    [squareSize, gridGap, maxOpacity],
   )
 
   const updateSquares = useCallback(
@@ -110,7 +110,7 @@ export function FlickeringGrid({
         }
       }
     },
-    [flickerChance, maxOpacity]
+    [flickerChance, maxOpacity],
   )
 
   const drawGrid = useCallback(
@@ -121,10 +121,10 @@ export function FlickeringGrid({
       cols: number,
       rows: number,
       squares: Float32Array,
-      dpr: number
+      dpr: number,
     ) => {
       ctx.clearRect(0, 0, w, h)
-      ctx.fillStyle = "transparent"
+      ctx.fillStyle = 'transparent'
       ctx.fillRect(0, 0, w, h)
 
       for (let i = 0; i < cols; i++) {
@@ -135,26 +135,31 @@ export function FlickeringGrid({
             i * (squareSize + gridGap) * dpr,
             j * (squareSize + gridGap) * dpr,
             squareSize * dpr,
-            squareSize * dpr
+            squareSize * dpr,
           )
         }
       }
     },
-    [memoizedColor, squareSize, gridGap]
+    [memoizedColor, squareSize, gridGap],
   )
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || canvasSize.width === 0 || canvasSize.height === 0 || !isInView)
+    if (
+      !canvas ||
+      canvasSize.width === 0 ||
+      canvasSize.height === 0 ||
+      !isInView
+    )
       return
 
-    const ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     const { cols, rows, squares, dpr } = setupCanvas(
       canvas,
       canvasSize.width,
-      canvasSize.height
+      canvasSize.height,
     )
 
     let lastTime = 0
@@ -183,14 +188,8 @@ export function FlickeringGrid({
   ])
 
   return (
-    <div
-      ref={containerRef}
-      className={cn("w-full h-full", className)}
-    >
-      <canvas
-        ref={canvasRef}
-        className="pointer-events-none"
-      />
+    <div ref={containerRef} className={cn('w-full h-full', className)}>
+      <canvas ref={canvasRef} className="pointer-events-none" />
     </div>
   )
 }

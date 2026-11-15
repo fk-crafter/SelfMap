@@ -46,17 +46,26 @@ export function NotificationPrompt({ user }: { user?: { id: string } | null }) {
     try {
       const res = await subscribeToPushNotifications(user.id)
       if (res.success) {
-        toast.success(t('notifications.subscribedSuccess', 'Notifications activées avec succès !'))
+        toast.success(
+          t(
+            'notifications.subscribedSuccess',
+            'Notifications activées avec succès !',
+          ),
+        )
         setShowPrompt(false)
         localStorage.setItem('notification_prompt_dismissed', 'true')
       } else {
-        toast.error(res.error || t('notifications.error', 'Une erreur est survenue.'))
+        toast.error(
+          res.error || t('notifications.error', 'Une erreur est survenue.'),
+        )
         if (getNotificationPermission() === 'denied') {
           setShowPrompt(false)
         }
       }
     } catch (err: any) {
-      toast.error(err.message || t('notifications.error', 'Une erreur est survenue.'))
+      toast.error(
+        err.message || t('notifications.error', 'Une erreur est survenue.'),
+      )
     } finally {
       setIsLoading(false)
     }

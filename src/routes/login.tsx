@@ -65,11 +65,12 @@ function LoginPage() {
     setError('')
 
     try {
-      const { data: resData, error: signInError } = await authClient.signIn.email({
-        email,
-        password,
-        rememberMe: true,
-      })
+      const { data: resData, error: signInError } =
+        await authClient.signIn.email({
+          email,
+          password,
+          rememberMe: true,
+        })
 
       if (signInError) {
         if (
@@ -188,7 +189,10 @@ function LoginPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
+              <form
+                onSubmit={handleForgotPassword}
+                className="flex flex-col gap-5"
+              >
                 <Input
                   type="email"
                   placeholder={t('auth.email')}
@@ -213,7 +217,8 @@ function LoginPage() {
                     <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
                     <>
-                      {t('auth.sendResetLink')} <ArrowRight className="ml-2 h-4 w-4" />
+                      {t('auth.sendResetLink')}{' '}
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </>
                   )}
                 </Button>
@@ -310,7 +315,8 @@ function LoginPage() {
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    {t('auth.enterSanctuary')} <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('auth.enterSanctuary')}{' '}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>

@@ -41,7 +41,9 @@ export function ValueProposition() {
         </div>
         <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#c9ebd0]">
           {t('value.titlePart1')}{' '}
-          <span className="text-[#c8c5d0]/50 line-through">{t('value.titleStatic')}</span>{' '}
+          <span className="text-[#c8c5d0]/50 line-through">
+            {t('value.titleStatic')}
+          </span>{' '}
           {t('value.titlePart2')}
         </h2>
         <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-xl text-[#c8c5d0]">

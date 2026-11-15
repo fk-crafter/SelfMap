@@ -1,5 +1,11 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { ArrowLeft, ArrowRight, Sparkles, Compass, CheckCircle2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Sparkles,
+  Compass,
+  CheckCircle2,
+} from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useUserStore } from '@/store/userStore'
@@ -137,7 +143,10 @@ function TestPage() {
 
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem('soultype_quiz_profile', JSON.stringify(quizProfile))
+          localStorage.setItem(
+            'soultype_quiz_profile',
+            JSON.stringify(quizProfile),
+          )
         } catch (e) {
           console.error('Failed to save quiz profile to localStorage:', e)
         }
@@ -317,8 +326,7 @@ function TestPage() {
 
       <header
         style={{
-          paddingTop:
-            'max(2rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
+          paddingTop: 'max(2rem, calc(env(safe-area-inset-top, 0px) + 1rem))',
         }}
         className="relative z-10 flex shrink-0 flex-row items-center justify-between px-6 pb-6"
       >
@@ -349,7 +357,7 @@ function TestPage() {
                 {t('test.dimension')} {currentQuestion.dimension}
               </p>
               <h2 className="max-w-3xl font-serif text-3xl font-normal leading-tight text-[#c9ebd0] sm:text-4xl md:text-5xl">
-                {(i18n.language.startsWith('fr') && currentQuestion.questionFr)
+                {i18n.language.startsWith('fr') && currentQuestion.questionFr
                   ? currentQuestion.questionFr
                   : currentQuestion.question}
               </h2>

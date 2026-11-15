@@ -39,7 +39,10 @@ export function PwaPrompt() {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
+      )
     }
   }, [])
 
@@ -110,7 +113,10 @@ export function PwaPrompt() {
                 {t('pwa.androidTitle', 'Installez SoulType')}
               </p>
               <p className="text-xs text-[#c8c5d0]/80 line-clamp-1">
-                {t('pwa.androidDesc', "Accédez à votre sanctuaire depuis l'écran d'accueil.")}
+                {t(
+                  'pwa.androidDesc',
+                  "Accédez à votre sanctuaire depuis l'écran d'accueil.",
+                )}
               </p>
             </div>
           </div>

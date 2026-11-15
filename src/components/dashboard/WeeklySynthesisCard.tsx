@@ -61,7 +61,9 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
         const data = await res.json()
         setSynthesis(data)
         if (isManualRefresh) {
-          toast.success(t('synthesis.refreshedSuccess', 'Synthèse mise à jour !'))
+          toast.success(
+            t('synthesis.refreshedSuccess', 'Synthèse mise à jour !'),
+          )
         }
       }
     } catch (err) {
@@ -88,7 +90,8 @@ export function WeeklySynthesisCard({ user }: { user: any }) {
               {t('synthesis.cardTitle')}
             </span>
             <h3 className="font-serif text-lg font-medium text-[#c9ebd0] leading-snug">
-              {synthesis?.climate || t('synthesis.discoveringClimate', 'Climat de la Semaine')}
+              {synthesis?.climate ||
+                t('synthesis.discoveringClimate', 'Climat de la Semaine')}
             </h3>
           </div>
           {synthesis?.weekNumber && (

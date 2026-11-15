@@ -1,12 +1,6 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import {
-  Check,
-  Sparkles,
-  MessageSquare,
-  Brain,
-  Zap,
-} from 'lucide-react'
+import { Check, Sparkles, MessageSquare, Brain, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@tanstack/react-router'
 import { MagicCard } from '@/components/ui/magic-card'
@@ -47,7 +41,9 @@ export function Pricing() {
           >
             <div className="flex h-full flex-col">
               <div className="mb-8 mt-4">
-                <h3 className="font-serif text-2xl text-[#c9ebd0]">{t('pricing.seekerTitle')}</h3>
+                <h3 className="font-serif text-2xl text-[#c9ebd0]">
+                  {t('pricing.seekerTitle')}
+                </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
                   {t('pricing.seekerSubtitle')}
                 </p>
@@ -127,7 +123,9 @@ export function Pricing() {
               </div>
 
               <div className="mb-8 mt-2">
-                <h3 className="font-serif text-2xl text-[#e9c349]">{t('pricing.sanctuaryTitle')}</h3>
+                <h3 className="font-serif text-2xl text-[#e9c349]">
+                  {t('pricing.sanctuaryTitle')}
+                </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#c8c5d0]/70">
                   {t('pricing.sanctuarySubtitle')}
                 </p>
@@ -135,7 +133,9 @@ export function Pricing() {
                   <span className="text-4xl font-bold text-[#e9c349]">
                     ${isYearly ? '12' : '15'}
                   </span>
-                  <span className="text-sm text-[#c8c5d0]/70">{t('pricing.perMonth')}</span>
+                  <span className="text-sm text-[#c8c5d0]/70">
+                    {t('pricing.perMonth')}
+                  </span>
                 </div>
                 <div className="mt-1 flex h-4 items-center gap-2">
                   {isYearly && (

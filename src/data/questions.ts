@@ -59,7 +59,8 @@ export const questions: ApiQuestion[] = [
     dimension: 'N',
     direction: 'positive',
     question: 'You like experimenting with new and untested approaches.',
-    questionFr: 'Vous aimez expérimenter de nouvelles approches encore non testées.',
+    questionFr:
+      'Vous aimez expérimenter de nouvelles approches encore non testées.',
   },
   {
     id: 8,
@@ -103,7 +104,8 @@ export const questions: ApiQuestion[] = [
     dimension: 'T',
     direction: 'negative',
     question: 'You favor a sensitive approach over absolute honesty.',
-    questionFr: 'Vous privilégiez une approche bienveillante plutôt qu une franchise absolue.',
+    questionFr:
+      'Vous privilégiez une approche bienveillante plutôt qu une franchise absolue.',
   },
 
   {
@@ -111,7 +113,8 @@ export const questions: ApiQuestion[] = [
     dimension: 'J',
     direction: 'positive',
     question: 'Your living and working spaces are clean and highly organized.',
-    questionFr: 'Vos espaces de vie et de travail sont propres et très bien organisés.',
+    questionFr:
+      'Vos espaces de vie et de travail sont propres et très bien organisés.',
   },
   {
     id: 14,
@@ -127,7 +130,8 @@ export const questions: ApiQuestion[] = [
     dimension: 'J',
     direction: 'negative',
     question: 'You often let the day unfold without any schedule.',
-    questionFr: 'Vous laissez souvent la journée se dérouler sans aucun planning précis.',
+    questionFr:
+      'Vous laissez souvent la journée se dérouler sans aucun planning précis.',
   },
   {
     id: 16,
@@ -169,6 +173,7 @@ export const questions: ApiQuestion[] = [
     dimension: 'A',
     direction: 'negative',
     question: 'You tend to worry that things will go from bad to worse.',
-    questionFr: 'Vous avez tendance à craindre que les choses ne tournent de mal en pis.',
+    questionFr:
+      'Vous avez tendance à craindre que les choses ne tournent de mal en pis.',
   },
 ]

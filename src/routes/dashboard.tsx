@@ -26,7 +26,6 @@ import { SoulLoader } from '@/components/ui/soul-loader'
 import { getArchetypeInfo } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/dashboard')({
-
   component: DashboardPage,
 })
 
@@ -416,7 +415,11 @@ function DashboardPage() {
             >
               <div className="mx-auto mb-8 h-36 w-36 overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#c8c5d0]/5 shadow-[0_0_40px_rgba(233,195,73,0.15)] flex items-center justify-center md:h-48 md:w-48">
                 <img
-                  src={isAvatarGenerated(user.avatarSeed) ? user.avatarSeed! : '/avatar-coach.png'}
+                  src={
+                    isAvatarGenerated(user.avatarSeed)
+                      ? user.avatarSeed!
+                      : '/avatar-coach.png'
+                  }
                   alt="Coach Avatar"
                   className="h-full w-full object-cover opacity-90 mix-blend-luminosity transition-transform hover:scale-105 duration-500"
                   onError={(e) => {
@@ -434,7 +437,8 @@ function DashboardPage() {
                 className="mx-auto w-full max-w-md rounded-full bg-[#e9c349] h-14 text-[#001809] font-bold text-sm tracking-wider hover:bg-[#e9c349]/90 transition-transform active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(233,195,73,0.2)]"
               >
                 <Link to="/chat">
-                  {t('dashboard.startReflection')} <ArrowRight className="h-4 w-4" />
+                  {t('dashboard.startReflection')}{' '}
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </Card>

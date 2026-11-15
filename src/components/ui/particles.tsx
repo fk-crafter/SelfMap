@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { useEffect, useRef } from "react"
-import { useMousePosition } from "@/lib/hooks/use-mouse-position"
+import { useEffect, useRef } from 'react'
+import { useMousePosition } from '@/lib/hooks/use-mouse-position'
 
 interface ParticlesProps {
   className?: string
@@ -12,11 +12,11 @@ interface ParticlesProps {
 }
 
 export function Particles({
-  className = "",
+  className = '',
   quantity = 100,
   staticity = 50,
   ease = 50,
-  color = "#ffffff",
+  color = '#ffffff',
 }: ParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const canvasContainerRef = useRef<HTMLDivElement>(null)
@@ -25,18 +25,18 @@ export function Particles({
   const mousePosition = useMousePosition()
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 })
-  const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1
+  const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1
 
   useEffect(() => {
     if (canvasRef.current) {
-      context.current = canvasRef.current.getContext("2d")
+      context.current = canvasRef.current.getContext('2d')
     }
     initCanvas()
     animate()
-    window.addEventListener("resize", initCanvas)
+    window.addEventListener('resize', initCanvas)
 
     return () => {
-      window.removeEventListener("resize", initCanvas)
+      window.removeEventListener('resize', initCanvas)
     }
   }, [color])
 
@@ -109,7 +109,7 @@ export function Particles({
       context.current.arc(x, y, size, 0, 2 * Math.PI)
       context.current.fillStyle = `${color}${Math.floor(alpha * 255)
         .toString(16)
-        .padStart(2, "0")}`
+        .padStart(2, '0')}`
       context.current.fill()
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0)
 

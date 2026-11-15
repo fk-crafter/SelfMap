@@ -18,10 +18,7 @@ import { useUserStore } from '@/store/userStore'
 import { toast } from 'sonner'
 import { motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
-import {
-  getDailyPrompt,
-  getTemperamentFromType,
-} from '@/lib/journalPrompts'
+import { getDailyPrompt, getTemperamentFromType } from '@/lib/journalPrompts'
 import { SoulLoader } from '@/components/ui/soul-loader'
 
 export const Route = createFileRoute('/journal')({
@@ -194,7 +191,9 @@ function JournalPage() {
                 title={t('journal.nextPrompt')}
               >
                 <RefreshCw className="h-3 w-3" />
-                <span className="hidden sm:inline">{t('journal.nextPrompt')}</span>
+                <span className="hidden sm:inline">
+                  {t('journal.nextPrompt')}
+                </span>
               </button>
             </div>
 
@@ -205,7 +204,9 @@ function JournalPage() {
             <div className="mt-3.5 flex justify-end">
               <button
                 type="button"
-                onClick={() => handleApplyPrompt(currentPrompt.text[currentLang])}
+                onClick={() =>
+                  handleApplyPrompt(currentPrompt.text[currentLang])
+                }
                 className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-[#e9c349]/15 px-3 py-1.5 text-xs font-semibold text-[#e9c349] transition-all hover:bg-[#e9c349]/25 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <PenLine className="h-3.5 w-3.5" />
@@ -226,7 +227,9 @@ function JournalPage() {
                 <BookOpen className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="font-serif text-xl text-[#c9ebd0]">{t('journal.newEntry')}</h2>
+                <h2 className="font-serif text-xl text-[#c9ebd0]">
+                  {t('journal.newEntry')}
+                </h2>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
                   {t('journal.whatsOnYourMind')}
                 </p>
@@ -282,7 +285,9 @@ function JournalPage() {
           ) : (
             entries.map((entry, index) => {
               const entryDate = new Date(entry.createdAt)
-              const localeStr = i18n.language.startsWith('fr') ? 'fr-FR' : 'en-US'
+              const localeStr = i18n.language.startsWith('fr')
+                ? 'fr-FR'
+                : 'en-US'
               return (
                 <motion.div
                   key={entry.id}

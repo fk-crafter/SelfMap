@@ -52,7 +52,8 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <header
       style={{
-        paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+        paddingTop:
+          'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
       }}
       className="sticky top-0 z-30 flex items-center justify-between border-b border-[#c9ebd0]/5 bg-[#001809] px-6 pb-4"
     >
@@ -67,81 +68,84 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-[#e9c349]/20 bg-[#e9c349]/10 text-[#e9c349] shadow-sm transition-transform hover:scale-105 active:scale-95"
         >
-            {user.avatarSeed && (user.avatarSeed.startsWith('http://') || user.avatarSeed.startsWith('https://') || user.avatarSeed.startsWith('/')) ? (
-              <img
-                src={user.avatarSeed}
-                alt="Profile"
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = '/avatar-coach.png'
-                }}
-              />
-            ) : (
-              <UserIcon className="h-5 w-5" />
-            )}
-          </button>
-
-          {isMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
-              <Link
-                to="/profile"
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-              >
-                <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
-                {t('dashboard.profile')}
-              </Link>
-
-              <Link
-                to="/subscription"
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-              >
-                <div className="flex items-center gap-3">
-                  <Crown className="h-4 w-4 text-[#e9c349]" />
-                  {t('dashboard.sanctuary')}
-                </div>
-                {user.plan === 'PRO' ? (
-                  <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold text-[#e9c349]">
-                    PRO
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-[#c8c5d0]/70">
-                    {t('dashboard.upgrade')}
-                  </span>
-                )}
-              </Link>
-
-              {user.isAdmin && (
-                <Link
-                  to="/admin"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-                >
-                  <Shield className="h-4 w-4 text-[#e9c349]/70" />
-                  {t('dashboard.admin')}
-                </Link>
-              )}
-
-              <Link
-                to="/settings"
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
-              >
-                <Settings className="h-4 w-4 text-[#e9c349]/70" />
-                {t('dashboard.settings')}
-              </Link>
-              <div className="h-px w-full bg-white/10" />
-              <button
-                onClick={handleLogout}
-                className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm font-medium text-[#ffb4ab] transition-colors hover:bg-white/5"
-              >
-                <LogOut className="h-4 w-4" />
-                {t('dashboard.signOut')}
-              </button>
-            </div>
+          {user.avatarSeed &&
+          (user.avatarSeed.startsWith('http://') ||
+            user.avatarSeed.startsWith('https://') ||
+            user.avatarSeed.startsWith('/')) ? (
+            <img
+              src={user.avatarSeed}
+              alt="Profile"
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = '/avatar-coach.png'
+              }}
+            />
+          ) : (
+            <UserIcon className="h-5 w-5" />
           )}
-        </div>
+        </button>
+
+        {isMenuOpen && (
+          <div className="absolute right-0 top-full mt-2 z-50 flex w-48 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#032110] shadow-2xl backdrop-blur-xl">
+            <Link
+              to="/profile"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+            >
+              <UserIcon className="h-4 w-4 text-[#e9c349]/70" />
+              {t('dashboard.profile')}
+            </Link>
+
+            <Link
+              to="/subscription"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center justify-between px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+            >
+              <div className="flex items-center gap-3">
+                <Crown className="h-4 w-4 text-[#e9c349]" />
+                {t('dashboard.sanctuary')}
+              </div>
+              {user.plan === 'PRO' ? (
+                <span className="rounded-full bg-[#e9c349]/20 px-2 py-0.5 text-[10px] font-bold text-[#e9c349]">
+                  PRO
+                </span>
+              ) : (
+                <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-[#c8c5d0]/70">
+                  {t('dashboard.upgrade')}
+                </span>
+              )}
+            </Link>
+
+            {user.isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+              >
+                <Shield className="h-4 w-4 text-[#e9c349]/70" />
+                {t('dashboard.admin')}
+              </Link>
+            )}
+
+            <Link
+              to="/settings"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[#c9ebd0] transition-colors hover:bg-white/5"
+            >
+              <Settings className="h-4 w-4 text-[#e9c349]/70" />
+              {t('dashboard.settings')}
+            </Link>
+            <div className="h-px w-full bg-white/10" />
+            <button
+              onClick={handleLogout}
+              className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm font-medium text-[#ffb4ab] transition-colors hover:bg-white/5"
+            >
+              <LogOut className="h-4 w-4" />
+              {t('dashboard.signOut')}
+            </button>
+          </div>
+        )}
+      </div>
     </header>
   )
 }

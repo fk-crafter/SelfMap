@@ -41,8 +41,12 @@ export function FoundersNote() {
               <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
             </div>
             <div>
-              <p className="text-[11px] sm:text-xs font-bold text-[#c9ebd0]">{t('founder.author')}</p>
-              <p className="text-[10px] sm:text-[11px] text-[#c8c5d0]/50">{t('founder.role')}</p>
+              <p className="text-[11px] sm:text-xs font-bold text-[#c9ebd0]">
+                {t('founder.author')}
+              </p>
+              <p className="text-[10px] sm:text-[11px] text-[#c8c5d0]/50">
+                {t('founder.role')}
+              </p>
             </div>
           </div>
         </div>

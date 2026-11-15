@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils"
-import { motion, useMotionTemplate, useMotionValue } from "motion/react"
-import type { ReactNode } from "react"
+import { cn } from '@/lib/utils'
+import { motion, useMotionTemplate, useMotionValue } from 'motion/react'
+import type { ReactNode } from 'react'
 
 export interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradientSize?: number
@@ -13,7 +13,7 @@ export function MagicCard({
   children,
   className,
   gradientSize = 250,
-  gradientColor = "rgba(233, 195, 73, 0.15)",
+  gradientColor = 'rgba(233, 195, 73, 0.15)',
   gradientOpacity = 0.8,
   ...props
 }: MagicCardProps) {
@@ -36,8 +36,8 @@ export function MagicCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "group relative flex h-full w-full overflow-hidden rounded-xl border border-white/10 bg-[rgba(197,192,254,0.02)] text-white",
-        className
+        'group relative flex h-full w-full overflow-hidden rounded-xl border border-white/10 bg-[rgba(197,192,254,0.02)] text-white',
+        className,
       )}
       {...props}
     >

@@ -17,7 +17,9 @@ import { authSchema } from '@/lib/validations'
 import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/reset-password')({
-  validateSearch: (search: Record<string, unknown>): { token?: string; error?: string } => {
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { token?: string; error?: string } => {
     return {
       token: typeof search.token === 'string' ? search.token : undefined,
       error: typeof search.error === 'string' ? search.error : undefined,
@@ -184,7 +186,8 @@ function ResetPasswordPage() {
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    {t('auth.updatePassword')} <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('auth.updatePassword')}{' '}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>

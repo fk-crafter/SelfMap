@@ -46,7 +46,8 @@ export async function subscribeToPushNotifications(
   if (!isPushNotificationSupported()) {
     return {
       success: false,
-      error: 'Les notifications push ne sont pas supportées par votre navigateur.',
+      error:
+        'Les notifications push ne sont pas supportées par votre navigateur.',
     }
   }
 

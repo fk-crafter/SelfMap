@@ -39,7 +39,12 @@ export function HeroSection({
           className="absolute bottom-6 xl:bottom-8 -left-1 xl:left-6 w-18 lg:w-22 xl:w-28 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: 7 }}
           animate={{ y: [0, 12, 0], rotate: [7, 3, 7] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.5,
+          }}
         />
 
         <motion.img
@@ -48,7 +53,12 @@ export function HeroSection({
           className="absolute top-2 xl:top-6 -right-2 xl:right-4 w-22 lg:w-26 xl:w-32 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: 8 }}
           animate={{ y: [0, 14, 0], rotate: [8, 4, 8] }}
-          transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+          transition={{
+            duration: 6.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.2,
+          }}
         />
 
         <motion.img
@@ -57,7 +67,12 @@ export function HeroSection({
           className="absolute bottom-6 xl:bottom-8 -right-1 xl:right-6 w-18 lg:w-22 xl:w-28 opacity-65 drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
           initial={{ rotate: -7 }}
           animate={{ y: [0, -14, 0], rotate: [-7, -3, -7] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
+          transition={{
+            duration: 7.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.7,
+          }}
         />
       </div>
 
@@ -85,9 +100,7 @@ export function HeroSection({
         <br />
         {t('hero.titlePart2')}
         <br />
-        <span className="text-[#e9c349]">
-          {t('hero.titleSoulCoach')}
-        </span>
+        <span className="text-[#e9c349]">{t('hero.titleSoulCoach')}</span>
       </motion.h1>
 
       <motion.p

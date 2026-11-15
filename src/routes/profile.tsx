@@ -67,9 +67,7 @@ function ProfilePage() {
         <h1 className="mb-4 font-serif text-3xl font-normal text-[#e9c349]">
           {t('profile.profileIncomplete')}
         </h1>
-        <p className="mb-8 text-[#c8c5d0]/70">
-          {t('profile.takeTest')}
-        </p>
+        <p className="mb-8 text-[#c8c5d0]/70">{t('profile.takeTest')}</p>
         <Button
           asChild
           className="rounded-full bg-[#e9c349] px-8 py-6 font-bold text-[#001809] hover:bg-[#e9c349]/90"
@@ -110,7 +108,10 @@ function ProfilePage() {
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] shadow-[0_0_30px_rgba(197,192,254,0.1)]">
             <img
               src={
-                profile.avatarSeed && (profile.avatarSeed.startsWith('http://') || profile.avatarSeed.startsWith('https://') || profile.avatarSeed.startsWith('/'))
+                profile.avatarSeed &&
+                (profile.avatarSeed.startsWith('http://') ||
+                  profile.avatarSeed.startsWith('https://') ||
+                  profile.avatarSeed.startsWith('/'))
                   ? profile.avatarSeed
                   : '/avatar-coach.png'
               }
@@ -131,9 +132,13 @@ function ProfilePage() {
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#c8c5d0]">
               {t('profile.plan')}{' '}
               {profile.plan === 'PRO' ? (
-                <span className="font-bold text-[#e9c349]">Sanctuary PRO 👑</span>
+                <span className="font-bold text-[#e9c349]">
+                  Sanctuary PRO 👑
+                </span>
               ) : profile.plan === 'BETA' ? (
-                <span className="font-bold text-[#c5c0fe]">Founding Member BETA</span>
+                <span className="font-bold text-[#c5c0fe]">
+                  Founding Member BETA
+                </span>
               ) : (
                 <span className="text-[#c8c5d0]/70">Free</span>
               )}
@@ -142,7 +147,9 @@ function ProfilePage() {
               to="/subscription"
               className="text-xs font-semibold text-[#e9c349] underline-offset-4 hover:underline"
             >
-              {profile.plan === 'PRO' ? t('profile.manage') : t('profile.upgrade')}
+              {profile.plan === 'PRO'
+                ? t('profile.manage')
+                : t('profile.upgrade')}
             </Link>
           </div>
         </div>

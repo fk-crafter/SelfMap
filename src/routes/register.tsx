@@ -285,7 +285,8 @@ function RegisterPage() {
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    {t('auth.startMyJourney')} <ArrowRight className="ml-2 h-4 w-4" />
+                    {t('auth.startMyJourney')}{' '}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>

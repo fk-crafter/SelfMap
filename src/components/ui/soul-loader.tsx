@@ -15,29 +15,19 @@ export function SoulLoader({
   size = 'md',
 }: SoulLoaderProps) {
   const dimensions =
-    size === 'sm'
-      ? 'h-14 w-14'
-      : size === 'lg'
-        ? 'h-28 w-28'
-        : 'h-20 w-20'
+    size === 'sm' ? 'h-14 w-14' : size === 'lg' ? 'h-28 w-28' : 'h-20 w-20'
 
   const innerDimensions =
-    size === 'sm'
-      ? 'h-9 w-9'
-      : size === 'lg'
-        ? 'h-20 w-20'
-        : 'h-14 w-14'
+    size === 'sm' ? 'h-9 w-9' : size === 'lg' ? 'h-20 w-20' : 'h-14 w-14'
 
   const coreDimensions =
-    size === 'sm'
-      ? 'h-5 w-5'
-      : size === 'lg'
-        ? 'h-10 w-10'
-        : 'h-7 w-7'
+    size === 'sm' ? 'h-5 w-5' : size === 'lg' ? 'h-10 w-10' : 'h-7 w-7'
 
   const content = (
     <div className="relative z-10 flex flex-col items-center justify-center text-center">
-      <div className={`relative flex items-center justify-center ${dimensions}`}>
+      <div
+        className={`relative flex items-center justify-center ${dimensions}`}
+      >
         <motion.div
           animate={{ scale: [1, 1.35, 1], opacity: [0.2, 0.45, 0.2] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
