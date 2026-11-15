@@ -38,6 +38,9 @@ function LoginPage() {
 
   const [isUnverified, setIsUnverified] = useState(false)
   const [isResending, setIsResending] = useState(false)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
+  const [resetEmailSent, setResetEmailSent] = useState(false)
+  const [isSendingReset, setIsSendingReset] = useState(false)
 
   useEffect(() => {
     if (storedUser) {
@@ -109,6 +112,31 @@ function LoginPage() {
     }
   }
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email.trim()) return
+
+    setIsSendingReset(true)
+    setError('')
+
+    try {
+      const { error: resetError } = await authClient.requestPasswordReset({
+        email: email.trim(),
+        redirectTo: `${window.location.origin}/reset-password`,
+      })
+
+      if (resetError) {
+        setError(resetError.message || t('auth.unexpectedError'))
+      } else {
+        setResetEmailSent(true)
+      }
+    } catch (err) {
+      setError(t('auth.unexpectedError'))
+    } finally {
+      setIsSendingReset(false)
+    }
+  }
+
   if (storedUser || (hasHydrated && !isPending && data?.session)) {
     return (
       <div className="flex min-h-dvh w-full items-center justify-center bg-[#001809]">
@@ -122,7 +150,88 @@ function LoginPage() {
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[150vw] w-[150vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5c0fe] opacity-[0.03] blur-[80px] sm:h-125 sm:w-125 sm:blur-[100px]" />
 
       <div className="z-10 flex w-full max-w-md flex-1 flex-col justify-center sm:flex-initial sm:rounded-[2rem] sm:border sm:border-white/5 sm:bg-[rgba(197,192,254,0.02)] sm:p-10 sm:shadow-2xl sm:backdrop-blur-xl">
-        {!isUnverified ? (
+        {isForgotPassword ? (
+          resetEmailSent ? (
+            <div className="flex flex-col items-center text-center animate-in fade-in zoom-in duration-300">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#e9c349]/20 bg-[#e9c349]/10 shadow-[0_0_20px_rgba(233,195,73,0.1)]">
+                <MailCheck className="h-8 w-8 text-[#e9c349]" />
+              </div>
+              <h2 className="mb-3 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
+                {t('auth.resetEmailSentTitle')}
+              </h2>
+              <p className="mb-8 text-sm leading-relaxed text-[#c8c5d0]/70">
+                {t('auth.resetEmailSentDesc')}{' '}
+                <span className="font-semibold text-[#c9ebd0]">{email}</span>.
+              </p>
+              <Button
+                onClick={() => {
+                  setIsForgotPassword(false)
+                  setResetEmailSent(false)
+                  setError('')
+                }}
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold tracking-wider text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98]"
+              >
+                {t('auth.goToLogin')}
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col animate-in fade-in zoom-in duration-300">
+              <div className="mb-8 flex flex-col items-center text-center">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e9c349]/20 bg-[#e9c349]/10 shadow-[0_0_20px_rgba(233,195,73,0.1)]">
+                  <Lock className="h-7 w-7 text-[#e9c349]" strokeWidth={1.5} />
+                </div>
+                <h1 className="mb-2 font-serif text-3xl font-normal tracking-tight text-[#e9c349]">
+                  {t('auth.forgotPasswordTitle')}
+                </h1>
+                <p className="text-sm font-medium text-[#c8c5d0]/70">
+                  {t('auth.forgotPasswordSubtitle')}
+                </p>
+              </div>
+
+              <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
+                <Input
+                  type="email"
+                  placeholder={t('auth.email')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="h-12 w-full rounded-full border border-white/10 bg-[rgba(197,192,254,0.05)] px-6 text-sm text-[#c9ebd0] placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+                />
+
+                {error && (
+                  <p className="text-center text-xs font-medium text-[#ffb4ab]">
+                    {error}
+                  </p>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={isSendingReset}
+                  className="mt-2 flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold tracking-wider text-[#001809] shadow-[0_0_20px_rgba(233,195,73,0.2)] transition-all hover:bg-[#e9c349]/90 active:scale-[0.98]"
+                >
+                  {isSendingReset ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <>
+                      {t('auth.sendResetLink')} <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(false)
+                  setError('')
+                }}
+                className="mt-6 text-xs font-bold text-[#c8c5d0]/50 hover:text-[#e9c349] transition-colors uppercase tracking-wider"
+              >
+                ← {t('auth.backToLogin')}
+              </button>
+            </div>
+          )
+        ) : !isUnverified ? (
           <>
             <div className="mb-8 flex flex-col items-center text-center">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e9c349]/20 bg-[#e9c349]/10 shadow-[0_0_20px_rgba(233,195,73,0.1)]">
@@ -169,6 +278,19 @@ function LoginPage() {
                     ) : (
                       <Eye className="h-4 w-4" />
                     )}
+                  </button>
+                </div>
+
+                <div className="flex justify-end px-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsForgotPassword(true)
+                      setError('')
+                    }}
+                    className="text-xs font-medium text-[#c8c5d0]/60 transition-colors hover:text-[#e9c349]"
+                  >
+                    {t('auth.forgotPassword')}
                   </button>
                 </div>
               </div>

@@ -34,6 +34,33 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword({ user, token }) {
+      const frontendBaseUrl =
+        process.env.FRONTEND_URL || 'https://www.soultype.app';
+      const resetUrl = `${frontendBaseUrl}/reset-password?token=${token}`;
+
+      fetch(process.env.GOOGLE_WEBHOOK_URL as string, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: user.email,
+          subject: 'Soul Coach - Reset your password',
+          html: `
+            <div style="background-color: #001809; color: #c9ebd0; padding: 40px 20px; font-family: sans-serif; text-align: center;">
+              <h1 style="color: #e9c349; font-family: serif; font-weight: normal;">Soul Coach</h1>
+              <p>Hello ${user.name},</p>
+              <p>A request was made to reset your sanctuary key (password).</p>
+              <a href="${resetUrl}" style="background-color: #e9c349; color: #001809; padding: 12px 24px; text-decoration: none; border-radius: 30px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 14px;">RESET MY PASSWORD</a>
+              <p style="margin-top: 24px; font-size: 12px; color: #c8c5d0; opacity: 0.6;">If you did not request this, you can safely ignore this email.</p>
+            </div>
+          `,
+        }),
+      }).catch((err) => console.error('Webhook error:', err));
+
+      return Promise.resolve();
+    },
   },
   user: {
     deleteUser: {

@@ -407,7 +407,22 @@
     "termsRequired": "You must agree to the Terms of Service to continue.",
     "testRequired": "Please complete the psychological quiz before creating your account.",
     "secureData": "Secure Data",
-    "psychologyCertified": "Psychology Certified"
+    "psychologyCertified": "Psychology Certified",
+    "forgotPassword": "Forgot your password?",
+    "forgotPasswordTitle": "Reset Your Key",
+    "forgotPasswordSubtitle": "Enter your email address and we'll send you a link to reset your password.",
+    "sendResetLink": "SEND RESET LINK",
+    "resetEmailSentTitle": "Check Your Inbox",
+    "resetEmailSentDesc": "If an account exists with this email, a password reset link has been sent to",
+    "resetPasswordTitle": "New Sanctuary Key",
+    "resetPasswordSubtitle": "Choose a strong new password to protect your inner sanctuary.",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "updatePassword": "UPDATE PASSWORD",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "passwordResetSuccessTitle": "Key Restored",
+    "passwordResetSuccessDesc": "Your password has been successfully updated. Redirecting you to login...",
+    "invalidResetToken": "Invalid or expired reset link. Please request a new one."
   },
   "discover": {
     "badge": "ARCHETYPE REPOSITORY",

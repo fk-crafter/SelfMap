@@ -407,7 +407,22 @@
     "termsRequired": "Vous devez accepter les conditions d'utilisation pour continuer.",
     "testRequired": "Veuillez passer le test psychologique avant de créer votre compte.",
     "secureData": "Données Sécurisées",
-    "psychologyCertified": "Certifié Psychologique"
+    "psychologyCertified": "Certifié Psychologique",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotPasswordTitle": "Réinitialiser votre Clé",
+    "forgotPasswordSubtitle": "Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "sendResetLink": "ENVOYER LE LIEN",
+    "resetEmailSentTitle": "Vérifiez votre boîte mail",
+    "resetEmailSentDesc": "Si un compte existe avec cet email, un lien de réinitialisation a été envoyé à",
+    "resetPasswordTitle": "Nouvelle Clé du Sanctuaire",
+    "resetPasswordSubtitle": "Choisissez un nouveau mot de passe sécurisé pour protéger votre sanctuaire.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "updatePassword": "METTRE À JOUR LE MOT DE PASSE",
+    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+    "passwordResetSuccessTitle": "Clé Restaurée",
+    "passwordResetSuccessDesc": "Votre mot de passe a été mis à jour avec succès. Redirection vers la connexion...",
+    "invalidResetToken": "Lien de réinitialisation invalide ou expiré. Veuillez en demander un nouveau."
   },
   "discover": {
     "badge": "RÉPERTOIRE DES ARCHÉTYPES",
