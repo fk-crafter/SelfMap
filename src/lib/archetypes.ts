@@ -293,3 +293,35 @@ export function getArchetypeInfo(type?: string | null): ArchetypeInfo {
   const key = (type || 'INTJ').toUpperCase()
   return key in ARCHETYPES ? ARCHETYPES[key] : ARCHETYPES.INTJ
 }
+
+export function getLocalizedInsight(
+  insight: string | null | undefined,
+  type: string | null | undefined,
+  lang?: string,
+): string {
+  const isFr = (lang || 'fr').toLowerCase().startsWith('fr')
+  const archetype = getArchetypeInfo(type)
+  const fallback = isFr ? archetype.summaryFr : archetype.summaryEn
+
+  if (!insight || insight.includes('is taking shape')) {
+    return fallback
+  }
+
+  for (const arch of Object.values(ARCHETYPES)) {
+    if (insight === arch.summaryEn || insight === arch.summaryFr) {
+      return isFr ? arch.summaryFr : arch.summaryEn
+    }
+  }
+
+  if (isFr) {
+    const looksEnglish =
+      /\b(the|your|you|with|and|that|this|they|their|user|shows|struggles|seeks|welcome to your sanctuary)\b/i.test(
+        insight,
+      ) && !/[éèêàùçîôœ]/i.test(insight)
+    if (looksEnglish) {
+      return archetype.summaryFr
+    }
+  }
+
+  return insight
+}

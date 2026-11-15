@@ -23,7 +23,7 @@ import { NotificationPrompt } from '@/components/layout/NotificationPrompt'
 import { useTranslation } from 'react-i18next'
 import { WeeklySynthesisCard } from '@/components/dashboard/WeeklySynthesisCard'
 import { SoulLoader } from '@/components/ui/soul-loader'
-import { getArchetypeInfo } from '@/lib/archetypes'
+import { getLocalizedInsight } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -97,7 +97,7 @@ function ScrambleText({ text }: { text: string }) {
 
 function DashboardPage() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { data, isPending, refetch } = authClient.useSession()
 
   const storedUser = useUserStore((state: any) => state.user)
@@ -233,11 +233,13 @@ function DashboardPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-user-lang': i18n.language || 'fr',
         },
         credentials: 'include',
         body: JSON.stringify({
           mbtiType: user.type,
           gender: gender,
+          lang: i18n.language || 'fr',
         }),
       })
 
@@ -519,11 +521,7 @@ function DashboardPage() {
               </h3>
             </div>
             <p className="text-base text-[#c8c5d0]/80 italic mb-6 leading-relaxed">
-              "
-              {user.insight && !user.insight.includes('is taking shape')
-                ? user.insight
-                : getArchetypeInfo(user.type).summaryFr}
-              "
+              "{getLocalizedInsight(user.insight, user.type, i18n.language)}"
             </p>
             <Link
               to="/profile"

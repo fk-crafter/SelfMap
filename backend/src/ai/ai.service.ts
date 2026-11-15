@@ -86,12 +86,19 @@ ABSOLUTE RULES:
     currentInsight: string | null,
     currentFacts: string | null,
     newJournalEntry: string,
+    lang: string = 'fr',
   ): Promise<InsightSynthesis | null> {
+    const isFr = lang.toLowerCase().includes('fr');
+    const langInstruction = isFr
+      ? 'Write BOTH "psychology" and "new_facts" in French (français), addressing the user directly in the 2nd person ("Vous") for "psychology".'
+      : 'Write BOTH "psychology" and "new_facts" in English, addressing the user directly in the 2nd person ("You") for "psychology".';
+
     const systemPrompt = `You are a clinical psychologist and factual archiver.
 Your task is to analyze a recent conversation and update the user's file.
+${langInstruction}
 
 You MUST respond strictly in valid JSON format containing exactly these two keys:
-1. "psychology": A string (max 150 words) updating their psychological profile, beliefs, and emotional state in the 3rd person.
+1. "psychology": A short, warm, insightful string (2-3 sentences, max 80 words) updating their psychological profile, beliefs, and emotional state.
 2. "new_facts": An array of strings containing ONLY completely new, concrete facts (names, specific times, events, preferences) mentioned in the excerpt. Do not include facts that are already in the 'Current Facts'. If there are no new facts, return an empty array [].`;
 
     const userPrompt = `Current Psychology: 
@@ -128,15 +135,17 @@ Recent conversation excerpt:
   async generateInitialProfile(
     mbtiType: string,
     gender: string,
+    lang: string = 'fr',
   ): Promise<{ insight: string; avatarUrl: string }> {
+    const isFr = lang.toLowerCase().includes('fr');
     let genderInstruction = 'androgynous/neutral';
     if (gender === 'male') genderInstruction = 'male';
     if (gender === 'female') genderInstruction = 'female';
 
     const systemPrompt = `You are a psychological profiler. The user has an ${mbtiType} MBTI personality type.
 Provide a valid JSON response with exactly these two keys:
-- "insight": A short, 2-3 sentence personalized psychological welcome message addressing the user directly.
-- "visualPrompt": A highly specific prompt to generate a 3D character avatar. 
+- "insight": A short, 2-3 sentence personalized psychological welcome message addressing the user directly in ${isFr ? 'French (français)' : 'English'}.
+- "visualPrompt": A highly specific prompt in English to generate a 3D character avatar. 
 STRICT STYLE RULES:
 - Style: 3D render, claymorphism, soft rounded shapes, cute stylized character.
 - Quality: High-end 3D, clean lighting, soft ambient occlusion, pastel color palette (lavender, mint, soft yellow), minimalist aesthetic.

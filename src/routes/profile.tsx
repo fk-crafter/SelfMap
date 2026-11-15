@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { DashboardBottomNav } from '@/components/layout/DashboardBottomNav'
 import { SoulLoader } from '@/components/ui/soul-loader'
 import { useTranslation } from 'react-i18next'
-import { getArchetypeInfo } from '@/lib/archetypes'
+import { getArchetypeInfo, getLocalizedInsight } from '@/lib/archetypes'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
@@ -28,7 +28,7 @@ type ExtendedUser = {
 
 function ProfilePage() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { data, isPending, refetch } = authClient.useSession()
   const storedUser = useUserStore((state: any) => state.user)
   const hasHydrated = useUserStore((state: any) => state._hasHydrated)
@@ -199,9 +199,11 @@ function ProfilePage() {
             </h3>
             <p className="text-sm italic leading-relaxed text-[#c8c5d0]">
               "
-              {profile.insight && !profile.insight.includes('is taking shape')
-                ? profile.insight
-                : getArchetypeInfo(profile.type).summaryFr}
+              {getLocalizedInsight(
+                profile.insight,
+                profile.type,
+                i18n.language,
+              )}
               "
             </p>
           </Card>

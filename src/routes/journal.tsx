@@ -101,8 +101,9 @@ function JournalPage() {
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': user.id,
+          'x-user-lang': i18n.language || 'fr',
         },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, lang: i18n.language || 'fr' }),
       })
 
       if (res.ok) {

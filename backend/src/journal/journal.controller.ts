@@ -28,13 +28,18 @@ export class JournalController {
   }
 
   @Post()
-  async createEntry(@Req() req: Request, @Body('content') content: string) {
+  async createEntry(
+    @Req() req: Request,
+    @Body('content') content: string,
+    @Body('lang') lang?: string,
+  ) {
     const session = await auth.api.getSession({
       headers: fromNodeHeaders(req.headers),
     });
     if (!session?.user) throw new UnauthorizedException('User not identified');
 
-    return this.journalService.createEntry(session.user.id, content);
+    const userLang = lang || (req.headers['x-user-lang'] as string) || 'fr';
+    return this.journalService.createEntry(session.user.id, content, userLang);
   }
 
   @Delete(':id')

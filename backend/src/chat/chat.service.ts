@@ -161,6 +161,7 @@ export class ChatService {
         conversation.id,
         user?.insight || null,
         user?.facts || null,
+        userLang,
       );
     }
 
@@ -176,6 +177,7 @@ export class ChatService {
     conversationId: string,
     currentInsight: string | null,
     currentFacts: string | null,
+    userLang: string = 'fr',
   ) {
     try {
       const recentMessages = await this.prisma.message.findMany({
@@ -195,6 +197,7 @@ export class ChatService {
         currentInsight,
         currentFacts,
         `Recent conversation excerpt:\n${dialogue}`,
+        userLang,
       );
 
       if (!synthesis) return;

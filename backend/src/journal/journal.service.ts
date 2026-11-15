@@ -13,7 +13,7 @@ export class JournalService {
     });
   }
 
-  async createEntry(userId: string, content: string) {
+  async createEntry(userId: string, content: string, lang: string = 'fr') {
     const entry = await prisma.journalEntry.create({
       data: {
         userId,
@@ -21,7 +21,7 @@ export class JournalService {
       },
     });
 
-    this.updateUserInsightAsync(userId, content).catch(console.error);
+    this.updateUserInsightAsync(userId, content, lang).catch(console.error);
 
     return entry;
   }
@@ -29,6 +29,7 @@ export class JournalService {
   private async updateUserInsightAsync(
     userId: string,
     newEntryContent: string,
+    lang: string = 'fr',
   ) {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -41,6 +42,7 @@ export class JournalService {
       user.insight,
       user.facts,
       newEntryContent,
+      lang,
     );
 
     if (!synthesis) return;

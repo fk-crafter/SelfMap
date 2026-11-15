@@ -85,7 +85,7 @@ export class UserController {
   @Post('setup')
   async setupCoach(
     @Req() req: Request,
-    @Body() body: { mbtiType: string; gender?: string },
+    @Body() body: { mbtiType: string; gender?: string; lang?: string },
   ) {
     const session = await auth.api.getSession({
       headers: fromNodeHeaders(req.headers),
@@ -96,12 +96,14 @@ export class UserController {
     }
 
     const userId = session.user.id;
-    const { mbtiType, gender } = body;
+    const { mbtiType, gender, lang } = body;
     const userGender = gender || 'neutral';
+    const userLang = lang || (req.headers['x-user-lang'] as string) || 'fr';
 
     const profile = await this.aiService.generateInitialProfile(
       mbtiType,
       userGender,
+      userLang,
     );
 
     const updatedUser = await prisma.user.update({
