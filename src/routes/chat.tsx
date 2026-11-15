@@ -216,50 +216,54 @@ function ChatPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
-      <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
+    <div className="flex h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-hidden">
+      <div className="absolute w-125 h-125 top-24 -left-20 rounded-full bg-[#c5c0fe] opacity-5 blur-[100px] pointer-events-none z-0" />
 
       <header
         style={{
           paddingTop:
             'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))',
         }}
-        className="flex-none sticky top-0 z-30 flex items-center gap-4 border-b border-white/5 bg-[#001809] px-6 pb-4"
+        className="flex-none sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 border-b border-white/5 bg-[#001809] px-4 sm:px-6 pb-4"
       >
-        <Link
-          to="/dashboard"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95 shrink-0"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
-            <img
-              src={avatarUrl}
-              alt="Coach Avatar"
-              className="h-full w-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = '/avatar-coach.png'
-              }}
-            />
+        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
+          <Link
+            to="/dashboard"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] shadow-sm transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95 shrink-0"
+          >
+            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+          </Link>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full overflow-hidden bg-[#c5c0fe]/20 text-[#c5c0fe]">
+              <img
+                src={avatarUrl}
+                alt="Coach Avatar"
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = '/avatar-coach.png'
+                }}
+              />
+            </div>
+            <h1 className="font-serif text-base sm:text-xl font-normal text-[#c5c0fe] tracking-tight whitespace-nowrap truncate">
+              Soul Coach
+            </h1>
           </div>
-          <h1 className="font-serif text-xl font-normal text-[#c5c0fe] tracking-tight">
-            Soul Coach
-          </h1>
         </div>
-        <div className="ml-auto flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <ProgressJauge score={currentScore} />
           {user?.plan === 'PRO' ? (
-            <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-[#e9c349]/40 bg-[#e9c349]/10 px-2.5 py-1 text-[11px] font-bold text-[#e9c349]">
-              <Crown className="h-3 w-3" /> PRO
+            <span className="inline-flex items-center gap-1 rounded-full border border-[#e9c349]/40 bg-[#e9c349]/10 px-2.5 py-1 text-[11px] font-bold text-[#e9c349] whitespace-nowrap shrink-0">
+              <Crown className="h-3 w-3 shrink-0" />
+              <span className="hidden sm:inline">PRO</span>
             </span>
           ) : (
             <Link
               to="/subscription"
-              className="flex items-center gap-1 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-3 py-1 text-xs font-bold text-[#e9c349] transition-all hover:bg-[#e9c349]/20 hover:scale-105 active:scale-95 shrink-0 shadow-[0_0_10px_rgba(233,195,73,0.15)]"
+              aria-label={t('chat.sanctuary')}
+              className="flex items-center justify-center gap-1 rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 p-2 sm:px-3 sm:py-1 text-xs font-bold text-[#e9c349] transition-all hover:bg-[#e9c349]/20 hover:scale-105 active:scale-95 shrink-0 whitespace-nowrap shadow-[0_0_10px_rgba(233,195,73,0.15)]"
             >
-              <Crown className="h-3.5 w-3.5" />
-              <span>{t('chat.sanctuary')}</span>
+              <Crown className="h-4 w-4 sm:h-3.5 sm:w-3.5 shrink-0" />
+              <span className="hidden sm:inline">{t('chat.sanctuary')}</span>
             </Link>
           )}
         </div>

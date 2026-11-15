@@ -55,12 +55,16 @@ export const Route = createRootRoute({
         title: 'SoulType',
       },
       {
+        name: 'theme-color',
+        content: '#001809',
+      },
+      {
         name: 'apple-mobile-web-app-capable',
         content: 'yes',
       },
       {
         name: 'apple-mobile-web-app-status-bar-style',
-        content: 'black-translucent',
+        content: 'default',
       },
       {
         name: 'apple-mobile-web-app-title',

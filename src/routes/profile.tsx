@@ -88,8 +88,8 @@ function ProfilePage() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
-      <div className="pointer-events-none absolute -right-20 -top-20 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
+    <div className="relative flex min-h-dvh flex-col overflow-x-hidden bg-[#001809] font-sans text-[#c9ebd0]">
+      <div className="pointer-events-none absolute -right-20 top-24 z-0 h-125 w-125 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px]" />
 
       <header
         style={{

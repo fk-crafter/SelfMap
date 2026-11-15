@@ -240,8 +240,8 @@ function DiscoverPage() {
       : '/avatar-coach.png'
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
-      <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#e9c349] opacity-10 blur-[100px] pointer-events-none z-0" />
+    <div className="flex min-h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden select-none">
+      <div className="absolute w-125 h-125 top-24 -left-20 rounded-full bg-[#e9c349] opacity-10 blur-[100px] pointer-events-none z-0" />
       <div className="absolute w-150 h-150 bottom-0 -right-40 rounded-full bg-[#c5c0fe] opacity-10 blur-[100px] pointer-events-none z-0" />
 
       <header

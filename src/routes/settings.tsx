@@ -123,8 +123,8 @@ function SettingsPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      <div className="absolute w-125 h-125 -top-20 -right-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+    <div className="flex min-h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+      <div className="absolute w-125 h-125 top-24 -right-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
 
       <header
         style={{

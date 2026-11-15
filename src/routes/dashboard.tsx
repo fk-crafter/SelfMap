@@ -381,24 +381,24 @@ function DashboardPage() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="flex items-end justify-between px-2"
           >
-            <div>
+            <div className="min-w-0 pr-3">
               <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349] mb-1">
                 {t('dashboard.innerSanctuary')}
               </h2>
-              <h1 className="font-serif text-3xl font-normal text-[#c9ebd0] md:text-4xl">
+              <h1 className="font-serif text-3xl font-normal text-[#c9ebd0] md:text-4xl truncate">
                 {t('dashboard.greeting', { name: user.name })}
               </h1>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <button
                 type="button"
                 onClick={() => setShowTour(true)}
                 aria-label="Replay tour"
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c8c5d0]/70 transition-colors hover:border-[#e9c349]/40 hover:text-[#e9c349]"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#c8c5d0]/70 transition-colors hover:border-[#e9c349]/40 hover:text-[#e9c349]"
               >
                 <HelpCircle className="h-4 w-4" />
               </button>
-              <span className="rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-2 text-xs font-bold tracking-widest text-[#e9c349]">
+              <span className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#e9c349]/30 bg-[#e9c349]/10 px-4 py-1.5 text-xs font-bold tracking-widest text-[#e9c349]">
                 {user.type}
               </span>
             </div>

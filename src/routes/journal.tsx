@@ -141,8 +141,8 @@ function JournalPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
-      <div className="absolute w-125 h-125 -top-20 -left-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
+    <div className="flex min-h-dvh flex-col bg-[#001809] text-[#c9ebd0] font-sans relative overflow-x-hidden">
+      <div className="absolute w-125 h-125 top-24 -left-20 rounded-full bg-[#c5c0fe] opacity-10 blur-[80px] pointer-events-none z-0" />
       <div className="absolute w-100 h-100 top-1/2 -right-20 rounded-full bg-[#e9c349] opacity-5 blur-[80px] pointer-events-none z-0" />
 
       <header
