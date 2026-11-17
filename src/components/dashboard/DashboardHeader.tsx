@@ -19,7 +19,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
@@ -27,10 +27,14 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
 
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('touchstart', handleClickOutside, {
+        passive: true,
+      })
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
     }
   }, [isMenuOpen])
 

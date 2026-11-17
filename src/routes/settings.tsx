@@ -144,200 +144,207 @@ function SettingsPage() {
         </h1>
       </header>
 
-      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 overflow-y-auto px-6 pb-12 relative z-10">
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <h2 className="mb-6 font-serif text-xl text-[#c9ebd0]">
-            {t('settings.editProfile')}
-          </h2>
+      <main className="relative z-10 flex-1 overflow-y-auto px-6 pb-20 pt-4">
+        <div className="mx-auto flex w-full max-w-md flex-col space-y-6">
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <h2 className="mb-6 font-serif text-xl text-[#c9ebd0]">
+              {t('settings.editProfile')}
+            </h2>
 
-          <form onSubmit={handleUpdateName} className="space-y-5">
-            <div className="space-y-2">
-              <label className="pl-1 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/50 uppercase">
-                {t('settings.firstName')}
-              </label>
-              <div className="relative">
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="h-12 rounded-xl border border-white/10 bg-[#032110] pl-4 pr-10 text-sm text-[#c9ebd0] shadow-inner focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
-                />
-                <User className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#c8c5d0]/40" />
+            <form onSubmit={handleUpdateName} className="space-y-5">
+              <div className="space-y-2">
+                <label className="pl-1 text-[10px] font-bold tracking-[0.2em] text-[#c8c5d0]/50 uppercase">
+                  {t('settings.firstName')}
+                </label>
+                <div className="relative">
+                  <Input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="h-12 rounded-xl border border-white/10 bg-[#032110] pl-4 pr-10 text-sm text-[#c9ebd0] shadow-inner focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+                  />
+                  <User className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#c8c5d0]/40" />
+                </div>
               </div>
+
+              <Button
+                type="submit"
+                disabled={
+                  isLoading || !name.trim() || name.trim() === user?.name
+                }
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  t('settings.saveChanges')
+                )}
+              </Button>
+            </form>
+          </Card>
+
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-[#e9c349]" />
+                <h2 className="font-serif text-xl text-[#c9ebd0]">
+                  {t('settings.subscription')}
+                </h2>
+              </div>
+              <span
+                className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
+                  user?.plan === 'PRO'
+                    ? 'bg-[#e9c349]/20 text-[#e9c349] border border-[#e9c349]/40'
+                    : 'bg-white/5 text-[#c8c5d0]/70 border border-white/10'
+                }`}
+              >
+                {user?.plan === 'PRO'
+                  ? 'Sanctuary PRO'
+                  : user?.plan === 'BETA'
+                    ? 'Founding Member BETA'
+                    : 'Free'}
+              </span>
             </div>
+
+            <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
+              {user?.plan === 'PRO'
+                ? t('settings.proDesc')
+                : t('settings.freeDesc')}
+            </p>
 
             <Button
-              type="submit"
-              disabled={isLoading || name.trim() === data?.user.name}
-              className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              type="button"
+              onClick={() => navigate({ to: '/subscription' })}
+              className="flex h-12 w-full cursor-pointer items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] hover:bg-[#e9c349]/90 active:scale-[0.98]"
             >
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                t('settings.saveChanges')
-              )}
-            </Button>
-          </form>
-        </Card>
-
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Crown className="h-5 w-5 text-[#e9c349]" />
-              <h2 className="font-serif text-xl text-[#c9ebd0]">
-                {t('settings.subscription')}
-              </h2>
-            </div>
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
-                user?.plan === 'PRO'
-                  ? 'bg-[#e9c349]/20 text-[#e9c349] border border-[#e9c349]/40'
-                  : 'bg-white/5 text-[#c8c5d0]/70 border border-white/10'
-              }`}
-            >
-              {user?.plan === 'PRO'
-                ? 'Sanctuary PRO'
-                : user?.plan === 'BETA'
-                  ? 'Founding Member BETA'
-                  : 'Free'}
-            </span>
-          </div>
-
-          <p className="mb-6 text-xs text-[#c8c5d0]/80 leading-relaxed">
-            {user?.plan === 'PRO'
-              ? t('settings.proDesc')
-              : t('settings.freeDesc')}
-          </p>
-
-          <Button
-            asChild
-            className="flex h-12 w-full items-center justify-center rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] hover:bg-[#e9c349]/90 active:scale-[0.98]"
-          >
-            <Link to="/subscription">
               {user?.plan === 'PRO'
                 ? t('settings.manageSubscription')
                 : t('settings.upgradeSanctuary')}
-            </Link>
-          </Button>
-        </Card>
-
-        {user?.id && <PushNotificationSettings userId={user.id} />}
-
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <div className="mb-2 flex items-center gap-2">
-            <Globe className="h-5 w-5 text-[#e9c349]" />
-            <h2 className="font-serif text-xl text-[#c9ebd0]">
-              {t('settings.language')}
-            </h2>
-          </div>
-          <p className="mb-4 text-xs text-[#c8c5d0]/70 leading-relaxed">
-            {t('settings.languageDesc')}
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                try {
-                  localStorage.setItem('soultype_user_lang', 'fr')
-                } catch {}
-                void i18n.changeLanguage('fr')
-                toast.success(t('settings.langUpdated'))
-              }}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
-                i18n.language.startsWith('fr')
-                  ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
-                  : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-              }`}
-            >
-              <span className="text-base">🇫🇷</span>
-              <span>{t('settings.languageFr')}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                try {
-                  localStorage.setItem('soultype_user_lang', 'en')
-                } catch {}
-                void i18n.changeLanguage('en')
-                toast.success(t('settings.langUpdated'))
-              }}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
-                !i18n.language.startsWith('fr')
-                  ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
-                  : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
-              }`}
-            >
-              <span className="text-base">🇬🇧</span>
-              <span>{t('settings.languageEn')}</span>
-            </button>
-          </div>
-        </Card>
-
-        <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">
-            {t('settings.session')}
-          </h2>
-          <p className="mb-6 text-xs text-[#c8c5d0]/70">
-            {t('settings.sessionDesc')}
-          </p>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-[#c9ebd0] transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]"
-          >
-            <LogOut className="h-4 w-4" />
-            {t('settings.signOut')}
-          </Button>
-        </Card>
-
-        <Card className="mt-8 border border-[#93000a]/30 bg-[#93000a]/10 backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-          <div className="mb-3 flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-[#ffb4ab]" />
-            <h2 className="font-serif text-xl text-[#ffb4ab]">
-              {t('settings.dangerZone')}
-            </h2>
-          </div>
-          <p className="mb-6 text-sm text-[#ffb4ab]/80 leading-relaxed">
-            {t('settings.dangerDesc')}
-          </p>
-
-          {showDeleteConfirm ? (
-            <div className="space-y-4 rounded-2xl bg-[#001206] p-5 border border-[#93000a]/30">
-              <p className="text-center text-sm font-bold text-[#ffb4ab]">
-                {t('settings.confirmDelete')}
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  onClick={() => setShowDeleteConfirm(false)}
-                  variant="outline"
-                  disabled={isDeleting}
-                  className="flex-1 rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] hover:bg-white/10 hover:text-white"
-                >
-                  {t('settings.cancel')}
-                </Button>
-                <Button
-                  onClick={handleDeleteAccount}
-                  disabled={isDeleting}
-                  className="flex-1 rounded-full bg-[#93000a] text-[#ffdad6] hover:bg-[#690005]"
-                >
-                  {isDeleting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    t('settings.yesDelete')
-                  )}
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <Button
-              onClick={() => setShowDeleteConfirm(true)}
-              className="flex h-12 w-full items-center justify-center rounded-full bg-[#93000a]/20 text-sm font-bold text-[#ffb4ab] border border-[#93000a]/50 transition-all hover:bg-[#93000a]/40 active:scale-[0.98]"
-            >
-              {t('settings.deleteAccount')}
             </Button>
-          )}
-        </Card>
+          </Card>
+
+          {user?.id && <PushNotificationSettings userId={user.id} />}
+
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="mb-2 flex items-center gap-2">
+              <Globe className="h-5 w-5 text-[#e9c349]" />
+              <h2 className="font-serif text-xl text-[#c9ebd0]">
+                {t('settings.language')}
+              </h2>
+            </div>
+            <p className="mb-4 text-xs text-[#c8c5d0]/70 leading-relaxed">
+              {t('settings.languageDesc')}
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    localStorage.setItem('soultype_user_lang', 'fr')
+                  } catch {}
+                  void i18n.changeLanguage('fr')
+                  toast.success(t('settings.langUpdated'))
+                }}
+                className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
+                  (i18n.language || 'fr').startsWith('fr')
+                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
+                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                }`}
+              >
+                <span className="text-base">🇫🇷</span>
+                <span>{t('settings.languageFr')}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    localStorage.setItem('soultype_user_lang', 'en')
+                  } catch {}
+                  void i18n.changeLanguage('en')
+                  toast.success(t('settings.langUpdated'))
+                }}
+                className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${
+                  !(i18n.language || 'fr').startsWith('fr')
+                    ? 'border-[#e9c349] bg-[#e9c349]/10 text-[#e9c349] shadow-[0_0_15px_rgba(233,195,73,0.15)]'
+                    : 'border-white/10 bg-white/5 text-[#c8c5d0] hover:bg-white/10'
+                }`}
+              >
+                <span className="text-base">🇬🇧</span>
+                <span>{t('settings.languageEn')}</span>
+              </button>
+            </div>
+          </Card>
+
+          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <h2 className="mb-2 font-serif text-xl text-[#c9ebd0]">
+              {t('settings.session')}
+            </h2>
+            <p className="mb-6 text-xs text-[#c8c5d0]/70">
+              {t('settings.sessionDesc')}
+            </p>
+            <Button
+              type="button"
+              onClick={handleLogout}
+              variant="outline"
+              className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-[#c9ebd0] transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]"
+            >
+              <LogOut className="h-4 w-4" />
+              {t('settings.signOut')}
+            </Button>
+          </Card>
+
+          <Card className="mt-8 border border-[#93000a]/30 bg-[#93000a]/10 backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+            <div className="mb-3 flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-[#ffb4ab]" />
+              <h2 className="font-serif text-xl text-[#ffb4ab]">
+                {t('settings.dangerZone')}
+              </h2>
+            </div>
+            <p className="mb-6 text-sm text-[#ffb4ab]/80 leading-relaxed">
+              {t('settings.dangerDesc')}
+            </p>
+
+            {showDeleteConfirm ? (
+              <div className="space-y-4 rounded-2xl bg-[#001206] p-5 border border-[#93000a]/30">
+                <p className="text-center text-sm font-bold text-[#ffb4ab]">
+                  {t('settings.confirmDelete')}
+                </p>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={() => setShowDeleteConfirm(false)}
+                    variant="outline"
+                    disabled={isDeleting}
+                    className="flex-1 rounded-full border border-white/10 bg-white/5 text-[#c9ebd0] hover:bg-white/10 hover:text-white"
+                  >
+                    {t('settings.cancel')}
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleDeleteAccount}
+                    disabled={isDeleting}
+                    className="flex-1 rounded-full bg-[#93000a] text-[#ffdad6] hover:bg-[#690005]"
+                  >
+                    {isDeleting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      t('settings.yesDelete')
+                    )}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Button
+                type="button"
+                onClick={() => setShowDeleteConfirm(true)}
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[#93000a]/20 text-sm font-bold text-[#ffb4ab] border border-[#93000a]/50 transition-all hover:bg-[#93000a]/40 active:scale-[0.98]"
+              >
+                {t('settings.deleteAccount')}
+              </Button>
+            )}
+          </Card>
+        </div>
       </main>
     </div>
   )

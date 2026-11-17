@@ -164,175 +164,177 @@ function JournalPage() {
         </h1>
       </header>
 
-      <main className="mx-auto mt-4 flex w-full max-w-md flex-1 flex-col space-y-6 overflow-y-auto px-6 pb-24 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-        >
-          <Card className="relative overflow-hidden rounded-[2rem] border border-[#e9c349]/25 bg-linear-to-b from-[#e9c349]/10 via-[rgba(197,192,254,0.03)] to-transparent p-5 backdrop-blur-xl shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e9c349]/20 text-[#e9c349]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-widest text-[#e9c349]">
-                  {t('journal.guidedReflection')}
-                </span>
-                {user?.type && (
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-[#c8c5d0]/70">
-                    {user.type} • {temperamentBadgeText}
+      <main className="relative z-10 flex-1 overflow-y-auto px-6 pb-24 pt-4">
+        <div className="mx-auto flex w-full max-w-md flex-col space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <Card className="relative overflow-hidden rounded-[2rem] border border-[#e9c349]/25 bg-linear-to-b from-[#e9c349]/10 via-[rgba(197,192,254,0.03)] to-transparent p-5 backdrop-blur-xl shadow-lg">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e9c349]/20 text-[#e9c349]">
+                    <Sparkles className="h-3.5 w-3.5" />
                   </span>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={() => setPromptOffset((prev) => prev + 1)}
-                className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-[#c8c5d0]/70 transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
-                title={t('journal.nextPrompt')}
-              >
-                <RefreshCw className="h-3 w-3" />
-                <span className="hidden sm:inline">
-                  {t('journal.nextPrompt')}
-                </span>
-              </button>
-            </div>
-
-            <p className="font-serif text-sm sm:text-base italic leading-relaxed text-[#c9ebd0]">
-              « {currentPrompt.text[currentLang]} »
-            </p>
-
-            <div className="mt-3.5 flex justify-end">
-              <button
-                type="button"
-                onClick={() =>
-                  handleApplyPrompt(currentPrompt.text[currentLang])
-                }
-                className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-[#e9c349]/15 px-3 py-1.5 text-xs font-semibold text-[#e9c349] transition-all hover:bg-[#e9c349]/25 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <PenLine className="h-3.5 w-3.5" />
-                {t('journal.usePrompt')}
-              </button>
-            </div>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
-        >
-          <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
-                <BookOpen className="h-5 w-5" />
-              </div>
-              <div>
-                <h2 className="font-serif text-xl text-[#c9ebd0]">
-                  {t('journal.newEntry')}
-                </h2>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
-                  {t('journal.whatsOnYourMind')}
-                </p>
-              </div>
-            </div>
-
-            <form onSubmit={handleSave} className="space-y-4">
-              <Textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder={t('journal.placeholder')}
-                className="min-h-30 resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
-              />
-              <Button
-                type="submit"
-                disabled={isLoading || !content.trim()}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    {t('journal.save')}
-                  </>
-                )}
-              </Button>
-            </form>
-          </Card>
-        </motion.div>
-
-        <div className="space-y-4">
-          <h3 className="pl-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
-            {t('journal.pastEntries')}
-          </h3>
-          {entries.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-white/10 py-12 text-center"
-            >
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 text-[#c8c5d0]/30">
-                <PenLine className="h-5 w-5" />
-              </div>
-              <p className="text-sm font-medium text-[#c8c5d0]/50">
-                {t('journal.blankPageAwaits')}
-              </p>
-              <p className="mt-1 text-xs text-[#c8c5d0]/30">
-                {t('journal.thoughtsStoredHere')}
-              </p>
-            </motion.div>
-          ) : (
-            entries.map((entry, index) => {
-              const entryDate = new Date(entry.createdAt)
-              const localeStr = i18n.language.startsWith('fr')
-                ? 'fr-FR'
-                : 'en-US'
-              return (
-                <motion.div
-                  key={entry.id}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: index * 0.1,
-                    ease: 'easeOut',
-                  }}
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#e9c349]">
+                    {t('journal.guidedReflection')}
+                  </span>
+                  {user?.type && (
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-[#c8c5d0]/70">
+                      {user.type} • {temperamentBadgeText}
+                    </span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPromptOffset((prev) => prev + 1)}
+                  className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-[#c8c5d0]/70 transition-colors hover:bg-white/10 hover:text-[#e9c349] active:scale-95"
+                  title={t('journal.nextPrompt')}
                 >
-                  <Card className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
-                          {entryDate.toLocaleDateString(localeStr, {
-                            weekday: 'long',
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </span>
-                        <span className="text-[10px] text-[#e9c349]/70">
-                          {entryDate.toLocaleTimeString(localeStr, {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </span>
+                  <RefreshCw className="h-3 w-3" />
+                  <span className="hidden sm:inline">
+                    {t('journal.nextPrompt')}
+                  </span>
+                </button>
+              </div>
+
+              <p className="font-serif text-sm sm:text-base italic leading-relaxed text-[#c9ebd0]">
+                « {currentPrompt.text[currentLang]} »
+              </p>
+
+              <div className="mt-3.5 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleApplyPrompt(currentPrompt.text[currentLang])
+                  }
+                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-[#e9c349]/15 px-3 py-1.5 text-xs font-semibold text-[#e9c349] transition-all hover:bg-[#e9c349]/25 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <PenLine className="h-3.5 w-3.5" />
+                  {t('journal.usePrompt')}
+                </button>
+              </div>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+          >
+            <Card className="border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-6 shadow-xl rounded-[2rem]">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9c349]/10 text-[#e9c349]">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="font-serif text-xl text-[#c9ebd0]">
+                    {t('journal.newEntry')}
+                  </h2>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#c8c5d0]/50">
+                    {t('journal.whatsOnYourMind')}
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSave} className="space-y-4">
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder={t('journal.placeholder')}
+                  className="min-h-30 resize-none rounded-xl border border-white/10 bg-[#032110] p-4 text-sm text-[#c9ebd0] shadow-inner placeholder:text-[#c8c5d0]/40 focus-visible:ring-1 focus-visible:ring-[#e9c349]/30"
+                />
+                <Button
+                  type="submit"
+                  disabled={isLoading || !content.trim()}
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#e9c349] text-sm font-bold text-[#001809] shadow-[0_0_15px_rgba(233,195,73,0.2)] transition-transform hover:bg-[#e9c349]/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      {t('journal.save')}
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Card>
+          </motion.div>
+
+          <div className="space-y-4">
+            <h3 className="pl-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9c349]">
+              {t('journal.pastEntries')}
+            </h3>
+            {entries.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-white/10 py-12 text-center"
+              >
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 text-[#c8c5d0]/30">
+                  <PenLine className="h-5 w-5" />
+                </div>
+                <p className="text-sm font-medium text-[#c8c5d0]/50">
+                  {t('journal.blankPageAwaits')}
+                </p>
+                <p className="mt-1 text-xs text-[#c8c5d0]/30">
+                  {t('journal.thoughtsStoredHere')}
+                </p>
+              </motion.div>
+            ) : (
+              entries.map((entry, index) => {
+                const entryDate = new Date(entry.createdAt)
+                const localeStr = i18n.language.startsWith('fr')
+                  ? 'fr-FR'
+                  : 'en-US'
+                return (
+                  <motion.div
+                    key={entry.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: index * 0.1,
+                      ease: 'easeOut',
+                    }}
+                  >
+                    <Card className="group border border-white/5 bg-[rgba(197,192,254,0.02)] backdrop-blur-xl p-5 shadow-lg rounded-[1.5rem] relative">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#c8c5d0]/50">
+                            {entryDate.toLocaleDateString(localeStr, {
+                              weekday: 'long',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </span>
+                          <span className="text-[10px] text-[#e9c349]/70">
+                            {entryDate.toLocaleTimeString(localeStr, {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleDelete(entry.id)}
+                          className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 -mr-2"
+                          aria-label={t('journal.delete')}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleDelete(entry.id)}
-                        className="text-[#c8c5d0]/30 hover:text-[#ffb4ab] transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 -mr-2"
-                        aria-label={t('journal.delete')}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                    <p className="whitespace-pre-wrap wrap-break-words text-sm leading-relaxed text-[#c8c5d0]">
-                      {entry.content}
-                    </p>
-                  </Card>
-                </motion.div>
-              )
-            })
-          )}
+                      <p className="whitespace-pre-wrap wrap-break-words text-sm leading-relaxed text-[#c8c5d0]">
+                        {entry.content}
+                      </p>
+                    </Card>
+                  </motion.div>
+                )
+              })
+            )}
+          </div>
         </div>
       </main>
     </div>
